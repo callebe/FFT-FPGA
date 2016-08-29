@@ -53,6 +53,10 @@ package MainPackage IS
 	------------------------------------------------
 	
 	------------------------------------------------
+	FUNCTION ConvIntegerToDisplay (Entrada: INTEGER RANGE 0 TO INTEGER'HIGH) RETURN STD_LOGIC_VECTOR;
+	------------------------------------------------
+	
+	------------------------------------------------
 	COMPONENT debounce4Switch IS
 		GENERIC(NDebounce : INTEGER := 4);
 		PORT(clk: IN STD_LOGIC;
@@ -285,6 +289,30 @@ package body MainPackage is
 		RETURN Saida;
 		
 	END Shifter;
+	------------------------------------------------
+	
+	------------------------------------------------
+	FUNCTION ConvIntegerToDisplay (Entrada: INTEGER RANGE 0 TO INTEGER'HIGH) RETURN STD_LOGIC_VECTOR IS
+		VARIABLE Saida: STD_LOGIC_VECTOR(7 DOWNTO 0);
+	BEGIN
+		
+		CASE Entrada IS
+		  WHEN 0 => Saida := "00110000";
+		  WHEN 1 => Saida := "00110001";
+		  WHEN 2 => Saida := "00110010"; 
+		  WHEN 3 => Saida := "00110011";
+		  WHEN 4 => Saida := "00110100";
+		  WHEN 5 => Saida := "00110101";
+		  WHEN 6 => Saida := "00110110";
+		  WHEN 7 => Saida := "00110111";
+		  WHEN 8 => Saida := "00111000";
+		  WHEN 9 => Saida := "00111001";
+		  WHEN OTHERS => Saida := "00110000";
+		END CASE;
+		
+		RETURN Saida;
+		
+	END ConvIntegerToDisplay;
 	------------------------------------------------
 	
 	------------------------------------------------

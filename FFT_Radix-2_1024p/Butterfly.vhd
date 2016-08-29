@@ -24,7 +24,7 @@ ARCHITECTURE Logica OF Butterfly IS
 			EvenOutput <= (0,0);
 			OddOutput <= (0,0);
 		ELSIF(Clock'EVENT AND Clock='1') THEN
-			EvenOutput <= Sum(EvenInput,Mult(W,OddInput));
+			EvenOutput <= Sum(EvenInput(W,OddInput));
 			OddOutput <= Sub(EvenInput,Mult(W,OddInput));
 		END IF;
 	END PROCESS;

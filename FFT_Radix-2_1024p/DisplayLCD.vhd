@@ -76,6 +76,14 @@ ARCHITECTURE Logica OF DisplayLCD IS
 						tx_DATA WHEN tx_info1,
 						"00000000" WHEN others;
 	
+	WITH mux SELECT
+		SF_D <= SF_D0 WHEN '0', --transmit
+				  SF_D1 WHEN others; --initialize
+	
+	WITH mux SELECT
+		LCD_E <= LCD_E0 WHEN '0', --transmit
+					LCD_E1 WHEN others; --initialize
+					
 	--main state machine
 	Display: PROCESS(clk, reset)
 	VARIABLE Position: INTEGER RANGE 0 TO 32 := 1;
@@ -182,14 +190,6 @@ ARCHITECTURE Logica OF DisplayLCD IS
 		END IF;
 		
 	END PROCESS Display;
-	
-	WITH mux SELECT
-		SF_D <= SF_D0 WHEN '0', --transmit
-				  SF_D1 WHEN others; --initialize
-	
-	WITH mux SELECT
-		LCD_E <= LCD_E0 WHEN '0', --transmit
-					LCD_E1 WHEN others; --initialize
 	
 	--Processo de Transmissao de acordo com Datasheet
 	Transmissao : PROCESS(clk, reset, tx_init)
