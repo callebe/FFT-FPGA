@@ -7,9 +7,21 @@ package MainPackage IS
 	------------------------------------------------
 	TYPE Complex IS
 		RECORD
-			r: INTEGER RANGE 0 TO INTEGER'HIGH;
-			i: INTEGER RANGE 0 TO INTEGER'HIGH;
+			r: INTEGER RANGE INTEGER'LOW TO INTEGER'HIGH;
+			i: INTEGER RANGE INTEGER'LOW TO INTEGER'HIGH;
 		END RECORD;
+	------------------------------------------------
+	
+	------------------------------------------------
+	TYPE ComplexVector IS ARRAY (NATURAL range <>) OF Complex;
+	------------------------------------------------
+	
+	------------------------------------------------
+	TYPE Wn IS ARRAY (0 TO 5) OF Complex;
+	------------------------------------------------
+	
+	------------------------------------------------
+	CONSTANT W: Wn := ((1024,0),(724,-724),(0,-1024),(-724,-724),(-1024,0),(-724,724));
 	------------------------------------------------
 	
 	------------------------------------------------
@@ -67,6 +79,18 @@ package MainPackage IS
 	------------------------------------------------
 	
 	------------------------------------------------
+	COMPONENT DisplayMod IS
+		PORT(Clock: IN STD_LOGIC;
+			  reset: IN STD_LOGIC;
+			  Saida: IN ComplexVector(7 DOWNTO 0);
+			  SF_D : OUT STD_LOGIC_VECTOR(3 downto 0);
+			  LCD_E: OUT STD_LOGIC;
+			  LCD_RS: OUT STD_LOGIC;
+			  LCD_RW: OUT STD_LOGIC);
+	END COMPONENT;
+	------------------------------------------------
+	
+	------------------------------------------------
 	COMPONENT DisplayLCD IS
 		PORT(clk : IN STD_LOGIC;
 			  reset : IN STD_LOGIC;
@@ -80,13 +104,46 @@ package MainPackage IS
 	
 	------------------------------------------------
 	COMPONENT Butterfly IS
-		GENERIC(W: Complex := (0,1));
 		PORT(Clock: IN STD_LOGIC;
 			  reset: IN STD_LOGIC;
+			  W: IN Complex;
 			  EvenInput: IN Complex;
 			  OddInput: IN Complex;
 			  EvenOutput: OUT Complex;
 			  OddOutput: OUT Complex);
+	END COMPONENT;
+	------------------------------------------------
+	
+	------------------------------------------------
+	COMPONENT Butterfly2Mod IS
+		GENERIC(NButterfly: INTEGER RANGE 0 TO 1024 := 2;
+				  Layer: INTEGER RANGE 0 TO 512 := 4);
+		PORT(Clock: IN STD_LOGIC;
+		  reset: IN STD_LOGIC;
+		  Input: IN ComplexVector(3 DOWNTO 0);
+		  Output: OUT ComplexVector(3 DOWNTO 0));
+	END COMPONENT;
+	------------------------------------------------
+	
+	------------------------------------------------
+	COMPONENT Butterfly4Mod IS
+		GENERIC(NButterfly: INTEGER RANGE 0 TO 1024 := 4;
+				  Layer: INTEGER RANGE 0 TO 512 := 2);
+		PORT(Clock: IN STD_LOGIC;
+			  reset: IN STD_LOGIC;
+			  Input: IN ComplexVector(7 DOWNTO 0);
+			  Output: OUT ComplexVector(7 DOWNTO 0));
+	END COMPONENT;
+	------------------------------------------------
+	
+	------------------------------------------------
+	COMPONENT Butterfly8Mod IS
+		GENERIC(NButterfly: INTEGER RANGE 0 TO 1024 := 8;
+				  Layer: INTEGER RANGE 0 TO 512 := 1);
+		PORT(Clock: IN STD_LOGIC;
+			  reset: IN STD_LOGIC;
+			  Input: IN ComplexVector(15 DOWNTO 0);
+			  Output: OUT ComplexVector(15 DOWNTO 0));
 	END COMPONENT;
 	------------------------------------------------
 	
