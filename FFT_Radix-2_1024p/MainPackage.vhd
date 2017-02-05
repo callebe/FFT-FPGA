@@ -1,8 +1,10 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.all;
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+USE IEEE.std_logic_unsigned.ALL;
+USE IEEE.numeric_std.ALL;
 
 ------------------------------------------------
-package MainPackage IS
+PACKAGE MainPackage IS
 	
 	------------------------------------------------
 	TYPE Complex IS
@@ -45,6 +47,10 @@ package MainPackage IS
 	------------------------------------------------
 	
 	------------------------------------------------
+	FUNCTION NumberOfBits(n: natural) RETURN NATURAL;
+	------------------------------------------------
+	
+	------------------------------------------------
 	FUNCTION convStdToInteger (SIGNAL entrada: STD_LOGIC_VECTOR) RETURN INTEGER ;
 	------------------------------------------------
 	
@@ -66,6 +72,14 @@ package MainPackage IS
 	
 	------------------------------------------------
 	FUNCTION ConvIntegerToDisplay (Entrada: INTEGER RANGE 0 TO INTEGER'HIGH) RETURN STD_LOGIC_VECTOR;
+	------------------------------------------------
+	
+	------------------------------------------------
+	COMPONENT BaudRate IS
+		GENERIC(clkIN, BaudRateOut: INTEGER);
+		PORT(clk: IN STD_LOGIC;
+			clkOut: BUFFER STD_LOGIC);
+	END COMPONENT;
 	------------------------------------------------
 	
 	------------------------------------------------
@@ -204,56 +218,74 @@ package MainPackage IS
 	
 	------------------------------------------------
 	
-end MainPackage;
+END MainPackage;
 ------------------------------------------------
 
 
 
 
-package body MainPackage is
+PACKAGE BODY MainPackage IS
 
+	------------------------------------------------
+	
+	------------------------------------------------
+	FUNCTION NumberOfBits(n: natural) RETURN NATURAL IS
+
+	BEGIN
+
+		IF n > 0 THEN
+			RETURN 1 + NumberOfBits(n / 2);
+
+		ELSE
+			RETURN 1;
+
+		END IF;
+
+	END NumberOfBits;
+	------------------------------------------------
+	
 	------------------------------------------------
 	FUNCTION Sum (ValueA, ValueB: Complex) RETURN Complex IS
 		VARIABLE Result: Complex;
 		
-		BEGIN
-			Result.r := ValueA.r + ValueB.r;
-			Result.i := ValueA.i + ValueB.i;
-			RETURN Result;
-		END Sum;
+	BEGIN
+		Result.r := ValueA.r + ValueB.r;
+		Result.i := ValueA.i + ValueB.i;
+		RETURN Result;
+	END Sum;
 	------------------------------------------------
 	
 	------------------------------------------------
 	FUNCTION Sub (ValueA, ValueB: Complex) RETURN Complex IS
 		VARIABLE Result: Complex;
 		
-		BEGIN
-			Result.r := ValueA.r - ValueB.r;
-			Result.i := ValueA.i - ValueB.i;
-			RETURN Result;
-		END Sub;
+	BEGIN
+		Result.r := ValueA.r - ValueB.r;
+		Result.i := ValueA.i - ValueB.i;
+		RETURN Result;
+	END Sub;
 	------------------------------------------------
 	
 	------------------------------------------------
 	FUNCTION Mult (ValueA, ValueB: Complex) RETURN Complex IS
 		VARIABLE Result: Complex;
 		
-		BEGIN
-			Result.r := (ValueA.r*ValueB.r - ValueA.i*ValueB.i);
-			Result.i := (ValueA.r*ValueB.i + ValueA.i*ValueB.r);
-			RETURN Result;
-		END Mult;
+	BEGIN
+		Result.r := (ValueA.r*ValueB.r - ValueA.i*ValueB.i);
+		Result.i := (ValueA.r*ValueB.i + ValueA.i*ValueB.r);
+		RETURN Result;
+	END Mult;
 	------------------------------------------------
 	
 	------------------------------------------------
 	FUNCTION Div (ValueA, ValueB: Complex) RETURN Complex IS
 		VARIABLE Result: Complex;
 			
-		BEGIN
-			Result.r := (ValueA.r*ValueB.r + ValueA.i*ValueB.i)/(ValueB.r*ValueB.r + ValueB.i*ValueB.i);
-			Result.i := (ValueA.i*ValueB.r - ValueA.r*ValueB.i)/(ValueB.r*ValueB.r + ValueB.i*ValueB.i);
-			RETURN Result;
-		END Div;
+	BEGIN
+		Result.r := (ValueA.r*ValueB.r + ValueA.i*ValueB.i)/(ValueB.r*ValueB.r + ValueB.i*ValueB.i);
+		Result.i := (ValueA.i*ValueB.r - ValueA.r*ValueB.i)/(ValueB.r*ValueB.r + ValueB.i*ValueB.i);
+		RETURN Result;
+	END Div;
 	------------------------------------------------
 
 	------------------------------------------------
@@ -386,5 +418,5 @@ package body MainPackage is
 	------------------------------------------------
 	
 
-end MainPackage;
+END MainPackage;
 ------------------------------------------------
