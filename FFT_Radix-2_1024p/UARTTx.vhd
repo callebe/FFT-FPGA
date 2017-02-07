@@ -3,7 +3,7 @@
 --                                                                --
 --                     Trasmissão UART                            --
 --    O clock usado na trasmissão está a 9600 Hz, para transmitir --
--- a 9600 bps a atualização é feita a cada 16 ciclos, no processo --
+-- a 9600 bps, a atualização é feita a cada 16 ciclos no processo --
 -- 'UpdateStates'.                                                --   
 --                                                                --
 --       clk -> 98600 Hz                                          --

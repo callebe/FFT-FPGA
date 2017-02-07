@@ -1,130 +1,187 @@
------------------------------------------------------------
---                 UART | Receiver unit
------------------------------------------------------------
---
--- Copyright (c) 2008, Thijs van As <t.vanas@gmail.com>
---
------------------------------------------------------------
--- Input:      clk        | System clock at 1.8432 MHz
---             reset      | System reset
---             rx         | RX line
---
--- Output:     data_out   | Output data
---             out_valid  | Output data valid
------------------------------------------------------------
--- uart_rx.vhd
------------------------------------------------------------
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+--                                                                --
+--                       Recepção UART                            --
+--    O clock usado na recepção está a 153600 Hz, exatamente 16   --
+-- vezes maior que a velocidade de transmissão (9600 Hz). Para    --
+-- que assim possa notar as mudanças no sinal durante o ciclo do  --   
+-- sinal de 9600 Hz com resolução de 16 pontos.                   --
+--                                                                --
+--       clk -> 9600 Hz                                           --
+--			ActiveTx -> Sinal que aciona a trasmissão                --
+--       DataTx -> Informação à transmitir                        --
+--       Tx -> Bit de transmissão serial                          --
+--       FinishTx -> Sinal que marca o fim da trasmissão          --
+--                                                                --
+--------------------------------------------------------------------
+--------------------------------------------------------------------
 
-library ieee;
-use ieee.std_logic_1164.all;
-use ieee.std_logic_unsigned.all;
-use ieee.numeric_std.all;
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+USE IEEE.std_logic_unsigned.ALL;
+USE IEEE.numeric_std.ALL;
+USE work.MainPackage.ALL;
 
-entity UARTRx is
-    port (clk   : in std_logic;
-          reset : in std_logic;
-          rx    : in std_logic;
-          data_out  : out std_logic_vector(7 downto 0);
-          out_valid : out std_logic);
-end UARTRx;
+ENTITY UARTRx IS
+	PORT(clk : IN STD_LOGIC;
+		reset : IN STD_LOGIC;
+		Rx : IN STD_LOGIC;
+		DataRx : OUT STD_LOGIC_VECTOR(7 downto 0);
+		FinishRx : OUT STD_LOGIC);
+END UARTRx;
 
+ARCHITECTURE Logic OF UARTRx IS
 
-architecture behavioural of UARTRx is
-    type   tx_state is (reset_state, idle, receive_data, stop_bit);
-    signal current_state, next_state : tx_state;
-    signal data_counter              : std_logic_vector(2 downto 0) := (others => '0');
-    signal ticker                    : std_logic_vector(3 downto 0) := (others => '0');
-    signal data_buffer               : std_logic_vector(7 downto 0);
-    signal rx_filtered               : std_logic                    := '1';
-    signal rx_state                  : std_logic_vector(1 downto 0) := "11";
-begin
-    data_out <= data_buffer;
+	TYPE State IS (ResetRx, IdleRx, SendRx, StopRx);
+	SIGNAL CurrentState : State := IdleRx;
+	SIGNAL NextState : State := IdleRx;
+	
+	SIGNAL CounterData : INTEGER  RANGE 7 TO 0 := 0;
+	SIGNAL Ping : INTEGER RANGE 15 DOWNTO 0 := 0;
+	SIGNAL data_buffer : std_logic_vector(7 downto 0);
+	SIGNAL FilterRx : STD_LOGIC := '1';
+	SIGNAL CurrentStateRx : INTEGER  RANGE 3 TO 0 := 3;
+	SIGNAL NextStateRx : INTEGER  RANGE 3 TO 0 := 3;
+	 
+BEGIN
+   
+	DataRx <= data_buffer;
 
-    -- Filters input data
-    filter : process(clk, reset)
-    begin
-        if (reset = '1') then
-            rx_filtered <= '1';
-            rx_state    <= "11";
-        elsif (clk = '1' and clk'event) then
-            if (rx = '0' and rx_state /= "00") then
-                if (rx_state = "01") then
-                    rx_filtered <= '0';
-                end if;
-                rx_state <= rx_state - 1;
-            elsif (rx = '1' and rx_state /= "11") then
-                if (rx_state = "10") then
-                    rx_filtered <= '1';
-                end if;
-                rx_state <= rx_state + 1;
-            end if;
-        end if;
-    end process filter;
+	---------------------------------------------------------------
+	--              Filtro do Sinal de Entrada Rx                --
+	---------------------------------------------------------------
+	
+	-- Atualização de Estados do Filtro
+	FilterUpdateStates : PROCESS(clk, reset)
+	
+	BEGIN
+	
+		IF(reset = '1') THEN
+			CurrentStateRx <= '3';
+		
+		ELSIF(clk = '1' and clk'event) THEN
+			CurrentStateRx <= NextStateRx;
+		
+		END IF;
+		
+	END PROCESS;
+	
+	-- Máquina de Estado do Filtro
+	FilterStateMachine : PROCESS(CurrentStateRx, Rx)
+	
+	BEGIN
+				
+		CASE CurrentStateRx IS
+			
+			WHEN 0 =>
+				FilterRx <= '0';
+				IF(Rx = '0') THEN
+					NextStateRx <= 0;
+					
+				ELSE
+					NextStateRx <= 1;
+				END IF;
+				
+			WHEN 1 =>
+				FilterRx <= '0';
+				IF(Rx = '0') THEN
+					NextStateRx <= 0;
+					
+				ELSE
+					NextStateRx <= 2;
+				END IF;
+				
+			WHEN 2 =>
+				FilterRx <= '1';
+				IF(Rx = '0') THEN
+					NextStateRx <= 1;
+					
+				ELSE
+					NextStateRx <= 3;
+				END IF;
+			
+			WHEN 3 =>
+				FilterRx <= '1';
+				IF(Rx = '0') THEN
+					NextStateRx <= 2;
+					
+				ELSE
+					NextStateRx <= 3;
+				END IF;
+			
+			WHEN OTHERS =>
+				FilterRx <= '1';
+				NextStateRx <= 3;
+				
+		END CASE;
+			
+	END PROCESS;
 
     -- Updates the states in the statemachine at a 115200 bps rate
     clkgen_115k2 : process(clk, reset)
     begin
         if (reset = '1') then
-            ticker        <= (others => '0');
-            current_state <= reset_state;
-            data_counter  <= "000";
+            Ping        <= 0;
+            CurrentState <= ResetRx;
+            CounterData  <= 0;
             data_buffer   <= (others => '0');
         elsif (clk = '1' and clk'event) then
-            if (ticker = 15
-                or (current_state = idle and next_state = receive_data and ticker = 7)
-                or (current_state = idle and next_state = idle))  then
-                ticker        <= (others => '0');
-                current_state <= next_state;
-                if (current_state = receive_data) then
-                    data_buffer  <= rx_filtered & data_buffer(7 downto 1);
-                    data_counter <= data_counter + 1;
+            if (Ping = 15 or (CurrentState = IdleRx and NextState = SendRx and Ping = 7) or (CurrentState = IdleRx and NextState = IdleRx))  then
+                Ping <= 0;
+                CurrentState <= NextState;
+                if (CurrentState = SendRx) then
+                    data_buffer  <= FilterRx & data_buffer(7 downto 1);
+                    CounterData <= CounterData + 1;
                 else
                     data_buffer  <= data_buffer;
-                    data_counter <= "000";
+                    CounterData <= 0;
                 end if;
             else
                 data_buffer   <= data_buffer;
-                current_state <= current_state;
-                ticker        <= ticker + 1;
+                CurrentState <= CurrentState;
+                Ping <= Ping + 1;
             end if;
         end if;
     end process clkgen_115k2;
 
-    rx_control : process (current_state, rx_filtered, data_counter)
+    rx_control : process (CurrentState, FilterRx, CounterData)
     begin
-        case current_state is
-            when reset_state =>
-                out_valid <= '0';
-
-                next_state <= idle;
-            when idle =>
-                out_valid <= 'X';
-
-                if (rx_filtered = '0') then
-                    next_state <= receive_data;
+        case CurrentState is
+		  
+            when ResetRx =>
+                FinishRx <= '0';
+                NextState <= IdleRx;
+            
+				when IdleRx =>
+                FinishRx <= 'X';
+                if (FilterRx = '0') then
+                    NextState <= SendRx;
                 else
-                    next_state <= idle;
+                    NextState <= IdleRx;
                 end if;
-            when receive_data =>
-                out_valid <= '0';
-
-                if (data_counter = 7) then
-                    next_state <= stop_bit;
+            
+				when SendRx =>
+                FinishRx <= '0';
+                if (CounterData = 7) then
+                    NextState <= StopRx;
                 else
-                    next_state <= receive_data;
+                    NextState <= SendRx;
                 end if;
-            when stop_bit =>
-                out_valid <= '1';
-
-                if (rx_filtered = '1') then
-                    next_state <= idle;
+            
+				when StopRx =>
+                FinishRx <= '1';
+                if (FilterRx = '1') then
+                    NextState <= IdleRx;
                 else
-                    next_state <= stop_bit;
+                    NextState <= StopRx;
                 end if;
-            when others =>
-                out_valid <= '0';
-
-                next_state <= reset_state;
+            
+				when others =>
+                FinishRx <= '0';
+                NextState <= ResetRx;
+					 
         end case;
+		  
     end process rx_control;
-end architecture behavioural;
+	 
+END Logic;
