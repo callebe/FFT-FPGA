@@ -75,6 +75,27 @@ PACKAGE MainPackage IS
 	------------------------------------------------
 	
 	------------------------------------------------
+	COMPONENT UARTTx IS
+		PORT(clk : IN STD_LOGIC;
+			reset : IN STD_LOGIC;
+			ActiveTx : IN STD_LOGIC;
+			DataTx  : IN STD_LOGIC_VECTOR(7 downto 0);
+			Tx : OUT STD_LOGIC;
+			FinishTx : OUT STD_LOGIC);
+	END COMPONENT;
+	------------------------------------------------
+	
+	------------------------------------------------
+	COMPONENT UARTRx IS
+		PORT(clk : IN STD_LOGIC;
+			reset : IN STD_LOGIC;
+			Rx : IN STD_LOGIC;
+			DataRx : OUT STD_LOGIC_VECTOR(7 downto 0);
+			FinishRx : OUT STD_LOGIC);
+	END COMPONENT;
+	------------------------------------------------
+	
+	------------------------------------------------
 	COMPONENT BaudRate IS
 		GENERIC(clkIN, BaudRateOut: INTEGER);
 		PORT(clk: IN STD_LOGIC;

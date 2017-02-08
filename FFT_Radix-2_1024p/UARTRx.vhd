@@ -26,162 +26,142 @@ ENTITY UARTRx IS
 	PORT(clk : IN STD_LOGIC;
 		reset : IN STD_LOGIC;
 		Rx : IN STD_LOGIC;
-		DataRx : OUT STD_LOGIC_VECTOR(7 downto 0);
+		DataRx : BUFFER STD_LOGIC_VECTOR(7 downto 0);
 		FinishRx : OUT STD_LOGIC);
 END UARTRx;
 
 ARCHITECTURE Logic OF UARTRx IS
 
+	SIGNAL Ping : INTEGER RANGE 15 DOWNTO 0 := 0;
 	TYPE State IS (ResetRx, IdleRx, SendRx, StopRx);
 	SIGNAL CurrentState : State := IdleRx;
 	SIGNAL NextState : State := IdleRx;
-	
-	SIGNAL CounterData : INTEGER  RANGE 7 TO 0 := 0;
-	SIGNAL Ping : INTEGER RANGE 15 DOWNTO 0 := 0;
-	SIGNAL data_buffer : std_logic_vector(7 downto 0);
+	SIGNAL CounterData : INTEGER  RANGE 7 DOWNTO 0 := 0;
 	SIGNAL FilterRx : STD_LOGIC := '1';
-	SIGNAL CurrentStateRx : INTEGER  RANGE 3 TO 0 := 3;
-	SIGNAL NextStateRx : INTEGER  RANGE 3 TO 0 := 3;
+	SIGNAL CurrentStateRx : INTEGER  RANGE 3 DOWNTO 0 := 3;
 	 
 BEGIN
-   
-	DataRx <= data_buffer;
 
 	---------------------------------------------------------------
 	--              Filtro do Sinal de Entrada Rx                --
 	---------------------------------------------------------------
-	
-	-- Atualização de Estados do Filtro
-	FilterUpdateStates : PROCESS(clk, reset)
+	FilterStateMachine : PROCESS(clk, reset)
 	
 	BEGIN
 	
 		IF(reset = '1') THEN
-			CurrentStateRx <= '3';
+			FilterRx <= '1';
+			CurrentStateRx <= 3;
 		
-		ELSIF(clk = '1' and clk'event) THEN
-			CurrentStateRx <= NextStateRx;
+		ELSIF(clk = '1' AND clk'event) THEN
+			IF(Rx = '0' AND CurrentStateRx /= 0) THEN
+				IF(CurrentStateRx = 1) THEN
+					FilterRx <= '0';
+				
+				END IF;
+				CurrentStateRx <= CurrentStateRx - 1;
+			
+			ELSIF(Rx = '1' AND CurrentStateRx /= 3) then
+				IF(CurrentStateRx = 2) THEN
+					FilterRx <= '1';
+			
+				END IF;
+				CurrentStateRx <= CurrentStateRx + 1;
+			
+			END IF;
 		
 		END IF;
-		
+	
 	END PROCESS;
 	
-	-- Máquina de Estado do Filtro
-	FilterStateMachine : PROCESS(CurrentStateRx, Rx)
+	---------------------------------------------------------------
+	--                   Atualização de Estatos                  --
+	---------------------------------------------------------------
+	UpdateState : PROCESS(clk, reset)
+
+	BEGIN
+	
+		IF(reset = '1') THEN
+			Ping <= 0;
+			CurrentState <= ResetRx;
+			CounterData  <= 0;
+			DataRx <= "00000000";
+		
+		ELSIF(clk = '1' AND clk'event) THEN
+			IF(Ping = 15 OR (CurrentState = IdleRx AND NextState = SendRx AND Ping = 7) OR (CurrentState = IdleRx AND NextState = IdleRx)) THEN
+				Ping <= 0;
+				CurrentState <= NextState;
+				
+				IF(CurrentState = SendRx) THEN
+					DataRx  <= FilterRx & DataRx(7 DOWNTO 1);
+					CounterData <= CounterData + 1;
+				
+				ELSE
+					DataRx  <= DataRx;
+					CounterData <= 0;
+				
+				END IF;
+			
+			ELSE
+				DataRx <= DataRx;
+				CurrentState <= CurrentState;
+				Ping <= Ping + 1;
+			
+			END IF;
+		
+		END IF;
+	 
+	END PROCESS;
+
+	---------------------------------------------------------------
+	--                   Máquinas de Estados                     --
+	---------------------------------------------------------------
+	StateMachine : PROCESS(CurrentState, FilterRx, CounterData)
 	
 	BEGIN
+	
+		CASE CurrentState IS
+
+			WHEN ResetRx =>
+				FinishRx <= '0';
+				NextState <= IdleRx;
+
+			WHEN IdleRx =>
+				FinishRx <= 'X';
+				IF(FilterRx = '0') THEN
+					NextState <= SendRx;
 				
-		CASE CurrentStateRx IS
-			
-			WHEN 0 =>
-				FilterRx <= '0';
-				IF(Rx = '0') THEN
-					NextStateRx <= 0;
-					
 				ELSE
-					NextStateRx <= 1;
-				END IF;
+					NextState <= IdleRx;
 				
-			WHEN 1 =>
-				FilterRx <= '0';
-				IF(Rx = '0') THEN
-					NextStateRx <= 0;
-					
-				ELSE
-					NextStateRx <= 2;
 				END IF;
+
+			WHEN SendRx =>
+				FinishRx <= '0';
+				IF(CounterData = 7) THEN
+					NextState <= StopRx;
 				
-			WHEN 2 =>
-				FilterRx <= '1';
-				IF(Rx = '0') THEN
-					NextStateRx <= 1;
-					
 				ELSE
-					NextStateRx <= 3;
+					NextState <= SendRx;
+				
 				END IF;
-			
-			WHEN 3 =>
-				FilterRx <= '1';
-				IF(Rx = '0') THEN
-					NextStateRx <= 2;
-					
+
+			WHEN StopRx =>
+				FinishRx <= '1';
+				IF(FilterRx = '1') THEN
+					NextState <= IdleRx;
+				
 				ELSE
-					NextStateRx <= 3;
+					NextState <= StopRx;
+				
 				END IF;
-			
+
 			WHEN OTHERS =>
-				FilterRx <= '1';
-				NextStateRx <= 3;
-				
+				FinishRx <= '0';
+				NextState <= ResetRx;
+
 		END CASE;
-			
+	  
 	END PROCESS;
-
-    -- Updates the states in the statemachine at a 115200 bps rate
-    clkgen_115k2 : process(clk, reset)
-    begin
-        if (reset = '1') then
-            Ping        <= 0;
-            CurrentState <= ResetRx;
-            CounterData  <= 0;
-            data_buffer   <= (others => '0');
-        elsif (clk = '1' and clk'event) then
-            if (Ping = 15 or (CurrentState = IdleRx and NextState = SendRx and Ping = 7) or (CurrentState = IdleRx and NextState = IdleRx))  then
-                Ping <= 0;
-                CurrentState <= NextState;
-                if (CurrentState = SendRx) then
-                    data_buffer  <= FilterRx & data_buffer(7 downto 1);
-                    CounterData <= CounterData + 1;
-                else
-                    data_buffer  <= data_buffer;
-                    CounterData <= 0;
-                end if;
-            else
-                data_buffer   <= data_buffer;
-                CurrentState <= CurrentState;
-                Ping <= Ping + 1;
-            end if;
-        end if;
-    end process clkgen_115k2;
-
-    rx_control : process (CurrentState, FilterRx, CounterData)
-    begin
-        case CurrentState is
-		  
-            when ResetRx =>
-                FinishRx <= '0';
-                NextState <= IdleRx;
-            
-				when IdleRx =>
-                FinishRx <= 'X';
-                if (FilterRx = '0') then
-                    NextState <= SendRx;
-                else
-                    NextState <= IdleRx;
-                end if;
-            
-				when SendRx =>
-                FinishRx <= '0';
-                if (CounterData = 7) then
-                    NextState <= StopRx;
-                else
-                    NextState <= SendRx;
-                end if;
-            
-				when StopRx =>
-                FinishRx <= '1';
-                if (FilterRx = '1') then
-                    NextState <= IdleRx;
-                else
-                    NextState <= StopRx;
-                end if;
-            
-				when others =>
-                FinishRx <= '0';
-                NextState <= ResetRx;
-					 
-        end case;
-		  
-    end process rx_control;
 	 
 END Logic;

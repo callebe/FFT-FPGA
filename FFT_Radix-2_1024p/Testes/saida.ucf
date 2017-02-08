@@ -13,5 +13,11 @@ NET "SF_D<1>" LOC = "R16" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = SLOW ;
 NET "SF_D<2>" LOC = "P17" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = SLOW ;
 NET "SF_D<3>" LOC = "M15" | IOSTANDARD = LVCMOS33 | DRIVE = 4 | SLEW = SLOW ;
 
-# ==== Slide Switches (SW) ====
-NET "reset" LOC = "L13" | IOSTANDARD = LVTTL | PULLUP ;
+# ==== Switches  ====
+NET "reset" loc = "v16" | iostandard = lvttl | pulldown;
+NET "reset" CLOCK_DEDICATED_ROUTE = FALSE; 
+NET "Entrada" LOC = "H13" | IOSTANDARD = LVTTL | PULLDOWN ;
+
+# ==== UART  ====
+NET "Tx" loc = "m14" | iostandard = lvttl | drive = 8 | slew = slow;
+NET "Rx" loc = "r7" | iostandard = lvttl;
