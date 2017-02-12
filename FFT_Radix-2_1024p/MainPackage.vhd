@@ -75,6 +75,22 @@ PACKAGE MainPackage IS
 	------------------------------------------------
 	
 	------------------------------------------------
+	COMPONENT UARTDevice IS
+		PORT(clk : IN STD_LOGIC;
+			reset : IN STD_LOGIC;
+			Rx : IN STD_LOGIC;
+			BeginTx : IN STD_LOGIC;
+			BeginRx : IN STD_LOGIC;
+			DataUARTTx : IN ComplexVector(7 DOWNTO 0);
+			DataUARTRx : OUT ComplexVector(7 DOWNTO 0);
+			Tx : OUT STD_LOGIC;
+			EndTx : BUFFER STD_LOGIC;
+			EndRx : BUFFER STD_LOGIC);
+	END COMPONENT;
+
+	------------------------------------------------
+	
+	------------------------------------------------
 	COMPONENT UARTTx IS
 		PORT(clk : IN STD_LOGIC;
 			reset : IN STD_LOGIC;

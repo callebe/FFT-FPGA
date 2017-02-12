@@ -10,36 +10,46 @@ ENTITY debounce IS
 END debounce;
 
 ARCHITECTURE logica OF debounce is
-	SIGNAL deb_out: STD_LOGIC;
+	
+	SIGNAL Aux: STD_LOGIC := '0';
 	
 BEGIN
 
 	PROCESS(rst,clk,Entrada)
-	--
-	-- t-2ms
-	-- contagens = 50M*0,002 = 100000
+	
 	VARIABLE count: INTEGER RANGE 0 TO 100000 := 0;
+	
 	BEGIN 
+	
 		IF (rst = '1') THEN
 			count := 0;
+		
 		ELSIF (clk'event AND clk = '1') THEN
-			IF(Entrada /=  deb_out) THEN
+			IF(Entrada /=  Aux) THEN
 				count := count +1;
-				IF(count = 100000) THEN	deb_out <= Entrada AND (not rst);
+				IF(count = 100000) THEN	
+					Aux <= Entrada AND (not rst);
+					
 				END IF;
+				
 			END IF;
+			
 		END IF;
 		
 	END PROCESS;
 	
-	PROCESS(deb_OUT,rst)
+	PROCESS(rst, Aux)
+	
 	BEGIN 
-		IF(deb_out'EVENT and deb_out = '1') THEN
-			Saida <= Saida XOR '1';
-		END IF;
 		
-		IF(rst = '1') THEN Saida <= '0';
+		IF(rst = '1') THEN
+			Saida <= '0';
+		
+		ELSIF(Aux'EVENT AND Aux = '1') THEN
+			Saida <= Saida XOR '1';
+		
 		END IF;
+	
 	END PROCESS;
 
 END logica;
