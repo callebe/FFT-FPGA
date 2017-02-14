@@ -51,7 +51,7 @@ PACKAGE MainPackage IS
 	------------------------------------------------
 	
 	------------------------------------------------
-	FUNCTION convStdToInteger (SIGNAL entrada: STD_LOGIC_VECTOR) RETURN INTEGER ;
+	FUNCTION convStdToInteger (entrada: STD_LOGIC_VECTOR) RETURN INTEGER ;
 	------------------------------------------------
 	
 	------------------------------------------------
@@ -59,7 +59,11 @@ PACKAGE MainPackage IS
 	------------------------------------------------
 	
 	------------------------------------------------
-	FUNCTION convIntegerToStd (SIGNAL entrada: INTEGER; CONSTANT NBits: INTEGER RANGE 0 TO 8) RETURN STD_LOGIC_VECTOR;
+	FUNCTION convIntegerToStd (entrada: INTEGER; CONSTANT NBits: INTEGER RANGE 0 TO 8) RETURN STD_LOGIC_VECTOR;
+	------------------------------------------------
+	
+	------------------------------------------------
+	FUNCTION convIntegerToStdSigned (entrada: INTEGER RANGE INTEGER'LOW TO INTEGER'HIGH) RETURN STD_LOGIC_VECTOR;
 	------------------------------------------------
 	
 	------------------------------------------------
@@ -326,7 +330,7 @@ PACKAGE BODY MainPackage IS
 	------------------------------------------------
 
 	------------------------------------------------
-	FUNCTION convStdToInteger (SIGNAL entrada: STD_LOGIC_VECTOR) RETURN INTEGER IS 
+	FUNCTION convStdToInteger (entrada: STD_LOGIC_VECTOR) RETURN INTEGER IS 
 		VARIABLE result: INTEGER RANGE 0 TO 2**entrada'LENGTH-1;
 		
 	BEGIN
@@ -346,8 +350,7 @@ PACKAGE BODY MainPackage IS
 	------------------------------------------------
 	
 	------------------------------------------------
-	
-	FUNCTION convIntegerToStd (SIGNAL entrada: INTEGER; CONSTANT NBits: INTEGER RANGE 0 TO 8) RETURN STD_LOGIC_VECTOR IS
+	FUNCTION convIntegerToStd (entrada: INTEGER; CONSTANT NBits: INTEGER RANGE 0 TO 8) RETURN STD_LOGIC_VECTOR IS
 		VARIABLE result: STD_LOGIC_VECTOR (NBits-1 DOWNTO 0);
 		VARIABLE aux: INTEGER RANGE 0 TO 2**(NBits-1):= entrada;
 	BEGIN
@@ -360,6 +363,31 @@ PACKAGE BODY MainPackage IS
 
 		RETURN result;
 	END convIntegerToStd;
+	------------------------------------------------
+	
+	------------------------------------------------
+	FUNCTION convIntegerToStdSigned (entrada: INTEGER RANGE INTEGER'LOW TO INTEGER'HIGH) RETURN STD_LOGIC_VECTOR IS
+		VARIABLE result: STD_LOGIC_VECTOR (31 DOWNTO 0);
+		VARIABLE aux: INTEGER RANGE 0 TO 2**(30):= entrada;
+	BEGIN
+	
+		FOR i IN (30) DOWNTO (0) LOOP
+			IF ((aux/(2**i)) = 1) THEN result(i) := '1';
+			END IF;
+			aux := aux rem 2**(i);
+		END LOOP;
+		
+		IF(entrada > 0) THEN
+			result(31) := '0';
+		
+		ELSE
+			result(31) := '1';
+			
+		END IF;
+
+		RETURN result;
+	
+	END convIntegerToStdSigned;
 	------------------------------------------------
 	
 	------------------------------------------------

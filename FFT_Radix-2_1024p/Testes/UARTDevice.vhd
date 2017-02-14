@@ -46,7 +46,7 @@ ARCHITECTURE Logica OF UARTDevice IS
 	SIGNAL NextStateTx : State := Idlex;
 	-- Variaveis de Buffer de Transmissão e Recepção
 	SIGNAL DataTxBuffer: STD_LOGIC_VECTOR(7 DOWNTO 0) := "11111111";
-	SIGNAL DataRxBuffer: STD_LOGIC_VECTOR(7 DOWNTO 0);
+	SIGNAL DataRxBuffer: STD_LOGIC_VECTOR(7 DOWNTO 0) := "00000000";
 	-- Variaveis de Clock de Transmissão e Recepção
 	SIGNAL clk9600 : STD_LOGIC := '0';
 	SIGNAL clk153600 : STD_LOGIC := '0';
@@ -58,8 +58,10 @@ ARCHITECTURE Logica OF UARTDevice IS
 	-- Variaveis de controle de transmissão de Conjunto de Bytes
 	SIGNAL CounterDataTx :  INTEGER RANGE 7 DOWNTO 0 := 0;
 	SIGNAL UpdateDataTx : STD_LOGIC := '0';
-	SIGNAL BreakTx: STD_LOGIC := '0';
-	
+	SIGNAL BreakTx : STD_LOGIC := '0';
+	-- Variaveis de controle de recepção de Conjunto de Bytes
+	SIGNAL CounterDataRx :  INTEGER RANGE 8 DOWNTO 0 := 0;
+		
 BEGIN
 
 	---------------------------------------------------------------
@@ -71,8 +73,8 @@ BEGIN
 	---------------------------------------------------------------
 	--                       UART - Tx & Rx                      --
 	---------------------------------------------------------------
-	UART0Tx : UARTTx port map (clk9600, reset, ActiveTx, DataTxBuffer, tx, FinishTx);
-	UART0Rx : UARTRx port map (clk153600, reset, rx, DataRxBuffer, FinishRx);
+	UART0Tx : UARTTx port map (clk9600, reset, ActiveTx, DataTxBuffer, Tx, FinishTx);
+	UART0Rx : UARTRx port map (clk153600, reset, Rx, DataRxBuffer, FinishRx);
 	
 	---------------------------------------------------------------
 	--           Processo de Controle da Transmissão             --
@@ -207,8 +209,8 @@ BEGIN
 	---------------------------------------------------------------
 	SplitDataSend : PROCESS(reset, UpdateDataTx)
 		
-		VARIABLE Aux : STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => '0');
-		VARIABLE AuxB : STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => '0');
+		VARIABLE BuffTxVector : STD_LOGIC_VECTOR(31 DOWNTO 0);
+		VARIABLE BuffTxBVector : STD_LOGIC_VECTOR(31 DOWNTO 0);
 		VARIABLE AuxNum : INTEGER RANGE INTEGER'LOW TO INTEGER'HIGH;
 		VARIABLE AuxNumB : INTEGER RANGE INTEGER'LOW TO INTEGER'HIGH;
 		
@@ -216,81 +218,79 @@ BEGIN
 		
 		IF(reset = '1') THEN
 			DataTx <= ("00000000","00000000","00000000","00000000","00000000","00000000","00000000","00000000");
+			AuxNum := 0;
+			AuxNumB := 0;
 		
-		ELSIF(UpdateDataTx'EVENT AND UpdateDataTx = '1') THEN
+		ELSIF(clk'EVENT AND clk = '1') THEN
+			IF(UpdateDataTx = '1') THEN
+				AuxNum :=  DataUARTTx(CounterDataTx).r;
+				AuxNumB := DataUARTTx(CounterDataTx).i;
+				BuffTxVector := convIntegerToStdSigned(AuxNum);
+				BuffTxBVector := convIntegerToStdSigned(AuxNumB);
+				DataTx(3)(7 DOWNTO 0) <= BuffTxVector(7 DOWNTO 0);
+				DataTx(2)(7 DOWNTO 0) <= BuffTxVector(15 DOWNTO 8);
+				DataTx(1)(7 DOWNTO 0) <= BuffTxVector(23 DOWNTO 16);
+				DataTx(0)(7 DOWNTO 0) <= BuffTxVector(31 DOWNTO 24);
+				----------------------
+				DataTx(7)(7 DOWNTO 0) <= BuffTxBVector(7 DOWNTO 0);
+				DataTx(6)(7 DOWNTO 0) <= BuffTxBVector(15 DOWNTO 8);
+				DataTx(5)(7 DOWNTO 0) <= BuffTxBVector(23 DOWNTO 16);
+				DataTx(4)(7 DOWNTO 0) <= BuffTxBVector(31 DOWNTO 24);
 			
-			AuxNum := DataUARTTx(CounterDataTx).r;
-			AuxNumB := DataUARTTx(CounterDataTx).i;
-			Aux := STD_LOGIC_VECTOR(TO_UNSIGNED(AuxNum, Aux'length));
-			AuxB :=STD_LOGIC_VECTOR(TO_UNSIGNED(AuxNumB, AuxB'length));
-			DataTx(3)(0) <= Aux(0);
-			DataTx(3)(1) <= Aux(1);
-			DataTx(3)(2) <= Aux(2);
-			DataTx(3)(3) <= Aux(3);
-			DataTx(3)(4) <= Aux(4);
-			DataTx(3)(5) <= Aux(5);
-			DataTx(3)(6) <= Aux(6);
-			DataTx(3)(7) <= Aux(7);
-			DataTx(2)(0) <= Aux(8);
-			DataTx(2)(1) <= Aux(9);
-			DataTx(2)(2) <= Aux(10);
-			DataTx(2)(3) <= Aux(11);
-			DataTx(2)(4) <= Aux(12);
-			DataTx(2)(5) <= Aux(13);
-			DataTx(2)(6) <= Aux(14);
-			DataTx(2)(7) <= Aux(15);
-			DataTx(1)(0) <= Aux(16);
-			DataTx(1)(1) <= Aux(17);
-			DataTx(1)(2) <= Aux(18);
-			DataTx(1)(3) <= Aux(19);
-			DataTx(1)(4) <= Aux(20);
-			DataTx(1)(5) <= Aux(21);
-			DataTx(1)(6) <= Aux(22);
-			DataTx(1)(7) <= Aux(23);
-			DataTx(0)(0) <= Aux(24);
-			DataTx(0)(1) <= Aux(25);
-			DataTx(0)(2) <= Aux(26);
-			DataTx(0)(3) <= Aux(27);
-			DataTx(0)(4) <= Aux(28);
-			DataTx(0)(5) <= Aux(29);
-			DataTx(0)(6) <= Aux(30);
-			DataTx(0)(7) <= Aux(31);
-			----------------------
-			DataTx(7)(0) <= AuxB(0);
-			DataTx(7)(1) <= AuxB(1);
-			DataTx(7)(2) <= AuxB(2);
-			DataTx(7)(3) <= AuxB(3);
-			DataTx(7)(4) <= AuxB(4);
-			DataTx(7)(5) <= AuxB(5);
-			DataTx(7)(6) <= AuxB(6);
-			DataTx(7)(7) <= AuxB(7);
-			DataTx(6)(0) <= AuxB(8);
-			DataTx(6)(1) <= AuxB(9);
-			DataTx(6)(2) <= AuxB(10);
-			DataTx(6)(3) <= AuxB(11);
-			DataTx(6)(4) <= AuxB(12);
-			DataTx(6)(5) <= AuxB(13);
-			DataTx(6)(6) <= AuxB(14);
-			DataTx(6)(7) <= AuxB(15);
-			DataTx(5)(0) <= AuxB(16);
-			DataTx(5)(1) <= AuxB(17);
-			DataTx(5)(2) <= AuxB(18);
-			DataTx(5)(3) <= AuxB(19);
-			DataTx(5)(4) <= AuxB(20);
-			DataTx(5)(5) <= AuxB(21);
-			DataTx(5)(6) <= AuxB(22);
-			DataTx(5)(7) <= AuxB(23);
-			DataTx(4)(0) <= AuxB(24);
-			DataTx(4)(1) <= AuxB(25);
-			DataTx(4)(2) <= AuxB(26);
-			DataTx(4)(3) <= AuxB(27);
-			DataTx(4)(4) <= AuxB(28);
-			DataTx(4)(5) <= AuxB(29);
-			DataTx(4)(6) <= AuxB(30);
-			DataTx(4)(7) <= AuxB(31);
+			END IF;
 			
 		END IF;
 		
+	END PROCESS;
+	
+	---------------------------------------------------------------
+	--              Processo de Controle da Recepção             --
+	---------------------------------------------------------------
+	PROCESS (reset, clk)
+	
+		VARIABLE Counter : INTEGER RANGE 0 TO 8 := 0;
+		VARIABLE Aux : INTEGER RANGE INTEGER'LOW TO INTEGER'HIGH := 0;
+		VARIABLE AuxExp : INTEGER RANGE 0 TO 63 := 0;
+			
+	BEGIN
+	
+		IF(reset = '1') THEN
+			Counter := 0;
+			CounterDataRx := 0;
+			
+		ELSIF(clk'EVENT AND clk = '1') THEN
+			IF(BeginRx = '1') THEN
+				IF(FinishRx = '1') THEN
+					Aux := TO_INTEGER(signed(DataRxBuffer));
+					IF(Counter < 4) THEN
+						AuxExp := Counter*8;
+						DataUARTRx(CounterDataRx).r <= Aux * (2**(AuxExp));
+						
+					ELSE
+						AuxExp := (Counter-4)*8;
+						DataUARTRx(CounterDataRx).i <= Aux * (2**(AuxExp));
+					
+					END IF;
+					Counter := Counter + 1;
+					IF(Counter = 8) THEN
+						Counter := 0;
+						CounterDataRx <= CounterDataRx + 1;
+						IF(CounterDataRx = 8) THEN
+							EndRx <= '1';
+							
+						ELSE
+							EndRx <= '0';
+							
+						END IF;
+						
+					END IF;
+					
+				END IF;
+				
+			END IF; 
+			
+		END IF;
+	
 	END PROCESS;
 									  
 END Logica;

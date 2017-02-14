@@ -18,7 +18,7 @@ END TESTE;
 
 ARCHITECTURE Logica OF TESTE IS
 	
-	SIGNAL DataUARTTx: ComplexVector(7 DOWNTO 0) := ((1000,0),(2000,0),(3000,0),(4000,0),(5000,0),(3000,0),(2000,0),(1000,0));
+	SIGNAL DataUARTTx: ComplexVector(7 DOWNTO 0);
 	SIGNAL DataUARTRx: ComplexVector(7 DOWNTO 0);
 	SIGNAL SaidaA: ComplexVector(7 DOWNTO 0);
 	SIGNAL OutputSA : ComplexVector(3 DOWNTO 0);
@@ -70,6 +70,22 @@ ARCHITECTURE Logica OF TESTE IS
 	---------------------------------------------------------------
 	--              Dispositivo de Comunicação UART              --
 	---------------------------------------------------------------
+	DataUARTTx(0).r <= 32156;
+	DataUARTTx(0).i <= 326254236;
+	DataUARTTx(1).r <= 32102335;
+	DataUARTTx(1).i <= 6330012;
+	DataUARTTx(2).r <= 1102123;
+	DataUARTTx(2).i <= 55565263;
+	DataUARTTx(3).r <= 1102123;
+	DataUARTTx(3).i <= 55565263;
+	DataUARTTx(4).r <= 1102123;
+	DataUARTTx(4).i <= 562555;
+	DataUARTTx(5).r <= 1102123;
+	DataUARTTx(5).i <= 23554688;
+	DataUARTTx(6).r <= 1102123;
+	DataUARTTx(6).i <= 55565263;
+	DataUARTTx(7).r <= 44846464;
+	DataUARTTx(7).i <= 998078;
 	UART0 : UARTDevice PORT MAP (Clock, reset, Rx, BeginTx, BeginRx, DataUARTTx, DataUARTRx, Tx, EndTx, EndRx);	
 	
 	---------------------------------------------------------------
@@ -85,14 +101,20 @@ ARCHITECTURE Logica OF TESTE IS
 			ResetDebounce <= '0';
 			
 		ELSIF(Clock = '1' AND Clock'EVENT) THEN
-			IF(StartBottonDebounce = '1' AND EndTx = '1') THEN
-				BeginTx <= '1';
+			IF(StartBottonDebounce = '1' AND EndTx = '1' AND EndRx = '1') THEN
+				BeginRx <= '1';
 				ResetDebounce <= '1';
 				
 			ELSE
-				BeginTx <= '0';
+				BeginRx <= '0';
 				ResetDebounce <= '0';
+				IF(EndRx = '1' AND EndTx = '1') THEN
+					BeginTx = '1';
 				
+				ELSE
+				
+				
+				END IF;
 			END IF;
 			
 		END IF;
