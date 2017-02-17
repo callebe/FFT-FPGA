@@ -13,7 +13,12 @@ ENTITY TESTE IS
 		  LCD_RS : OUT STD_LOGIC;
 		  LCD_RW : OUT STD_LOGIC;
 		  Rx : IN STD_LOGIC;
-		  Tx : OUT STD_LOGIC);
+		  Tx : OUT STD_LOGIC;
+		  IdleIndicator : OUT STD_LOGIC;
+		  ReceiveDataIndicator : OUT STD_LOGIC;
+		  ProcessFFTIndicator : OUT STD_LOGIC;
+		  SendDataIndicator : OUT STD_LOGIC;
+		  ass : OUT STD_LOGIC);
 END TESTE;
 
 ARCHITECTURE Logica OF TESTE IS
@@ -32,6 +37,11 @@ ARCHITECTURE Logica OF TESTE IS
 	SIGNAL EndRx : STD_LOGIC := '0';
 	SIGNAL StartBottonDebounce : STD_LOGIC := '0';
 	SIGNAL resetDebounce : STD_LOGIC := '0';
+	TYPE StateFFT IS (ResetFFT, Idle, ReceiveData, ProcessData, TransmitData);
+	SIGNAL CurrentState : StateFFT := Idle;
+	SIGNAL NextState : StateFFT := Idle;
+	SIGNAL BeginFFT : STD_LOGIC := '0';
+	SIGNAL EndFFT : STD_LOGIC := '1';
 	
 	BEGIN
 	
@@ -70,52 +80,123 @@ ARCHITECTURE Logica OF TESTE IS
 	---------------------------------------------------------------
 	--              Dispositivo de Comunicação UART              --
 	---------------------------------------------------------------
-	DataUARTTx(0).r <= 32156;
-	DataUARTTx(0).i <= 326254236;
-	DataUARTTx(1).r <= 32102335;
-	DataUARTTx(1).i <= 6330012;
-	DataUARTTx(2).r <= 1102123;
-	DataUARTTx(2).i <= 55565263;
-	DataUARTTx(3).r <= 1102123;
-	DataUARTTx(3).i <= 55565263;
-	DataUARTTx(4).r <= 1102123;
-	DataUARTTx(4).i <= 562555;
-	DataUARTTx(5).r <= 1102123;
-	DataUARTTx(5).i <= 23554688;
-	DataUARTTx(6).r <= 1102123;
-	DataUARTTx(6).i <= 55565263;
-	DataUARTTx(7).r <= 44846464;
-	DataUARTTx(7).i <= 998078;
 	UART0 : UARTDevice PORT MAP (Clock, reset, Rx, BeginTx, BeginRx, DataUARTTx, DataUARTRx, Tx, EndTx, EndRx);	
 	
 	---------------------------------------------------------------
-	--              Gatilho da Transmissão UART                  --
+	--               Processo de Controle da FFT                 --
 	---------------------------------------------------------------
-	TRIGGERRx: PROCESS (reset, Clock) 
-		
-		
+	-- Máquina de Estados
+	StateMachine : PROCESS(CurrentState, StartBottonDebounce, EndRx, EndFFT, EndTx)
+	
 	BEGIN
+	
+		CASE CurrentState IS
 		
-		IF(reset = '1') THEN
-			BeginTx <= '0';
-			ResetDebounce <= '0';
-			
-		ELSIF(Clock = '1' AND Clock'EVENT) THEN
-			IF(StartBottonDebounce = '1' AND EndTx = '1' AND EndRx = '1') THEN
-				BeginRx <= '1';
+			WHEN ResetFFT =>
+				BeginTx <= '0';
+				BeginRx <= '0';
+				BeginFFT <= '0';
+				NextState <= Idle;
+				IdleIndicator <= '0';
+				ReceiveDataIndicator <= '0';
+				ProcessFFTIndicator <= '0';
+				SendDataIndicator <= '0';
 				ResetDebounce <= '1';
 				
-			ELSE
+			WHEN Idle =>
+				BeginTx <= '0';
 				BeginRx <= '0';
+				BeginFFT <= '0';
+				IdleIndicator <= '1';
+				ReceiveDataIndicator <= '0';
+				ProcessFFTIndicator <= '0';
+				SendDataIndicator <= '0';
 				ResetDebounce <= '0';
-				IF(EndRx = '1' AND EndTx = '1') THEN
-					BeginTx = '1';
-				
+				IF(StartBottonDebounce = '1') THEN
+					NextState <= ReceiveData;
+					
 				ELSE
+					NextState <= Idle;
+					
+				END IF;
 				
+			WHEN ReceiveData =>
+				BeginTx <= '0';
+				BeginRx <= '1';
+				BeginFFT <= '0';
+				IdleIndicator <= '0';
+				ReceiveDataIndicator <= '1';
+				ProcessFFTIndicator <= '0';
+				SendDataIndicator <= '0';
+				ResetDebounce <= '1';
+				IF(EndRx = '1') THEN
+					NextState <= ProcessData;
+					
+				ELSE
+					NextState <= ReceiveData;
 				
 				END IF;
-			END IF;
+				
+			WHEN ProcessData =>	
+				BeginTx <= '0';
+				BeginRx <= '0';
+				BeginFFT <= '1';
+				IdleIndicator <= '0';
+				ReceiveDataIndicator <= '0';
+				ProcessFFTIndicator <= '1';
+				SendDataIndicator <= '0';
+				ResetDebounce <= '1';
+				DataUARTTx <= DataUARTRx;
+				IF(EndFFT = '1') THEN
+					NextState <= TransmitData;
+					
+				ELSE
+					NextState <= ProcessData;
+				
+				END IF;
+				
+			WHEN TransmitData =>
+				BeginTx <= '1';
+				BeginRx <= '0';
+				BeginFFT <= '0';
+				IdleIndicator <= '0';
+				ReceiveDataIndicator <= '0';
+				ProcessFFTIndicator <= '0';
+				SendDataIndicator <= '1';
+				ResetDebounce <= '1';
+				IF(EndTx = '1') THEN
+					NextState <= Idle;
+					
+				ELSE 
+					NextState <= TransmitData;
+					
+				END IF;
+				
+			WHEN OTHERS =>
+				BeginTx <= '0';
+				BeginRx <= '0';
+				BeginFFT <= '0';
+				NextState <= Idle;
+				IdleIndicator <= '0';
+				ReceiveDataIndicator <= '0';
+				ProcessFFTIndicator <= '0';
+				SendDataIndicator <= '0';
+				ResetDebounce <= '1';
+				
+		END CASE;
+	
+	END PROCESS;
+	
+	-- Atualização de Estados
+	UpdateStates : PROCESS(clock, reset)
+	
+	BEGIN
+	
+		IF(reset = '1') THEN
+			CurrentState <= ResetFFT;
+		
+		ELSIF(Clock = '1' AND Clock'EVENT) THEN
+			CurrentState <= NextState;
 			
 		END IF;
 	

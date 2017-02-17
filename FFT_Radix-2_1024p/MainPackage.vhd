@@ -67,6 +67,10 @@ PACKAGE MainPackage IS
 	------------------------------------------------
 	
 	------------------------------------------------
+	FUNCTION convStdToIntegerSigned (entrada: STD_LOGIC_VECTOR(31 DOWNTO 0)) RETURN INTEGER;
+	------------------------------------------------
+	
+	------------------------------------------------
 	FUNCTION BCD_7_segmentos (SIGNAL Entrada: INTEGER RANGE 0 TO 15) RETURN STD_LOGIC_VECTOR;
 	------------------------------------------------
 	
@@ -367,8 +371,10 @@ PACKAGE BODY MainPackage IS
 	
 	------------------------------------------------
 	FUNCTION convIntegerToStdSigned (entrada: INTEGER RANGE INTEGER'LOW TO INTEGER'HIGH) RETURN STD_LOGIC_VECTOR IS
-		VARIABLE result: STD_LOGIC_VECTOR (31 DOWNTO 0);
-		VARIABLE aux: INTEGER RANGE 0 TO 2**(30):= entrada;
+		
+		VARIABLE result : STD_LOGIC_VECTOR (31 DOWNTO 0);
+		VARIABLE aux : INTEGER RANGE 0 TO 2**(30):= entrada;
+		
 	BEGIN
 	
 		FOR i IN (30) DOWNTO (0) LOOP
@@ -377,17 +383,42 @@ PACKAGE BODY MainPackage IS
 			aux := aux rem 2**(i);
 		END LOOP;
 		
-		IF(entrada > 0) THEN
-			result(31) := '0';
+		IF(entrada < 0) THEN
+			result(31) := '1';
 		
 		ELSE
-			result(31) := '1';
+			result(31) := '0';
 			
 		END IF;
 
 		RETURN result;
 	
 	END convIntegerToStdSigned;
+	------------------------------------------------
+	
+	------------------------------------------------
+	FUNCTION convStdToIntegerSigned (entrada: STD_LOGIC_VECTOR(31 DOWNTO 0)) RETURN INTEGER IS
+		
+		VARIABLE Result : INTEGER RANGE INTEGER'LOW TO INTEGER'HIGH := 0; 
+	
+	BEGIN
+		
+		FOR i IN (30) DOWNTO (0) LOOP
+			IF (entrada(i) = '1') THEN 
+				Result := Result + 2**(i);
+				
+			END IF;
+			
+		END LOOP;
+		
+		IF(entrada(31) = '1') THEN
+			Result := Result*(-1);
+		END IF;
+
+		RETURN result;
+		
+	
+	END convStdToIntegerSigned;
 	------------------------------------------------
 	
 	------------------------------------------------
