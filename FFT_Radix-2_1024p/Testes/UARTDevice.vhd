@@ -22,6 +22,7 @@ USE IEEE.numeric_std.ALL;
 USE work.MainPackage.ALL;
 
 ENTITY UARTDevice IS
+	GENERIC()
 	PORT(clk : IN STD_LOGIC;
 		reset : IN STD_LOGIC;
 		Rx : IN STD_LOGIC;
@@ -31,17 +32,18 @@ ENTITY UARTDevice IS
 		DataUARTRx : OUT ComplexVector(7 DOWNTO 0);
 		Tx : OUT STD_LOGIC;
 		EndTx : BUFFER STD_LOGIC;
-		EndRx : BUFFER STD_LOGIC);
+		EndRx : BUFFER STD_LOGIC;
+		ass : OUT STD_LOGIC);
 END UARTDevice;
 
 ARCHITECTURE Logica OF UARTDevice IS
 	
 	-- Variaveis de conversão de Complexo para STD_LOGIC
-	TYPE DataInputOutput IS ARRAY(7 DOWNTO 0) OF STD_LOGIC_VECTOR(7 DOWNTO 0);
-	SIGNAL DataTx: DataInputOutput;
-	SIGNAL DataRx: DataInputOutput;
+	TYPE DataOutput IS ARRAY((DataUARTTx'LENGTH*8-1) DOWNTO 0) OF STD_LOGIC_VECTOR(7 DOWNTO 0);
+	SIGNAL DataTx: DataOutput;
+	TYPE DataInput IS ARRAY(7 DOWNTO 0) OF STD_LOGIC_VECTOR(7 DOWNTO 0);
 	-- Variaveis de Estado da Transmissão e Recepção
-	TYPE StateTx IS (ResetTx, IdleTx, SendTx, StopTx);
+	TYPE StateTx IS (ResetTx, IdleTx, ProcessDataTx, SendTx, StopTx);
 	TYPE StateRx IS (ResetRx, IdleRx, ReceiveRx, StopRx);
 	SIGNAL CurrentStateTx : StateTx := IdleTx;
 	SIGNAL NextStateTx : StateTx := IdleTx;
@@ -60,13 +62,15 @@ ARCHITECTURE Logica OF UARTDevice IS
 	-- Variaveis de controle da recepção de Bytes
 	SIGNAL FinishRx : STD_LOGIC := '0';
 	-- Variaveis de controle de transmissão de Conjunto de Bytes
-	SIGNAL CounterDataTx :  INTEGER RANGE 0 TO 9 := 0;
+	SIGNAL BreakTx : STD_LOGIC := '0';
+	-- Variaveis de processamento de Dados
+	SIGNAL FinishProcessDataTx : STD_LOGIC := '0';
 	-- Variaveis de controle de recepção de Conjunto de Bytes
-	SIGNAL CounterDataRx :  INTEGER RANGE 0 TO 7 := 0;
 	SIGNAL BreakRx : STD_LOGIC := '0';
 		
 BEGIN
 
+	ass <= ActiveTx;
 	---------------------------------------------------------------
 	--                       Clocks para UART                    --
 	---------------------------------------------------------------
@@ -83,7 +87,7 @@ BEGIN
 	--           Processo de Controle da Transmissão             --
 	---------------------------------------------------------------
 	-- Máquina de Estados
-	StateMachineTx : PROCESS(CurrentStateTx, BeginTx, CounterDataTx)
+	StateMachineTx : PROCESS(CurrentStateTx, BeginTx, BreakTx, FinishProcessDataTx)
 	
 	BEGIN
 	
@@ -98,15 +102,24 @@ BEGIN
 				EndTx <= '0';
 				ActiveTx <= '0';
 				IF(BeginTx = '1') THEN
-					NextStateTx <= SendTx;
+					NextStateTx <= ProcessDataTx;
 				ELSE 
 					NextStateTx <= IdleTx;
+				END IF;	
+				
+			WHEN ProcessDataTx =>
+				EndTx <= '0';
+				ActiveTx <= '0';
+				IF(FinishProcessDataTx = '1') THEN
+					NextStateTx <= SendTx;
+				ELSE 
+					NextStateTx <= ProcessDataTx;
 				END IF;	
 				
 			WHEN SendTx =>
 				EndTx <= '0';
 				ActiveTx <= '1';
-				IF(CounterDataTx = 9) THEN
+				IF(BreakTx = '1') THEN
 					NextStateTx <= StopTx;
 					
 				ELSE
@@ -136,7 +149,7 @@ BEGIN
 		IF(reset = '1') THEN
 			CurrentStateTx <= ResetTx;
 		
-		ELSIF (clk = '1' AND clk'event) THEN
+		ELSIF (clk9600 = '1' AND clk9600'event) THEN
 			CurrentStateTx <= NextStateTx;
 		
 		END IF;
@@ -146,51 +159,99 @@ BEGIN
 	---------------------------------------------------------------
 	--               Processo de Envio de Dados                  --
 	---------------------------------------------------------------
-	SendData: PROCESS (reset, FinishTx, CounterDataTx, CounterDataTx)
+	SendData: PROCESS (reset, FinishTx, BreakTx)
 	
-		VARIABLE AuxNum : INTEGER RANGE INTEGER'LOW TO INTEGER'HIGH;
-		VARIABLE AuxNumB : INTEGER RANGE  INTEGER'LOW TO INTEGER'HIGH;
-		VARIABLE BuffTxVector : STD_LOGIC_VECTOR(31 DOWNTO 0);
-		VARIABLE BuffTxBVector : STD_LOGIC_VECTOR(31 DOWNTO 0);
-		VARIABLE CounterByteTx: INTEGER RANGE 0 TO 7 := 0;
+		VARIABLE CounterByteTx: INTEGER RANGE 0 TO (DataUARTTx'LENGTH*8-1) := 0;
 		
 	BEGIN
 		
 		IF(reset = '1') THEN 
 			DataTxBuffer <= "00000000";
 			CounterByteTx := 0;
-			CounterDataTx <= 0;
+			BreakTx <= '0';
 			
 		ELSIF(clk9600 = '1' AND clk9600'EVENT) THEN
-			IF(CurrentStateTx = SendTx) THEN
+			IF(CurrentStateTx = SendTx AND BreakTx = '0') THEN
 				IF (FinishTx = '1') THEN
-					IF(CounterByteTx = 0) THEN
-						AuxNum :=  DataUARTTx(CounterDataTx).r;
-						AuxNumB := DataUARTTx(CounterDataTx).i;
-						BuffTxVector := convIntegerToStdSigned(AuxNum);
-						BuffTxBVector := convIntegerToStdSigned(AuxNumB);
-						DataTx(3)(7 DOWNTO 0) <= BuffTxVector(7 DOWNTO 0);
-						DataTx(2)(7 DOWNTO 0) <= BuffTxVector(15 DOWNTO 8);
-						DataTx(1)(7 DOWNTO 0) <= BuffTxVector(23 DOWNTO 16);
-						DataTx(0)(7 DOWNTO 0) <= BuffTxVector(31 DOWNTO 24);
-						----------------------
-						DataTx(7)(7 DOWNTO 0) <= BuffTxBVector(7 DOWNTO 0);
-						DataTx(6)(7 DOWNTO 0) <= BuffTxBVector(15 DOWNTO 8);
-						DataTx(5)(7 DOWNTO 0) <= BuffTxBVector(23 DOWNTO 16);
-						DataTx(4)(7 DOWNTO 0) <= BuffTxBVector(31 DOWNTO 24);
-						CounterDataTx <= CounterDataTx + 1;
+					DataTxBuffer <= DataTx(CounterByteTx);
+					IF(CounterByteTx = (DataUARTTx'LENGTH*8-1)) THEN
+						BreakTx <= '1';
+						CounterByteTx := 0;
+						
+					ELSE
+						BreakTx <= '0';
+						CounterByteTx := CounterByteTx + 1;
 						
 					END IF;
-					DataTxBuffer <= DataTx(CounterByteTx);
-					CounterByteTx := CounterByteTx + 1;
 					
 				END IF;
 				
 			ELSE
 				CounterByteTx := 0;
-				CounterDataTx <= 0;
+				BreakTx <= '0';
 				
 			END IF;
+			
+		END IF;
+		
+	END PROCESS;
+	
+	---------------------------------------------------------------
+	--               Processo de Preparação de Dados             --
+	---------------------------------------------------------------
+	ProcessTxFData : PROCESS(reset, CurrentStateTx)
+		
+		VARIABLE CounterA : INTEGER RANGE 0 TO INTEGER'HIGH;
+		VARIABLE CounterB : INTEGER RANGE 0 TO INTEGER'HIGH;
+		VARIABLE CounterC : INTEGER RANGE 0 TO INTEGER'HIGH;
+		VARIABLE CounterD : INTEGER RANGE 0 TO INTEGER'HIGH;
+		VARIABLE CounterE : INTEGER RANGE 0 TO INTEGER'HIGH;
+		VARIABLE CounterF : INTEGER RANGE 0 TO INTEGER'HIGH;
+		VARIABLE CounterG : INTEGER RANGE 0 TO INTEGER'HIGH;
+		VARIABLE CounterH : INTEGER RANGE 0 TO INTEGER'HIGH;
+		VARIABLE BuffTxVector : STD_LOGIC_VECTOR(31 DOWNTO 0);
+		VARIABLE BuffTxBVector : STD_LOGIC_VECTOR(31 DOWNTO 0);
+		
+	BEGIN
+	
+		IF(reset = '1') THEN
+			CounterA := 0;
+				CounterB := 0;
+				CounterC := 0;
+				CounterD := 0;
+				CounterE := 0;
+				CounterF := 0;
+				CounterG := 0;
+				CounterH := 0;
+				FinishProcessDataTx <= '0';
+			
+		ELSIF(CurrentStateTx = ProcessDataTx) THEN
+			FOR i IN (DataUARTTx'LENGTH-1) DOWNTO (0) LOOP
+				CounterA := i*8;
+				CounterB := 1+i*8;
+				CounterC := 2+i*8;
+				CounterD := 3+i*8;
+				CounterE := 4+i*8;
+				CounterF := 5+i*8;
+				CounterG := 6+i*8;
+				CounterH := 7+i*8;
+				BuffTxVector := convIntegerToStdSigned(DataUARTTx(i).r);
+				BuffTxBVector := convIntegerToStdSigned(DataUARTTx(i).i);
+				DataTx(CounterA)(7 DOWNTO 0) <= BuffTxVector(7 DOWNTO 0);
+				DataTx(CounterB)(7 DOWNTO 0) <= BuffTxVector(15 DOWNTO 8);
+				DataTx(CounterC)(7 DOWNTO 0) <= BuffTxVector(23 DOWNTO 16);
+				DataTx(CounterD)(7 DOWNTO 0) <= BuffTxVector(31 DOWNTO 24);
+				----------------------
+				DataTx(CounterE)(7 DOWNTO 0) <= BuffTxBVector(7 DOWNTO 0);
+				DataTx(CounterF)(7 DOWNTO 0) <= BuffTxBVector(15 DOWNTO 8);
+				DataTx(CounterG)(7 DOWNTO 0) <= BuffTxBVector(23 DOWNTO 16);
+				DataTx(CounterH)(7 DOWNTO 0) <= BuffTxBVector(31 DOWNTO 24);
+				
+			END LOOP;
+			FinishProcessDataTx <= '1';
+			
+		ELSE	
+			FinishProcessDataTx <= '0';
 			
 		END IF;
 		
@@ -251,7 +312,7 @@ BEGIN
 		IF(reset = '1') THEN
 			CurrentStateRx <= ResetRx;
 		
-		ELSIF (clk = '1' AND clk'event) THEN
+		ELSIF (clk9600 = '1' AND clk9600'event) THEN
 			CurrentStateRx <= NextStateRx;
 		
 		END IF;
@@ -261,17 +322,17 @@ BEGIN
 	---------------------------------------------------------------
 	--                  Processo de Recepção                     --
 	---------------------------------------------------------------
-	ReceptionControl : PROCESS (reset, clk, CurrentStateRx, FinishRx,CounterDataRx )
+	ReceptionControl : PROCESS (reset, clk, CurrentStateRx, FinishRx)
 	
-		VARIABLE Counter : INTEGER RANGE 0 TO 8 := 0;
-		VARIABLE Aux : DataInputOutput;
-		VARIABLE AuxB: STD_LOGIC_VECTOR(31 DOWNTO 0);
+		VARIABLE Counter : INTEGER RANGE 0 TO 7 := 0;
+		VARIABLE CounterDataRx :  INTEGER RANGE 0 TO  DataUARTTx'LENGTH := 0;
+		VARIABLE Aux : DataInput;
 			
 	BEGIN
 	
 		IF(reset = '1') THEN
 			Counter := 0;
-			CounterDataRx <= 0;
+			CounterDataRx := 0;
 			BreakRx <= '0';
 			
 		ELSIF(clk9600'EVENT AND clk9600 = '1') THEN
@@ -280,15 +341,15 @@ BEGIN
 					Aux(Counter) := DataRxBuffer;
 					IF(Counter = 7) THEN
 						Counter := 0;
-						DataUARTRx(CounterDataRx).r <= convStdToIntegerSigned(Aux(0) & Aux(1) & Aux(2) & Aux(3));
-						DataUARTRx(CounterDataRx).i <= convStdToIntegerSigned(Aux(4) & Aux(5) & Aux(6) & Aux(7));
+						DataUARTRx(CounterDataRx).r <= convStdToIntegerSigned(Aux(3) & Aux(2) & Aux(1) & Aux(0));
+						DataUARTRx(CounterDataRx).i <= convStdToIntegerSigned(Aux(7) & Aux(6) & Aux(5) & Aux(4));
 						
-						IF(CounterDataRx = 7) THEN
-							CounterDataRx <= 0;
+						IF(CounterDataRx = DataUARTTx'LENGTH) THEN
+							CounterDataRx := 0;
 							BreakRx <= '1';
 							
 						ELSE
-							CounterDataRx <= CounterDataRx + 1;
+							CounterDataRx := CounterDataRx + 1;
 							BreakRx <= '0';
 							
 						END IF;
@@ -303,7 +364,7 @@ BEGIN
 			
 			ELSE
 				Counter := 0;
-				CounterDataRx <= 0;
+				CounterDataRx := 0;
 				BreakRx <= '0';
 			
 			END IF; 

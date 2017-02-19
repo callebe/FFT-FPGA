@@ -6,7 +6,7 @@
 -- a 9600 bps, a atualização é feita a cada 16 ciclos no processo --
 -- 'UpdateStates'.                                                --   
 --                                                                --
---       clk -> 98600 Hz                                          --
+--       clk -> 9600 Hz                                          --
 --			ActiveTx -> Sinal que aciona a trasmissão                --
 --       DataTx -> Informação à transmitir                        --
 --       Tx -> Bit de transmissão serial                          --

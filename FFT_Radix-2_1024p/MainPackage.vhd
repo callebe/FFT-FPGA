@@ -93,7 +93,8 @@ PACKAGE MainPackage IS
 			DataUARTRx : OUT ComplexVector(7 DOWNTO 0);
 			Tx : OUT STD_LOGIC;
 			EndTx : BUFFER STD_LOGIC;
-			EndRx : BUFFER STD_LOGIC);
+			EndRx : BUFFER STD_LOGIC;
+			ass : OUT STD_LOGIC);
 	END COMPONENT;
 
 	------------------------------------------------

@@ -80,7 +80,7 @@ ARCHITECTURE Logica OF TESTE IS
 	---------------------------------------------------------------
 	--              Dispositivo de Comunicação UART              --
 	---------------------------------------------------------------
-	UART0 : UARTDevice PORT MAP (Clock, reset, Rx, BeginTx, BeginRx, DataUARTTx, DataUARTRx, Tx, EndTx, EndRx);	
+	UART0 : UARTDevice PORT MAP (Clock, reset, Rx, BeginTx, BeginRx, DataUARTTx, DataUARTRx, Tx, EndTx, EndRx, ass);	
 	
 	---------------------------------------------------------------
 	--               Processo de Controle da FFT                 --
