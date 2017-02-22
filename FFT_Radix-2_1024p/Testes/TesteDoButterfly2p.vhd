@@ -80,7 +80,24 @@ ARCHITECTURE Logica OF TESTE IS
 	---------------------------------------------------------------
 	--              Dispositivo de Comunicação UART              --
 	---------------------------------------------------------------
-	UART0 : UARTDevice PORT MAP (Clock, reset, Rx, BeginTx, BeginRx, DataUARTTx, DataUARTRx, Tx, EndTx, EndRx, ass);	
+	--DataUARTTx(0).r <= 1234132;
+	--DataUARTTx(0).i <= 1254132;
+	--DataUARTTx(1).r <= 555;
+	--DataUARTTx(1).i <= 4562;
+	--DataUARTTx(2).r <= 11233;
+	--DataUARTTx(2).i <= 77787;
+	--DataUARTTx(3).r <= 10898;
+	--DataUARTTx(3).i <= 14132;
+	--DataUARTTx(4).r <= 9099;
+	--DataUARTTx(4).i <= 3099;
+	--DataUARTTx(5).r <= 453;
+	--DataUARTTx(5).i <= 145562;
+	--DataUARTTx(6).r <= 10877;
+	--DataUARTTx(6).i <= 78787;
+	--DataUARTTx(7).r <= 10998;
+	--DataUARTTx(7).i <= 10002;
+	DataUARTTx <= DataUARTRx;
+	UART0 : UARTDevice GENERIC MAP (8) PORT MAP (Clock, reset, Rx, BeginTx, BeginRx, DataUARTTx, DataUARTRx, Tx, EndTx, EndRx, ass);	
 	
 	---------------------------------------------------------------
 	--               Processo de Controle da FFT                 --
@@ -146,7 +163,6 @@ ARCHITECTURE Logica OF TESTE IS
 				ProcessFFTIndicator <= '1';
 				SendDataIndicator <= '0';
 				ResetDebounce <= '1';
-				DataUARTTx <= DataUARTRx;
 				IF(EndFFT = '1') THEN
 					NextState <= TransmitData;
 					
@@ -201,6 +217,8 @@ ARCHITECTURE Logica OF TESTE IS
 		END IF;
 	
 	END PROCESS;
+	
+
 	
 END Logica;
 
