@@ -84,6 +84,7 @@ PACKAGE MainPackage IS
 	
 	------------------------------------------------
 	COMPONENT UARTDevice IS
+		GENERIC(NumberOfFFT : INTEGER RANGE 0 TO 1024);
 		PORT(clk : IN STD_LOGIC;
 			reset : IN STD_LOGIC;
 			Rx : IN STD_LOGIC;
@@ -93,8 +94,7 @@ PACKAGE MainPackage IS
 			DataUARTRx : OUT ComplexVector(7 DOWNTO 0);
 			Tx : OUT STD_LOGIC;
 			EndTx : BUFFER STD_LOGIC;
-			EndRx : BUFFER STD_LOGIC;
-			ass : OUT STD_LOGIC);
+			EndRx : BUFFER STD_LOGIC);
 	END COMPONENT;
 
 	------------------------------------------------
@@ -112,11 +112,11 @@ PACKAGE MainPackage IS
 	
 	------------------------------------------------
 	COMPONENT UARTRx IS
-		PORT(clk : IN STD_LOGIC;
-			reset : IN STD_LOGIC;
-			Rx : IN STD_LOGIC;
-			DataRx : OUT STD_LOGIC_VECTOR(7 downto 0);
-			FinishRx : OUT STD_LOGIC);
+	PORT(clk : IN STD_LOGIC;
+		reset : IN STD_LOGIC;
+		Rx : IN STD_LOGIC;
+		DataRx : BUFFER STD_LOGIC_VECTOR(7 downto 0);
+		FinishRx : OUT STD_LOGIC);
 	END COMPONENT;
 	------------------------------------------------
 	
@@ -400,7 +400,8 @@ PACKAGE BODY MainPackage IS
 	------------------------------------------------
 	FUNCTION convStdToIntegerSigned (entrada: STD_LOGIC_VECTOR(31 DOWNTO 0)) RETURN INTEGER IS
 		
-		VARIABLE Result : INTEGER RANGE INTEGER'LOW TO INTEGER'HIGH := 0; 
+		VARIABLE Result : INTEGER RANGE INTEGER'LOW TO INTEGER'HIGH := 0;
+		VARIABLE ResultA : INTEGER RANGE INTEGER'LOW TO INTEGER'HIGH := 0;
 	
 	BEGIN
 		
@@ -416,7 +417,9 @@ PACKAGE BODY MainPackage IS
 			Result := Result*(-1);
 		END IF;
 
-		RETURN result;
+		ResultA := Result;
+		
+		RETURN resultA;
 		
 	
 	END convStdToIntegerSigned;

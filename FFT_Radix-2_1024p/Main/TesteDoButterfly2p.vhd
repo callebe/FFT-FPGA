@@ -4,7 +4,7 @@ USE IEEE.std_logic_unsigned.ALL;
 USE IEEE.numeric_std.ALL;
 USE work.MainPackage.ALL;
 
-ENTITY TESTE IS
+ENTITY TesteDoButterfly8p IS
 	PORT(Clock : IN STD_LOGIC;
 		  reset : IN STD_LOGIC;
 		  StartBotton : IN STD_LOGIC; 
@@ -17,11 +17,10 @@ ENTITY TESTE IS
 		  IdleIndicator : OUT STD_LOGIC;
 		  ReceiveDataIndicator : OUT STD_LOGIC;
 		  ProcessFFTIndicator : OUT STD_LOGIC;
-		  SendDataIndicator : OUT STD_LOGIC;
-		  ass : OUT STD_LOGIC);
-END TESTE;
+		  SendDataIndicator : OUT STD_LOGIC);
+END TesteDoButterfly8p;
 
-ARCHITECTURE Logica OF TESTE IS
+ARCHITECTURE Logica OF TesteDoButterfly8p IS
 	
 	SIGNAL DataUARTTx: ComplexVector(7 DOWNTO 0);
 	SIGNAL DataUARTRx: ComplexVector(7 DOWNTO 0);
@@ -37,11 +36,13 @@ ARCHITECTURE Logica OF TESTE IS
 	SIGNAL EndRx : STD_LOGIC := '0';
 	SIGNAL StartBottonDebounce : STD_LOGIC := '0';
 	SIGNAL resetDebounce : STD_LOGIC := '0';
+	SIGNAL resetDebounceB : STD_LOGIC := '0';
 	TYPE StateFFT IS (ResetFFT, Idle, ReceiveData, ProcessData, TransmitData);
 	SIGNAL CurrentState : StateFFT := Idle;
 	SIGNAL NextState : StateFFT := Idle;
 	SIGNAL BeginFFT : STD_LOGIC := '0';
 	SIGNAL EndFFT : STD_LOGIC := '1';
+
 	
 	BEGIN
 	
@@ -97,7 +98,7 @@ ARCHITECTURE Logica OF TESTE IS
 	--DataUARTTx(7).r <= 10998;
 	--DataUARTTx(7).i <= 10002;
 	DataUARTTx <= DataUARTRx;
-	UART0 : UARTDevice GENERIC MAP (8) PORT MAP (Clock, reset, Rx, BeginTx, BeginRx, DataUARTTx, DataUARTRx, Tx, EndTx, EndRx, ass);	
+	UART0 : UARTDevice GENERIC MAP (8) PORT MAP (Clock, reset, Rx, BeginTx, BeginRx, DataUARTTx, DataUARTRx, Tx, EndTx, EndRx);	
 	
 	---------------------------------------------------------------
 	--               Processo de Controle da FFT                 --
@@ -221,4 +222,3 @@ ARCHITECTURE Logica OF TESTE IS
 
 	
 END Logica;
-

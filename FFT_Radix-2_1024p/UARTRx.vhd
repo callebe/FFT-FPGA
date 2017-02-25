@@ -27,7 +27,7 @@ ENTITY UARTRx IS
 		reset : IN STD_LOGIC;
 		Rx : IN STD_LOGIC;
 		DataRx : BUFFER STD_LOGIC_VECTOR(7 downto 0);
-		FinishRx : OUT STD_LOGIC);
+		FinishRx : BUFFER STD_LOGIC);
 END UARTRx;
 
 ARCHITECTURE Logic OF UARTRx IS
@@ -39,7 +39,9 @@ ARCHITECTURE Logic OF UARTRx IS
 	SIGNAL CounterData : INTEGER  RANGE 7 DOWNTO 0 := 0;
 	SIGNAL FilterRx : STD_LOGIC := '1';
 	SIGNAL CurrentStateRx : INTEGER  RANGE 3 DOWNTO 0 := 3;
-	 
+	SIGNAL DataRxBuffer : STD_LOGIC_VECTOR (7 DOWNTO 0);
+	TYPE TestTYPE IS ARRAY(15 DOWNTO 0) OF STD_LOGIC_VECTOR(7 DOWNTO 0);
+	
 BEGIN
 
 	---------------------------------------------------------------
@@ -85,7 +87,7 @@ BEGIN
 			Ping <= 0;
 			CurrentState <= ResetRx;
 			CounterData  <= 0;
-			DataRx <= "00000000";
+			DataRxBuffer <= "00000000";
 		
 		ELSIF(clk = '1' AND clk'event) THEN
 			IF(Ping = 15 OR (CurrentState = IdleRx AND NextState = SendRx AND Ping = 7) OR (CurrentState = IdleRx AND NextState = IdleRx)) THEN
@@ -93,17 +95,17 @@ BEGIN
 				CurrentState <= NextState;
 				
 				IF(CurrentState = SendRx) THEN
-					DataRx  <= FilterRx & DataRx(7 DOWNTO 1);
+					DataRxBuffer  <= FilterRx & DataRxBuffer(7 DOWNTO 1);
 					CounterData <= CounterData + 1;
 				
 				ELSE
-					DataRx  <= DataRx;
+					DataRxBuffer  <= DataRxBuffer;
 					CounterData <= 0;
 				
 				END IF;
 			
 			ELSE
-				DataRx <= DataRx;
+				DataRxBuffer <= DataRxBuffer;
 				CurrentState <= CurrentState;
 				Ping <= Ping + 1;
 			
@@ -127,7 +129,7 @@ BEGIN
 				NextState <= IdleRx;
 
 			WHEN IdleRx =>
-				FinishRx <= 'X';
+				FinishRx <= '0';
 				IF(FilterRx = '0') THEN
 					NextState <= SendRx;
 				
@@ -162,6 +164,27 @@ BEGIN
 
 		END CASE;
 	  
+	END PROCESS;
+	
+	PROCESS(reset, clk)
+		
+		VARIABLE Test :  TestTYPE;
+		VARIABLE ContT : INTEGER RANGE 0 TO 15 := 0;
+		
+	BEGIN
+		
+		Test := ("00000000", "00000001", "00000010", "00000011", "00000100", "00000101", "00000110", "00000111", "00001000", "00001001", "00001010", "00001011", "00001100", "00001101", "00001110", "00001111");
+			
+		IF(reset = '1') THEN
+			DataRx <= (OTHERS => '0');
+			ContT := 0;
+			
+		ELSIF(FinishRx = '1' AND FinishRx'EVENT) THEN
+				DataRx <= Test(ContT);
+				ContT := ContT + 1;
+			
+		END IF;
+		
 	END PROCESS;
 	 
 END Logic;

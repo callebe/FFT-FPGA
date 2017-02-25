@@ -23,7 +23,7 @@ BEGIN
 	
 		IF (rst = '1') THEN
 			count := 0;
-		
+			
 		ELSIF (clk'event AND clk = '1') THEN
 			IF(Entrada /=  Aux) THEN
 				count := count +1;
