@@ -29,7 +29,7 @@ ENTITY UARTDevice IS
 		BeginTx : IN STD_LOGIC;
 		BeginRx : IN STD_LOGIC;
 		DataUARTTx : IN ComplexVector(7 DOWNTO 0);
-		DataUARTRx : OUT ComplexVector(7 DOWNTO 0);
+		DataUARTRx : BUFFER ComplexVector(7 DOWNTO 0);
 		Tx : OUT STD_LOGIC;
 		EndTx : BUFFER STD_LOGIC;
 		EndRx : BUFFER STD_LOGIC);
@@ -41,9 +41,9 @@ ARCHITECTURE Logica OF UARTDevice IS
 	TYPE DataInputOutput IS ARRAY((NumberOfFFT-1) DOWNTO 0) OF STD_LOGIC_VECTOR(31 DOWNTO 0);
 	SIGNAL DataBufferTxReal: DataInputOutput;
 	SIGNAL DataBufferTxImag: DataInputOutput;
-	SIGNAL DataBufferRxReal: DataInputOutput;
-	SIGNAL DataBufferRxImag: DataInputOutput;
-	TYPE DataBufferRx IS ARRAY(3 DOWNTO 0) OF STD_LOGIC_VECTOR(7 DOWNTO 0);
+	--SIGNAL DataBufferRxReal: DataInputOutput;
+	--SIGNAL DataBufferRxImag: DataInputOutput;
+	--TYPE DataBufferRx IS ARRAY(3 DOWNTO 0) OF STD_LOGIC_VECTOR(7 DOWNTO 0);
 	TYPE DataBufferTx IS ARRAY(7 DOWNTO 0) OF STD_LOGIC_VECTOR(7 DOWNTO 0);
 	-- Variaveis de Estado da Transmissão e Recepção
 	TYPE StateTx IS (ResetTx, IdleTx, ProcessDataTx, SendTx, StopTx);
@@ -67,7 +67,6 @@ ARCHITECTURE Logica OF UARTDevice IS
 	SIGNAL BreakRx : STD_LOGIC := '0';
 	-- Variaveis de processamento de Dados
 	SIGNAL FinishProcessDataTx : STD_LOGIC := '0';
-	SIGNAL FinishProcessDataRx : STD_LOGIC := '0';
 	
 	
 	
@@ -76,14 +75,14 @@ BEGIN
 	---------------------------------------------------------------
 	--                       Clocks para UART                    --
 	---------------------------------------------------------------
-	clkGen153600 : BaudRate GENERIC MAP (50000000, 153600) PORT MAP (clk, clk153600);
-	clkGen9600 : BaudRate GENERIC MAP (50000000, 9600) PORT MAP (clk, clk9600);
+	clkGen153600 : BaudRate GENERIC MAP (50000000, 1843200) PORT MAP (clk, clk153600);
+	clkGen9600 : BaudRate GENERIC MAP (50000000, 115200) PORT MAP (clk, clk9600);
 		
 	---------------------------------------------------------------
 	--                       UART - Tx & Rx                      --
 	---------------------------------------------------------------
-	UART0Tx : UARTTx port map (clk9600, reset, ActiveTx, DataTxBuffer, Tx, FinishTx);
-	UART0Rx : UARTRx port map (clk153600, reset, Rx, DataRxBuffer, FinishRx);
+	UART0Tx : UARTTx PORT MAP (clk9600, reset, ActiveTx, DataTxBuffer, Tx, FinishTx);
+	UART0Rx : UARTRx PORT MAP (clk153600, reset, Rx, DataRxBuffer, FinishRx );
 	
 	---------------------------------------------------------------
 	--           Processo de Controle da Transmissão             --
@@ -253,7 +252,7 @@ BEGIN
 	--           Processo de Controle da Recepção             --
 	---------------------------------------------------------------
 	-- Máquina de Estados
-	StateMachineRx : PROCESS(CurrentStateRx, BeginRx, BreakRx, FinishProcessDataRx)
+	StateMachineRx : PROCESS(CurrentStateRx, BeginRx, BreakRx)
 	
 	BEGIN
 	
@@ -276,22 +275,13 @@ BEGIN
 			WHEN ReceiveRx =>
 				EndRx <= '0';
 				IF(BreakRx = '1') THEN
-					NextStateRx <= ProcessRx;
+					NextStateRx <= StopRx;
 					
 				ELSE
 					NextStateRx <= ReceiveRx;
 					
 				END IF;
 				
-			WHEN ProcessRx =>
-				EndRx <= '0';
-				IF(FinishProcessDataRx = '1') THEN
-					NextStateRx <= StopRx;
-					
-				ELSE
-					NextStateRx <= ProcessRx;
-					
-				END IF;
 				
 			WHEN StopRx =>
 				EndRx <= '1';
@@ -326,104 +316,46 @@ BEGIN
 	---------------------------------------------------------------
 	ProcessTrasmitRx : PROCESS(reset, clk9600, CurrentStateRx, FinishRx)
 		
-		VARIABLE Counter : INTEGER RANGE 0 TO 3 := 0;
-		VARIABLE CounterDataRxReal : INTEGER RANGE 0 TO NumberOfFFT := 0;
-		VARIABLE CounterDataRxImag : INTEGER RANGE 0 TO NumberOfFFT := 0;
-		VARIABLE Odd : STD_LOGIC := '0';
-		VARIABLE BuferrRx: DataBufferRx;
-		
+		VARIABLE Counter : INTEGER RANGE 0 TO 7 := 0;
+		VARIABLE CounterDataRx : INTEGER RANGE 0 TO NumberOfFFT := 0;
+		VARIABLE BufferRx: DataBufferTx ;
+		VARIABLE BufferRxA: STD_LOGIC_VECTOR(31 DOWNTO 0);
+		VARIABLE BufferRxB: STD_LOGIC_VECTOR(31 DOWNTO 0);	
+			
 	BEGIN
 		
-		IF(reset = '1') THEN
+		IF(reset = '1' OR (CurrentStateRx /= ReceiveRx)) THEN
 			Counter := 0;
-			CounterDataRxReal := 0;
-			CounterDataRxImag := 0;
+			CounterDataRx := 0;
 			BreakRx  <= '0';
-			Odd := '0';
-			BuferrRx := (OTHERS => "00000000");
 			
-		ELSIF(clk9600 = '1' AND clk9600'EVENT) THEN
+		ELSIF(rising_edge(FinishRx)) THEN
 			IF(CurrentStateRx = ReceiveRx) THEN
-				IF(FinishRx = '1') THEN
-					BuferrRx(Counter) := DataRxBuffer;
-					IF(Counter = 3) THEN
-						IF(Odd = '1') THEN
-							DataBufferRxImag(CounterDataRxImag) <= (BuferrRx(3) & BuferrRx(2) & BuferrRx(1) & BuferrRx(0));
-							Odd := '0';								
-							CounterDataRxImag := CounterDataRxImag + 1;
-							
-							
-						ELSE
-							DataBufferRxReal(CounterDataRxReal) <= (BuferrRx(3) & BuferrRx(2) & BuferrRx(1) & BuferrRx(0));
-							Odd := '1';										
-							CounterDataRxReal := CounterDataRxReal + 1;
-							
-						END IF;
-						
-					END IF;
-					
-					IF(CounterDataRxImag = NumberOfFFT  AND Counter = 3) THEN
-						Counter := 0;
+				BufferRx(Counter) := DataRxBuffer;
+				IF(Counter = 7) THEN
+					Counter := 0;
+					DataUARTRx(CounterDataRx).r <= convStdToIntegerSigned(BufferRx(3) & BufferRx(2) & BufferRx(1) & BufferRx(0));
+					DataUARTRx(CounterDataRx).i <= convStdToIntegerSigned(BufferRx(7) & BufferRx(6) & BufferRx(5) & BufferRx(4));
+					IF(CounterDataRx = (NumberOfFFT-1)) THEN
+						CounterDataRx := 0;
 						BreakRx  <= '1';
 						
 					ELSE
-						Counter := Counter + 1;
+						CounterDataRx := CounterDataRx + 1;
 						BreakRx  <= '0';
 						
 					END IF;
+					
+				ELSE
+					Counter := Counter + 1;
+					BreakRx  <= '0';
 					
 				END IF;
 				
 			ELSE
 				Counter := 0;
-				CounterDataRxReal := 0;
-				CounterDataRxImag := 0;
+				CounterDataRx := 0;
 				BreakRx  <= '0';
-				Odd := '0';
-				BuferrRx := (OTHERS => "00000000");
-				
-			END IF;
-				
-		END IF;
-		
-	END PROCESS;
-	
-
-	---------------------------------------------------------------
-	--           Processamento de Recepção de Dados              --
-	---------------------------------------------------------------
-	ProcessRxData : PROCESS(reset, CurrentStateRx, clk9600)
-	
-	
-	BEGIN
-	
-		IF(reset = '1') THEN
-			FinishProcessDataRx <= '0';
-			
-		ELSIF(clk9600 = '1' AND clk9600 = '1') THEN
-			IF(CurrentStateRx = ProcessRx) THEN
-					
-				DataUARTRx(0).r <= to_integer(signed(DataBufferRxReal(0)));
-				DataUARTRx(0).i <= to_integer(signed(DataBufferRxImag(0)));
-				DataUARTRx(1).r <= to_integer(signed(DataBufferRxReal(1)));
-				DataUARTRx(1).i <= to_integer(signed(DataBufferRxImag(1)));
-				DataUARTRx(2).r <= to_integer(signed(DataBufferRxReal(2)));
-				DataUARTRx(2).i <= to_integer(signed(DataBufferRxImag(2)));
-				DataUARTRx(3).r <= to_integer(signed(DataBufferRxReal(3)));
-				DataUARTRx(3).i <= to_integer(signed(DataBufferRxImag(3)));
-				DataUARTRx(4).r <= to_integer(signed(DataBufferRxReal(4)));
-				DataUARTRx(4).i <= to_integer(signed(DataBufferRxImag(4)));
-				DataUARTRx(5).r <= to_integer(signed(DataBufferRxReal(5)));
-				DataUARTRx(5).i <= to_integer(signed(DataBufferRxImag(5)));
-				DataUARTRx(6).r <= to_integer(signed(DataBufferRxReal(6)));
-				DataUARTRx(6).i <= to_integer(signed(DataBufferRxImag(6)));
-				DataUARTRx(7).r <= to_integer(signed(DataBufferRxReal(7)));
-				DataUARTRx(7).i <= to_integer(signed(DataBufferRxImag(7)));
-				
-				FinishProcessDataRx <= '1';
-				
-			ELSE
-				FinishProcessDataRx <= '0';
 				
 			END IF;
 			

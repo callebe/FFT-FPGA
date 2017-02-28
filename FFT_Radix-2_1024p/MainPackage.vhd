@@ -75,7 +75,7 @@ PACKAGE MainPackage IS
 	------------------------------------------------
 	
 	------------------------------------------------
-	FUNCTION Shifter (SIGNAL Entrada: STD_LOGIC_VECTOR; CONSTANT NShifters: INTEGER; CONSTANT Direction: STD_LOGIC) RETURN STD_LOGIC_VECTOR;
+	FUNCTION Shifter (Entrada: STD_LOGIC_VECTOR; NShifters: INTEGER; Direction: STD_LOGIC) RETURN STD_LOGIC_VECTOR;
 	------------------------------------------------
 	
 	------------------------------------------------
@@ -115,8 +115,18 @@ PACKAGE MainPackage IS
 	PORT(clk : IN STD_LOGIC;
 		reset : IN STD_LOGIC;
 		Rx : IN STD_LOGIC;
-		DataRx : BUFFER STD_LOGIC_VECTOR(7 downto 0);
+		DataRx : OUT STD_LOGIC_VECTOR(7 downto 0);
 		FinishRx : OUT STD_LOGIC);
+	END COMPONENT;
+	------------------------------------------------
+	
+	------------------------------------------------
+	COMPONENT UART_Rx is
+    port (clk   : in std_logic;
+          reset : in std_logic;
+          rx    : in std_logic;
+          data_out  : out std_logic_vector(7 downto 0);
+          out_valid : out std_logic);
 	END COMPONENT;
 	------------------------------------------------
 	
@@ -314,6 +324,7 @@ PACKAGE BODY MainPackage IS
 	
 	------------------------------------------------
 	FUNCTION Mult (ValueA, ValueB: Complex) RETURN Complex IS
+		
 		VARIABLE Result: Complex;
 		
 	BEGIN
@@ -454,8 +465,8 @@ PACKAGE BODY MainPackage IS
 	------------------------------------------------
 	
 	------------------------------------------------
-	FUNCTION Shifter (SIGNAL Entrada: STD_LOGIC_VECTOR; CONSTANT NShifters: INTEGER; CONSTANT Direction: STD_LOGIC) RETURN STD_LOGIC_VECTOR IS
-		VARIABLE Saida: STD_LOGIC_VECTOR(Entrada'RANGE);
+	FUNCTION Shifter (Entrada: STD_LOGIC_VECTOR; NShifters: INTEGER; Direction: STD_LOGIC) RETURN STD_LOGIC_VECTOR IS
+		VARIABLE Saida: STD_LOGIC_VECTOR(Entrada'RANGE) := (OTHERS => '0');
 	BEGIN
 	
 			CASE Direction IS

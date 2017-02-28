@@ -26,20 +26,18 @@ ENTITY UARTRx IS
 	PORT(clk : IN STD_LOGIC;
 		reset : IN STD_LOGIC;
 		Rx : IN STD_LOGIC;
-		DataRx : BUFFER STD_LOGIC_VECTOR(7 downto 0);
-		FinishRx : BUFFER STD_LOGIC);
+		DataRx : OUT STD_LOGIC_VECTOR(7 downto 0);
+		FinishRx : OUT STD_LOGIC);
 END UARTRx;
 
 ARCHITECTURE Logic OF UARTRx IS
 
-	SIGNAL Ping : INTEGER RANGE 15 DOWNTO 0 := 0;
 	TYPE State IS (ResetRx, IdleRx, SendRx, StopRx);
 	SIGNAL CurrentState : State := IdleRx;
 	SIGNAL NextState : State := IdleRx;
 	SIGNAL CounterData : INTEGER  RANGE 7 DOWNTO 0 := 0;
 	SIGNAL FilterRx : STD_LOGIC := '1';
 	SIGNAL CurrentStateRx : INTEGER  RANGE 3 DOWNTO 0 := 3;
-	SIGNAL DataRxBuffer : STD_LOGIC_VECTOR (7 DOWNTO 0);
 	TYPE TestTYPE IS ARRAY(15 DOWNTO 0) OF STD_LOGIC_VECTOR(7 DOWNTO 0);
 	
 BEGIN
@@ -80,37 +78,47 @@ BEGIN
 	--                   Atualização de Estatos                  --
 	---------------------------------------------------------------
 	UpdateState : PROCESS(clk, reset)
+	
+		VARIABLE Ping : INTEGER RANGE 15 DOWNTO 0 := 0;
+		VARIABLE DataRxBuffer : STD_LOGIC_VECTOR (7 DOWNTO 0) := (OTHERS => '0');
 
 	BEGIN
 	
 		IF(reset = '1') THEN
-			Ping <= 0;
+			Ping := 0;
 			CurrentState <= ResetRx;
 			CounterData  <= 0;
-			DataRxBuffer <= "00000000";
+			DataRxBuffer := "00000000";
 		
 		ELSIF(clk = '1' AND clk'event) THEN
 			IF(Ping = 15 OR (CurrentState = IdleRx AND NextState = SendRx AND Ping = 7) OR (CurrentState = IdleRx AND NextState = IdleRx)) THEN
-				Ping <= 0;
+				Ping := 0;
 				CurrentState <= NextState;
-				
 				IF(CurrentState = SendRx) THEN
-					DataRxBuffer  <= FilterRx & DataRxBuffer(7 DOWNTO 1);
+					DataRxBuffer := Shifter(DataRxBuffer, 1,'0');
+					DataRxBuffer(0)  :=  FilterRx;
+					--DataRxBuffer = "01011010";
 					CounterData <= CounterData + 1;
 				
 				ELSE
-					DataRxBuffer  <= DataRxBuffer;
+					DataRxBuffer := DataRxBuffer;
 					CounterData <= 0;
-				
+					IF(CurrentState = StopRx) THEN
+						DataRx <= DataRxBuffer;
+						
+					ELSIF(CurrentState = IdleRx) THEN
+						DataRxBuffer := "00000000";
+						
+					END IF;
 				END IF;
 			
 			ELSE
-				DataRxBuffer <= DataRxBuffer;
+				DataRxBuffer := DataRxBuffer;
 				CurrentState <= CurrentState;
-				Ping <= Ping + 1;
-			
+				Ping := Ping + 1;
+				
 			END IF;
-		
+			
 		END IF;
 	 
 	END PROCESS;
@@ -129,7 +137,7 @@ BEGIN
 				NextState <= IdleRx;
 
 			WHEN IdleRx =>
-				FinishRx <= '0';
+				FinishRx <= 'X';
 				IF(FilterRx = '0') THEN
 					NextState <= SendRx;
 				
@@ -164,27 +172,6 @@ BEGIN
 
 		END CASE;
 	  
-	END PROCESS;
-	
-	PROCESS(reset, clk)
-		
-		VARIABLE Test :  TestTYPE;
-		VARIABLE ContT : INTEGER RANGE 0 TO 15 := 0;
-		
-	BEGIN
-		
-		Test := ("00000000", "00000001", "00000010", "00000011", "00000100", "00000101", "00000110", "00000111", "00001000", "00001001", "00001010", "00001011", "00001100", "00001101", "00001110", "00001111");
-			
-		IF(reset = '1') THEN
-			DataRx <= (OTHERS => '0');
-			ContT := 0;
-			
-		ELSIF(FinishRx = '1' AND FinishRx'EVENT) THEN
-				DataRx <= Test(ContT);
-				ContT := ContT + 1;
-			
-		END IF;
-		
 	END PROCESS;
 	 
 END Logic;

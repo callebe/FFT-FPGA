@@ -20,16 +20,17 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 use ieee.numeric_std.all;
 
-entity UART_Rx is
+entity uart_rx is
     port (clk   : in std_logic;
           reset : in std_logic;
           rx    : in std_logic;
+
           data_out  : out std_logic_vector(7 downto 0);
           out_valid : out std_logic);
-end UART_Rx;
+end entity uart_rx;
 
 
-architecture behavioural of UART_Rx is
+architecture behavioural of uart_rx is
     type   tx_state is (reset_state, idle, receive_data, stop_bit);
     signal current_state, next_state : tx_state;
     signal data_counter              : std_logic_vector(2 downto 0) := (others => '0');
