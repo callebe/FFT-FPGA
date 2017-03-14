@@ -1,21 +1,20 @@
 # ==== Clock inputs (CLK) ====
-NET "Clock" LOC = "C9" | IOSTANDARD = LVCMOS33 ;
+NET "Clock" LOC = C9 | IOSTANDARD = "LVCMOS33";
 # Define clock period for 50 MHz oscillator (40%/60% duty-cycle)
 NET "Clock" PERIOD = 20.0ns HIGH 40%;
 
 # ==== Switches  ====
-NET "reset" loc = "v16" | iostandard = lvttl | pulldown;
+NET "reset" LOC = V16 | IOSTANDARD = "lvttl" | PULLDOWN;
 NET "reset" CLOCK_DEDICATED_ROUTE = FALSE; 
 
 # ==== Slide Switches (SW) ====
-NET "StartBotton" LOC = "H13" | IOSTANDARD = LVTTL | PULLDOWN ;
+NET "StartBotton" LOC = H13 | IOSTANDARD = "LVTTL" | PULLDOWN;
 
 # ==== UART  ====
-NET "Tx" loc = "m14" | iostandard = lvttl | drive = 8 | slew = slow;
-NET "Rx" loc = "r7" | iostandard = lvttl;
+NET "Tx" LOC = M14 | IOSTANDARD = "lvttl" | DRIVE = 8 | SLEW = SLOW;
+NET "Rx" LOC = R7 | IOSTANDARD = "lvttl";
 
 # ==== Dicrete LED Indicators =====
-NET "IdleIndicator" LOC = "F12" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
-NET "ReceiveDataIndicator" LOC = "E12" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
-NET "SendDataIndicator" LOC = "E11" | IOSTANDARD = LVTTL | SLEW = SLOW | DRIVE = 8 ;
-
+NET "IdleIndicator" LOC = F12 | IOSTANDARD = "LVTTL" | SLEW = SLOW | DRIVE = 8;
+NET "ReceiveDataIndicator" LOC = E12 | IOSTANDARD = "LVTTL" | SLEW = SLOW | DRIVE = 8;
+NET "SendDataIndicator" LOC = E11 | IOSTANDARD = "LVTTL" | SLEW = SLOW | DRIVE = 8;

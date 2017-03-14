@@ -18,7 +18,7 @@ END Main;
 ARCHITECTURE Logica OF Main IS
 	
 	CONSTANT NumberOfFFT : INTEGER := 8;
-	SIGNAL DataUARTTx: ComplexVector(7 DOWNTO 0);
+	SIGNAL DataUARTTx: ComplexVector(7 DOWNTO 0) := (OTHERS => (0,0));
 	SIGNAL BeginTx : STD_LOGIC := '0';   
 	SIGNAL BeginRx : STD_LOGIC := '0';
 	SIGNAL EndTx : STD_LOGIC := '0';

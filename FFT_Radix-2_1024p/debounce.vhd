@@ -24,7 +24,7 @@ BEGIN
 		IF (rst = '1') THEN
 			count := 0;
 			
-		ELSIF (clk'event AND clk = '1') THEN
+		ELSIF (RISING_EDGE(clk)) THEN
 			IF(Entrada /=  Aux) THEN
 				count := count +1;
 				IF(count = 100000) THEN	

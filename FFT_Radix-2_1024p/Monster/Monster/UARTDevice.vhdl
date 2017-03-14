@@ -261,8 +261,6 @@ BEGIN
 	ProcessTrasmitRx : PROCESS(reset, clk9600, CurrentStateRx, FinishRx, CurrentStateTx)
 		
 		VARIABLE Counter : INTEGER RANGE 0 TO (NumberOfFFT-1) := 0;
-		VARIABLE Aux : INTEGER RANGE INTEGER'LOW TO INTEGER'HIGH := 0;
-		--VARIABLE BufferRx: DataBufferTx;
 		
 	BEGIN
 		
@@ -301,6 +299,8 @@ BEGIN
 		END IF;
 		
 	END PROCESS;
+
+
 
 	
 END Logica;
