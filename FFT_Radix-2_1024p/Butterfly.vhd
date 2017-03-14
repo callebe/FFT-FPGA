@@ -18,20 +18,22 @@ ARCHITECTURE Logica OF Butterfly IS
 	BEGIN
 	
 	PROCESS(Clock, reset)
+		
 		VARIABLE Aux: Complex;
+		
 	BEGIN
+	
 		IF(reset = '1') THEN
 			EvenOutput <= (0,0);
 			OddOutput <= (0,0);
+			
 		ELSIF(Clock'EVENT AND Clock='1') THEN
-			
 			Aux := Mult(W,OddInput);
-			Aux := (Aux.r/(2**10),Aux.i/(2**10));
-			
 			EvenOutput <= Sum(EvenInput,Aux);
 			OddOutput <= Sub(EvenInput,Aux);
 			
 		END IF;
+		
 	END PROCESS;
 	
 END Logica;

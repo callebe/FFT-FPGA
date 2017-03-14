@@ -1,42 +1,27 @@
---------------------------------------------------------------------
---------------------------------------------------------------------
---                                                                --
---                     Dispositivo UART                           --
---    Componente responsável por transmitir e receber os dados da --
--- FFT, com uma velocidade de   9600 bps.                         --
--- 'UpdateStates'.                                                --   
---                                                                --
---       clk -> 98600 Hz                                          --
---			ActiveTx -> Sinal que aciona a trasmissão                --
---       DataTx -> Informação à transmitir                        --
---       Tx -> Bit de transmissão serial                          --
---       FinishTx -> Sinal que marca o fim da trasmissão          --
---                                                                --
---------------------------------------------------------------------
---------------------------------------------------------------------
-
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.ALL;
 USE IEEE.std_logic_unsigned.ALL;
 USE IEEE.numeric_std.ALL;
 USE work.MainPackage.ALL;
 
-ENTITY UARTDevice IS
+ENTITY SPIDevice IS
 	GENERIC(NumberOfFFT : INTEGER RANGE 0 TO 1024);
-	PORT(clk : IN STD_LOGIC;
+	PORT(Clock : IN STD_LOGIC;
 		reset : IN STD_LOGIC;
 		Rx : IN STD_LOGIC;
 		BeginTx : IN STD_LOGIC;
 		BeginRx : IN STD_LOGIC;
-		DataUARTTx : IN ComplexVector(7 DOWNTO 0);
-		DataUARTRx : BUFFER ComplexVector(7 DOWNTO 0);
+		DataSPITx : IN ComplexVector(7 DOWNTO 0);
+		DataSPIRx : BUFFER ComplexVector(7 DOWNTO 0);
 		Tx : OUT STD_LOGIC;
 		EndTx : BUFFER STD_LOGIC;
-		EndRx : BUFFER STD_LOGIC);
-END UARTDevice;
+		EndRx : BUFFER STD_LOGIC;
+		ClockTx: OUT STD_LOGIC;
+		ClockRx: IN STD_LOGIC);
+END SPIDevice;
 
-ARCHITECTURE Logica OF UARTDevice IS
-	
+ARCHITECTURE Logica OF SPIDevice IS
+
 	-- Variaveis de conversão de Complexo para STD_LOGIC
 	TYPE DataInputOutput IS ARRAY((NumberOfFFT-1) DOWNTO 0) OF STD_LOGIC_VECTOR(31 DOWNTO 0);
 	TYPE DataBufferTx IS ARRAY(7 DOWNTO 0) OF STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -296,6 +281,5 @@ BEGIN
 		END IF;
 		
 	END PROCESS;
-
 	
 END Logica;

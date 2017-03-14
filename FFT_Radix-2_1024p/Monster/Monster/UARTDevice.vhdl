@@ -48,12 +48,11 @@ ARCHITECTURE Logica OF UARTDevice IS
 	SIGNAL CurrentStateRx : StateRx := IdleRx;
 	SIGNAL NextStateRx : StateRx := IdleRx;
 	-- Variaveis de Buffer de Transmissão e Recepção
-	SIGNAL DataTxBuffer : STD_LOGIC_VECTOR(7 DOWNTO 0) := "00000000";
-	SIGNAL DataRxBuffer : STD_LOGIC_VECTOR(7 DOWNTO 0) := "00000000";
+	SIGNAL DataTxBuffer : STD_LOGIC_VECTOR(7 DOWNTO 0);
+	SIGNAL DataRxBuffer : STD_LOGIC_VECTOR(7 DOWNTO 0);
 	--Variaveis de Clock de Transmissão e Recepção
 	SIGNAL clk9600 : STD_LOGIC := '0';
 	SIGNAL clk153600 : STD_LOGIC := '0';
-	SIGNAL clk1M : STD_LOGIC := '0';
 	-- Variaveis de controle da transmissão de Bytes
 	SIGNAL CounterDataTx : INTEGER RANGE 0 TO (NumberOfFFT) := 0;
 	SIGNAL ActiveTx : STD_LOGIC := '0';
@@ -71,7 +70,6 @@ BEGIN
 	---------------------------------------------------------------
 	clkGen153600 : BaudRate GENERIC MAP (50000000, 153600) PORT MAP (clk, clk153600);
 	clkGen9600 : BaudRate GENERIC MAP (50000000, 9600) PORT MAP (clk, clk9600);
-	clkGen1M : BaudRate GENERIC MAP (50000000, 1000000) PORT MAP (clk, clk1M);
 		
 	---------------------------------------------------------------
 	--                       UART - Tx & Rx                      --
@@ -129,14 +127,14 @@ BEGIN
 	END PROCESS;
 	
 	-- Atualização de Estados
-	UpdateStatesTx : PROCESS(clk1M, reset)
+	UpdateStatesTx : PROCESS(clk, reset)
 
 	BEGIN
 	
 		IF(reset = '1') THEN
 			CurrentStateTx <= ResetTx;
 		
-		ELSIF (clk1M = '1' AND clk1M'event) THEN
+		ELSIF (clk = '1' AND clk'event) THEN
 			CurrentStateTx <= NextStateTx;
 		
 		END IF;
@@ -243,14 +241,14 @@ BEGIN
 	END PROCESS;
 	
 	-- Atualização de Estados
-	UpdateStatesRx : PROCESS(clk9600, reset)
+	UpdateStatesRx : PROCESS(clk, reset)
 
 	BEGIN
 	
 		IF(reset = '1') THEN
 			CurrentStateRx <= ResetRx;
 		
-		ELSIF (clk9600 = '1' AND clk9600'event) THEN
+		ELSIF (clk = '1' AND clk'EVENT) THEN
 			CurrentStateRx <= NextStateRx;
 		
 		END IF;
@@ -260,29 +258,36 @@ BEGIN
 	---------------------------------------------------------------
 	--             Processo de Recepção de Dados                 --
 	---------------------------------------------------------------
-	ProcessTrasmitRx : PROCESS(reset, clk9600, CurrentStateRx, FinishRx)
+	ProcessTrasmitRx : PROCESS(reset, clk9600, CurrentStateRx, FinishRx, CurrentStateTx)
 		
-		VARIABLE Counter : INTEGER RANGE 0 TO (NumberOfFFT) := 0;
-		VARIABLE BufferRx: DataBufferTx;
+		VARIABLE Counter : INTEGER RANGE 0 TO (NumberOfFFT-1) := 0;
+		VARIABLE Aux : INTEGER RANGE INTEGER'LOW TO INTEGER'HIGH := 0;
+		--VARIABLE BufferRx: DataBufferTx;
 		
 	BEGIN
 		
-		IF(reset = '1') THEN
+		IF(reset = '1' OR CurrentStateTx = StopTx) THEN
 			Counter := 0;
 			CounterDataRx <= 0;
+			DataUARTRx <= (OTHERS => (0,0));
 			
-		ELSIF(clk9600'EVENT AND clk9600 = '1') THEN
+		ELSIF(clk9600'EVENT AND clk9600 = '0') THEN
 			IF(CurrentStateRx = ReceiveRx) THEN
 				IF(FinishRx = '1') THEN
-					BufferRx(Counter) := DataRxBuffer;
-					IF(Counter = 7) THEN
-						Counter := 0;
-						DataUARTRx(CounterDataRx).r <= convStdToIntegerSigned(BufferRx(3) & BufferRx(2) & BufferRx(1) & BufferRx(0));
-						DataUARTRx(CounterDataRx).i <= convStdToIntegerSigned(BufferRx(7) & BufferRx(6) & BufferRx(5) & BufferRx(4));
-						CounterDataRx <= CounterDataRx + 1;
+					IF(Counter < 4) THEN
+						DataUARTRx(CounterDataRx).r <= DataUARTRx(CounterDataRx).r + ((convStdToInteger(DataRxBuffer))*2**(8*Counter));
+						
+					ELSE
+						DataUARTRx(CounterDataRx).i <= DataUARTRx(CounterDataRx).i + ((convStdToInteger(DataRxBuffer))*2**(8*(Counter-4)));
+						IF(Counter = 7) THEN
+							CounterDataRx <= CounterDataRx + 1;
+							
+						ELSE
+							CounterDataRx <= CounterDataRx;
+							
+						END IF;
 						
 					END IF;
-					
 					Counter := Counter + 1;
 					
 				END IF;

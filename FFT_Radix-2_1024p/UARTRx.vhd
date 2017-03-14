@@ -36,89 +36,36 @@ ARCHITECTURE Logic OF UARTRx IS
 	SIGNAL CurrentState : State := IdleRx;
 	SIGNAL NextState : State := IdleRx;
 	SIGNAL CounterData : INTEGER  RANGE 7 DOWNTO 0 := 0;
-	SIGNAL FilterRx : STD_LOGIC := '1';
-	SIGNAL CurrentStateRx : INTEGER  RANGE 3 DOWNTO 0 := 3;
-	TYPE TestTYPE IS ARRAY(15 DOWNTO 0) OF STD_LOGIC_VECTOR(7 DOWNTO 0);
+	SIGNAL BeginRx : STD_LOGIC := '1';
 	
 BEGIN
 
-	---------------------------------------------------------------
-	--              Filtro do Sinal de Entrada Rx                --
-	---------------------------------------------------------------
-	FilterStateMachine : PROCESS(clk, reset)
-	
-	BEGIN
-	
-		IF(reset = '1') THEN
-			FilterRx <= '1';
-			CurrentStateRx <= 3;
-		
-		ELSIF(clk = '1' AND clk'event) THEN
-			IF(Rx = '0' AND CurrentStateRx /= 0) THEN
-				IF(CurrentStateRx = 1) THEN
-					FilterRx <= '0';
-				
-				END IF;
-				CurrentStateRx <= CurrentStateRx - 1;
-			
-			ELSIF(Rx = '1' AND CurrentStateRx /= 3) then
-				IF(CurrentStateRx = 2) THEN
-					FilterRx <= '1';
-			
-				END IF;
-				CurrentStateRx <= CurrentStateRx + 1;
-			
-			END IF;
-		
-		END IF;
-	
-	END PROCESS;
-	
-	---------------------------------------------------------------
-	--                   Atualização de Estatos                  --
-	---------------------------------------------------------------
-	UpdateState : PROCESS(clk, reset)
+	--------------------------------------------------------------
+	--                       Recepção de Bits                   --
+	--------------------------------------------------------------
+	UpdateState : PROCESS(clk, reset, CurrentState)
 	
 		VARIABLE Ping : INTEGER RANGE 15 DOWNTO 0 := 0;
-		VARIABLE DataRxBuffer : STD_LOGIC_VECTOR (7 DOWNTO 0) := (OTHERS => '0');
 
 	BEGIN
-	
+		
+		
 		IF(reset = '1') THEN
 			Ping := 0;
-			CurrentState <= ResetRx;
 			CounterData  <= 0;
-			DataRxBuffer := "00000000";
+			DataRx <= "00000000";
 		
-		ELSIF(clk = '1' AND clk'event) THEN
-			IF(Ping = 15 OR (CurrentState = IdleRx AND NextState = SendRx AND Ping = 7) OR (CurrentState = IdleRx AND NextState = IdleRx)) THEN
-				Ping := 0;
-				CurrentState <= NextState;
-				IF(CurrentState = SendRx) THEN
-					DataRxBuffer := Shifter(DataRxBuffer, 1,'0');
-					DataRxBuffer(0)  :=  FilterRx;
-					--DataRxBuffer = "01011010";
-					CounterData <= CounterData + 1;
+		ELSIF(clk = '0' AND clk'event) THEN
+			IF(CurrentState = SendRx) THEN
+				DataRx(CounterData) <=  Rx;
+				CounterData <= CounterData + 1;
 				
-				ELSE
-					DataRxBuffer := DataRxBuffer;
-					CounterData <= 0;
-					IF(CurrentState = StopRx) THEN
-						DataRx <= DataRxBuffer;
-						
-					ELSIF(CurrentState = IdleRx) THEN
-						DataRxBuffer := "00000000";
-						
-					END IF;
-				END IF;
-			
 			ELSE
-				DataRxBuffer := DataRxBuffer;
-				CurrentState <= CurrentState;
-				Ping := Ping + 1;
+				CounterData <= 0;
+				BeginRx <= Rx;
 				
 			END IF;
-			
+				
 		END IF;
 	 
 	END PROCESS;
@@ -126,7 +73,7 @@ BEGIN
 	---------------------------------------------------------------
 	--                   Máquinas de Estados                     --
 	---------------------------------------------------------------
-	StateMachine : PROCESS(CurrentState, FilterRx, CounterData)
+	StateMachine : PROCESS(CurrentState, BeginRx, CounterData)
 	
 	BEGIN
 	
@@ -137,8 +84,8 @@ BEGIN
 				NextState <= IdleRx;
 
 			WHEN IdleRx =>
-				FinishRx <= 'X';
-				IF(FilterRx = '0') THEN
+				FinishRx <= '0';
+				IF(BeginRx = '0') THEN
 					NextState <= SendRx;
 				
 				ELSE
@@ -148,7 +95,7 @@ BEGIN
 
 			WHEN SendRx =>
 				FinishRx <= '0';
-				IF(CounterData = 7) THEN
+				IF(CounterData = 8) THEN
 					NextState <= StopRx;
 				
 				ELSE
@@ -158,7 +105,7 @@ BEGIN
 
 			WHEN StopRx =>
 				FinishRx <= '1';
-				IF(FilterRx = '1') THEN
+				IF(BeginRx = '1') THEN
 					NextState <= IdleRx;
 				
 				ELSE
@@ -172,6 +119,21 @@ BEGIN
 
 		END CASE;
 	  
+	END PROCESS;
+	
+	-- Atualização de Estados
+	UpdateStatesRx : PROCESS(clk, reset)
+
+	BEGIN
+	
+		IF(reset = '1') THEN
+			CurrentState <= ResetRx;
+		
+		ELSIF (clk = '1' AND clk'event) THEN
+			CurrentState <= NextState;
+			
+		END IF;
+	
 	END PROCESS;
 	 
 END Logic;

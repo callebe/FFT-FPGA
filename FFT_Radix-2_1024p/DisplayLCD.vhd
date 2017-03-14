@@ -1,14 +1,33 @@
-LIBRARY ieee;
-USE ieee.std_logic_1164.ALL;
-USE ieee.numeric_std.ALL;
-USE ieee.std_logic_arith.ALL;
-USE work.MainPackage.all;
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+--                                                                --
+--                     Dispositivo de Display                     --
+--    Componente responsável por printar no LCD do Kit o Status   --
+-- do Processo da FFT.                                            --   
+--                                                                --
+--       clk -> 50MHz                                             --
+--			reset -> Sinal de Reset padrão                           --
+--       Update -> Sinal de Atualização do Estado                 --
+--       DATA -> Dados a serem printados                          --
+--       LCD_E, LCD_RS, LCD_RW  -> Todos Sinais de Controle       --
+--       do Display.                                              --
+--       SF_D -> Sinais de Dados do Display.                      --
+--                                                                --
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+USE IEEE.std_logic_unsigned.ALL;
+USE IEEE.numeric_std.ALL;
+USE work.MainPackage.ALL;
 
 ENTITY DisplayLCD IS
 	PORT(clk : IN STD_LOGIC;
 		  reset : IN STD_LOGIC;
+		  Update : IN STD_LOGIC;
 		  DATA: IN INFO;
-		  SF_D : OUT STD_LOGIC_VECTOR(3 downto 0);
+		  DataLCD : OUT STD_LOGIC_VECTOR(3 downto 0);
 		  LCD_E: OUT STD_LOGIC;
 		  LCD_RS: OUT STD_LOGIC;
 		  LCD_RW: OUT STD_LOGIC);
@@ -26,9 +45,7 @@ ARCHITECTURE Logica OF DisplayLCD IS
 	SIGNAL init_state : init_sequence := idle;
 	SIGNAL init_init, init_done : STD_LOGIC := '0';
 	
-	SIGNAL i : integer range 0 to 750000 := 0;
 	SIGNAL i2 : integer range 0 to 2000 := 0;
-	SIGNAL i3 : integer range 0 to 82000 := 0;
 	
 	SIGNAL SF_D0, SF_D1 : STD_LOGIC_VECTOR(3 downto 0);
 	SIGNAL LCD_E0, LCD_E1 : STD_LOGIC;
@@ -39,32 +56,30 @@ ARCHITECTURE Logica OF DisplayLCD IS
 	
 	BEGIN
 	
-	LCD_RW <= '0'; --write only
+	--Apenas Escrever
+	LCD_RW <= '0';
 	
-	--The following "WITH" statements simplIFy the PROCESS OF adding and removing states.
-	
-	--WHEN to transmit a command/data and WHEN not to
+	--Seleção de Trasmissão (Ou dados ou Comandos)
 	WITH cur_state SELECT
 		tx_init <= '0' WHEN init | pause | done,
 					  '1' WHEN others;
 	
-	--control the bus
+	--Controle de Barramento
 	WITH cur_state SELECT
 		mux <= '1' WHEN init,
 				 '0' WHEN others;
 	
-	--control the initialization sequence
+	--Controle de sequencia de Inicialização
 	WITH cur_state SELECT
 		init_init <= '1' WHEN init,
 						 '0' WHEN others;
 	
-	--regISter SELECT
+	--Controle do Barramento
 	WITH cur_state SELECT
 		LCD_RS <= '0' WHEN function_set|entry_set|set_dISplay|clr_dISplay|set_addr0|set_addr1,
 					 '1' WHEN others;
 	
-	--what byte to transmit to lcd
-	--refer to datasheet for an explanation OF these values
+	--Seleção de Transmissão
 	WITH cur_state SELECT
 		tx_byte <= "00101000" WHEN function_set,
 						"00000110" WHEN entry_set,
@@ -76,9 +91,10 @@ ARCHITECTURE Logica OF DisplayLCD IS
 						tx_DATA WHEN tx_info1,
 						"00000000" WHEN others;
 	
+	-- Mux de seleção entre a trasmissão e a Inicialização
 	WITH mux SELECT
-		SF_D <= SF_D0 WHEN '0', --transmit
-				  SF_D1 WHEN others; --initialize
+		DataLCD <= SF_D0 WHEN '0', 
+				     SF_D1 WHEN others; 
 	
 	WITH mux SELECT
 		LCD_E <= LCD_E0 WHEN '0', --transmit
@@ -87,9 +103,13 @@ ARCHITECTURE Logica OF DisplayLCD IS
 	--main state machine
 	Display: PROCESS(clk, reset)
 	VARIABLE Position: INTEGER RANGE 0 TO 32 := 1;
+	
+		VARIABLE Counter : INTEGER RANGE 0 TO 82000 := 0;
+	
 	BEGIN
 		IF(reset='1') THEN
-			cur_state <= function_set;
+			cur_state <= set_addr1;
+			
 		ELSIF(clk='1' and clk'event) THEN
 			CASE cur_state IS
 				--refer to intialize state machine below
@@ -123,7 +143,7 @@ ARCHITECTURE Logica OF DisplayLCD IS
 					END IF;
 				
 				WHEN clr_dISplay =>
-					i3 <= 0;
+					Counter := 0;
 					IF(i2 = 2000) THEN
 						cur_state <= pause;
 					ELSE
@@ -131,12 +151,12 @@ ARCHITECTURE Logica OF DisplayLCD IS
 					END IF;
 				
 				WHEN pause =>
-					IF(i3 = 82000) THEN
+					IF(Counter = 82000) THEN
 						cur_state <= set_addr0;
-						i3 <= 0;
+						Counter := 0;
 					ELSE
 						cur_state <= pause;
-						i3 <= i3 + 1;
+						Counter := Counter + 1;
 					END IF;
 				
 				WHEN set_addr0 =>
@@ -183,7 +203,14 @@ ARCHITECTURE Logica OF DisplayLCD IS
 					END IF;
 					
 				WHEN done =>
-				cur_state <= done;
+					IF(Update = '1') THEN
+						cur_state <= set_addr1;
+						
+					ELSE
+						cur_state <= done;
+						
+					END IF;
+					
 		
 			END CASE;
 		
@@ -281,124 +308,146 @@ ARCHITECTURE Logica OF DisplayLCD IS
 	
 	--Process para Inicialização especificada pelo fabricante
 	ProcessoDeInicializao: PROCESS(clk, reset, init_init) 
+	
+		VARIABLE Counter : INTEGER RANGE 0 TO  750000 := 0;
+	
 	BEGIN
 		
 		IF(reset='1') THEN
 			init_state <= idle;
 			init_done <= '0';
+		
 		ELSIF(clk='1' and clk'event) THEN
 			CASE init_state IS
 				
 				WHEN idle =>
 					init_done <= '0';
-				IF(init_init = '1') THEN
-					init_state <= fIFteenms;
-					i <= 0;
-				ELSE
-					init_state <= idle;
-					i <= i + 1;
-				END IF;
+					IF(init_init = '1') THEN
+						init_state <= fIFteenms;
+						Counter := 0;
+						
+					ELSE
+						init_state <= idle;
+						Counter := Counter + 1;
+						
+					END IF;
 				
 				WHEN fIFteenms =>
 					init_done <= '0';
-					IF(i = 750000) THEN
+					IF(Counter = 750000) THEN
 						init_state <= one;
-						i <= 0;
-				ELSE
-					init_state <= fIFteenms;
-					i <= i + 1;
-				END IF;
+						Counter := 0;
+						
+					ELSE
+						init_state <= fIFteenms;
+						Counter := Counter + 1;
+						
+					END IF;
 				
 				WHEN one =>
 					SF_D1 <= "0011";
 					LCD_E1 <= '1';
 					init_done <= '0';
-				IF(i = 11) THEN
-					init_state<=two;
-					i <= 0;
-				ELSE
-					init_state<=one;
-					i <= i + 1;
-				END IF;
+					IF(Counter = 11) THEN
+						init_state<=two;
+						Counter := 0;
+						
+					ELSE
+						init_state<=one;
+						Counter := Counter + 1;
+						
+					END IF;
 				
 				WHEN two =>
 					LCD_E1 <= '0';
 					init_done <= '0';
-					IF(i = 205000) THEN
+					IF(Counter = 205000) THEN
 						init_state<=three;
-						i <= 0;
+						Counter := 0;
+						
 					ELSE
 						init_state<=two;
-						i <= i + 1;
+						Counter := Counter + 1;
+						
 					END IF;
 				
 				WHEN three =>
 					SF_D1 <= "0011";
 					LCD_E1 <= '1';
 					init_done <= '0';
-					IF(i = 11) THEN
+					IF(Counter = 11) THEN
 						init_state<=four;
-						i <= 0;
+						Counter := 0;
+						
 					ELSE
 						init_state<=three;
-						i <= i + 1;
+						Counter := Counter + 1;
+						
 					END IF;
 				
 				WHEN four =>
 					LCD_E1 <= '0';
 					init_done <= '0';
-					IF(i = 5000) THEN
+					IF(Counter = 5000) THEN
 						init_state<=five;
-						i <= 0;
+						Counter := 0;
+						
 					ELSE
 						init_state<=four;
-						i <= i + 1;
+						Counter := Counter + 1;
+						
 					END IF;
 				
 				WHEN five =>
 					SF_D1 <= "0011";
 					LCD_E1 <= '1';
 					init_done <= '0';
-					IF(i = 11) THEN
+					IF(Counter = 11) THEN
 						init_state<=six;
-						i <= 0;
+						Counter := 0;
+						
 					ELSE
 						init_state<=five;
-						i <= i + 1;
+						Counter := Counter + 1;
+						
 					END IF;
 				
 				WHEN six =>
 					LCD_E1 <= '0';
 					init_done <= '0';
-					IF(i = 2000) THEN
+					IF(Counter = 2000) THEN
 						init_state<=seven;
-						i <= 0;
+						Counter := 0;
+						
 					ELSE
 						init_state<=six;
-						i <= i + 1;
+						Counter := Counter + 1;
+						
 					END IF;
 				
 				WHEN seven =>
 					SF_D1 <= "0010";
 					LCD_E1 <= '1';
 					init_done <= '0';
-					IF(i = 11) THEN
+					IF(Counter = 11) THEN
 						init_state<=eight;
-						i <= 0;
+						Counter := 0;
+						
 					ELSE
 						init_state<=seven;
-						i <= i + 1;
+						Counter := Counter + 1;
+						
 					END IF;
 				
 				WHEN eight =>
 					LCD_E1 <= '0';
 					init_done <= '0';
-					IF(i = 2000) THEN
+					IF(Counter = 2000) THEN
 						init_state<=done;
-						i <= 0;
+						Counter := 0;
 					ELSE
 						init_state<=eight;
-						i <= i + 1;
+						Counter := Counter + 1;
 					END IF;
 				
 				WHEN done =>

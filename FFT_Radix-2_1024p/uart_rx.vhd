@@ -99,7 +99,7 @@ begin
 
                 next_state <= idle;
             when idle =>
-                out_valid <= 'X';
+                out_valid <= '0';
 
                 if (rx_filtered = '0') then
                     next_state <= receive_data;

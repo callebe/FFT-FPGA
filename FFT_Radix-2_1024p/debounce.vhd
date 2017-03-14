@@ -17,7 +17,7 @@ BEGIN
 
 	PROCESS(rst,clk,Entrada)
 	
-	VARIABLE count: INTEGER RANGE 0 TO 100000 := 0;
+		VARIABLE count: INTEGER RANGE 0 TO 100000 := 0;
 	
 	BEGIN 
 	
@@ -39,13 +39,13 @@ BEGIN
 	END PROCESS;
 	
 	PROCESS(rst, Aux)
-	
+		
 	BEGIN 
 		
 		IF(rst = '1') THEN
 			Saida <= '0';
 		
-		ELSIF(Aux'EVENT AND Aux = '1') THEN
+		ELSIF(RISING_EDGE(Aux)) THEN
 			Saida <= Saida XOR '1';
 		
 		END IF;

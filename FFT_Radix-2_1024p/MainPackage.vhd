@@ -15,6 +15,10 @@ PACKAGE MainPackage IS
 	------------------------------------------------
 	
 	------------------------------------------------
+	TYPE StateFFT IS (ResetFFT, Idle, ReceiveData, ProcessData, TransmitData);
+	------------------------------------------------
+	
+	------------------------------------------------
 	TYPE ComplexVector IS ARRAY (NATURAL range <>) OF Complex;
 	------------------------------------------------
 	
@@ -152,7 +156,7 @@ PACKAGE MainPackage IS
 	COMPONENT DisplayMod IS
 		PORT(Clock: IN STD_LOGIC;
 			  reset: IN STD_LOGIC;
-			  Saida: IN ComplexVector(7 DOWNTO 0);
+			  CurrentState: IN StateFFT;
 			  SF_D : OUT STD_LOGIC_VECTOR(3 downto 0);
 			  LCD_E: OUT STD_LOGIC;
 			  LCD_RS: OUT STD_LOGIC;
@@ -163,12 +167,13 @@ PACKAGE MainPackage IS
 	------------------------------------------------
 	COMPONENT DisplayLCD IS
 		PORT(clk : IN STD_LOGIC;
-			  reset : IN STD_LOGIC;
-			  DATA: IN INFO;
-			  SF_D : OUT STD_LOGIC_VECTOR(3 downto 0);
-			  LCD_E: OUT STD_LOGIC;
-			  LCD_RS: OUT STD_LOGIC;
-			  LCD_RW: OUT STD_LOGIC);
+		  reset : IN STD_LOGIC;
+		  Update : IN STD_LOGIC;
+		  DATA: IN INFO;
+		  DataLCD : OUT STD_LOGIC_VECTOR(3 downto 0);
+		  LCD_E: OUT STD_LOGIC;
+		  LCD_RS: OUT STD_LOGIC;
+		  LCD_RW: OUT STD_LOGIC);
 	END COMPONENT;
 	------------------------------------------------
 	
