@@ -56,51 +56,10 @@ ARCHITECTURE Logica OF DisplayLCD IS
 	
 	BEGIN
 	
-	--Apenas Escrever
-	LCD_RW <= '0';
-	
-	--Seleção de Trasmissão (Ou dados ou Comandos)
-	WITH cur_state SELECT
-		tx_init <= '0' WHEN init | pause | done,
-					  '1' WHEN others;
-	
-	--Controle de Barramento
-	WITH cur_state SELECT
-		mux <= '1' WHEN init,
-				 '0' WHEN others;
-	
-	--Controle de sequencia de Inicialização
-	WITH cur_state SELECT
-		init_init <= '1' WHEN init,
-						 '0' WHEN others;
-	
-	--Controle do Barramento
-	WITH cur_state SELECT
-		LCD_RS <= '0' WHEN function_set|entry_set|set_dISplay|clr_dISplay|set_addr0|set_addr1,
-					 '1' WHEN others;
-	
-	--Seleção de Transmissão
-	WITH cur_state SELECT
-		tx_byte <= "00101000" WHEN function_set,
-						"00000110" WHEN entry_set,
-						"00001100" WHEN set_dISplay,
-						"00000001" WHEN clr_dISplay,
-						"10000000" WHEN set_addr0,
-						"11000000" WHEN set_addr1,
-						tx_DATA WHEN tx_info0,
-						tx_DATA WHEN tx_info1,
-						"00000000" WHEN others;
-	
-	-- Mux de seleção entre a trasmissão e a Inicialização
-	WITH mux SELECT
-		DataLCD <= SF_D0 WHEN '0', 
-				     SF_D1 WHEN others; 
-	
-	WITH mux SELECT
-		LCD_E <= LCD_E0 WHEN '0', --transmit
-					LCD_E1 WHEN others; --initialize
 					
-	--main state machine
+	---------------------------------------------------------------
+	--            Processo de Controle do Display                --
+	---------------------------------------------------------------	
 	Display: PROCESS(clk, reset)
 	VARIABLE Position: INTEGER RANGE 0 TO 32 := 1;
 	
@@ -218,7 +177,9 @@ ARCHITECTURE Logica OF DisplayLCD IS
 		
 	END PROCESS Display;
 	
-	--Processo de Transmissao de acordo com Datasheet
+	---------------------------------------------------------------
+	--                  Processo de Transmissão                  --
+	---------------------------------------------------------------
 	Transmissao : PROCESS(clk, reset, tx_init)
 	BEGIN
 	
@@ -306,7 +267,9 @@ ARCHITECTURE Logica OF DisplayLCD IS
 	
 	END PROCESS Transmissao;
 	
-	--Process para Inicialização especificada pelo fabricante
+	---------------------------------------------------------------
+	--         Processo de Inicialização do Display              --
+	---------------------------------------------------------------
 	ProcessoDeInicializao: PROCESS(clk, reset, init_init) 
 	
 		VARIABLE Counter : INTEGER RANGE 0 TO  750000 := 0;
@@ -459,5 +422,46 @@ ARCHITECTURE Logica OF DisplayLCD IS
 		END IF;
 		
 	END PROCESS ProcessoDeInicializao;
+	
+	---------------------------------------------------------------
+	--                     Switchs de Controle                   --
+	---------------------------------------------------------------
+	--Apenas Escrever
+	LCD_RW <= '0';
+	--Seleção de Trasmissão (Ou dados ou Comandos)
+	WITH cur_state SELECT
+		tx_init <= '0' WHEN init | pause | done,
+					  '1' WHEN others;
+	--Controle de Barramento
+	WITH cur_state SELECT
+		mux <= '1' WHEN init,
+				 '0' WHEN others;
+	--Controle de sequencia de Inicialização
+	WITH cur_state SELECT
+		init_init <= '1' WHEN init,
+						 '0' WHEN others;
+	--Controle do Barramento
+	WITH cur_state SELECT
+		LCD_RS <= '0' WHEN function_set|entry_set|set_dISplay|clr_dISplay|set_addr0|set_addr1,
+					 '1' WHEN others;
+	--Seleção de Transmissão
+	WITH cur_state SELECT
+		tx_byte <= "00101000" WHEN function_set,
+						"00000110" WHEN entry_set,
+						"00001100" WHEN set_dISplay,
+						"00000001" WHEN clr_dISplay,
+						"10000000" WHEN set_addr0,
+						"11000000" WHEN set_addr1,
+						tx_DATA WHEN tx_info0,
+						tx_DATA WHEN tx_info1,
+						"00000000" WHEN others;
+	-- Mux de seleção entre a trasmissão e a Inicialização
+	WITH mux SELECT
+		DataLCD <= SF_D0 WHEN '0', 
+				     SF_D1 WHEN others; 
+	WITH mux SELECT
+		LCD_E <= LCD_E0 WHEN '0', --transmit
+					LCD_E1 WHEN others; --initialize
+					
 	
 END Logica;

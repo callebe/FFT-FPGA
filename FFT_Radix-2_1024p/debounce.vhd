@@ -6,14 +6,17 @@ ENTITY debounce IS
 		PORT(clk: IN STD_LOGIC;
 			  rst: IN STD_LOGIC;
 			  Entrada: IN STD_LOGIC;
-			  Saida: BUFFER STD_LOGIC);
+			  Saida: OUT STD_LOGIC);
 END debounce;
 
 ARCHITECTURE logica OF debounce is
 	
 	SIGNAL Aux: STD_LOGIC := '0';
+	SIGNAL AuxSaida : STD_LOGIC := '0';
 	
 BEGIN
+	
+	Saida <= AuxSaida;
 
 	PROCESS(rst,clk,Entrada)
 	
@@ -43,10 +46,10 @@ BEGIN
 	BEGIN 
 		
 		IF(rst = '1') THEN
-			Saida <= '0';
+			AuxSaida <= '0';
 		
 		ELSIF(RISING_EDGE(Aux)) THEN
-			Saida <= Saida XOR '1';
+			AuxSaida <= AuxSaida XOR '1';
 		
 		END IF;
 	

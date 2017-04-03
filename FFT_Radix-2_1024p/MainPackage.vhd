@@ -6,6 +6,9 @@ USE IEEE.numeric_std.ALL;
 ------------------------------------------------
 PACKAGE MainPackage IS
 	
+
+	------------------------------------------------
+	
 	------------------------------------------------
 	TYPE Complex IS
 		RECORD
@@ -35,19 +38,19 @@ PACKAGE MainPackage IS
 	------------------------------------------------
 	
 	------------------------------------------------
-	FUNCTION Sum (ValueA, ValueB: Complex) RETURN Complex;
+	FUNCTION ComplexSum (ValueA, ValueB: Complex) RETURN Complex;
 	------------------------------------------------
 	
 	------------------------------------------------
-	FUNCTION Sub (ValueA, ValueB: Complex) RETURN Complex;
+	FUNCTION ComplexSub (ValueA, ValueB: Complex) RETURN Complex;
 	------------------------------------------------
 	
 	------------------------------------------------
-	FUNCTION Mult (ValueA, ValueB: Complex) RETURN Complex;
+	FUNCTION ComplexMult (ValueA, ValueB: Complex) RETURN Complex;
 	------------------------------------------------
 	
 	------------------------------------------------
-	FUNCTION Div (ValueA, ValueB: Complex) RETURN Complex;
+	FUNCTION ComplexDiv (ValueA, ValueB: Complex) RETURN Complex;
 	------------------------------------------------
 	
 	------------------------------------------------
@@ -72,6 +75,10 @@ PACKAGE MainPackage IS
 	
 	------------------------------------------------
 	FUNCTION convStdToIntegerSigned (entrada: STD_LOGIC_VECTOR(31 DOWNTO 0)) RETURN INTEGER;
+	------------------------------------------------
+	
+	------------------------------------------------
+	FUNCTION convStdToIntegerSigned8 (entrada: STD_LOGIC_VECTOR(7 DOWNTO 0)) RETURN INTEGER;
 	------------------------------------------------
 	
 	------------------------------------------------
@@ -125,12 +132,22 @@ PACKAGE MainPackage IS
 	------------------------------------------------
 	
 	------------------------------------------------
-	COMPONENT UART_Rx is
-    port (clk   : in std_logic;
-          reset : in std_logic;
-          rx    : in std_logic;
-          data_out  : out std_logic_vector(7 downto 0);
-          out_valid : out std_logic);
+	COMPONENT UARTRceived IS
+		PORT(clk : IN STD_LOGIC;
+			reset : IN STD_LOGIC;
+			Rx : IN STD_LOGIC;
+			DataRx : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+			FinishRx : OUT STD_LOGIC);
+	END COMPONENT;
+	------------------------------------------------
+	
+	------------------------------------------------
+	COMPONENT uart_rx IS
+		port (clk   : in std_logic;
+			reset : in std_logic;
+			rx    : in std_logic;
+			data_out  : out std_logic_vector(7 downto 0);
+			out_valid : out std_logic);
 	END COMPONENT;
 	------------------------------------------------
 	
@@ -180,12 +197,15 @@ PACKAGE MainPackage IS
 	------------------------------------------------
 	COMPONENT Butterfly IS
 		PORT(Clock: IN STD_LOGIC;
-			  reset: IN STD_LOGIC;
-			  W: IN Complex;
-			  EvenInput: IN Complex;
-			  OddInput: IN Complex;
-			  EvenOutput: OUT Complex;
-			  OddOutput: OUT Complex);
+				  reset: IN STD_LOGIC;
+				  W: IN Complex;
+				  EvenInput: IN Complex;
+				  OddInput: IN Complex;
+				  MultiResult : IN Complex;
+				  EvenOutput: OUT Complex;
+				  OddOutput: OUT Complex;
+				  MultiA : OUT Complex;
+				  MultiB : OUT Complex);		  
 	END COMPONENT;
 	------------------------------------------------
 	
@@ -306,48 +326,56 @@ PACKAGE BODY MainPackage IS
 	------------------------------------------------
 	
 	------------------------------------------------
-	FUNCTION Sum (ValueA, ValueB: Complex) RETURN Complex IS
+	FUNCTION ComplexSum (ValueA, ValueB: Complex) RETURN Complex IS
 		VARIABLE Result: Complex;
 		
 	BEGIN
+	
 		Result.r := ValueA.r + ValueB.r;
 		Result.i := ValueA.i + ValueB.i;
 		RETURN Result;
-	END Sum;
+		
+	END ComplexSum;
 	------------------------------------------------
 	
 	------------------------------------------------
-	FUNCTION Sub (ValueA, ValueB: Complex) RETURN Complex IS
+	FUNCTION ComplexSub (ValueA, ValueB: Complex) RETURN Complex IS
 		VARIABLE Result: Complex;
 		
 	BEGIN
+	
 		Result.r := ValueA.r - ValueB.r;
 		Result.i := ValueA.i - ValueB.i;
 		RETURN Result;
-	END Sub;
+		
+	END ComplexSub;
 	------------------------------------------------
 	
 	------------------------------------------------
-	FUNCTION Mult (ValueA, ValueB: Complex) RETURN Complex IS
+	FUNCTION ComplexMult (ValueA, ValueB: Complex) RETURN Complex IS
 		
 		VARIABLE Result: Complex;
 		
 	BEGIN
+	
 		Result.r := (ValueA.r*ValueB.r - ValueA.i*ValueB.i);
 		Result.i := (ValueA.r*ValueB.i + ValueA.i*ValueB.r);
 		RETURN Result;
-	END Mult;
+		
+	END ComplexMult;
 	------------------------------------------------
 	
 	------------------------------------------------
-	FUNCTION Div (ValueA, ValueB: Complex) RETURN Complex IS
+	FUNCTION ComplexDiv (ValueA, ValueB: Complex) RETURN Complex IS
 		VARIABLE Result: Complex;
 			
 	BEGIN
+	
 		Result.r := (ValueA.r*ValueB.r + ValueA.i*ValueB.i)/(ValueB.r*ValueB.r + ValueB.i*ValueB.i);
 		Result.i := (ValueA.i*ValueB.r - ValueA.r*ValueB.i)/(ValueB.r*ValueB.r + ValueB.i*ValueB.i);
 		RETURN Result;
-	END Div;
+		
+	END ComplexDiv;
 	------------------------------------------------
 
 	------------------------------------------------
@@ -439,6 +467,51 @@ PACKAGE BODY MainPackage IS
 		
 	
 	END convStdToIntegerSigned;
+	------------------------------------------------
+	
+	------------------------------------------------
+	FUNCTION convStdToIntegerSigned8 (entrada: STD_LOGIC_VECTOR(7 DOWNTO 0)) RETURN INTEGER IS
+		
+		VARIABLE Result : INTEGER RANGE 0 TO 255 := 0;
+	
+	BEGIN
+		
+		IF(entrada(0) = '1') THEN
+			Result := Result + 1;
+		END IF;
+		
+		IF(entrada(1) = '1') THEN
+			Result := Result + 2;
+		END IF;
+		
+		IF(entrada(2) = '1') THEN
+			Result := Result + 4;
+		END IF;
+		
+		IF(entrada(3) = '1') THEN
+			Result := Result + 8;
+		END IF;
+		
+		IF(entrada(4) = '1') THEN
+			Result := Result + 16;
+		END IF;
+		
+		IF(entrada(5) = '1') THEN
+			Result := Result + 32;
+		END IF;
+		
+		IF(entrada(6) = '1') THEN
+			Result := Result + 64;
+		END IF;
+		
+		IF(entrada(7) = '1') THEN
+			Result := Result + 128;
+		END IF;
+		
+		RETURN Result;
+		
+	
+	END convStdToIntegerSigned8;
 	------------------------------------------------
 	
 	------------------------------------------------

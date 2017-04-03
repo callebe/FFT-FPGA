@@ -1,131 +1,185 @@
------------------------------------------------------------
---                 UART | Receiver unit
------------------------------------------------------------
---
--- Copyright (c) 2008, Thijs van As <t.vanas@gmail.com>
---
------------------------------------------------------------
--- Input:      clk        | System clock at 1.8432 MHz
---             reset      | System reset
---             rx         | RX line
---
--- Output:     data_out   | Output data
---             out_valid  | Output data valid
------------------------------------------------------------
--- uart_rx.vhd
------------------------------------------------------------
+--------------------------------------------------------------------
+--------------------------------------------------------------------
+--                                                                --
+--                       Recepção UART                            --
+--    O clock usado na recepção está a 153600 Hz, exatamente 16   --
+-- vezes maior que a velocidade de transmissão (9600 Hz). Para    --
+-- que assim possa notar as mudanças no sinal durante o ciclo do  --   
+-- sinal de 9600 Hz com resolução de 16 pontos.                   --
+--                                                                --
+--       clk -> 153600 Hz                                         --
+--			ActiveTx -> Sinal que aciona a trasmissão                --
+--       DataTx -> Informação à transmitir                        --
+--       Tx -> Bit de transmissão serial                          --
+--       FinishTx -> Sinal que marca o fim da trasmissão          --
+--                                                                --
+--------------------------------------------------------------------
+--------------------------------------------------------------------
 
-library ieee;
-use ieee.std_logic_1164.all;
-use ieee.std_logic_unsigned.all;
-use ieee.numeric_std.all;
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+USE IEEE.STD_LOGIC_unsigned.ALL;
+USE IEEE.numeric_std.ALL;
+USE work.MainPackage.ALL;
 
-entity uart_rx is
-    port (clk   : in std_logic;
-          reset : in std_logic;
-          rx    : in std_logic;
+ENTITY UARTRceived IS
+	PORT(clk : IN STD_LOGIC;
+		reset : IN STD_LOGIC;
+		Rx : IN STD_LOGIC;
+		DataRx : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
+		FinishRx : OUT STD_LOGIC);
+END UARTRceived;
 
-          data_out  : out std_logic_vector(7 downto 0);
-          out_valid : out std_logic);
-end entity uart_rx;
 
+ARCHITECTURE Logica OF uart_rx IS
+    
+	 TYPE StateTx IS (ResetState, IdleState, ReceiveState, StopState);
+    SIGNAL ActualState, NextState : StateTx;
+    SIGNAL CounterRx  : STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0');
+    SIGNAL Ticker : STD_LOGIC_VECTOR(3 DOWNTO 0) := (OTHERS => '0');
+    SIGNAL DataBuffer : STD_LOGIC_VECTOR(7 DOWNTO 0);
+    SIGNAL RxFiltered : STD_LOGIC := '1';
+    SIGNAL RxState : STD_LOGIC_VECTOR(1 DOWNTO 0) := "11";
+	 SIGNAL clk9600 : STD_LOGIC := '0';
 
-architecture behavioural of uart_rx is
-    type   tx_state is (reset_state, idle, receive_data, stop_bit);
-    signal current_state, next_state : tx_state;
-    signal data_counter              : std_logic_vector(2 downto 0) := (others => '0');
-    signal ticker                    : std_logic_vector(3 downto 0) := (others => '0');
-    signal data_buffer               : std_logic_vector(7 downto 0);
-    signal rx_filtered               : std_logic                    := '1';
-    signal rx_state                  : std_logic_vector(1 downto 0) := "11";
-begin
-    data_out <= data_buffer;
+BEGIN
 
-    -- Filters input data
-    filter : process(clk, reset)
-    begin
-        if (reset = '1') then
-            rx_filtered <= '1';
-            rx_state    <= "11";
-        elsif (clk = '1' and clk'event) then
-            if (rx = '0' and rx_state /= "00") then
-                if (rx_state = "01") then
-                    rx_filtered <= '0';
-                end if;
-                rx_state <= rx_state - 1;
-            elsif (rx = '1' and rx_state /= "11") then
-                if (rx_state = "10") then
-                    rx_filtered <= '1';
-                end if;
-                rx_state <= rx_state + 1;
-            end if;
-        end if;
-    end process filter;
+	---------------------------------------------------------------
+	--                       Clocks para UART                    --
+	---------------------------------------------------------------
+	clkGen9600 : BaudRate GENERIC MAP (153600, 9600) PORT MAP (clk, clk9600);
+	
+   DataRx <= DataBuffer;
 
-    -- Updates the states in the statemachine at a 115200 bps rate
-    clkgen_115k2 : process(clk, reset)
-    begin
-        if (reset = '1') then
-            ticker        <= (others => '0');
-            current_state <= reset_state;
-            data_counter  <= "000";
-            data_buffer   <= (others => '0');
-        elsif (clk = '1' and clk'event) then
-            if (ticker = 15
-                or (current_state = idle and next_state = receive_data and ticker = 7)
-                or (current_state = idle and next_state = idle))  then
-                ticker        <= (others => '0');
-                current_state <= next_state;
-                if (current_state = receive_data) then
-                    data_buffer  <= rx_filtered & data_buffer(7 downto 1);
-                    data_counter <= data_counter + 1;
-                else
-                    data_buffer  <= data_buffer;
-                    data_counter <= "000";
-                end if;
-            else
-                data_buffer   <= data_buffer;
-                current_state <= current_state;
-                ticker        <= ticker + 1;
-            end if;
-        end if;
-    end process clkgen_115k2;
+   ---------------------------------------------------------------
+	--                       Filtro 4 Níveis                     --
+	---------------------------------------------------------------
+	FiltroSinal : PROCESS(clk, reset)
+	
+	BEGIN
+	
+		IF(reset = '1') THEN
+			RxFiltered <= '1';
+			RxState    <= "11";
 
-    rx_control : process (current_state, rx_filtered, data_counter)
-    begin
-        case current_state is
-            when reset_state =>
-                out_valid <= '0';
+		ELSIF(clk = '1' AND clk'event) THEN
+			IF(Rx = '0' AND RxState /= "00") THEN
+				IF(RxState = "01") THEN
+					RxFiltered <= '0';
+				END IF;
+				RxState <= RxState - 1;
+			
+			ELSIF(Rx = '1' AND RxState /= "11") THEN
+				IF(RxState = "10") THEN
+					RxFiltered <= '1';
+				END IF;
+				RxState <= RxState + 1;
+				
+			end if;
+		end if;
+		
+	END PROCESS;
 
-                next_state <= idle;
-            when idle =>
-                out_valid <= '0';
+   ---------------------------------------------------------------
+	--                  Autalização de Estados                   --
+	---------------------------------------------------------------
+	UpdateState : PROCESS(clk, reset)
+	
+	BEGIN
+	
+		IF(reset = '1') THEN
+			Ticker <= (OTHERS => '0');
+			CounterRx <= "000";
+			DataBuffer <= (OTHERS => '0');
+			
+		ELSIF(clk = '1' AND clk'event) THEN
+			IF(Ticker = 15 OR (ActualState = IdleState AND NextState = ReceiveState AND Ticker = 7) OR (ActualState = IdleState AND NextState = IdleState)) THEN
+				Ticker  <= (OTHERS => '0');
+				IF(ActualState = ReceiveState) THEN
+					DataBuffer  <= RxFiltered & DataBuffer(7 DOWNTO 1);
+					CounterRx <= CounterRx + 1;
+					
+				ELSE
+					DataBuffer <= DataBuffer;
+					CounterRx <= "000";
+					
+				END IF;
+				
+			ELSE
+			
+			DataBuffer <= DataBuffer;
+			Ticker <= Ticker + 1;
+			
+			END IF;
+			
+		END IF;
+		
+	END PROCESS;
+	
+	---------------------------------------------------------------
+	--                       Máquinas Estados                    --
+	---------------------------------------------------------------
+	StateMachine : PROCESS (ActualState, RxFiltered, CounterRx)
+	
+	BEGIN
 
-                if (rx_filtered = '0') then
-                    next_state <= receive_data;
-                else
-                    next_state <= idle;
-                end if;
-            when receive_data =>
-                out_valid <= '0';
+		CASE ActualState IS
+		
+			WHEN ResetState =>
+				FinishRx <= '0';
+				NextState <= IdleState;
+				
+			WHEN IdleState =>
+				FinishRx <= '0';
+				IF (RxFiltered = '0') THEN
+				  NextState <= ReceiveState;
+				
+				ELSE
+				  NextState <= IdleState;
+				
+				END IF;
+				
+			WHEN ReceiveState =>
+				FinishRx <= '0';
+				IF(CounterRx = 7) THEN
+				  NextState <= StopState;
+				  
+				ELSE
+				  NextState <= ReceiveState;
+				  
+				end if;
+				
+			WHEN StopState =>
+				FinishRx <= '1';
+				IF(RxFiltered = '1') THEN
+				  NextState <= IdleState;
+				  
+				ELSE
+				  NextState <= StopState;
+				  
+				END IF;
+				
+			WHEN OTHERS =>
+				FinishRx <= '0';
+				NextState <= ResetState;
+		
+		END CASE;
+		
+	END PROCESS;
+	
+	-- Atualização de Estados
+	UpdateStatesRx : PROCESS(clk9600, reset)
 
-                if (data_counter = 7) then
-                    next_state <= stop_bit;
-                else
-                    next_state <= receive_data;
-                end if;
-            when stop_bit =>
-                out_valid <= '1';
-
-                if (rx_filtered = '1') then
-                    next_state <= idle;
-                else
-                    next_state <= stop_bit;
-                end if;
-            when others =>
-                out_valid <= '0';
-
-                next_state <= reset_state;
-        end case;
-    end process rx_control;
-end architecture behavioural;
+	BEGIN
+	
+		IF(reset = '1') THEN
+			ActualState <= ResetState;
+		
+		ELSIF (clk9600 = '1' AND clk9600'EVENT) THEN
+			ActualState <= NextState;
+		
+		END IF;
+	
+	END PROCESS;
+	
+END Logica;

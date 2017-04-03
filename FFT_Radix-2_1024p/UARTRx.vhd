@@ -7,7 +7,7 @@
 -- que assim possa notar as mudanças no sinal durante o ciclo do  --   
 -- sinal de 9600 Hz com resolução de 16 pontos.                   --
 --                                                                --
---       clk -> 153600 Hz                                           --
+--       clk -> 153600 Hz                                         --
 --			ActiveTx -> Sinal que aciona a trasmissão                --
 --       DataTx -> Informação à transmitir                        --
 --       Tx -> Bit de transmissão serial                          --

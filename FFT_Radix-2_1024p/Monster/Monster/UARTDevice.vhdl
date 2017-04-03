@@ -19,6 +19,8 @@ LIBRARY IEEE;
 USE IEEE.std_logic_1164.ALL;
 USE IEEE.std_logic_unsigned.ALL;
 USE IEEE.numeric_std.ALL;
+Library UNISIM;
+use UNISIM.vcomponents.all;
 USE work.MainPackage.ALL;
 
 ENTITY UARTDevice IS
@@ -61,10 +63,8 @@ ARCHITECTURE Logica OF UARTDevice IS
 	SIGNAL CounterDataRx : INTEGER RANGE 0 TO (NumberOfFFT) := 0;
 	SIGNAL FinishRx : STD_LOGIC := '0';
 	
-	
 BEGIN
-
-		
+	
 	---------------------------------------------------------------
 	--                       Clocks para UART                    --
 	---------------------------------------------------------------
@@ -75,7 +75,7 @@ BEGIN
 	--                       UART - Tx & Rx                      --
 	---------------------------------------------------------------
 	UART0Tx : UARTTx PORT MAP (clk9600, reset, ActiveTx, DataTxBuffer, Tx, FinishTx);
-	UART0Rx : UART_Rx PORT MAP (clk153600, reset, Rx, DataRxBuffer, FinishRx );
+	UART0Rx : uart_rx PORT MAP (clk153600, reset, Rx, DataRxBuffer, FinishRx );
 		
 	---------------------------------------------------------------
 	--           Processo de Controle da Transmissão             --
@@ -161,8 +161,8 @@ BEGIN
 			IF(CurrentStateTx = SendTx) THEN
 				IF (FinishTx = '1') THEN
 					IF(Counter = 0) THEN
-						BuffTxVectorReal := convIntegerToStdSigned(DataUARTTx(CounterDataTx).r);
-						BuffTxVectorImag := convIntegerToStdSigned(DataUARTTx(CounterDataTx).i);
+						BuffTxVectorReal := STD_LOGIC_VECTOR(TO_SIGNED(DataUARTTx(CounterDataTx).r, 32));
+						BuffTxVectorImag := STD_LOGIC_VECTOR(TO_SIGNED(DataUARTTx(CounterDataTx).i, 32));
 						Aux(0)(7 DOWNTO 0) := BuffTxVectorReal(7 DOWNTO 0);
 						Aux(1)(7 DOWNTO 0) := BuffTxVectorReal(15 DOWNTO 8);
 						Aux(2)(7 DOWNTO 0) := BuffTxVectorReal(23 DOWNTO 16);
@@ -258,13 +258,13 @@ BEGIN
 	---------------------------------------------------------------
 	--             Processo de Recepção de Dados                 --
 	---------------------------------------------------------------
-	ProcessTrasmitRx : PROCESS(reset, clk9600, CurrentStateRx, FinishRx, CurrentStateTx)
+	ProcessTrasmitRx : PROCESS(reset, clk9600, CurrentStateRx, FinishRx)
 		
-		VARIABLE Counter : INTEGER RANGE 0 TO (NumberOfFFT-1) := 0;
-		
+		VARIABLE Counter : INTEGER RANGE 0 TO 7 := 0;
+
 	BEGIN
 		
-		IF(reset = '1' OR CurrentStateTx = StopTx) THEN
+		IF(reset = '1') THEN
 			Counter := 0;
 			CounterDataRx <= 0;
 			DataUARTRx <= (OTHERS => (0,0));
@@ -273,20 +273,18 @@ BEGIN
 			IF(CurrentStateRx = ReceiveRx) THEN
 				IF(FinishRx = '1') THEN
 					IF(Counter < 4) THEN
-						DataUARTRx(CounterDataRx).r <= DataUARTRx(CounterDataRx).r + ((convStdToInteger(DataRxBuffer))*2**(8*Counter));
+						DataUARTRx(CounterDataRx).r <= DataUARTRx(CounterDataRx).r + ((TO_INTEGER(SIGNED(DataRxBuffer)))*(2**(8*Counter)));
 						
 					ELSE
-						DataUARTRx(CounterDataRx).i <= DataUARTRx(CounterDataRx).i + ((convStdToInteger(DataRxBuffer))*2**(8*(Counter-4)));
+						DataUARTRx(CounterDataRx).i <= DataUARTRx(CounterDataRx).i + ((TO_INTEGER(SIGNED(DataRxBuffer)))*(2**(8*(Counter-4))));
 						IF(Counter = 7) THEN
 							CounterDataRx <= CounterDataRx + 1;
-							
-						ELSE
-							CounterDataRx <= CounterDataRx;
 							
 						END IF;
 						
 					END IF;
-					Counter := Counter + 1;
+					Counter := Counter + 1;	
+					
 					
 				END IF;
 				
@@ -299,8 +297,6 @@ BEGIN
 		END IF;
 		
 	END PROCESS;
-
-
 
 	
 END Logica;

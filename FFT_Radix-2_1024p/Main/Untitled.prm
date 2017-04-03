@@ -1,0 +1,17 @@
+PROMGEN: Xilinx Prom Generator P.20131013
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+promgen -w -p mcs -c FF -o E:\Priority\Warning\Documentos\UTFPR\TCC\FFT-FPGA\FFT_Radix-2_1024p\Main\//Untitled -x xcf04s -u 00000000 E:/Priority/Warning/Documentos/UTFPR/TCC/FFT-FPGA/FFT_Radix-2_1024p/Main/testedobutterfly8p.bit 
+
+PROM E:\Priority\Warning\Documentos\UTFPR\TCC\FFT-FPGA\FFT_Radix-2_1024p\Main\Untitled.prm map: Wed Mar 15 14:45:28 2017
+
+Calculating PROM checksum with fill value ff
+
+Format        Mcs86 (32-bit)
+Size          512K
+PROM start    0000:0000
+PROM end      0007:ffff
+PROM checksum 03aa29db
+
+        Addr1        Addr2                     Date File(s)
+    0000:0000    0004:547f     Mar 13 13:47:49 2017 E:/Priority/Warning/Documentos/UTFPR/TCC/FFT-FPGA/FFT_Radix-2_1024p/Main/testedobutterfly8p.bit

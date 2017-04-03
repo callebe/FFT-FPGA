@@ -1,0 +1,11 @@
+# PROMGEN: Xilinx Prom Generator P.20131013
+# Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+SOFTWARE_VERSION P.20131013
+DATE            03/15/2017 - 14:45
+SOURCE          E:\Priority\Warning\Documentos\UTFPR\TCC\FFT-FPGA\FFT_Radix-2_1024p\Main\Untitled.mcs
+DEVICE          XCF04S
+DATA_WIDTH      8
+FILL_DATA       0xFF
+SIGNATURE       0x03AA29DB
+START_ADDRESS   0x00000000 END_ADDRESS 0x0004547F DIRECTION_UP   "E:/Priority/Warning/Documentos/UTFPR/TCC/FFT-FPGA/FFT_Radix-2_1024p/Main/testedobutterfly8p.bit" 3s500efg320

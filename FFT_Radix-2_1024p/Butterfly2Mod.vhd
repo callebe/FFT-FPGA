@@ -9,15 +9,24 @@ ENTITY Butterfly2Mod IS
 	PORT(Clock: IN STD_LOGIC;
 		  reset: IN STD_LOGIC;
 		  Input: IN ComplexVector(3 DOWNTO 0);
+		  MultiResult : IN ComplexVector(4 DOWNTO 0);
 		  Output: OUT ComplexVector(3 DOWNTO 0));
 END Butterfly2Mod;
 
 ARCHITECTURE Logica OF Butterfly2Mod IS
 	
+	TYPE Multiplex IS ARRAY((NButterfly-1) DOWNTO 0) OF ComplexVector(1 DOWNTO 0);
+	SIGNAL Multi : Multiplex;
+	
 	BEGIN
 	
-	G1: FOR i  IN 0 TO (NButterfly-1) GENERATE
-		B1: Butterfly PORT MAP (Clock, reset, W(i*Layer), Input(i), Input((NButterfly*2-1)-i), Output(i), Output((NButterfly*2-1)-i));
+	G2: FOR k  IN 0 TO (NButterfly-1) GENERATE
+		VARIABLE Counter : INTEGER RANGE 0 TO NButterfly/;
+		G1: FOR i  IN k TO (NButterfly-1) GENERATE
+			B1: Butterfly PORT MAP (Clock, reset, W(i*Layer), Input(i), Input(NButterfly+i), Output(i), MultiResult(i), Output(NButterfly+i), Multiplex(i,0) , Mult(i,1));
+		END GENERATE;
+		
 	END GENERATE;
+	
 	
 END Logica;
