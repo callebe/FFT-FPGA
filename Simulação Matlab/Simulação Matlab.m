@@ -55,34 +55,37 @@ end
 %------------------------------------
 clear all
 close all
-NumeroInteracao = 16;
+NumeroInteracao = 6;
 
-x(1) = 19.3412;
-y(1) = 0;
-z(1) = (-2*pi*0/8);
-x(2) = x(1);
-y(2) = y(1);
-z(2) = z(1);
+H = 10+10*i;
+alpha = (-2*pi*3/8)*2^10;
 
-for Count = 2: NumeroInteracao
-    if z(Count) >= 0
-        H = 1;  
+if(alpha < -pi/2)
+    x(1) = (imag(H)/2 + imag(H)/(2^3) - imag(H)/(2^6) - imag(H)/(2^9));
+    y(1) = -(real(H)/2 + real(H)/(2^3) - real(H)/(2^6) - real(H)/(2^9));
+    z(1) =  alpha + pi/2*2^10;
+
+else
+    x(1) = (real(H)/2 + real(H)/(2^3) - real(H)/(2^6) - real(H)/(2^9));
+    y(1) = (imag(H)/2 + imag(H)/(2^3) - imag(H)/(2^6) - imag(H)/(2^9));
+    z(1) =  alpha;
+end
+
+for Count = 0: (NumeroInteracao-1)
+    if z(Count+1) >= 0
+        Half = 1;  
     else
-        H = -1;
+        Half = -1;
     end
-    x(Count+1) = x(Count) - H*(y(Count)/(2^(Count-2)));
-    y(Count+1) = y(Count) + H*(x(Count)/(2^(Count-2)));
-    z(Count+1) = z(Count) - H*atan(2^(-(Count-2)));
+    x(Count+2) = x(Count+1) - Half*(y(Count+1)/(2^Count));
+    y(Count+2) = y(Count+1) + Half*(x(Count+1)/(2^Count));
+    z(Count+2) = z(Count+1) - Half*atan(2^-Count)*2^10;
     
 end
 
-%Multiplicação por Cos Phi
-x(NumeroInteracao+1) = x(NumeroInteracao+1)/2 + (x(NumeroInteracao+1)/(2^3)) - (x(NumeroInteracao+1)/(2^6));
-y(NumeroInteracao+1) = y(NumeroInteracao+1)/2 + (y(NumeroInteracao+1)/(2^3)) - (y(NumeroInteracao+1)/(2^6));
-
 %Transforma em Modulo e Angulo
-r1 = abs(x(1)+i*y(1));
-O1 = 180/pi*atan(y(1)/x(1)); 
+r1 = abs(H);
+O1 = 180/pi*atan(imag(H)/real(H)); 
 r2 = abs(x(NumeroInteracao+1)+i*y(NumeroInteracao+1));
 O2 = 180/pi*atan(y(NumeroInteracao+1)/x(NumeroInteracao+1)); 
 
@@ -93,7 +96,7 @@ O2 = 180/pi*atan(y(NumeroInteracao+1)/x(NumeroInteracao+1));
 clear all
 close all
 % Tamanho da FFT
-SizeOfFFT = 8;
+SizeOfFFT = 2048;
 %Numero de Interações Cordic
 NumeroInteracao = 8;
 %Definição do Numero de Layers do FFT
@@ -109,16 +112,22 @@ f_s = f_0*SizeOfFFT;
 %Definição do Periodo de Amostragem
 T_s = 1/f_s
 %Definição da Matriz de Resultados
-Xin=zeros(SizeOfFFT,NumberOfLevels+1);
+Xin = zeros(SizeOfFFT,NumberOfLevels+1);
+erroY = zeros(1,SizeOfFFT*NumberOfLevels);
+erroX = zeros(1,SizeOfFFT*NumberOfLevels);
+erroComp = zeros(1,SizeOfFFT*NumberOfLevels);
+erroXr = zeros(1,SizeOfFFT*NumberOfLevels);
 
 %Definição do Sinal de Entrada
 A = 30;
-B= 40;
-fA = 100;
-fB = 3500;
+B= 4000;
+C=300;
+fA = 10;
+fB = 3000;
+fC = 250;
 
 for n = 1: Resolution;
-    InputAux(n) = A*sin(2*pi*fA*n*T_s) + B*sin(2*pi*fB*n*T_s);
+    InputAux(n) = A*sin(2*pi*fA*n*T_s) + B*sin(2*pi*fB*n*T_s) + C*sin(2*pi*fC*n*T_s);
     Input(n) = InputAux(n);
 end
 
@@ -143,6 +152,7 @@ for n = 0: (SizeOfFFT-1);
     Xin(n+1) = InputAux(bi2de(AuxVector)+1);
 end
 
+Countest = 1;
 %Building the Layers
 for Layer = 0 : (NumberOfLevels-1)
     
@@ -165,29 +175,31 @@ for Layer = 0 : (NumberOfLevels-1)
             %Odd
             H = Xin(Odd+1, Layer+1);
 
-            %Calculo da Multiplicação
-            x(1) = real(H);
-            y(1) = imag(H);
-            z(1) = (-2*pi*CountSizeofDFT/SizeofDFT);
-            x(2) = x(1);
-            y(2) = y(1);
-            z(2) = z(1);
+            %Calculo da Multiplicação pelo Algoritmo Cordic
+            alpha = -2*pi*CountSizeofDFT/SizeofDFT*2^10;
 
-            for Count = 2: NumeroInteracao
-                if z(Count) >= 0
+            if(alpha < -pi/2)
+                x(1) = (imag(H)/2 + imag(H)/(2^3) - imag(H)/(2^6) - imag(H)/(2^9));
+                y(1) = -(real(H)/2 + real(H)/(2^3) - real(H)/(2^6) - real(H)/(2^9));
+                z(1) =  alpha + pi/2*2^10;
+
+            else
+                x(1) = (real(H)/2 + real(H)/(2^3) - real(H)/(2^6) - real(H)/(2^9));
+                y(1) = (imag(H)/2 + imag(H)/(2^3) - imag(H)/(2^6) - imag(H)/(2^9));
+                z(1) =  alpha;
+            end
+
+            for Count = 0: (NumeroInteracao-1)
+                if z(Count+1) >= 0
                     Half = 1;  
                 else
                     Half = -1;
                 end
-                x(Count+1) = x(Count) - Half*(y(Count)/(2^(Count-2)));
-                y(Count+1) = y(Count) + Half*(x(Count)/(2^(Count-2)));
-                z(Count+1) = z(Count) - Half*atan(2^(-(Count-2)));
+                x(Count+2) = x(Count+1) - Half*(y(Count+1)/(2^Count));
+                y(Count+2) = y(Count+1) + Half*(x(Count+1)/(2^Count));
+                z(Count+2) = z(Count+1) - Half*atan(2^-Count)*2^10;
 
             end
-
-            %Multiplicação por Cos Phi
-            x(NumeroInteracao+1) = x(NumeroInteracao+1)/2 + (x(NumeroInteracao+1)/(2^3)) - (x(NumeroInteracao+1)/(2^6));
-            y(NumeroInteracao+1) = y(NumeroInteracao+1)/2 + (y(NumeroInteracao+1)/(2^3)) - (y(NumeroInteracao+1)/(2^6));
             
             %Saida do Layer
             %Even
@@ -195,6 +207,12 @@ for Layer = 0 : (NumberOfLevels-1)
             %Odd
             Xin(Odd+1, Layer+2) =  G - (x(NumeroInteracao+1)+i*y((NumeroInteracao+1)));
             
+            erroY(Countest) = abs((Xin(Even+1, Layer+2)) - (G + H*exp(-2*pi*CountSizeofDFT/SizeofDFT*i)));
+            erroX(Countest) = Even + Layer*SizeOfFFT;
+            Countest = Countest +1;
+            erroY(Countest) = abs((Xin(Odd+1, Layer+2)) - (G - H*exp(-2*pi*CountSizeofDFT/SizeofDFT*i)));
+            erroX(Countest) = Odd + Layer*SizeOfFFT;
+            Countest = Countest +1;
             Even = Even + 1;
             
         end
@@ -235,6 +253,14 @@ stem((0 : SizeOfFFT/2)*f_s/(SizeOfFFT),Y1);
 %Plot do sinal original
 figure;
 plot((0 : SizeOfFFT-1)*T_0/(SizeOfFFT),Input);
+
+
+%Plot do Erro de Aproximação entre Cordic e o Tradicional - Layer 1
+figure;
+title('Erro de Aproximação Entre Cordic e o Cálculo Tradicional')
+stem((erroX),(erroY/SizeOfFFT));
+ylabel('Modulo do Erro');
+xlabel('Layers');
 
 delete(s)
 fclose(s)
