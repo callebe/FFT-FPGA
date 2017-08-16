@@ -24,7 +24,6 @@ entity uart_rx is
     port (clk   : in std_logic;
           reset : in std_logic;
           rx    : in std_logic;
-
           data_out  : out std_logic_vector(7 downto 0);
           out_valid : out std_logic);
 end entity uart_rx;

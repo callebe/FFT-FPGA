@@ -37,9 +37,8 @@ END UARTDevice;
 
 ARCHITECTURE Logica OF UARTDevice IS
 	
-	-- Variaveis de conversão de Complexo para STD_LOGIC
-	TYPE DataInputOutput IS ARRAY((NumberOfFFT-1) DOWNTO 0) OF STD_LOGIC_VECTOR(31 DOWNTO 0);
-	TYPE DataBufferTx IS ARRAY(7 DOWNTO 0) OF STD_LOGIC_VECTOR(7 DOWNTO 0);
+	-- Definição de Tipo de Buffer utilizado na transmissão e recepção
+	TYPE DataBuffer IS ARRAY(3 DOWNTO 0) OF STD_LOGIC_VECTOR(7 DOWNTO 0);
 	-- Variaveis de Estado da Transmissão e Recepção
 	TYPE StateTx IS (ResetTx, IdleTx, SendTx, StopTx);
 	TYPE StateRx IS (ResetRx, IdleRx, ReceiveRx, StopRx);
@@ -148,44 +147,35 @@ BEGIN
 	---------------------------------------------------------------
 	SendData: PROCESS (reset, FinishTx, clk9600, CurrentStateTx)
 		
-		VARIABLE Counter : INTEGER RANGE 0 TO 7:= 0;
-		VARIABLE Aux : DataBufferTx := (OTHERS => "00000000");
-		VARIABLE BuffTxVectorReal : STD_LOGIC_VECTOR(31 DOWNTO 0);
-		VARIABLE BuffTxVectorImag : STD_LOGIC_VECTOR(31 DOWNTO 0);
+		VARIABLE CounterTx : INTEGER RANGE 0 TO 3 := 0;
+		VARIABLE BufferTx : DataBuffer := (OTHERS => "00000000");
 		
 	BEGIN
 		
 		IF(reset = '1') THEN 
-			Counter := 0;
+			CounterTx := 0;
 			CounterDataTx <= 0;
 			
-		ELSIF(clk9600 = '1' AND clk9600'EVENT) THEN
+		ELSIF(clk9600'EVENT AND clk9600 = '0') THEN
 			IF(CurrentStateTx = SendTx) THEN
 				IF (FinishTx = '1') THEN
-					IF(Counter = 0) THEN
-						BuffTxVectorReal := convIntegerToStdSigned(DataUARTTx(CounterDataTx).r);
-						BuffTxVectorImag := convIntegerToStdSigned(DataUARTTx(CounterDataTx).i);
-						Aux(0)(7 DOWNTO 0) := BuffTxVectorReal(7 DOWNTO 0);
-						Aux(1)(7 DOWNTO 0) := BuffTxVectorReal(15 DOWNTO 8);
-						Aux(2)(7 DOWNTO 0) := BuffTxVectorReal(23 DOWNTO 16);
-						Aux(3)(7 DOWNTO 0) := BuffTxVectorReal(31 DOWNTO 24);
-						Aux(4)(7 DOWNTO 0) := BuffTxVectorImag(7 DOWNTO 0);
-						Aux(5)(7 DOWNTO 0) := BuffTxVectorImag(15 DOWNTO 8);
-						Aux(6)(7 DOWNTO 0) := BuffTxVectorImag(23 DOWNTO 16);
-						Aux(7)(7 DOWNTO 0) := BuffTxVectorImag(31 DOWNTO 24);
-						CounterDataTx <= CounterDataTx;
+					IF(CounterTx = 0) THEN
+						BufferTx(0) := DataUARTTx(CounterDataTx).r(7 DOWNTO 0);
+						BufferTx(1) := DataUARTTx(CounterDataTx).r(15 DOWNTO 8);
+						BufferTx(2) := DataUARTTx(CounterDataTx).i(7 DOWNTO 0);
+						BufferTx(3) := DataUARTTx(CounterDataTx).i(15 DOWNTO 8);
 						
-					ELSIF(Counter = 7)	THEN
+					ELSIF(CounterTx = 3)	THEN
 						CounterDataTx <= CounterDataTx + 1;
 						
 					END IF; 
-					DataTxBuffer <= Aux(Counter);
-					Counter := Counter + 1;
+					DataTxBuffer <= BufferTx(CounterTx);
+					CounterTx := CounterTx + 1;
 					
 				END IF;
 				
 			ELSE
-				Counter := 0;
+				CounterTx := 0;
 				CounterDataTx <= 0;
 				
 			END IF;
@@ -262,33 +252,32 @@ BEGIN
 	---------------------------------------------------------------
 	ProcessTrasmitRx : PROCESS(reset, clk9600, CurrentStateRx, FinishRx)
 		
-		VARIABLE Counter : INTEGER RANGE 0 TO (NumberOfFFT) := 0;
-		VARIABLE BufferRx: DataBufferTx;
+		VARIABLE CounterRx : INTEGER RANGE 0 TO 3 := 0;
+		VARIABLE BufferRx: DataBuffer;
 		
 	BEGIN
 		
 		IF(reset = '1') THEN
-			Counter := 0;
+			CounterRx := 0;
 			CounterDataRx <= 0;
 			
 		ELSIF(clk9600'EVENT AND clk9600 = '1') THEN
 			IF(CurrentStateRx = ReceiveRx) THEN
 				IF(FinishRx = '1') THEN
-					BufferRx(Counter) := DataRxBuffer;
-					IF(Counter = 7) THEN
-						Counter := 0;
-						DataUARTRx(CounterDataRx).r <= convStdToIntegerSigned(BufferRx(3) & BufferRx(2) & BufferRx(1) & BufferRx(0));
-						DataUARTRx(CounterDataRx).i <= convStdToIntegerSigned(BufferRx(7) & BufferRx(6) & BufferRx(5) & BufferRx(4));
+					BufferRx(CounterRx) := DataRxBuffer;
+					IF(CounterRx = 3) THEN
+						DataUARTRx(CounterDataRx).r <= (BufferRx(1) & BufferRx(0));
+						DataUARTRx(CounterDataRx).i <= (BufferRx(3) & BufferRx(2));
 						CounterDataRx <= CounterDataRx + 1;
 						
 					END IF;
 					
-					Counter := Counter + 1;
+					CounterRx := CounterRx + 1;
 					
 				END IF;
 				
 			ELSE
-				Counter := 0;
+				CounterRx := 0;
 				CounterDataRx <= 0;
 				
 			END IF;

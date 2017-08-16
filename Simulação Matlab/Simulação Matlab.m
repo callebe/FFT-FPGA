@@ -15,13 +15,13 @@
 %  Baud Rate : 9600
 %------------------------------------
 
-SizeOfFFT = 8;
+SizeOfFFT = 32;
 
-s = serial('COM10');%get(instrfind, 'Port'));
+s = serial('COM4');%get(instrfind, 'Port'));
 set(s,'BaudRate',9600);
 fopen(s);
 
-Resolution = 8;
+Resolution = SizeOfFFT;
 T_0 = 10;
 A = 30;
 B= 40;
@@ -30,7 +30,7 @@ fA = 100;
 fB = 3500;
 fC = 60;
 t = [0 : (1/T_0)/(Resolution) : ((1/T_0)-(1/T_0)/(Resolution))];
-y = A*(sin(2*pi*fA*t)+1) + B*(sin(2*pi*fB*t)+1) + C*(sin(2*pi*fC*t)+1);
+y = A*(sin(2*pi*fA*t)) + B*(sin(2*pi*fB*t)) + C*(sin(2*pi*fC*t));
 
 plot(t,y);
 
@@ -49,6 +49,10 @@ for Count = 1 : SizeOfFFT
     ResultOfFFT(Count) = Aux(Count) + i*AuxB(Count);
 end
 
+delete(s)
+fclose(s)
+clear all
+close all
 
 %------------------------------------
 %  Simulação do Algoritmo CORDIC
@@ -191,13 +195,15 @@ for Layer = 0 : (NumberOfLevels-1)
 
             for Count = 0: (NumeroInteracao-1)
                 if z(Count+1) >= 0
-                    Half = 1;  
+                    x(Count+2) = x(Count+1) - (y(Count+1)/(2^Count));
+                    y(Count+2) = y(Count+1) + (x(Count+1)/(2^Count));
+                    z(Count+2) = z(Count+1) - atan(2^-Count)*2^10;
                 else
-                    Half = -1;
+                    x(Count+2) = x(Count+1) + (y(Count+1)/(2^Count));
+                    y(Count+2) = y(Count+1) - (x(Count+1)/(2^Count));
+                    z(Count+2) = z(Count+1) + atan(2^-Count)*2^10;
                 end
-                x(Count+2) = x(Count+1) - Half*(y(Count+1)/(2^Count));
-                y(Count+2) = y(Count+1) + Half*(x(Count+1)/(2^Count));
-                z(Count+2) = z(Count+1) - Half*atan(2^-Count)*2^10;
+                
 
             end
             

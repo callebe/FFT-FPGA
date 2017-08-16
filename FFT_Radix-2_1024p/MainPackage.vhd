@@ -12,8 +12,8 @@ PACKAGE MainPackage IS
 	------------------------------------------------
 	TYPE Complex IS
 		RECORD
-			r: INTEGER RANGE INTEGER'LOW TO INTEGER'HIGH;
-			i: INTEGER RANGE INTEGER'LOW TO INTEGER'HIGH;
+			r: STD_LOGIC_VECTOR(15 DOWNTO 0);
+			i: STD_LOGIC_VECTOR(15 DOWNTO 0);
 		END RECORD;
 	------------------------------------------------
 	
@@ -30,10 +30,6 @@ PACKAGE MainPackage IS
 	------------------------------------------------
 	
 	------------------------------------------------
-	CONSTANT W: Wn := ((1024,0),(724,-724),(0,-1024),(-724,-724),(-1024,0),(-724,724));
-	------------------------------------------------
-	
-	------------------------------------------------
 	TYPE INFO IS ARRAY (0 TO 31) OF STD_LOGIC_VECTOR(7 DOWNTO 0);
 	------------------------------------------------
 	
@@ -43,14 +39,6 @@ PACKAGE MainPackage IS
 	
 	------------------------------------------------
 	FUNCTION ComplexSub (ValueA, ValueB: Complex) RETURN Complex;
-	------------------------------------------------
-	
-	------------------------------------------------
-	FUNCTION ComplexMult (ValueA, ValueB: Complex) RETURN Complex;
-	------------------------------------------------
-	
-	------------------------------------------------
-	FUNCTION ComplexDiv (ValueA, ValueB: Complex) RETURN Complex;
 	------------------------------------------------
 	
 	------------------------------------------------
@@ -128,16 +116,6 @@ PACKAGE MainPackage IS
 		Rx : IN STD_LOGIC;
 		DataRx : OUT STD_LOGIC_VECTOR(7 downto 0);
 		FinishRx : OUT STD_LOGIC);
-	END COMPONENT;
-	------------------------------------------------
-	
-	------------------------------------------------
-	COMPONENT UARTRceived IS
-		PORT(clk : IN STD_LOGIC;
-			reset : IN STD_LOGIC;
-			Rx : IN STD_LOGIC;
-			DataRx : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
-			FinishRx : OUT STD_LOGIC);
 	END COMPONENT;
 	------------------------------------------------
 	
@@ -327,12 +305,14 @@ PACKAGE BODY MainPackage IS
 	
 	------------------------------------------------
 	FUNCTION ComplexSum (ValueA, ValueB: Complex) RETURN Complex IS
-		VARIABLE Result: Complex;
+		
+		VARIABLE Result : Complex;
 		
 	BEGIN
 	
 		Result.r := ValueA.r + ValueB.r;
 		Result.i := ValueA.i + ValueB.i;
+		
 		RETURN Result;
 		
 	END ComplexSum;
@@ -340,6 +320,7 @@ PACKAGE BODY MainPackage IS
 	
 	------------------------------------------------
 	FUNCTION ComplexSub (ValueA, ValueB: Complex) RETURN Complex IS
+		
 		VARIABLE Result: Complex;
 		
 	BEGIN
@@ -349,33 +330,6 @@ PACKAGE BODY MainPackage IS
 		RETURN Result;
 		
 	END ComplexSub;
-	------------------------------------------------
-	
-	------------------------------------------------
-	FUNCTION ComplexMult (ValueA, ValueB: Complex) RETURN Complex IS
-		
-		VARIABLE Result: Complex;
-		
-	BEGIN
-	
-		Result.r := (ValueA.r*ValueB.r - ValueA.i*ValueB.i);
-		Result.i := (ValueA.r*ValueB.i + ValueA.i*ValueB.r);
-		RETURN Result;
-		
-	END ComplexMult;
-	------------------------------------------------
-	
-	------------------------------------------------
-	FUNCTION ComplexDiv (ValueA, ValueB: Complex) RETURN Complex IS
-		VARIABLE Result: Complex;
-			
-	BEGIN
-	
-		Result.r := (ValueA.r*ValueB.r + ValueA.i*ValueB.i)/(ValueB.r*ValueB.r + ValueB.i*ValueB.i);
-		Result.i := (ValueA.i*ValueB.r - ValueA.r*ValueB.i)/(ValueB.r*ValueB.r + ValueB.i*ValueB.i);
-		RETURN Result;
-		
-	END ComplexDiv;
 	------------------------------------------------
 
 	------------------------------------------------
