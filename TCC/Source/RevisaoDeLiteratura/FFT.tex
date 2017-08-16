@@ -1,0 +1,23 @@
+
+Para se calcular uma DFT de $N_0$ valores usando apenas (\ref{eq:DFT}), e necessário realizar um total de $N^2_0$ multiplicações e  $N_0(N0 ? 1)$ somas utilizando números complexos. Deste modo, quando $N_0$ assume um valor elevado, muitos recursos computacionais são necessários, até chegar ao ponto de que esse algoritmo se torna impraticável.
+
+Para que se possa reduzir o numero de operações matemáticas necessárias para calcular a DFT é que surgiu o algoritmo criado por J.W. Cooley e John Tukey, conhecido como Transformada Rápida de Fourier ou FFT \textit{(Fast Fourier Transform)} \citeonline[p.~719]{Lathi}. Para reduzir o numero de cálculos, a FFT se utiliza da propriedade linear da transformada de Fourier. Já que, segundo \citeonline[p.~119]{Oppenheim}, a transformada de Fourier de um sinal pode ser dada pela combinação linear da transformada de Fourier de segmentos menores do mesmo sinal. Logo, é possível aplicar a DFT o paradigma da Divisão e Conquista, o qual é um recurso muito utilizado em algoritmos de ordenação. 
+
+Segundo \citeonline[p.~21]{cormen} um algoritmo de Divisão e Conquista realiza o desmembramento de um problema em vários subproblemas que são idênticos ao original, porém menores em sua faixa de ação, o que os torna mais simples de resolver. Em seguida, resolvem-se os subproblemas recursivamente e combinam-se essas soluções de modo a obter a solução para o problema original.
+
+De modo muito semelhante o algoritmo da FFT prevê uma divisão recursiva  da DFT em dois blocos: bloco par e o bloco ímpar, como mostrado em (\ref{eq:DenicaoFFT}) \cite[p.~35]{chu}. Nesta mesma equação os limites dos somatórios de ambas as parcelas ímpar e par foram redefinidas para englobar apenas metade dos $N_0$ pontos, bem como os expoentes de $W$ foram ajustados.
+
+\begin{equation}
+	X_r~=~\underbrace{\sum^{\frac{N_0}{2} - 1}_{n=0} x_{2n} W^{2nr}_{N_0}}_{Parcela~Par} ~ + ~\underbrace{\sum^{\frac{N_0}{2} - 1}_{n=0} x_{2n+1} W^{(2n+1)r}_{N_0}}_{Parcela~\acute{I}mpar}
+	\label{eq:DenicaoFFT}  
+\end{equation}
+
+Utilizando algumas das propriedades geométricas de $W$, já que o mesmo representa um numero complexo, pode-se realizar simplificações importantes em \ref{eq:DenicaoFFTA}. Primeiro nota-se que $W_{N_0 / 2}~=~W_{N_0} ^{2}$, logo:
+
+\begin{equation}
+	X_r~=~\underbrace{\sum^{\frac{N_0}{2} - 1}_{n=0} x_{2n} W^{2nr}_{N_0}}_{G_r} ~ + ~\underbrace{\sum^{\frac{N_0}{2} - 1}_{n=0} x_{2n+1} W^{(2n+1)r}_{N_0}}_{H_r}
+	\label{eq:DenicaoFFTA}  
+\end{equation}
+
+Como $G_r$ e $H_r$ são DFTs com $N_0 / 2$ pontos cada, então ambos possuem um período de $N_0 / 2$. Com base na propriedade periódica destas DFTs pode-se utilizar as simplificações (25) e (26) para reduzir o número de cálculos na DFT \cite[p. 721]{Lathi}.
+

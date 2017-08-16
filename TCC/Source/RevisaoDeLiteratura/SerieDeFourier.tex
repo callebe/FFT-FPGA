@@ -1,0 +1,40 @@
+Segundo \citeonline[p.~530]{Lathi}  "Um sinal periódico $x(t)$ com período $T_0$ pode
+ser descrito como a soma de senoides de frequência $f_0$ e todas as suas harmônicas", conforme visto em (\ref{eq:SerieFourierFundamental}). O qual e conhecida como série trigonométrica de Fourier de um sinal periódico $x(t)$, sendo $\omega_0$ a frequência fundamental.
+
+
+\begin{equation}
+	x(t) ~=~ a_0 + sum _{n=1} ^{\infty} a_n cos (n \omega_0 t) + b_n sen(n \omega_0 t)
+	\label{eq:SerieFourierFundamental}
+\end{equation}
+
+E possível determinar os coeficientes $a_n$ e $b_n$ de (\ref{eq:SerieFourierFundamental} )pelas equações (\ref{eq:SerieFourierFundamentalan}) e (\ref{eq:SerieFourierFundamentalbn}), em que o coeficiente $T_0$ representa o período relativo a $f_0$.
+
+\begin{equation}
+	a_n~=~\frac{2}{T_0} \int_{T_0} x(t) cos(n \omega_0 t) dt
+	\label{eq:SerieFourierFundamentalan}
+\end{equation}
+
+\begin{equation}
+	a_n~=~\frac{2}{T_0} \int_{T_0} x(t) cos(n \omega_0 t) dt
+	\label{eq:SerieFourierFundamentalbn}
+\end{equation}
+
+A expressão da série de Fourier em termos exponenciais $e^{j \omega_0 t}$ e $e^{?j \omega_0 t}$ é facilmente obtida a partir da forma trigonométrica \cite{Lathi}. A forma exponencial da serie de Fourier é dada por (\ref{eq:SerieFourierExponencial}), em que o coeficiente $C_n$ e análogo aos coeficientes $a_n$ e $b_n$ da serie trigonométrica, sendo obtido por (\ref{eq:SerieFourierExponencialCn}.) Nota-se que diferente dos coeficientes $a_n$ e $b_n$, o coeficiente $C_n$ pode representar um valor complexo.
+
+\begin{equation}
+	x(t)~=~\sum^{\infty} _{- \infty} C_n e^{j n \omega_0 t}
+	\label{eq:SerieFourierExponencial}
+\end{equation}
+
+\begin{equation}
+	C_n~=~ \frac{1}{T_0} \int_{T_0} x(t) e^{j n \omega_0 t} dt
+	\label{eq:SerieFourierExponencialCn}
+\end{equation}
+
+\subsection{Espectro Exponencial de Fourier}
+
+Segundo \citeonline[p.~556]{Lathi}, o espectro exponencial de Fourier e traçado a partir dos coeficientes $C_n$ e das frequências $n \omega_0$ da forma exponencial da serie de Fourier. Então e necessário expressar o espectro em função da parte real e da parte imaginaria, ou do modulo e do ângulo. A forma de $C_n$ em modulo é angulo geralmente é mais útil para se expressar o espectro. Logo são taçados dois gráficos para o espectro exponencial de Fourier, um que relaciona $|C_n |$ com $n \omega_0$, e outro que relaciona $\angle C_n$ com $n \omega_0$.
+
+Para \citeonline[p.~533]{Lathi} os dois gráficos juntos formam o espectro de frequência, o qual revela os conteúdos de frequência do sinal $x(t)$, com suas
+amplitudes e fase. Conhecendo-se este espectro não só é possível analisar o sinal
+$x(t)$, como também reconstruí-lo de forma fácil.

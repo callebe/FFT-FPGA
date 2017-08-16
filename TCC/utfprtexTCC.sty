@@ -1,0 +1,343 @@
+%% $Id: abnt-UFPR.sty,v 1.2 2003/10/10 16:40:25 gweber Exp $
+%% name of this file abntcite.sty
+%% Copyright 2003 by the abnTeX group at http://abntex.codigolivre.org.br
+%% and by the authors Rogério C. <rogerioc@cesec.ufpr.br>
+%%                and Dornelles Vissotto Junior <dvissotto@ufpr.br>
+%%
+%% This file is distributed under the LaTeX-Project Public License (LPPL)
+%%            http://www.latex-project.org/lppl.html
+%% You are free to modify this file under the LPPL.
+%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{utfprtexTCC}
+
+
+\RequirePackage{ifthen}
+\RequirePackage[brazil]{babel}
+\RequirePackage[latin1]{inputenc}
+
+\RequirePackage{tocloft}
+\RequirePackage{footmisc}
+
+% Para inserir o 'Figura X: ' na lista de figuras
+\newlength{\mylen}
+
+\renewcommand{\cftfigpresnum}{\figurename\enspace}
+\renewcommand{\cftfigaftersnum}{:}
+\settowidth{\mylen}{\cftfigpresnum\cftfigaftersnum}
+\addtolength{\cftfignumwidth}{\mylen}
+
+% Para inserir o 'Tabela X: ' na lista de tabelas (adicionado por Otavio Gomes em 18/06/16)
+
+\renewcommand{\cfttabpresnum}{\tablename\enspace}
+\renewcommand{\cfttabaftersnum}{:}
+\settowidth{\mylen}{\cfttabpresnum\cfttabaftersnum}
+\addtolength{\cfttabnumwidth}{\mylen}
+
+
+% Formatando Captions das figuras e tabelas:
+%\usepackage[font=small,labelfont=bf]{caption}
+% Formatando Captions das figuras e tabelas:
+\usepackage[font=small,labelfont=bf,justification=justified,singlelinecheck=false]{caption}
+
+
+\renewcommand{\captionfont}{\small\bf}
+%\RequirePackage{abnt}
+
+% Definição de comandos específicos de TCC:
+\providecommand{\ABNTata}{}
+\newcommand{\atanumero}[1]{\renewcommand{\ABNTata}{#1}}
+
+\providecommand{\ABNTBancaAdata}{}
+\newcommand{\bancaA}[1]{\renewcommand{\ABNTBancaAdata}{#1}}
+
+\providecommand{\ABNTBancaBdata}{}
+\newcommand{\bancaB}[1]{\renewcommand{\ABNTBancaBdata}{#1}}
+
+\providecommand{\ABNTBancaCdata}{}
+\newcommand{\bancaC}[1]{\renewcommand{\ABNTBancaCdata}{#1}}
+
+\providecommand{\ABNTBancaDdata}{}
+\newcommand{\bancaD}[1]{\renewcommand{\ABNTBancaDdata}{#1}}
+
+\newcommand{\bancaformat}{\bfseries}
+
+% Altera o tamanho das fontes dos capítulos e dos apêndices
+\renewcommand{\ABNTchapterfont}{\bfseries}
+\renewcommand{\ABNTchaptersize}{\normalsize}
+\renewcommand{\ABNTsectionfont}{\normalsize}
+\renewcommand{\ABNTanapsize}{\normalsize}
+
+% Define o tipo de numeração das páginas
+%\renewcommand{\chaptertitlepagestyle}{plain}
+
+
+% Configuração do Tocloft para formatação do sumário.
+\renewcommand{\cftchapfont}{\bfseries\MakeUppercase} % change chapter headings to uppercase
+\renewcommand{\cftsecfont}{\MakeUppercase}
+\renewcommand{\cftchapafterpnum}{\vspace{4pt}}
+\renewcommand{\cftchapdotsep}{2}
+\renewcommand{\cftsecdotsep}{2} 
+\renewcommand{\cftsubsecdotsep}{2} 
+\renewcommand{\cftsubsubsecdotsep}{2}
+
+\setlength{\cftbeforesecskip}{0pt}
+\setlength{\cftbeforechapskip}{4pt}
+\setlength{\cftbeforesubsecskip}{-5pt}
+\setlength{\cftbeforesubsubsecskip}{-5pt}
+\setlength{\cftsecindent}{0pt}
+\setlength{\cftsubsecindent}{0pt}
+\setlength{\cftsubsubsecindent}{0pt}
+
+
+
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{5}
+
+%\makeatother
+
+%Altera o tamanho do parágrafo
+\setlength{\parindent}{2cm}
+\setlength{\parskip}{0.15cm}
+
+\renewcommand\footnotelayout{\bfseries}
+
+% DIFINICOES DE TEXTOS:
+\renewcommand{\ABNTtextoaprovacaodata}{Trabalho de Conclusão de Curso de graduação, apresentado à disciplina de Trabalho de Conclusão de Curso 2, do Curso de Engenharia Elétrica da Coordenação de Engenharia Elétrica - {COELT} - da Universidade Tecnológica Federal do Paraná - UTFPR, Câmpus Pato Branco, como requisito parcial para obtenção do título de Engenheiro Eletricista.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55
+%%% CAPA - por Otavio Augusto Gomes, 04/05/2015
+
+\usepackage{chngcntr}
+\counterwithout{equation}{chapter}
+% torna a numeracao das equacoes, sequenciais, ao longo dos capitulos.
+% Anteriormente o contador resetava a cada novo capitulo.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55
+%%% CAPA - por Otavio Augusto Gomes, 27/03/2015
+
+\usepackage{eso-pic} % Pacote que permite incluir a imagem de fundo
+
+\newcommand{\capa}% Cria o comando capa
+{%
+	\begin{titlepage}
+		
+		\AddToShipoutPictureBG*{\includegraphics[width=\paperwidth,height=\paperheight]{Capa_Automacao_Industrial.png}} % Insere a imagem de fundo
+		
+		\begin{center}
+			\vspace*{-1.85cm}
+			\autorformat\uppercase{Universidade Tecnológica Federal do Paraná\\Departamento Acadêmico de Elétrica\\Curso de Engenharia Elétrica}
+		\end{center}
+		
+		\vfill
+				
+		\ABNTifnotempty{\ABNTautorAdata}%
+		{%
+			\begin{center}
+				\autorformat\MakeUppercase{\ABNTautorAdata}
+			\end{center}
+		}
+		\ABNTifnotempty{\ABNTautorBdata}%
+		{%
+			\begin{center}
+				\autorformat\MakeUppercase{\ABNTautorBdata}
+			\end{center}
+		}%
+		\vfill
+		\ABNTifnotempty{\ABNTtitulodata}%
+		{%
+			\begin{center}
+				{\tituloformat\MakeUppercase{\ABNTtitulodata}\par}
+			\end{center}
+		}%
+				
+		\vfill
+		
+		\begin{center}
+			\ABNTsectionfont\uppercase{Trabalho de Conclusão de Curso}
+		\end{center}
+		
+		\vfill 
+				
+		\begin{center}	
+			\ABNTifnotempty{\ABNTlocaldata}
+			{{\localformat \MakeUppercase{\ABNTlocaldata}}\par}
+			\ABNTifnotempty{\ABNTdatadata}
+			{{\dataformat\ABNTdatadata}}
+		\end{center}
+		
+		\vspace*{-0.4cm}
+		
+	\end{titlepage}
+}% end of \capa
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55
+%%% FOLHA DE ROSTO
+
+\newcommand{\folhaderosto}%
+{%
+\begin{titlepage}
+
+\ABNTifnotempty{\ABNTautorAdata}%
+  {%
+  \begin{center}
+    \autorformat\MakeUppercase{\ABNTautorAdata}
+  \end{center}
+  }
+\ABNTifnotempty{\ABNTautorBdata}%
+  {%
+  \begin{center}
+    \autorformat\MakeUppercase{\ABNTautorBdata}
+  \end{center}
+  }%
+\vfill
+\ABNTifnotempty{\ABNTtitulodata}%
+  {%
+   \begin{center}
+     {\tituloformat\MakeUppercase{\ABNTtitulodata}\par}
+   \end{center}
+  }%
+\vspace{.8cm}
+ \hspace{.45\textwidth}
+   \begin{minipage}{.5\textwidth}
+     \begin{espacosimples}
+			\ABNTifnotempty{\ABNTtextoaprovacaodata}%
+			{%
+				{\comentarioformat\ABNTtextoaprovacaodata}\par%
+			}%
+			\ABNTifnotempty{\ABNTorientadordata}%
+			{%
+				\vspace{1em}%
+				{\orientadornameformat\ABNTorientadorname}%
+				{\orientadorformat\ABNTorientadordata}\par%
+			}%
+			\ABNTifnotempty{\ABNTcoorientadordata}%
+			{%
+				\vspace{1em}%
+				{\coorientadornameformat\ABNTcoorientadorname}
+				{\coorientadorformat\ABNTcoorientadordata}
+			}%
+     \end{espacosimples}
+   \end{minipage}
+\vfill
+\begin{center}
+  \ABNTifnotempty{\ABNTlocaldata}
+      {{\localformat \MakeUppercase{\ABNTlocaldata}}\par}
+    \ABNTifnotempty{\ABNTdatadata}
+      {{\dataformat\ABNTdatadata}}
+\end{center}
+\end{titlepage}
+}% end of \folhaderosto
+
+%
+%============================== TERMO DE APROVAÇÃO =========================================
+\newcommand{\termodeaprovacao}{
+\begin{titlepage}
+%
+\pretextualchapter{Termo de Aprovação}
+\vspace{2cm}
+\par
+O Trabalho de Conclusão de Curso intitulado \textbf{\MakeUppercase{\ABNTtitulodata}} {\ifthenelse{\not\equal{\ABNTautorBdata}{}}{dos acadêmicos \textbf{\ABNTautorAdata} e \textbf{\ABNTautorBdata}}{do acadêmico \textbf{\ABNTautorAdata}}} foi considerado \textbf{APROVADO} de acordo com a ata da banca
+examinadora \textbf{N$^\circ$ \ABNTata} de \textbf{\ABNTdatadata}.
+\vspace{2cm}
+\begin{center}
+Fizeram parte da banca examinadora os professores:
+
+			\ABNTifnotempty{\ABNTorientadordata}%
+			{%
+				\vspace{1em}%
+				{\bancaformat\ABNTorientadordata}\par%
+			}%
+			\ABNTifnotempty{\ABNTcoorientadordata}%
+			{%
+				\vspace{1em}%
+				{\bancaformat\ABNTcoorientadordata}\par
+			}%
+			\ABNTifnotempty{\ABNTBancaAdata}%
+			{%
+				\vspace{1em}%
+				{\bancaformat\ABNTBancaAdata}\par
+			}%
+			\ABNTifnotempty{\ABNTBancaBdata}%
+			{%
+				\vspace{1em}%
+				{\bancaformat\ABNTBancaBdata}\par
+			}%
+			\ABNTifnotempty{\ABNTBancaCdata}%
+			{%
+				\vspace{1em}%
+				{\bancaformat\ABNTBancaCdata}\par
+			}%
+			\ABNTifnotempty{\ABNTBancaDdata}%
+			{%
+				\vspace{1em}%
+				{\bancaformat\ABNTBancaDdata}\par
+			}%
+\end{center}
+
+\end{titlepage}
+}
+
+%\pretextualchapter{Termo de Aprovação}
+%
+%\vspace{-0.25cm}
+%
+%\begin{center}
+	%\large\ABNTautordata
+%\end{center}
+%
+%\vspace{0.75cm}
+%
+%\begin{center}
+	%\large\ABNTtitulodata
+%\end{center}
+%
+%\vspace{0.75cm}
+%
+%\begin{espacosimples}
+	%\noindent\ABNTtextoaprovacaodata\par
+%\end{espacosimples}
+%
+%\setlength{\ABNTsignthickness}{0.4pt}
+%\setlength{\ABNTsignskip}{1.75cm}
+%
+%\ABNTifnotempty{\ABNTprimeiroassinadata}%
+%{%
+  %\begin{center}
+    %\vspace{-0.5cm}
+    %\assinatura{\ABNTprimeiroassinadata}
+  %\end{center}
+%}
+%\ABNTifnotempty{\ABNTsegundoassinadata}%
+%{%
+  %\begin{center}
+    %\vspace{-0.5cm}
+    %\assinatura{\ABNTsegundoassinadata}
+  %\end{center}
+%}
+%\ABNTifnotempty{\ABNTterceiroassinadata}%
+%{%
+  %\begin{center}
+    %\vspace{-0.5cm}
+    %\assinatura{\ABNTterceiroassinadata}
+  %\end{center}
+%}
+%\ABNTifnotempty{\ABNTquartoassinadata}%
+%{%
+  %\begin{center}
+    %\vspace{-0.5cm}
+    %\assinatura{\ABNTquartoassinadata}
+  %\end{center}
+%}
+%
+%\vfill
+%
+%\begin{center}
+	%\ABNTlocaldiadata
+%\end{center}
+%
+%\end{titlepage}
+%}

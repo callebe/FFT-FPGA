@@ -1,0 +1,329 @@
+%% $Id: abnt-UFPR.sty,v 1.2 2003/10/10 16:40:25 gweber Exp $
+%% name of this file abntcite.sty
+%% Copyright 2003 by the abnTeX group at http://abntex.codigolivre.org.br
+%% and by the authors Rogério C. <rogerioc@cesec.ufpr.br>
+%%                and Dornelles Vissotto Junior <dvissotto@ufpr.br>
+%%
+%% This file is distributed under the LaTeX-Project Public License (LPPL)
+%%            http://www.latex-project.org/lppl.html
+%% You are free to modify this file under the LPPL.
+%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{utfprtexPropostaTCC}
+
+%\PassOptionsToClass{pnumromarab}{abnt}
+
+\RequirePackage{ifthen}
+\RequirePackage[brazil]{babel}
+\RequirePackage[latin1]{inputenc}
+
+\RequirePackage{tocloft}
+\RequirePackage{footmisc}
+
+
+% Para inserir o 'Figura X: ' na lista de figuras
+\newlength{\mylen}
+
+\renewcommand{\cftfigpresnum}{\figurename\enspace}
+\renewcommand{\cftfigaftersnum}{:}
+\settowidth{\mylen}{\cftfigpresnum\cftfigaftersnum}
+\addtolength{\cftfignumwidth}{\mylen}
+
+% Configuração do Tocloft para formatação do sumário.
+\renewcommand{\cftchapfont}{\bfseries\MakeUppercase} % change chapter headings to uppercase
+\renewcommand{\cftsecfont}{\MakeUppercase}
+\renewcommand{\cftchapafterpnum}{\vspace{4pt}}
+\renewcommand{\cftchapdotsep}{2}
+\renewcommand{\cftsecdotsep}{2} 
+\renewcommand{\cftsubsecdotsep}{2} 
+\renewcommand{\cftsubsubsecdotsep}{2}
+
+\setlength{\cftbeforesecskip}{0pt}
+\setlength{\cftbeforechapskip}{4pt}
+\setlength{\cftbeforesubsecskip}{-5pt}
+\setlength{\cftbeforesubsubsecskip}{-5pt}
+\setlength{\cftsecindent}{0pt}
+\setlength{\cftsubsecindent}{0pt}
+\setlength{\cftsubsubsecindent}{0pt}
+
+
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{5}
+
+\renewcommand\footnotelayout{\bfseries}
+
+% Formatando Captions das figuras e tabelas:
+\usepackage[font=small,labelfont=bf,justification=justified,singlelinecheck=false]{caption}
+
+
+%\makeatletter	%Para que ele entenda o @
+
+
+% ************* CAPA **************
+
+\newcommand{\capa}%
+{%
+% replacing \begin{titlepage}
+\if@twocolumn
+  \@restonecoltrue\onecolumn
+\else
+  \@restonecolfalse\newpage
+\fi
+\thispagestyle{empty}%
+\setcounter{page}\z@%
+%
+\begin{center}%
+UNIVERSIDADE TECNOLÓGICA FEDERAL DO PARANÁ\\
+DEPARTAMENTO ACADÊMICO DE ELÉTRICA\\
+CURSO DE ENGENHARIA ELÉTRICA
+%  \autorformat\ABNTautordata%
+\end{center}%
+	%
+	\vfill
+%\vspace*{1cm}
+\espaco{1.1}
+\ABNTifnotempty{\ABNTautorAdata}%
+  {%
+  \begin{center}%
+    \autorformat\MakeUppercase{\ABNTautorAdata}%
+  \end{center}%
+  }%
+	\ABNTifnotempty{\ABNTautorBdata}%
+  {%
+  \begin{center}%
+    \autorformat\MakeUppercase{\ABNTautorBdata}%
+  \end{center}%
+  }
+\vfill%
+\ABNTifnotempty{\ABNTtitulodata}%
+  {%
+   \begin{center}%
+     {\tituloformat\MakeUppercase{\ABNTtitulodata}\par}%
+   \end{center}%
+  }%
+	\vfill%
+\begin{center}%
+  PROPOSTA DE TRABALHO DE CONCLUSÃO DE CURSO%
+\end{center}%
+%\vspace*{1cm}
+\vfill%
+\begin{center}
+  \begin{espacosimples}
+    \setlength{\parskip}{.3cm}
+    \ABNTifnotempty{\ABNTlocaldata}
+      {{\localformat\ABNTlocaldata}\par}
+    \ABNTifnotempty{\ABNTdatadata}
+      {{\dataformat\ABNTdatadata}}
+  \end{espacosimples}
+\end{center}
+%\vspace*{1cm}
+% replacing \end{titlepage} by its meaning
+\if@restonecol\twocolumn \else \newpage \fi
+\espaco{\ABNTespacodefault}%Corrige bug 114
+}% end of \capa
+
+%
+%% ******** FOLHA DE ROSTO *********
+%\newcommand{\esporient}[2]{
+	%\leftskip 0em
+	%\@tempdima 5.5em
+	%\advance\leftskip \@tempdima \null\nobreak\hskip -\leftskip
+	%{#1#2\hfil}}
+%
+%\newcommand{\espcoorient}[2]{
+	%\leftskip 0em
+	%\@tempdima 7em
+	%\advance\leftskip \@tempdima \null\nobreak\hskip -\leftskip
+	%{#1#2\hfil}}
+%
+%\renewcommand{\folhaderosto}{
+%\begin{titlepage}
+%\espaco{1.1}
+%
+%\begin{center}
+%	\large\ABNTchapterfont\ABNTautordata\\
+	%\line(1,0){1\textwidth}
+%	\hrulefill
+%\end{center}
+%
+%\vspace{7.5cm}
+%
+%\begin{center}
+%	\large\ABNTchapterfont\ABNTtitulodata\par
+%\end{center}
+%
+%\vspace{2cm}
+%
+%\hspace{.3\textwidth}
+%\begin{minipage}{.55\textwidth}
+%	\begin{espacosimples}
+%		\ABNTcomentariodata\par
+%	\end{espacosimples}
+%\end{minipage}
+%
+%\hspace{.3\textwidth}
+%\begin{minipage}{.55\textwidth}
+	%\begin{espacosimples}
+		%\esporient{\numberline {Orientador:}}{\ignorespaces\ABNTorientadordata}
+	%\end{espacosimples}
+%\end{minipage}
+%
+%\ABNTifnotempty{\ABNTcoorientadordata}{
+	%\hspace{.3\textwidth}
+	%\begin{minipage}{.55\textwidth}
+		%\begin{espacosimples}
+			%\espcoorient{\numberline {Co-Orientador:}}{\ignorespaces\ABNTcoorientadordata}
+		%\end{espacosimples}
+	%\end{minipage}}
+%
+%\vfill
+%
+%\begin{center}
+	%\textbf{\ABNTlocaldata}\par
+	%\textbf{\ABNTdatadata}
+%\end{center}
+%
+%\end{titlepage}
+%
+%}% end of \folhaderosto
+
+% Altera o tamanho das fontes dos capítulos e dos apêndices
+\renewcommand{\ABNTchapterfont}{\bfseries}
+\renewcommand{\ABNTchaptersize}{\normalsize}
+\renewcommand{\ABNTsectionfont}{\normalsize}
+\renewcommand{\ABNTanapsize}{\normalsize}
+
+% Define o tipo de numeração das páginas
+%\renewcommand{\chaptertitlepagestyle}{plain}
+
+
+%\makeatother
+
+%Altera o tamanho do parágrafo
+\setlength{\parindent}{2cm}
+\setlength{\parskip}{0.15cm}
+
+
+% DIFINICOES DE TEXTOS:
+\renewcommand{\ABNTtextoaprovacaodata}{Proposta de Trabalho de Conclusão de Curso de graduação, apresentado à disciplina de Trabalho de Conclusão de Curso 1, do Curso de Engenharia Elétrica da Coordenação de Engenharia Elétrica - {COELT} - da Universidade Tecnológica Federal do Paraná - UTFPR, Campus Pato Branco, como requisito parcial para obtenção do título de Engenheiro.}
+
+
+% ******* PARA A FICHA DE DADOS ******
+\providecommand{\DadosAutorFicha}{}
+\newcommand{\DadosAutor}[1]{\renewcommand{\DadosAutorFicha}{#1}}
+
+% ******* MONTA A FICHA DE DADOS *******
+\newcommand{\FichaDeDados}%
+{%
+\noindent\hrulefill\par
+\noindent\parbox[t]{.3\linewidth}{Título}
+\parbox[t]{.69\linewidth}{\ABNTtitulodata}\par\vspace{3mm}
+\noindent\hrulefill\par
+\ABNTifnotempty{\ABNTautorAdata}
+{%
+  \noindent\parbox[t]{.3\linewidth}{Acadêmico}
+	\parbox[t]{.69\linewidth}{\ABNTautorAdata \\ \ABNTautorAdados}\\ \par
+}%
+\ABNTifnotempty{\ABNTautorBdata}%
+{%
+  \noindent\parbox[t]{.3\linewidth}{Acadêmico}
+	\parbox[t]{.69\linewidth}{\ABNTautorBdata \\ \ABNTautorBdados}\par\vspace{3mm}
+}%
+\noindent\hrulefill\par
+\noindent\parbox[t]{.3\linewidth}{\ABNTorientadorname}
+\ABNTifnotempty{\ABNTorientadordata}%
+{%
+  \parbox[t]{.69\linewidth}{\ABNTorientadordata \\ \ABNTorientadorDados}\par\vspace{3mm}
+}%
+\noindent\hrulefill\par
+\ABNTifnotempty{\ABNTcoorientadordata}%
+{%
+  \noindent\parbox[t]{.3\linewidth}{\ABNTcoorientadorname}
+	\parbox[t]{.69\linewidth}{\ABNTcoorientadordata \\ \ABNTcoorientadorDados}\par\vspace{3mm}
+	\noindent\hrulefill\par
+}%
+\noindent\parbox[t]{.3\linewidth}{Área de concentração}
+\ABNTifnotempty{\ABNTarea}%
+{%
+  \parbox[t]{.69\linewidth}{\ABNTarea}
+}%
+\par\noindent\hrulefill
+
+%\par
+%\begin{minipage}{.3\linewidth}
+%	\begin{espacosimples}
+% Título\par
+%	\end{espacosimples}
+%\end{minipage}
+%\begin{minipage}{.7\linewidth}
+%	\begin{espacosimples}
+%		\ABNTtitulodata\par
+%	\end{espacosimples}
+%\end{minipage}%
+}% end of \FichaDeDados
+
+%
+%
+%\newcommand{\termodeaprovacao}{
+%\begin{titlepage}
+%
+%\pretextualchapter{Termo de Aprovação}
+%
+%\vspace{-0.25cm}
+%
+%\begin{center}
+	%\large\ABNTautordata
+%\end{center}
+%
+%\vspace{0.75cm}
+%
+%\begin{center}
+	%\large\ABNTtitulodata
+%\end{center}
+%
+%\vspace{0.75cm}
+%
+%\begin{espacosimples}
+	%\noindent\ABNTtextoaprovacaodata\par
+%\end{espacosimples}
+%
+%\setlength{\ABNTsignthickness}{0.4pt}
+%\setlength{\ABNTsignskip}{1.75cm}
+%
+%\ABNTifnotempty{\ABNTprimeiroassinadata}%
+%{%
+  %\begin{center}
+    %\vspace{-0.5cm}
+    %\assinatura{\ABNTprimeiroassinadata}
+  %\end{center}
+%}
+%\ABNTifnotempty{\ABNTsegundoassinadata}%
+%{%
+  %\begin{center}
+    %\vspace{-0.5cm}
+    %\assinatura{\ABNTsegundoassinadata}
+  %\end{center}
+%}
+%\ABNTifnotempty{\ABNTterceiroassinadata}%
+%{%
+  %\begin{center}
+    %\vspace{-0.5cm}
+    %\assinatura{\ABNTterceiroassinadata}
+  %\end{center}
+%}
+%\ABNTifnotempty{\ABNTquartoassinadata}%
+%{%
+  %\begin{center}
+    %\vspace{-0.5cm}
+    %\assinatura{\ABNTquartoassinadata}
+  %\end{center}
+%}
+%
+%\vfill
+%
+%\begin{center}
+	%\ABNTlocaldiadata
+%\end{center}
+%
+%\end{titlepage}
+%}

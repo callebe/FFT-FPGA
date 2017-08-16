@@ -1,0 +1,25 @@
+\select@language {brazil}
+\contentsline {chapter}{\numberline {1}Introdu\c c\~ao}{11}{chapter.1}
+\contentsline {section}{\numberline {1.1}Justificativa}{11}{section.1.1}
+\contentsline {chapter}{\numberline {2}Revis\~ao de Literatura}{12}{chapter.2}
+\contentsline {section}{\numberline {2.1}Sistemas de Tempo Continuo e Tempo Discreto}{13}{section.2.1}
+\contentsline {section}{\numberline {2.2}S\'erie de Fourier}{13}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Espectro Exponencial de Fourier}{14}{subsection.2.2.1}
+\contentsline {section}{\numberline {2.3}S\'erie de Fourier em Tempo Discreto}{14}{section.2.3}
+\contentsline {section}{\numberline {2.4}Transformada R\'apida de Fourier}{17}{section.2.4}
+\contentsline {section}{\numberline {2.5}FPGA}{18}{section.2.5}
+\contentsline {section}{\numberline {2.6}S\'erie de Fourier}{18}{section.2.6}
+\contentsline {section}{\numberline {2.7}Espectro de Fourier}{18}{section.2.7}
+\contentsline {section}{\numberline {2.8}S\'erie de Fourier em Tempo Discreto}{18}{section.2.8}
+\contentsline {section}{\numberline {2.9}A Transformada R\'apida de Fourier}{18}{section.2.9}
+\contentsline {chapter}{\numberline {3}Implementando FFT - 8 Pontos}{19}{chapter.3}
+\contentsline {subsection}{\numberline {3.0.1}Testes e exemplos de lista de siglas}{19}{subsection.3.0.1}
+\contentsline {subsection}{\numberline {3.0.2}Testes e exemplos de lista de s\IeC {\'\i }mbolos}{19}{subsection.3.0.2}
+\contentsline {subsection}{\numberline {3.0.3}Exemplos de cita\c c\~ao de refer\^encias bibliogr\'aficas}{20}{subsection.3.0.3}
+\contentsline {chapter}{\numberline {4}N\IeC {\'\i }vel 1 - Testes DE capitula\c c\~ao - Prim\'ario}{21}{chapter.4}
+\contentsline {section}{\numberline {4.1}N\IeC {\'\i }vel 2 - Secund\'ario}{21}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}N\IeC {\'\i }vel 3 - Terci\'ario}{21}{subsection.4.1.1}
+\contentsline {subsubsection}{\numberline {4.1.1.1}N\IeC {\'\i }vel 4 - Quatern\'ario}{21}{subsubsection.4.1.1.1}
+\contentsline {paragraph}{\numberline {4.1.1.1.1}N\IeC {\'\i }vel 5 - Quin\'ario}{21}{paragraph.4.1.1.1.1}
+\contentsline {chapter}{Anexo{} A{} -{} Stellar Mystery Solved, Einstein Safe}{23}{chapter.annex.A}
+\contentsline {section}{\numberline {A.1}Exemplo de se\c c\~ao anexo}{26}{section.annex.A.1}

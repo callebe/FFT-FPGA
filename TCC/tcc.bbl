@@ -1,0 +1,54 @@
+\providecommand{\abntreprintinfo}[1]{%
+ \citeonline{#1}}
+\setlength{\labelsep}{0pt}\begin{thebibliography}{}
+\providecommand{\abntrefinfo}[3]{}
+\providecommand{\abntbstabout}[1]{}
+\abntbstabout{1.45.2.1 }
+
+\bibitem[Anderson e Fouad 1977]{Anderson1977}
+\abntrefinfo{Anderson e Fouad}{ANDERSON; FOUAD}{1977}
+{ANDERSON, Paul~M.; FOUAD, A.~A. \textbf{Power System Control and Stability}.
+  Ames, USA: The Iowa State University Press, 1977. 464~p.}
+
+\bibitem[Frasson 2003]{abntex-doc}
+\abntrefinfo{Frasson}{FRASSON}{2003}
+{FRASSON, Miguel V.~S. \textbf{Classe ABNT. confeção de trabalhos acadêmicos em
+  \LaTeX~ segundo as normas ABNT}.
+[S.l.], 2003. Dispon{\'\i}vel em:
+  \htmladdnormallink{$<$http:\-/\-/abntex\-.codigolivre\-.org\-.br$>$}{http://abntex.codigolivre.org.br}.
+  Acesso em: 12 out. 2013.}
+
+\bibitem[Glover e Sarma 2002]{Glover2002}
+\abntrefinfo{Glover e Sarma}{GLOVER; SARMA}{2002}
+{GLOVER, J.~Duncan; SARMA, Mulukutla~S. \textbf{Power System Analysis and
+  Design}. 3. ed. Pacific Grove, USA: Brooks/Cole, 2002. 656~p.}
+
+\bibitem[Grainger e Stevenson 1994]{Grainger1994}
+\abntrefinfo{Grainger e Stevenson}{GRAINGER; STEVENSON}{1994}
+{GRAINGER, John~J.; STEVENSON, Willian~D. \textbf{Power System Analysis}. New
+  York, USA: McGraw-Hill, Inc., 1994. 787~p.}
+
+\bibitem[Lathi 2007]{Lathi}
+\abntrefinfo{Lathi}{LATHI}{2007}
+{LATHI, B. \textbf{Sinais e Sistemas Lineares}. 2. ed. [S.l.]: Brasil: Bookman,
+  2007.}
+
+\bibitem[NirmalRaj e Vigneswaran 2015]{NirmalRaj}
+\abntrefinfo{NirmalRaj e Vigneswaran}{NIRMALRAJ; VIGNESWARAN}{2015}
+{NIRMALRAJ, S.; VIGNESWARAN, T. A novel method to compress voice signal using
+  compressive sensing. In:  \textbf{2015 International Conference on Circuits,
+  Power and Computing Technologies [ICCPCT-2015]}. [S.l.: s.n.], 2015.
+  p.~1--4.}
+
+\bibitem[TradingView 2017]{bovespa}
+\abntrefinfo{TradingView}{TRADINGVIEW}{2017}
+{TRADINGVIEW. \textbf{Índice BM \& FBOVESPA}. 2017.
+\url{https://www.tradingview.com/symbols/BMFBOVESPA-IBOV/}.
+Acessado em 14 de Agosto de 2017.}
+
+\bibitem[Willsky e Oppenheim 2010]{Oppenheim}
+\abntrefinfo{Willsky e Oppenheim}{WILLSKY; OPPENHEIM}{2010}
+{WILLSKY, Alan~S; OPPENHEIM, Alan~V. \textbf{Sinais e Sistemas}. 2. ed. [S.l.]:
+  Brasil:Pearson, 2010.}
+
+\end{thebibliography}
