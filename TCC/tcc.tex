@@ -41,6 +41,8 @@
 % O comando a seguir diz ao Latex para salvar as siglas em um arquivo separado:
 %\usepackage{quadros}
 
+\usepackage{amssymb}
+
 \fazlistasiglas[Lista de Abreviaturas e Siglas] % Parâmetro opcional é o título da lista.
 
 % Os comandos a seguir ajustam o posicionamento dos floats (figures e tables).
@@ -169,18 +171,10 @@ Write here the English version of your Resumo...
 
 % Exemplo de capítulo.
 \chapter{Introdução}
-\section{Justificativa}
+	\input{Source/Introducao.tex}
 
 \chapter{Revisão de Literatura}
-\input{Source/RevisaodeLiteratura.tex}
-
-\section{Série de Fourier}
-
-\section{Espectro de Fourier}
-
-\section{Série de Fourier em Tempo Discreto}
-
-\section{A Transformada Rápida de Fourier}
+	\input{Source/RevisaodeLiteratura.tex}
 
 \chapter{Implementando FFT - 8 Pontos}
 

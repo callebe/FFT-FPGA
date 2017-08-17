@@ -1,5 +1,4 @@
-Ate aqui foi apresentada a forma continua da série de Fourier, porém para ser útil em uma aplicação computacional é necessário encontrar sua forma discreta, ou DFT \textit{(Discrete Fourier Transform)}. Segundo HAYKIN e Veen (2001, p. 314) a DFT é
-a única representação de Fourier que pode ser calculada por um computador, sendo amplamente usada para manipular sinais.
+Ate aqui foi apresentada a forma continua da série de Fourier, porém para ser útil em uma aplicação computacional é necessário encontrar sua forma discreta, ou DFT \textit{(Discrete Fourier Transform)}. Segundo \citeonline[p.~314]{Haykin} a DFT é a única representação de Fourier que pode ser calculada por um computador, sendo amplamente usada para manipular sinais.
 
 O primeiro passo para se obter uma DFT e considerar o teorema da Amostragem. Tal teorema afirma que um sinal real $x(t)$, cujo o espectro e limitado em $\phi~Hz$, pode ser reconstruído a partir de suas amostras tomadas uniformemente a uma taxa $f_s \textgreater 2 \phi$ \cite[p.~679]{Lathi}. Em seguida, a amostragem de $x(t)$, feita a
 uma frequência $f_s$, pode ser obtida pela multiplicação de $x(t)$ por um trem de impulsos $\delta (t)$. Sendo tais impulsos unitários e periódicos, repetidos a cada  $T~=~1/f_s$ segundos, por um numero total de amostras $N_0$, a amostragem pode ser definida por:
@@ -16,7 +15,7 @@ Por conveniência, deseja-se obter um espectro do sinal amostrado $x(t)$ em funçã
 	\label{eq:TremDeImpulsos}
 \end{equation}
 
-Logo, multiplicando $x(t)$ por $\delta_{T} (t)$, obtem-se:
+Logo, multiplicando $x(t)$ por $\delta_{T} (t)$, obtêm-se:
 
 \begin{equation}
 	\overline{x}(t)~=~x(t) \delta_{T}(t)~=~\frac{1}{T} [x(t) + 2x(t)cos(\omega_s t) + 2x(t)cos(2 \omega_s t) + 2x(t)cos(3 \omega_s t) + \dotsc]
@@ -97,7 +96,7 @@ Onde:
 	\label{eq:DefinicaoOmega}
 \end{equation}
 
-Para compactar a expressão de (\ref{eq:DefinicaoDFTG}) se faz a substituição da expressão exponencial pela variável  $W$, de modo que $W_{N_0} = e^{?2 \pi /N_0} = e^{-j \Omega_0}$. Logo a expressão para DFT é dada por (\ref{eq:DFT}) \cite[p.~344]{meyer}:
+Para compactar a expressão de (\ref{eq:DefinicaoDFTG}) se faz a substituição da expressão exponencial pela variável  $W$, de modo que $W_{N_0} = e^{?2 \pi /N_0} = e^{-j \Omega_0}$. Logo a expressão para DFT é dada por (\ref{eq:DFT}) \cite[p.~344]{Meyer}:
 
 \begin{equation}
 	X_r~=~\sum_{n=0}^{N_0 - 1} x_n e^{j \omega_0 n r}

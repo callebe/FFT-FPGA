@@ -2,10 +2,17 @@ This is BibTeX, Version 0.99dThe top-level auxiliary file: tcc.aux
 The style file: abnt-alf.bst
 Database file #1: abnt-options.bib
 Database file #2: bibliografia.bib
+Warning--entry type for "Wang" isn't style-file defined
+--line 160 of file bibliografia.bib
+Warning--I didn't find a database entry for "NirmalRaj"
 Warning--I didn't find a database entry for "SiteMoraes2010"
+Warning--I didn't find a database entry for "Grainger1994"
+Warning--I didn't find a database entry for "Anderson1977"
+Warning--I didn't find a database entry for "Glover2002"
+Warning--I didn't find a database entry for "abntex-doc"
 +---------------------------------------------------------+
 | Estilo bibliográfico abnt-alf.bst versão 1.45.2.1           |
 | Em caso de dúvidas ou problemas com este estilo procure |
 | http://abntex.codigolivre.org.br                        |
 +---------------------------------------------------------+
-(There was 1 warning)
+(There were 7 warnings)

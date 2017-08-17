@@ -1,0 +1,16 @@
+
+A Transformada Discreta de Fourier ou DFT \textit{(Discrete Fourier transform)},
+segundo \citeonline{Bingham}, é um recurso amplamente utilizado em aplicações como 
+processamento de imagens, comunicação rede de área local sem-fio ou WLAN \textit{(Wireless Local Area Network)}, multiplexação por divisão de frequências  ortogonais ou OFDM (Orthogonal Frequency Division Multiplexing), e medições de diferentes espectros.
+
+O calculo da DFT é uma tarefa que exige muitos recursos computacionais e que requer um projeto preciso para uma implementação eficiente \cite{Wang}. A DFT tem como base a própria série trigonométrica de Fourier discretizada. Segundo \citeonline[p.~719]{Lathi}, graças a um algoritmo desenvolvido por Cooley e Tukey o número de cálculos para executar uma DFT foi drasticamente reduzido, possibilitando um tempo de execução aceitável.
+
+Segundo \citeonline{zhou} os dispositivos conhecidos como FPGA \textit{(Field Programmable Gate Array)} são cada vez mais usados em implementação de hardware para telecomunicações, por exemplo, devido a sua capacidade de alcançar um elevado desempenho, aliado a sua flexibilidade de configuração. Desta forma, o uso de FPGA para implementar um hardware específico para o calculo da DFT torna-se relevante.
+
+\section{Justificativa}
+
+Como afirma \citeonline{he}, o algoritmo da FFT e utilizada em larga escala como componente chave em sistemas de processamentos de sinais. De tal forma que a FFT não é somente usada em aplicações de telecomunicações e processamento de dados audiovisuais \cite{Bingham}, mas e o algoritmo numérico mais comum em diversas áreas, como engenharia, medicina, física e matemática \cite{vanmathi}.
+
+No campo da engenharia biomédica, a FFT tem sido empregada na avaliação de parâmetros biológicos, como a bioimpedância \cite{amaral}. Segundo \citeonline{martinsen}, a análise da bioimpedância já e usada para monitorar atividades bioelétricas cerebrais, diagnosticar câncer de pele, dermatite, hiperidrose, avaliar a composição corporal, avaliar condição nutricional, detectar processo de rejeição de órgãos transplantado e ainda monitorar recém-nascidos através tomografia de impedância elétrica ou EIT  \textit{(Electrical Impedance Tomography)}. Sendo a EIT a única técnica de obtenção de imagens que não afeta o sistema imunológico de recém-nascidos \cite{triantis}.
+
+Para \citeonline{ibrahim}, a FPGA e uma boa escolha para a implementação do algoritmo da FFT devido a grande variedade de recursos de \textit{hardware}  sintetizáveis, além de possuir recursos de programação paralela que permite o processamento paralelo de sinais, conferindo assim uma maior rapidez na execução do algoritmo. Portanto implementar a FFT, uma ferramenta tao útil em diversas áreas da ciência, em uma plataforma vantajosa como a FPGA, é o principal motivador deste trabalho.
