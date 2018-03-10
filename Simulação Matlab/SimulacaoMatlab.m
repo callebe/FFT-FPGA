@@ -54,6 +54,7 @@ fclose(s)
 clear all
 close all
 
+%%
 %------------------------------------
 %  Simulacao do Algoritmo CORDIC
 %------------------------------------
@@ -94,6 +95,7 @@ r2 = abs(x(NumeroInteracao+1)+i*y(NumeroInteracao+1));
 O2 = 180/pi*atan(y(NumeroInteracao+1)/x(NumeroInteracao+1)); 
 
 
+%%
 %------------------------------------
 %  Simulacao do FFT
 %------------------------------------
@@ -233,20 +235,16 @@ end
 
 %Pega o Resultado
 for CountFFT = 1 : SizeOfFFT
-    
     ModXr(CountFFT) = Xin(CountFFT, NumberOfLevels+1);
-    
 end
 
 %Modulo da FFT
-ModXr = abs(ModXr/SizeOfFFT);
-%Pega apenas a metade do Spectro
-Xr =  ModXr(1:SizeOfFFT/2+1);
-%Compenso os modulos
-Xr(2:end-1) = 2*Xr(2:end-1);
+Xr = abs(ModXr/SizeOfFFT);
+%Pega apenas a metade do Spectro e Compensando o Modulo
+Xrc =  2*Xr(1:SizeOfFFT/2);
 %Plot da FFT
 figure;
-stem((0 : SizeOfFFT/2)*f_s/(SizeOfFFT), Xr);
+stem((0 : SizeOfFFT/2-1)*f_s/(SizeOfFFT), Xrc);
 ylabel('Amplitude');
 xlabel('Frequência (H)');
 title('FFT Implementada');
@@ -254,14 +252,12 @@ title('FFT Implementada');
 %FFT via Matlab
 Y = fft(Input);
 %Modulo da FFT
-Y2 = abs(Y/SizeOfFFT);
+Y1 = abs(Y/SizeOfFFT);
 %Pego apenas metade do Spectro
-Y1 = Y2(1:SizeOfFFT/2+1);
-%Compenso os modulos
-Y1(2:end-1) = 2*Y1(2:end-1);
+Y2 = 2*Y1(1:SizeOfFFT/2);
 %Plot da FFT
 figure;
-stem((0 : SizeOfFFT/2)*f_s/(SizeOfFFT),Y1);
+stem((0 : SizeOfFFT/2-1)*f_s/(SizeOfFFT),Y2);
 ylabel('Amplitude');
 xlabel('Frequência (H)');
 title('FFT Tradicional');
@@ -280,11 +276,8 @@ ylabel('Modulo do Erro');
 xlabel('Níveis da FFT');
 title('Erro de Aproximação Entre Cordic e o Cálculo Tradicional');
 
-% delete(s)
-% fclose(s)
-% clear all
-% close all
 
+%%
 %------------------------------------
 %  Simulacao do TBS
 %------------------------------------
