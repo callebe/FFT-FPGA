@@ -12,20 +12,38 @@ LIBRARY IEEE;
 USE IEEE.std_logic_1164.ALL;
 USE IEEE.std_logic_unsigned.ALL;
 USE IEEE.numeric_std.ALL;
+USE work.MainPackage.all;
+
 
 ENTITY CordicV1 IS
-    PORT( 
-        YInputR : IN STD_LOGIC_VECTOR (15 DOWNTO 0);
-        YInputI : IN STD_LOGIC_VECTOR (15 DOWNTO 0);
-        YOutputR : OUT STD_LOGIC_VECTOR (15 DOWNTO 0);
-        YOutputI : OUT STD_LOGIC_VECTOR (15 DOWNTO 0));
+    PORT(
+    	Clock : IN STD_LOGIC;
+    	StartCordic : IN STD_LOGIC; 
+        InputCordic : IN Complex;
+        FinishCordic : OUT STD_LOGIC;
+        OutputCordic : OUT Complex
+    );
 END CordicV1;
 
 ARCHITECTURE Behavioral OF CordicV1 IS
 
 BEGIN
 
-    YOutputR <= YInputR;
-    YOutputI <= YInputI;
+	PROCESS(Clock, StartCordic)
+        
+        VARIABLE Aux: Complex;
+
+    BEGIN
+        
+        OutputCordic <= Aux;
+        IF(Clock'EVENT AND Clock = '1') THEN
+            IF(StartCordic = '1') THEN
+            	Aux := InputCordic;
+                FinishCordic <= '1';
+            END IF;
+
+        END IF;
+            
+    END PROCESS;
 
 END Behavioral;

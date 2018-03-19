@@ -5,7 +5,7 @@
 clear all
 close all
 % Tamanho da FFT
-SizeOfFFT = 16;
+SizeOfFFT = 256;
 %Definição do Numero de Layers do FFT
 NumberOfLevels = log2(SizeOfFFT);
 
@@ -51,16 +51,32 @@ for Layer = 1:(NumberOfLevels)
     end 
 end
 
-fid = fopen('results.txt','w');
-fprintf(fid,'Output(0) <= Input(0);\n');
+fid = fopen('SelectOutput.txt','w');
+fprintf(fid,'OutputSelectOut(0) <= InputSelectOut(0);\n');
 for L = 1: SizeOfFFT-2
-    fprintf(fid,'Output(%d) <= Input(%d) WHEN Control = "0000" ELSE\n',L,Y(L+1,1));
+    fprintf(fid,'OutputSelectOut(%d) <= InputSelectOut(%d) WHEN ControlSelectOut = "0000" ELSE\n',L,Y(L+1,1));
     for C = 2 : NumberOfLevels-1
-        fprintf(fid,'\t\t\t Input(%d) WHEN Control = "%d%d%d%d" ELSE\n',Y(L+1,C),fliplr(de2bi(C-1,4)));
+        fprintf(fid,'\t\t\t InputSelectOut(%d) WHEN ControlSelectOut = "%d%d%d%d" ELSE\n',Y(L+1,C),fliplr(de2bi(C-1,4)));
     end 
-    fprintf(fid,'\t\t\t Input(%d);\n',Y(L+1,NumberOfLevels)); 
+    fprintf(fid,'\t\t\t InputSelectOut(%d);\n',Y(L+1,NumberOfLevels)); 
 end
-fprintf(fid,'Output(%d) <= Input(%d);\n',SizeOfFFT-1,SizeOfFFT-1);
+fprintf(fid,'OutputSelectOut(%d) <= InputSelectOut(%d);\n',SizeOfFFT-1,SizeOfFFT-1);
+fid = fclose(fid);
+
+fid = fopen('Mux.txt','w');
+fprintf(fid,'OutputMuxFFT(25 DOWNTO 13) <= InputMuxFFT(0).r WHEN CounterControl = 0 ELSE\n');
+for L = 0: SizeOfFFT/2-2  
+    fprintf(fid,'\t\t\t\t\t\t InputMuxFFT(%d).r WHEN CounterControl = %d ELSE\n',L,L);
+    
+end
+fprintf(fid,'\t\t\t\t\t\t InputMuxFFT(%d).r;\n',SizeOfFFT/2-1);
+fprintf(fid,'\n\n');
+fprintf(fid,'OutputMuxFFT(12 DOWNTO 0) <= InputMuxFFT(0).i WHEN CounterControl = 0 ELSE\n',L,L);
+for L = 1: SizeOfFFT/2-2
+   fprintf(fid,'\t\t\t\t\t\t InputMuxFFT(%d).i WHEN CounterControl = %d ELSE\n',L,L);
+    
+end
+fprintf(fid,'\t\t\t\t\t\t InputMuxFFT(%d).i;\n',SizeOfFFT/2-1); 
 fid = fclose(fid);
 
 

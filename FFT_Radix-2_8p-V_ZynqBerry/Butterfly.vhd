@@ -13,17 +13,14 @@ LIBRARY IEEE;
 USE IEEE.std_logic_1164.ALL;
 USE IEEE.std_logic_unsigned.ALL;
 USE IEEE.numeric_std.ALL;
+USE work.MainPackage.all;
 
 ENTITY Butterfly IS
     PORT( 
-        XInputR : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-        XInputI : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-        YInputR : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-        YInputI : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-        XOutputR : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
-        XOutputI : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
-        YOutputR : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
-        YOutputI : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+        XInput : IN Complex;
+        YInput : IN Complex;
+        XOutput : OUT Complex;
+        YOutput : OUT Complex
     );
 END Butterfly;
 
@@ -31,9 +28,9 @@ ARCHITECTURE Behavioral OF Butterfly IS
 
 BEGIN
 
-    XOutputR <= XInputR + YInputR;
-    XOutputI <= XInputI + YInputI; 
-    YOutputR <= XInputR - YInputR;
-    YOutputI <= XInputI - YInputI;
+    XOutput.r <= XInput.r + YInput.r;
+    XOutput.i <= XInput.i + YInput.i; 
+    YOutput.r <= XInput.r - YInput.r;
+    YOutput.i <= XInput.i - YInput.i;
     
 END Behavioral;

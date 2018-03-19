@@ -79,17 +79,90 @@ PACKAGE MainPackage IS
 	
 	------------------------------------------------
 	FUNCTION ConvIntegerToDisplay (Entrada: INTEGER RANGE 0 TO INTEGER'HIGH) RETURN STD_LOGIC_VECTOR;
+    ------------------------------------------------
+                
+    ------------------------------------------------
+    COMPONENT ControlFFT IS
+        GENERIC(NLevels : INTEGER;
+                TimeLapseCordic: INTEGER
+                );
+        PORT(
+            Reset : IN STD_LOGIC;
+            Clock : IN STD_LOGIC;
+            Start : IN STD_LOGIC;
+            ControlSelectIn : OUT STD_LOGIC;
+            StartCordic : OUT STD_LOGIC;
+            ControlSelectOut : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+            FinishFFT : OUT STD_LOGIC
+        );
+    END COMPONENT;
+    ------------------------------------------------
+            
+    ------------------------------------------------
+    COMPONENT MuxFFT IS
+        GENERIC(NFFT : INTEGER);
+        PORT(
+            RefreshMuxFFT : IN STD_LOGIC;
+            Reset : IN  STD_LOGIC; 
+            InputMuxFFT : IN ComplexVector((NFFT/2-1) DOWNTO 0);
+            OutputMuxFFT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+        );
+    END COMPONENT;
+    ------------------------------------------------
+        
+    ------------------------------------------------
+	COMPONENT DemuxFFT IS
+        GENERIC(NFFT : INTEGER);
+        PORT(
+            RefreshDemuxFFT : IN STD_LOGIC;
+            Reset : IN  STD_LOGIC; 
+            InputDemuxFFT : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+            OutputDemuxFFT : OUT ComplexVector((NFFT-1) DOWNTO 0)
+        );
+    END COMPONENT;
 	------------------------------------------------
-	
+        
+    ------------------------------------------------
+	COMPONENT DelayLogic IS
+        PORT(
+            RefreshDelayLogic : IN STD_LOGIC;
+            InputDelayLogic : IN Complex;
+            OutputDelayLogic : OUT Complex
+        );
+    END COMPONENT;
+	------------------------------------------------
+        
+    ------------------------------------------------
+	COMPONENT CordicV1 IS
+        PORT(
+            Clock : IN STD_LOGIC;
+            StartCordic : IN STD_LOGIC; 
+            InputCordic : IN Complex;
+            FinishCordic : OUT STD_LOGIC;
+            OutputCordic : OUT Complex
+        );
+    END COMPONENT;
+	------------------------------------------------
+        
+    ------------------------------------------------
+	COMPONENT SelectIn IS
+        GENERIC(NFFT : INTEGER);
+        PORT(
+            ControlSelectIn : IN STD_LOGIC; 
+            InputSelectIn : IN ComplexVector((NFFT-1) DOWNTO 0);
+            Feedback : IN ComplexVector((NFFT-1) DOWNTO 0);
+            OutputSelectIn : OUT ComplexVector((NFFT-1) DOWNTO 0)
+            );
+    END COMPONENT;
+    ------------------------------------------------
+    
 	------------------------------------------------
 	COMPONENT Butterfly IS
         PORT( 
-            XInputR : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-            XInputI : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-            YInputR : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-            YInputI : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-            XOutputR : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
-            XOutputI : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+            XInput : IN Complex;
+            YInput : IN Complex;
+            XOutput : OUT Complex;
+            YOutput : OUT Complex
         );
     END COMPONENT;
     ------------------------------------------------
@@ -97,25 +170,21 @@ PACKAGE MainPackage IS
 	------------------------------------------------
 	COMPONENT ButterflyHalf IS
         PORT( 
-            XInputR : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-            XInputI : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-            YInputR : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-            YInputI : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-            XOutputR : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
-            XOutputI : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
-            YOutputR : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
-            YOutputI : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
-        );
+            XInput : IN Complex;
+            YInput : IN Complex;
+            XOutput : OUT Complex
+            );
     END COMPONENT;
     ------------------------------------------------
     
 	------------------------------------------------
-	COMPONENT mux IS
+	COMPONENT SelectOut IS
+        GENERIC(NFFT : INTEGER);
         PORT(
-            Control : IN STD_LOGIC_VECTOR(3 DOWNTO 0); 
-            Input : IN ComplexVector(15 DOWNTO 0);
-            Output : OUT ComplexVector(15 DOWNTO 0)
-            );
+            ControlSelectOut : IN STD_LOGIC_VECTOR(3 DOWNTO 0); 
+            InputSelectOut : IN ComplexVector((NFFT-1) DOWNTO 0);
+            OutputSelectOut : OUT ComplexVector((NFFT-1) DOWNTO 0)
+        );
     END COMPONENT;
     ------------------------------------------------
     
@@ -145,7 +214,8 @@ PACKAGE MainPackage IS
 			  SF_D : OUT STD_LOGIC_VECTOR(3 downto 0);
 			  LCD_E: OUT STD_LOGIC;
 			  LCD_RS: OUT STD_LOGIC;
-			  LCD_RW: OUT STD_LOGIC);
+			  LCD_RW: OUT STD_LOGIC
+	    );
 	END COMPONENT;
 	------------------------------------------------
 	
@@ -158,7 +228,8 @@ PACKAGE MainPackage IS
 		  DataLCD : OUT STD_LOGIC_VECTOR(3 downto 0);
 		  LCD_E: OUT STD_LOGIC;
 		  LCD_RS: OUT STD_LOGIC;
-		  LCD_RW: OUT STD_LOGIC);
+		  LCD_RW: OUT STD_LOGIC
+		);
 	END COMPONENT;
 	------------------------------------------------
 
@@ -168,7 +239,8 @@ PACKAGE MainPackage IS
 		PORT(clk: IN STD_LOGIC;
 			  rst: IN STD_LOGIC;
 			  Entrada: IN STD_LOGIC_VECTOR((NDebounce-1) DOWNTO 0);
-			  Saida: BUFFER STD_LOGIC_VECTOR((NDebounce-1) DOWNTO 0));
+			  Saida: BUFFER STD_LOGIC_VECTOR((NDebounce-1) DOWNTO 0)
+	    );
 	END COMPONENT;
 	------------------------------------------------
 	
@@ -177,7 +249,8 @@ PACKAGE MainPackage IS
 		PORT(clk: IN STD_LOGIC;
 			  rst: IN STD_LOGIC;
 			  Entrada: IN STD_LOGIC;
-			  Saida: BUFFER STD_LOGIC);
+			  Saida: BUFFER STD_LOGIC
+	    );
 	END COMPONENT;
 	------------------------------------------------
 	
@@ -209,7 +282,7 @@ PACKAGE MainPackage IS
 	
 	------------------------------------------------
 	COMPONENT BasicSystemClock IS
-	PORT(Entrada: STD_LOGIC_VECTOR (7 DOWNTO 0);
+	PORT(Entrada: IN STD_LOGIC_VECTOR (7 DOWNTO 0);
 		  Clock50MHz: IN STD_LOGIC;
 		  ACLK: OUT STD_LOGIC;
 		  MCLK: OUT STD_LOGIC;

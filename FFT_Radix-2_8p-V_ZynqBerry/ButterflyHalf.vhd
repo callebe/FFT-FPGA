@@ -1,11 +1,10 @@
 ----------------------------------------------------------------------------------
---                         Butterfly  Basic Component
---   Concurrent components for building butterfly operation, without clock or reset
+--                         Butterfly Half Basic Component
+--   Concurrent components for building butterfly operation in last stage
 --   
 --   XInput -- Even Input 
 --   YInput -- Odd Input
 --   XOutput -- (X + Y) 
---   YOutput -- (X - Y) This output will multiplier by twiddle factor in COrdic later
 --
 ----------------------------------------------------------------------------------
 
@@ -13,23 +12,21 @@ LIBRARY IEEE;
 USE IEEE.std_logic_1164.ALL;
 USE IEEE.std_logic_unsigned.ALL;
 USE IEEE.numeric_std.ALL;
+USE work.MainPackage.all;
 
-ENTITY Butterfly IS
+ENTITY ButterflyHalf IS
     PORT( 
-        XInputR : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-        XInputI : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-        YInputR : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-        YInputI : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-        XOutputR : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
-        XOutputI : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+        XInput : IN Complex;
+        YInput : IN Complex;
+        XOutput : OUT Complex
     );
-END Butterfly;
+END ButterflyHalf;
 
-ARCHITECTURE Behavioral OF Butterfly IS
+ARCHITECTURE Behavioral OF ButterflyHalf IS
 
 BEGIN
 
-    XOutputR <= XInputR + YInputR;
-    XOutputI <= XInputI + YInputI; 
+    XOutput.r <= XInput.r + YInput.r;
+    XOutput.i <= XInput.i + YInput.i; 
     
 END Behavioral;
