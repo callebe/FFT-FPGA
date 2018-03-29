@@ -21,7 +21,7 @@ ENTITY SelectIn IS
     PORT(
         ControlSelectIn : IN STD_LOGIC; 
         InputSelectIn : IN ComplexVector((NFFT-1) DOWNTO 0);
-        Feedback : IN ComplexVector((NFFT-1) DOWNTO 0);
+        InputDemux : IN ArrayVector((NFFT-1) DOWNTO 0);
         OutputSelectIn : OUT ComplexVector((NFFT-1) DOWNTO 0)
         );
 END SelectIn;
@@ -32,9 +32,9 @@ BEGIN
 
 	
 	S1: FOR k  IN 0 TO (NFFT-1) GENERATE
-		OutputSelectIn(k) <=  InputSelectIn(k) WHEN ControlSelectIn = '0' ELSE
-					  Feedback(k);
-
+		OutputSelectIn(k).r <=  InputSelectIn(k).r WHEN ControlSelectIn = '0' ELSE
+					            InputDemux(k);
+        OutputSelectIn(k).i <= InputSelectIn(k).i;
 	END GENERATE;
 
 END Behavioral;

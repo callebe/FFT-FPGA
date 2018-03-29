@@ -17,41 +17,35 @@ USE work.MainPackage.all;
 ENTITY MuxFFT IS
     GENERIC(NFFT : INTEGER);
     PORT(
-        RefreshMuxFFT : IN STD_LOGIC;
-        Reset : IN  STD_LOGIC; 
+        SelectMux : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
         InputMuxFFT : IN ComplexVector((NFFT/2-1) DOWNTO 0);
-        OutputMuxFFT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+        OutputMuxFFT : OUT STD_LOGIC_VECTOR(25 DOWNTO 0)
     );
 END MuxFFT;
 
 ARCHITECTURE Behavioral OF MuxFFT IS
-
+    
 BEGIN
+    
+    OutputMuxFFT(25 DOWNTO 13) <= InputMuxFFT(0).r WHEN SelectMux = "00000000" ELSE
+                     InputMuxFFT(1).r WHEN SelectMux = "00000001" ELSE
+                     InputMuxFFT(2).r WHEN SelectMux = "00000010" ELSE
+                     InputMuxFFT(3).r WHEN SelectMux = "00000011" ELSE
+                     InputMuxFFT(4).r WHEN SelectMux = "00000100" ELSE
+                     InputMuxFFT(5).r WHEN SelectMux = "00000101" ELSE
+                     InputMuxFFT(6).r WHEN SelectMux = "00000110" ELSE
+                     InputMuxFFT(7).r;
+    
+    
+    OutputMuxFFT(12 DOWNTO 0) <= InputMuxFFT(0).i WHEN SelectMux = "00000000" ELSE
+                     InputMuxFFT(1).i WHEN SelectMux = "00000001" ELSE
+                     InputMuxFFT(2).i WHEN SelectMux = "00000010" ELSE
+                     InputMuxFFT(3).i WHEN SelectMux = "00000011" ELSE
+                     InputMuxFFT(4).i WHEN SelectMux = "00000100" ELSE
+                     InputMuxFFT(5).i WHEN SelectMux = "00000101" ELSE
+                     InputMuxFFT(6).i WHEN SelectMux = "00000110" ELSE
+                     InputMuxFFT(7).i;
 
-    --Process for store Send Data of Input
-    WriteOutput : PROCESS(RefreshMuxFFT, Reset)
-
-        VARIABLE Flip : STD_LOGIC := '0';
-        VARIABLE Index : INTEGER RANGE 0 TO (NFFT/2 -1) := 0;
-        
-    BEGIN
-        
-        IF(Reset = '1') THEN
-            Flip := '0';
-            Index := 0;
-            
-        ELSIF(RefreshMuxFFT'EVENT AND RefreshMuxFFT = '1') THEN
-            Flip := Flip XOR '1';
-            IF (Flip = '1') THEN
-                OutputMuxFFT <= InputMuxFFT(Index).r;
-            
-            ELSE
-                OutputMuxFFT <= InputMuxFFT(Index).i;
-                Index := Index + 1;
-                
-            END IF;
-        END IF;
-            
-    END PROCESS;
+    
 
 END Behavioral;

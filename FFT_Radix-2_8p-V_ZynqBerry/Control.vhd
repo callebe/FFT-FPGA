@@ -20,90 +20,95 @@ ENTITY ControlFFT IS
     	Reset : IN STD_LOGIC;
     	Clock : IN STD_LOGIC;
         Start : IN STD_LOGIC;
-        ControlSelectIn : OUT STD_LOGIC;
         StartCordic : OUT STD_LOGIC;
+        ControlSelectIn : OUT STD_LOGIC;
         ControlSelectOut : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+        SetInputData : OUT STD_LOGIC;
         FinishFFT : OUT STD_LOGIC
     );
 END ControlFFT;
 
 ARCHITECTURE Behavioral OF ControlFFT IS
 
-    TYPE State IS (Idle, ProcessingFirstStage, ProcessingNStage, FinishStage);
+    TYPE State IS (Idle, LoadingData, ProcessingNStage, FinishStage);
     SIGNAL CurrentState : State := Idle;
     SIGNAL NextState : State := Idle;
     SIGNAL CounterCycles : INTEGER RANGE 0 TO (NLevels);
-    SIGNAL StartProcess : STD_LOGIC;
-
+    SIGNAL AuxControlSelectOut : INTEGER RANGE 0 TO (2*NLevels-1);
+    SIGNAL CounterClock : INTEGER RANGE 0 TO 10 := 0;
+    
 BEGIN
 
     
+    ControlSelectOut <=  STD_LOGIC_VECTOR(TO_UNSIGNED(AuxControlSelectOut, NLevels));
     
-
     ---------------------------------------------------------------
     --                  Center Control Process                   --
     ---------------------------------------------------------------
     -- State Machine
     StateMachine : PROCESS(CurrentState, Start, CounterCycles, Reset)
     
+        
+    
     BEGIN
     
         CASE CurrentState IS
-            
+        
             WHEN Idle =>
                 ControlSelectIn <= '0';
-                StartProcess <= '0';
                 FinishFFT <= '0';
+                SetInputData <= '0';
                 IF(Start = '1') THEN
-                    NextState <= ProcessingFirstStage;
-
+                    NextState <= LoadingData;
+            
                 ELSE
                     NextState <= Idle;
-
-                END IF;
                 
-            WHEN ProcessingFirstStage =>
-                ControlSelectIn <= '0';
-                StartProcess <= '1';
-                FinishFFT <= '0';
-                IF(CounterCycles = 1) THEN
-                    NextState <= ProcessingNStage;
-
-                ELSE
-                    NextState <= ProcessingFirstStage;
-
-                END IF; 
-                
-            WHEN ProcessingNStage =>
-                ControlSelectIn <= '0';
-                StartProcess <= '1';
-                FinishFFT <= '0';
-                IF(CounterCycles = NLevels) THEN
-                    NextState <= FinishStage ;
-
-                ELSE
-                    NextState <= ProcessingNStage;
-
                 END IF;
             
-
+            WHEN LoadingData =>
+                ControlSelectIn <= '1';
+                FinishFFT <= '0';
+                SetInputData <= '1';
+                IF(Start = '0') THEN
+                    NextState <= ProcessingNStage;
+                
+                ELSE
+                    NextState <= LoadingData;
+                
+                END IF; 
+                    
+                       
+            WHEN ProcessingNStage =>
+                ControlSelectIn <= '0';
+                FinishFFT <= '0';
+                SetInputData <= '0';
+                IF(CounterCycles = NLevels) THEN
+                    NextState <= FinishStage ;
+                
+                ELSE
+                    NextState <= ProcessingNStage;
+                
+                END IF;
+            
+            
             WHEN FinishStage =>
                 ControlSelectIn <= '0';
-                StartProcess <= '0';
                 FinishFFT <= '1';
+                SetInputData <= '0';
                 IF(Reset = '1') THEN
                     NextState <= Idle ;
-
+                
                 ELSE
                     NextState <= FinishStage;
-
-                END IF;
                 
+                END IF;
+            
             WHEN OTHERS =>
                 ControlSelectIn <= '0';
-                StartProcess <= '0';
                 FinishFFT <= '0';
-                
+                SetInputData <= '0';
+        
         END CASE;
     
     END PROCESS;
@@ -118,7 +123,7 @@ BEGIN
         
         ELSIF (Clock'EVENT AND Clock = '0') THEN
             CurrentState <= NextState;
-        
+            
         END IF;
     
     END PROCESS;
@@ -127,40 +132,53 @@ BEGIN
     ---------------------------------------------------------------
     --                       Timer Control                       --
     ---------------------------------------------------------------
-	Timer : PROCESS (Clock, Reset, StartProcess)
+	Timer : PROCESS (Clock, Reset, CurrentState, CounterClock)
 
-        VARIABLE CounterClock : INTEGER RANGE 0 TO (TimeLapseCordic + 4);
-        VARIABLE AuxControlSelectOut : STD_LOGIC_VECTOR(3 DOWNTO 0);
-
+        
+        
     BEGIN
         
-        ControlSelectOut <= AuxControlSelectOut;
-        
         IF(Reset = '1') THEN
-            CounterClock := 0;
+            CounterClock <= 0;
             StartCordic <= '0';
-            AuxControlSelectOut := "0000";
+            AuxControlSelectOut <= 0;
             CounterCycles <= 0;
 
         ELSIF(Clock'EVENT AND Clock = '1') THEN
-            IF(StartProcess = '1') THEN
-                CounterClock := CounterClock + 1;
-                IF(CounterClock = 3) THEN
-                    StartCordic <= '1';
-
-                ELSE
-                    StartCordic <= '0';
-                    IF(CounterClock = 5) THEN
-                        AuxControlSelectOut := AuxControlSelectOut + 1;
-
-
-                    ELSIF(CounterClock = 0) THEN
+            IF(CurrentState = ProcessingNStage) THEN
+                CASE CounterClock IS
+                    WHEN 10 =>
+                        StartCordic <= '0';
+                        AuxControlSelectOut <= AuxControlSelectOut;
                         CounterCycles <= CounterCycles + 1;
+                        CounterClock <= 0;
+                    
+                    WHEN 3 =>
+                        StartCordic <= '1';
+                        AuxControlSelectOut <= AuxControlSelectOut;
+                        CounterCycles <= CounterCycles;
+                        CounterClock <= CounterClock + 1;
+                        
+                    WHEN 5 =>
+                        StartCordic <= '0';
+                        AuxControlSelectOut <= AuxControlSelectOut + 1;
+                        CounterCycles <= CounterCycles;
+                        CounterClock <= CounterClock + 1;
+                         
+                    WHEN OTHERS =>
+                        StartCordic <= '0';
+                        AuxControlSelectOut <= AuxControlSelectOut;
+                        CounterCycles <= CounterCycles;
+                        CounterClock <= CounterClock + 1;
 
-                    END IF;
-
-                END IF;
-
+                END CASE; 
+                
+            ELSE
+                StartCordic <= '0';
+                AuxControlSelectOut <= 0;
+                CounterCycles <= 0;
+                CounterClock <= 0;
+            
             END IF;
 
         END IF;

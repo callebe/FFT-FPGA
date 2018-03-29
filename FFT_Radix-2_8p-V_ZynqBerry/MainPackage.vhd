@@ -12,9 +12,13 @@ PACKAGE MainPackage IS
 	------------------------------------------------
 	TYPE Complex IS
 		RECORD
-			r: STD_LOGIC_VECTOR(15 DOWNTO 0);
-			i: STD_LOGIC_VECTOR(15 DOWNTO 0);
+			r: STD_LOGIC_VECTOR(12 DOWNTO 0);
+			i: STD_LOGIC_VECTOR(12 DOWNTO 0);
 		END RECORD;
+    ------------------------------------------------
+    
+    ------------------------------------------------
+    TYPE ArrayVector IS ARRAY (NATURAL range <>) OF STD_LOGIC_VECTOR(12 DOWNTO 0);
 	------------------------------------------------
 	
 	------------------------------------------------
@@ -82,6 +86,18 @@ PACKAGE MainPackage IS
     ------------------------------------------------
                 
     ------------------------------------------------
+    COMPONENT FFT8P IS
+        PORT(
+            Reset : STD_LOGIC;
+            Clock : IN STD_LOGIC;
+            Input : IN STD_LOGIC_VECTOR (20 DOWNTO 0);
+            Output : OUT STD_LOGIC_VECTOR (26 DOWNTO 0)
+            
+        );
+    END COMPONENT;
+    ------------------------------------------------
+                    
+    ------------------------------------------------
     COMPONENT ControlFFT IS
         GENERIC(NLevels : INTEGER;
                 TimeLapseCordic: INTEGER
@@ -90,9 +106,10 @@ PACKAGE MainPackage IS
             Reset : IN STD_LOGIC;
             Clock : IN STD_LOGIC;
             Start : IN STD_LOGIC;
-            ControlSelectIn : OUT STD_LOGIC;
             StartCordic : OUT STD_LOGIC;
+            ControlSelectIn : OUT STD_LOGIC;
             ControlSelectOut : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+            SetInputData : OUT STD_LOGIC;
             FinishFFT : OUT STD_LOGIC
         );
     END COMPONENT;
@@ -102,10 +119,9 @@ PACKAGE MainPackage IS
     COMPONENT MuxFFT IS
         GENERIC(NFFT : INTEGER);
         PORT(
-            RefreshMuxFFT : IN STD_LOGIC;
-            Reset : IN  STD_LOGIC; 
+            SelectMux : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
             InputMuxFFT : IN ComplexVector((NFFT/2-1) DOWNTO 0);
-            OutputMuxFFT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+            OutputMuxFFT : OUT STD_LOGIC_VECTOR(25 DOWNTO 0)
         );
     END COMPONENT;
     ------------------------------------------------
@@ -114,10 +130,9 @@ PACKAGE MainPackage IS
 	COMPONENT DemuxFFT IS
         GENERIC(NFFT : INTEGER);
         PORT(
-            RefreshDemuxFFT : IN STD_LOGIC;
-            Reset : IN  STD_LOGIC; 
-            InputDemuxFFT : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-            OutputDemuxFFT : OUT ComplexVector((NFFT-1) DOWNTO 0)
+            SelectDemux : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+            InputDemuxFFT : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+            OutputDemuxFFT : OUT ArrayVector ((NFFT-1) DOWNTO 0)
         );
     END COMPONENT;
 	------------------------------------------------
@@ -134,12 +149,16 @@ PACKAGE MainPackage IS
         
     ------------------------------------------------
 	COMPONENT CordicV1 IS
+        GENERIC(
+            NFFT : INTEGER
+        );
         PORT(
             Clock : IN STD_LOGIC;
-            StartCordic : IN STD_LOGIC; 
-            InputCordic : IN Complex;
-            FinishCordic : OUT STD_LOGIC;
-            OutputCordic : OUT Complex
+            Reset : IN STD_LOGIC;
+            XInputCordic : IN Complex;
+            YInputCordic : IN Complex;
+            XOutputCordic : OUT Complex;
+            YOutputCordic : OUT Complex
         );
     END COMPONENT;
 	------------------------------------------------
@@ -150,7 +169,7 @@ PACKAGE MainPackage IS
         PORT(
             ControlSelectIn : IN STD_LOGIC; 
             InputSelectIn : IN ComplexVector((NFFT-1) DOWNTO 0);
-            Feedback : IN ComplexVector((NFFT-1) DOWNTO 0);
+            InputDemux : IN ArrayVector((NFFT-1) DOWNTO 0);
             OutputSelectIn : OUT ComplexVector((NFFT-1) DOWNTO 0)
             );
     END COMPONENT;

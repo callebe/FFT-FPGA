@@ -192,7 +192,7 @@ for Layer = 0 : (NumberOfLevels-1)
                 x(1) = (imag(H)/2 + imag(H)/(2^3) - imag(H)/(2^6) - imag(H)/(2^9));
                 y(1) = -(real(H)/2 + real(H)/(2^3) - real(H)/(2^6) - real(H)/(2^9));
                 z(1) =  alpha + pi/2*2^10;
-
+               
             else
                 x(1) = (real(H)/2 + real(H)/(2^3) - real(H)/(2^6) - real(H)/(2^9));
                 y(1) = (imag(H)/2 + imag(H)/(2^3) - imag(H)/(2^6) - imag(H)/(2^9));

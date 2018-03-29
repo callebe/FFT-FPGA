@@ -28,9 +28,9 @@ ARCHITECTURE Behavioral OF Butterfly IS
 
 BEGIN
 
-    XOutput.r <= XInput.r + YInput.r;
-    XOutput.i <= XInput.i + YInput.i; 
-    YOutput.r <= XInput.r - YInput.r;
-    YOutput.i <= XInput.i - YInput.i;
+    XOutput.r <= STD_LOGIC_VECTOR(to_signed(to_integer(signed(XInput.r)) + to_integer(signed(YInput.r)), Complex.r'LENGTH));
+    XOutput.i <= STD_LOGIC_VECTOR(to_signed(to_integer(signed(XInput.i)) + to_integer(signed(YInput.i)), Complex.r'LENGTH)); 
+    YOutput.r <= STD_LOGIC_VECTOR(to_signed(to_integer(signed(XInput.r)) - to_integer(signed(YInput.r)), Complex.r'LENGTH));
+    YOutput.i <= STD_LOGIC_VECTOR(to_signed(to_integer(signed(XInput.i)) - to_integer(signed(YInput.i)), Complex.r'LENGTH));
     
 END Behavioral;
