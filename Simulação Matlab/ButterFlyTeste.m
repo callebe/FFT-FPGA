@@ -1,3 +1,4 @@
+%% Cabeçalho
 %------------------------------------
 %  Simulação do FFT
 %------------------------------------
@@ -5,7 +6,7 @@ clear all
 close all
 % Tamanho da FFT
 SizeOfFFT = 16;
-
+NumeroInteracao = 10;
 NumberOfLevels = log2(SizeOfFFT);
 %Definição da Resolução
 Resolution = SizeOfFFT;
@@ -29,32 +30,66 @@ fA = 100;
 fB = 3500;
 fC = 60;
 t = [0 : (1/T_0)/(Resolution) : ((1/T_0)-(1/T_0)/(Resolution))];
+X = zeros(SizeOfFFT,NumberOfLevels+1);
 Input = A*(1+sin(2*pi*fA*t)) + B*(1+sin(2*pi*fB*t)) + C*(1+sin(2*pi*fC*t));
 Xin(:, 1) = fix(Input);
 
-%Simulação do FFT
-%Building the Layers
-for Layer = 0 : (NumberOfLevels)
+
+%% Simulação do FFT
+
+% Simulação dos Rearanjos da FFT
+X = zeros(SizeOfFFT,NumberOfLevels+1);
+Position = zeros(SizeOfFFT,NumberOfLevels);
+X(:,1) = transpose([0:SizeOfFFT-1]);
+
+%% Criação das Memorias COridc
+SequenciaDeGiro = zeros(SizeOfFFT/2-1, NumeroInteracao+1);
+
+for C = 0 : (SizeOfFFT/2-1)
+%Calculo da Multiplicação pelo Algoritmo Cordic
+
+    alpha = -2*pi*C/SizeOfFFT;
+
+    if(alpha <= -pi/2)
+        z(1) =  alpha + pi/2;
+        SequenciaDeGiro(C+1, 1) = 1;
+        
+    else
+        z(1) =  alpha;
+        SequenciaDeGiro(C+1, 1) = 0;
+        
+    end
+
+    for Count = 1: (NumeroInteracao)
+        if z(Count) >= 0
+            SequenciaDeGiro(C+1, Count+1) = 1;
+            z(Count+1) = z(Count) - atan(2^-(Count-1));
+
+        else
+            SequenciaDeGiro(C+1, Count+1) = 0;
+            z(Count+1) = z(Count) + atan(2^-(Count-1));
+
+        end
+
+
+    end
+            
+end
+
+%Construindo Layers
+for Layer = 0 : (NumberOfLevels-1)
     
     SizeofDFT = SizeOfFFT/(2^(Layer));
     NumberOfDFT = SizeOfFFT/(SizeofDFT);
+    Line = 1;
     
-    W = exp(-2*pi*i/SizeofDFT);
-    Conteste = 1;
-    
-    %Building the DFTs
+    %DFTs
     for CountDFT = 0 :(NumberOfDFT-1) 
         
         Even = (CountDFT)*SizeofDFT;
     
-        %Building the DFT
         for CountSizeofDFT = 0 : (SizeofDFT/2-1)
-            Wn = -2*pi*CountSizeofDFT/SizeofDFT;
-            if(Wn <= -pi/2) 
-                LL = 1;
-            else
-                LL = 0;
-            end
+            
             Odd = Even + SizeofDFT/2;
             
             %Entrada do Layer
@@ -63,16 +98,42 @@ for Layer = 0 : (NumberOfLevels)
             %Odd
             H = Xin(Odd+1, Layer+1);
             
+            %Calculo da Multiplicação pelo Algoritmo Cordic
+            if(SequenciaDeGiro((CountSizeofDFT*SizeOfFFT)/SizeofDFT+1, 1) == 1)
+                x(1) = round(imag(G-H)/(2^1)) + round(imag(G-H)/(2^3)) - round(imag(G-H)/(2^6)) - round(imag(G-H)/(2^9));
+                y(1) = -(round(real(G-H)/(2^1)) + round(real(G-H)/(2^3)) - round(real(G-H)/(2^6)) - round(real(G-H)/(2^9)));
+               
+            else
+                x(1) = round(real(G-H)/(2^1)) + round(real(G-H)/(2^3)) - round(real(G-H)/(2^6)) - round(real(G-H)/(2^9));
+                y(1) = round(imag(G-H)/(2^1)) + round(imag(G-H)/(2^3)) - round(imag(G-H)/(2^6)) - round(imag(G-H)/(2^9));
+
+            end
+
+            for Count = 0: NumeroInteracao-1
+                if (SequenciaDeGiro((CountSizeofDFT*SizeOfFFT)/SizeofDFT+1, Count+2) == 1)
+                    x(Count+2) = round(x(Count+1) - round((y(Count+1)/(2^Count))));
+                    y(Count+2) = round(y(Count+1) + round((x(Count+1)/(2^Count))));
+                    
+                else
+                    x(Count+2) = round(x(Count+1) + round((y(Count+1)/(2^Count))));
+                    y(Count+2) = round(y(Count+1) - round((x(Count+1)/(2^Count))));
+                    
+                end
+
+            end
+            
+            SUM(Even+1, Layer+1) = G+H;
+            SUM(Odd+1, Layer+1) = G-H;
             %Saida do Layer
             %Even
             Xin(Even+1, Layer+2) = G + H;
             %Odd
-            Xin(Odd+1, Layer+2) =  (G - H);%*W^(CountSizeofDFT);
+            Xin(Odd+1, Layer+2) =  (x(NumeroInteracao+1)+i*y((NumeroInteracao+1)));
             
-            Mark(Conteste, Layer+1) = Even;
-            Conteste = Conteste + 1;
-            Mark(Conteste, Layer+1) = Odd;
-            Conteste = Conteste + 1;
+            Position(Line, Layer+1) = Even;
+            Line = Line + 1;
+            Position(Line, Layer+1) = Odd;
+            Line = Line + 1;
             Even = Even + 1;
             
         end
@@ -81,105 +142,149 @@ for Layer = 0 : (NumberOfLevels)
     
 end
 
-%Simulação dos Rearanjos da FFT
-X = zeros(SizeOfFFT,NumberOfLevels+1);
-X(:,1) = transpose([0:SizeOfFFT-1]);
+%% Processo de Bit-Reverse
+AuxVector = zeros(1,NumberOfLevels);
 
-Contest = 1;
-%Building the Layers
-for Layer = 0:(NumberOfLevels-1)
-    
-    SizeofDFT = SizeOfFFT/(2^(Layer));
-    NumberOfDFT = SizeOfFFT/SizeofDFT;
-    Contest = Contest + 1;
-    Linha = 1;
-    
-    %Building the DFTs
-    for CountDFT = 0 :(NumberOfDFT-1) 
-        
-        Even = (CountDFT)*SizeofDFT;
-        
-        %Building the DFT
-        for CountSizeofDFT = 0 : (SizeofDFT/2-1)
-            
-            Odd = Even + SizeofDFT/2;
-            X(Linha, Contest) = Even;
-            Linha = Linha + 1;
-            X(Linha, Contest) = Odd;
-            Linha = Linha + 1;
-            Even = Even + 1;
-            
-        end
-        
-    end 
+for n = 0: (SizeOfFFT-1);
+    Count = NumberOfLevels-1;
+    Aux = n;
+    for k = 1 :  NumberOfLevels
+        if (Aux/2^Count >= 1)
+            AuxVector(k) = 1;
+        else
+            AuxVector(k) = 0;
+        end; 
+        Aux = rem(Aux, 2^Count);
+        Count = Count - 1;
+    end
+    ResultAux(n+1) = Xin(bi2de(AuxVector)+1, NumberOfLevels+1);
+    ResultAuxBit(n+1) = bi2de(AuxVector);
     
 end
 
-Y = zeros(SizeOfFFT,NumberOfLevels);
-XinRearranjado = zeros(SizeOfFFT,NumberOfLevels+1);
-
-
-for Layer = 1:(NumberOfLevels)   
-    for C = 1 :(SizeOfFFT) 
-        Y(C, Layer) = find(X(:,Layer) == X(C, Layer+1))-1;
-        
-    end 
-end
+RePosition = zeros(SizeOfFFT,NumberOfLevels);
+RePosition(:,1) = [0:SizeOfFFT-1];
 
 for C = 1 :(SizeOfFFT) 
-    XinRearranjado(C, 1) = Xin(C,1);
-
+    RePosition(C, 1) = Position(C, 1);
+        
 end 
 
 for Layer = 2:(NumberOfLevels)   
     for C = 1 :(SizeOfFFT) 
-        XinRearranjado(C, Layer) = Xin(Y(C, Layer-1)+1, Layer);
+        RePosition(C, Layer) = find(Position(:,Layer-1) == Position(C, Layer))-1;
         
     end 
 end
 
-%Convertendo niveis para hexa
-for Layer = 0 : (NumberOfLevels)
-    
-    for Count = 0: SizeOfFFT-1
-        if(real(XinRearranjado(Count+1, Layer+1)) <0)
-            XinHexReal(Count+1, Layer+1) = string(dec2hex(abs(8192+round(real(XinRearranjado(Count+1, Layer+1))))));
-            
-        else
-            XinHexReal(Count+1, Layer+1) = string(dec2hex(abs(round(real(XinRearranjado(Count+1, Layer+1))))));
-            
-        end
-        
-        if(imag(XinRearranjado(Count+1, Layer+1)) <0)
-            XinHexImag(Count+1, Layer+1) = string(dec2hex(abs(8192+round(imag(XinRearranjado(Count+1, Layer+1))))));
-            
-        else
-            XinHexImag(Count+1, Layer+1) = string(dec2hex(abs(round(imag(XinRearranjado(Count+1, Layer+1))))));
-            
-        end
-        
-    end
-    
+XinRearranjado = zeros(SizeOfFFT,NumberOfLevels+1);
+for Layer = 1:(NumberOfLevels)   
+    for C = 1 :(SizeOfFFT) 
+        XinRearranjado(C, Layer) = Xin(Position(C, Layer)+1, Layer);
+        SUMR(C, Layer) = SUM(Position(C, Layer)+1, Layer);
+    end 
 end
 
-Result(1) = abs(Xin(1, NumberOfLevels+1)/SizeOfFFT);
-ResultHexa(1) = string(dec2hex(round(abs(Xin(1, NumberOfLevels+1)*2/SizeOfFFT))));
-for C = 1 :(SizeOfFFT/2-1)
-   Result(C+1) = abs(Xin(2*C+1, NumberOfLevels+1)*2/SizeOfFFT);
-   ResultHexa(C+1) = string(dec2hex(round(abs(Xin(2*C+1, NumberOfLevels+1)*2/SizeOfFFT))));
+Result = round(ResultAux(1:(SizeOfFFT/2+1))/SizeOfFFT);
+Result(2:SizeOfFFT/2) = 2*Result(2:SizeOfFFT/2)
+
+
+%% Construindo Arquivos VHDL
+
+%ROM
+fid = fopen('MemoriasCordic.txt','w');
+fprintf(fid,'TYPE MEMORY IS ARRAY (%d DOWNTO 0) OF STD_LOGIC_VECTOR(%d DOWNTO 0) ;\n', (SizeOfFFT/2-1), NumeroInteracao);
+fprintf(fid,'CONSTANT ROMMEMORY : MEMORY := (');
+fprintf(fid,'0 => "');
+for C = NumeroInteracao+1: -1 : 1;
+  fprintf(fid,'%d', SequenciaDeGiro(1, C));
+
+end
+fprintf(fid,'", \n');
+for L = 2: SizeOfFFT/2
+   fprintf(fid,'\t\t\t\t\t\t\t %d => "', L-1);
+   for C = NumeroInteracao+1: -1 : 2 
+      fprintf(fid,'%d', SequenciaDeGiro(L, C));
+       
+   end
+   
+   C = 1;
+   
+   if(L == SizeOfFFT/2)
+        fprintf(fid,'%d"); \n', SequenciaDeGiro(L, C));
+       
+   else
+        fprintf(fid,'%d", \n', SequenciaDeGiro(L, C));
+       
+   end 
    
 end
+fid = fclose(fid);
+
+%Select Out
+fid = fopen('SelectOutput.txt','w');
+fprintf(fid,'OutputSelectOut(0) <= InputSelectOut(0);\n');
+for L = 1: SizeOfFFT-2
+    fprintf(fid,'OutputSelectOut(%d) <= InputSelectOut(%d) WHEN ControlSelectOut = "0000" ELSE\n',L,RePosition(L+1,1));
+    for C = 2 : NumberOfLevels-1
+        fprintf(fid,'\t\t\t InputSelectOut(%d) WHEN ControlSelectOut = "%d%d%d%d" ELSE\n',RePosition(L+1,C),fliplr(de2bi(C-1,4)));
+    end 
+    fprintf(fid,'\t\t\t InputSelectOut(%d);\n',RePosition(L+1,NumberOfLevels)); 
+end
+fprintf(fid,'OutputSelectOut(%d) <= InputSelectOut(%d);\n',SizeOfFFT-1,SizeOfFFT-1);
+fid = fclose(fid);
+
+%Mux
+fid = fopen('Mux.txt','w');
+fprintf(fid,'OutputMuxFFTAux(25 DOWNTO %d) <= (OTHERS => OutputMuxFFTAux(%d));\n', (25-(NumberOfLevels-1)), (25-(NumberOfLevels-1)-1));
+fprintf(fid,'OutputMuxFFTAux(12 DOWNTO %d) <= (OTHERS => OutputMuxFFTAux(%d));\n', (12-(NumberOfLevels-1)), (12-(NumberOfLevels-1)-1));
+fprintf(fid,'OutputMuxFFTAux(%d DOWNTO 13) <= Butterfly_MuxFirst(%d) & Butterfly_MuxFirst(%d DOWNTO %d) WHEN Counter = 0 ELSE\n',(25-(NumberOfLevels-1)*2), (25-NumberOfLevels*2), (25-NumberOfLevels*2), (13-NumberOfLevels));
+for L = 0: SizeOfFFT/2-3 
+    fprintf(fid,'\t\t\t\t\t\t Butterfly_MuxOthers(%d)(%d DOWNTO %d) WHEN Counter = %d ELSE\n', L, (25-((NumberOfLevels-1)*2)), (13-(NumberOfLevels-1)), ResultAuxBit(2*(L+1)+1));
+    
+end
+fprintf(fid,'\t\t\t\t\t\t Butterfly_MuxOthers(%d)(%d DOWNTO %d);\n',(SizeOfFFT/2-2), (25-((NumberOfLevels-1)*2)), (13-(NumberOfLevels-1))); 
+fprintf(fid,'OutputMuxFFTAux(%d DOWNTO 0) <= Butterfly_MuxFirst(%d) & Butterfly_MuxFirst(%d DOWNTO 0) WHEN Counter = 0 ELSE\n',(12-(NumberOfLevels-1)), (12-NumberOfLevels), (12-NumberOfLevels));
+for L = 0: SizeOfFFT/2-3
+   fprintf(fid,'\t\t\t\t\t\t Butterfly_MuxOthers(%d)(%d DOWNTO 0) WHEN Counter = %d ELSE\n', L, (12-(NumberOfLevels-1)), ResultAuxBit(2*(L+1)+1));
+    
+end
+fprintf(fid,'\t\t\t\t\t\t Butterfly_MuxOthers(%d)(%d DOWNTO 0);\n',(SizeOfFFT/2-2), (12-(NumberOfLevels-1))); 
+fid = fclose(fid);
+
+
+%Arquivo de Simulação
+fid = fopen('Simulacao.txt','w');
+fprintf(fid,'TYPE MemoInput IS ARRAY (%d DOWNTO 0) OF STD_LOGIC_VECTOR(%d DOWNTO 0) ;\n', (SizeOfFFT-1), 11);
+fprintf(fid,'CONSTANT Xin : MemoInput := (');
+fprintf(fid,'0 => "%d%d%d%d%d%d%d%d%d%d%d%d",\n', fliplr(de2bi(Xin(1, 1),12)));
+for L = 1: SizeOfFFT-2
+   fprintf(fid,'\t\t\t\t\t\t\t %d => "%d%d%d%d%d%d%d%d%d%d%d%d",\n', L, fliplr(de2bi(Xin(L+1, 1),12)));
+   
+end
+fprintf(fid,'\t\t\t\t\t\t\t %d => "%d%d%d%d%d%d%d%d%d%d%d%d");\n', SizeOfFFT-1, fliplr(de2bi(Xin(L+1, 1),12)));
+fid = fclose(fid);
+
+
+
+%% Print de Resultados
 
 FFTOriginalAux = abs(fft(Input)/SizeOfFFT);
 FFTOriginal = FFTOriginalAux(1:SizeOfFFT/2+1);
 FFTOriginal(2:end-1) = 2*FFTOriginal(2:end-1);
 
-Xin
-XinHexReal
-XinHexImag
-Mark
-Y
-ResultHexa
-Result
-FFTOriginal
+% %FFT via Matlab
+% figure;
+% stem((0 : SizeOfFFT/2)*f_s/(SizeOfFFT),FFTOriginal);
+% ylabel('Amplitude');
+% xlabel('Frequência (H)');
+% title('FFT Matlab');
+% 
+% %FFT Calculada
+% figure;
+% stem((0 : SizeOfFFT/2)*f_s/(SizeOfFFT),abs(Result));
+% ylabel('Amplitude');
+% xlabel('Frequência (H)');
+% title('FFT Calculada');
+
 

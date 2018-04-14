@@ -3,7 +3,7 @@
 --
 --   Main component of FFT Module
 --   
---
+--rsa\r43q ´Ç,M ~´[P,M ´´POIUGC765SZA1      '   ].,M 
 ----------------------------------------------------------------------------------
 
 LIBRARY IEEE;
@@ -14,20 +14,18 @@ USE work.MainPackage.all;
 
 ENTITY FFT8P IS
     PORT(
-        Reset : STD_LOGIC;
+        Reset : IN STD_LOGIC;
     	Clock : IN STD_LOGIC;
-    	Input : IN STD_LOGIC_VECTOR (20 DOWNTO 0);
-    	Output : OUT STD_LOGIC_VECTOR (26 DOWNTO 0)
-        
+    	Start : IN STD_LOGIC;
+    	SelectInputOutput : IN STD_LOGIC;
+    	Input : IN STD_LOGIC_VECTOR (11 DOWNTO 0);
+    	Output : OUT STD_LOGIC_VECTOR (25 DOWNTO 0);
+    	FinishFFT : OUT STD_LOGIC
     );
 END FFT8P;
 
 ARCHITECTURE Behavioral OF FFT8P IS
-    
-    -- Defines
-    CONSTANT NLevels : INTEGER := 4;
-    CONSTANT NFFT : INTEGER := (2**NLevels);
-    CONSTANT TimeLapseCordic : INTEGER := 4;
+   
     --Interconect Signals
     SIGNAL Butterfly_SelectIn : ComplexVector((NFFT -1) DOWNTO 0);
     SIGNAL Demux_SelectIn : ArrayVector((NFFT -1) DOWNTO 0);
@@ -40,32 +38,25 @@ ARCHITECTURE Behavioral OF FFT8P IS
     SIGNAL StartCordic : STD_LOGIC;
     SIGNAL ControlSelectOut : STD_LOGIC_VECTOR(3 DOWNTO 0);
     --Input and Output Signals
-    SIGNAL InputFFT : STD_LOGIC_VECTOR(11 DOWNTO 0);
-    SIGNAL Start : STD_LOGIC;
-    SIGNAL SelectDemuxMux : STD_LOGIC_VECTOR(7 DOWNTO 0);
-    SIGNAL OutputFFT : STD_LOGIC_VECTOR(25 DOWNTO 0);
-    SIGNAL FinishFFT : STD_LOGIC;
     SIGNAL SetInputData : STD_LOGIC;
-    SIGNAL ClockCordic : STD_LOGIC;
+    SIGNAL CounterClock : INTEGER RANGE 0 TO (NumberOfCordicInteractions-1);
+    SIGNAL ChangeROM : STD_LOGIC := '0';
+    SIGNAL Butterfly_MuxFirst : STD_LOGIC_VECTOR((25-NLevels*2) DOWNTO 0);
+    SIGNAL Butterfly_MuxOthers : MuxVector((NFFT/2 - 2) DOWNTO 0);
+    SIGNAL FinishAux : STD_LOGIC;
     
 BEGIN
-    
-    InputFFT <= Input(11 DOWNTO 0);
-    Start <= Input(12);
-    SelectDemuxMux <= Input(20 DOWNTO 13);
-    Output(25 DOWNTO 0) <= OutputFFT;
-    Output(26) <= FinishFFT;
+   
     
     ---------------------------------------------------------------
     --                     Central Control                       --
     --------------------------------------------------------------- 
-    CentralControl : ControlFFT GENERIC MAP (NLevels => NLevels, TimeLapseCordic => TimeLapseCordic) PORT MAP (Reset => Reset, Clock => Clock, Start => Start, ControlSelectIn => ControlSelectIn, StartCordic => StartCordic,  ControlSelectOut => ControlSelectOut, SetInputData => SetInputData, FinishFFT => FinishFFT);
+    CentralControl : ControlFFT PORT MAP (Reset => Reset, Clock => Clock, Start => Start, StartCordic => StartCordic, ControlSelectIn => ControlSelectIn, ControlSelectOut => ControlSelectOut, CounterClock => CounterClock, ChangeROM => ChangeROM, SetInputData => SetInputData, FinishFFT => FinishAux);
     
     ---------------------------------------------------------------
     --                           Demux                           --
     ---------------------------------------------------------------
-    Demux : DemuxFFT GENERIC MAP (NFFT => NFFT) PORT MAP(SelectDemux => SelectDemuxMux, InputDemuxFFT => InputFFT, OutputDemuxFFT => Demux_SelectIn);
-
+    Demux : DemuxFFT GENERIC MAP(NFFT => NFFT) PORT MAP(Reset => Reset, Clock => SelectInputOutput, Start => Start, InputDemuxFFT => Input, OutputDemuxFFT => Demux_SelectIn);
     ---------------------------------------------------------------
     --                Select Input of Each Butterfly             --
     ---------------------------------------------------------------
@@ -74,11 +65,8 @@ BEGIN
     ---------------------------------------------------------------
     --                         Cordic                            --
     ---------------------------------------------------------------
-    ClockCordic <= Clock WHEN StartCordic = '1'  ELSE
-                   '0'; 
-                   
     Cordick: FOR k  IN 0 TO (NFFT/2-1) GENERATE
-        Cordic : CordicV1 GENERIC MAP (NFFT => NFFT) PORT MAP (Clock => ClockCordic, Reset => SetInputData, XInputCordic => SelectIn_Cordic(2*k), YInputCordic => SelectIn_Cordic(2*k+1), XOutputCordic => Cordic_SelectOut(2*k), YOutputCordic => Cordic_SelectOut(2*k+1)); 
+        Cordic : CordicV1 GENERIC MAP (NumberOfCordicInteractions => NumberOfCordicInteractions, NLevels =>NLevels, IndexFFT => k) PORT MAP (Clock => Clock, Reset => SetInputData, StartCordic => StartCordic, XInputCordic => SelectIn_Cordic(2*k), YInputCordic => SelectIn_Cordic(2*k+1), CounterClock => CounterClock, ChangeROM => ChangeROM, XOutputCordic => Cordic_SelectOut(2*k), YOutputCordic => Cordic_SelectOut(2*k+1)); 
     
     END GENERATE;
     
@@ -90,13 +78,20 @@ BEGIN
     ---------------------------------------------------------------
     --                         Butterflies                       --
     ---------------------------------------------------------------
-    B: FOR k  IN 0 TO (NFFT/2-1) GENERATE
+    Butter :  Butterfly PORT MAP (XInput => SelectOut_Butterfly(0), YInput => SelectOut_Butterfly(1), XOutput => Butterfly_SelectIn(0), YOutput => Butterfly_SelectIn(1));
+    Butterfly_MuxFirst((25-NLevels*2) DOWNTO (13-NLevels)) <= Butterfly_SelectIn(0).r(12 DOWNTO (NLevels));
+    Butterfly_MuxFirst((12-NLevels) DOWNTO 0) <= Butterfly_SelectIn(0).i(12 DOWNTO (NLevels));
+    
+    B: FOR k  IN 1 TO (NFFT/2-1) GENERATE
        Butter :  Butterfly PORT MAP (XInput => SelectOut_Butterfly(2*k), YInput => SelectOut_Butterfly(2*k+1), XOutput => Butterfly_SelectIn(2*k), YOutput => Butterfly_SelectIn(2*k+1));
-       Butterfly_Mux(k) <= Butterfly_SelectIn(2*k);
+       Butterfly_MuxOthers(k-1)((25-((NLevels-1)*2)) DOWNTO (13-(NLevels-1))) <= Butterfly_SelectIn(2*k).r(12 DOWNTO (NLevels-1));
+       Butterfly_MuxOthers(k-1)((12-(NLevels-1)) DOWNTO 0) <= Butterfly_SelectIn(2*k).i(12 DOWNTO (NLevels-1));
+       
     END GENERATE;
     ---------------------------------------------------------------
     --                             Mux                           --
     ---------------------------------------------------------------
-    Mux : MuxFFT GENERIC MAP (NFFT => NFFT) PORT MAP(SelectMux => SelectDemuxMux, InputMuxFFT => Butterfly_Mux, OutputMuxFFT => OutputFFT(25 DOWNTO 0));
+    Mux : MuxFFT GENERIC MAP(NFFT => NFFT, NLevels => NLevels) PORT MAP(Reset => Reset, Clock => SelectInputOutput, FinishFFT => FinishAux, Butterfly_MuxFirst => Butterfly_MuxFirst, Butterfly_MuxOthers => Butterfly_MuxOthers,  OutputMuxFFT => Output);
+    FinishFFT <= FinishAux;
         
 END Behavioral;

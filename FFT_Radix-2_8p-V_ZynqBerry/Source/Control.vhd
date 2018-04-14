@@ -13,9 +13,6 @@ USE IEEE.numeric_std.ALL;
 USE work.MainPackage.all;
 
 ENTITY ControlFFT IS
-    GENERIC(NLevels : INTEGER;
-            TimeLapseCordic: INTEGER
-            );
     PORT(
     	Reset : IN STD_LOGIC;
     	Clock : IN STD_LOGIC;
@@ -23,6 +20,8 @@ ENTITY ControlFFT IS
         StartCordic : OUT STD_LOGIC;
         ControlSelectIn : OUT STD_LOGIC;
         ControlSelectOut : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+        CounterClock : OUT INTEGER RANGE 0 TO (NumberOfCordicInteractions-1);
+        ChangeROM : OUT STD_LOGIC;
         SetInputData : OUT STD_LOGIC;
         FinishFFT : OUT STD_LOGIC
     );
@@ -34,8 +33,9 @@ ARCHITECTURE Behavioral OF ControlFFT IS
     SIGNAL CurrentState : State := Idle;
     SIGNAL NextState : State := Idle;
     SIGNAL CounterCycles : INTEGER RANGE 0 TO (NLevels);
+    SIGNAL CounterClockAux : INTEGER RANGE 0 TO (NumberOfCordicInteractions-1) := 0;
     SIGNAL AuxControlSelectOut : INTEGER RANGE 0 TO (2*NLevels-1);
-    SIGNAL CounterClock : INTEGER RANGE 0 TO 10 := 0;
+    SIGNAL CounterCentral : INTEGER RANGE 0 TO (NumberOfCordicInteractions+2) := 0;
     
 BEGIN
 
@@ -78,20 +78,20 @@ BEGIN
                 
                 END IF; 
                     
-                       
+            
             WHEN ProcessingNStage =>
                 ControlSelectIn <= '0';
                 FinishFFT <= '0';
                 SetInputData <= '0';
-                IF(CounterCycles = NLevels) THEN
-                    NextState <= FinishStage ;
+                IF(CounterCycles = (NLevels-1)) THEN
+                    NextState <= FinishStage;
                 
                 ELSE
                     NextState <= ProcessingNStage;
                 
                 END IF;
-            
-            
+                
+                                
             WHEN FinishStage =>
                 ControlSelectIn <= '0';
                 FinishFFT <= '1';
@@ -121,64 +121,76 @@ BEGIN
         IF(Reset = '1') THEN
             CurrentState <= Idle;
         
-        ELSIF (Clock'EVENT AND Clock = '0') THEN
+        ELSIF (Clock'EVENT AND Clock = '1') THEN
             CurrentState <= NextState;
             
         END IF;
     
     END PROCESS;
 
-
+   
     ---------------------------------------------------------------
     --                       Timer Control                       --
     ---------------------------------------------------------------
-	Timer : PROCESS (Clock, Reset, CurrentState, CounterClock)
-
-        
-        
+	CounterClock <= CounterClockAux;
+	-- Process 
+	Timer : PROCESS (Clock, Reset, CurrentState)
+    
     BEGIN
         
         IF(Reset = '1') THEN
-            CounterClock <= 0;
+            CounterCentral <= 0;
+            CounterClockAux <= 0;
             StartCordic <= '0';
             AuxControlSelectOut <= 0;
             CounterCycles <= 0;
+            ChangeROM <= '0';
 
         ELSIF(Clock'EVENT AND Clock = '1') THEN
             IF(CurrentState = ProcessingNStage) THEN
-                CASE CounterClock IS
-                    WHEN 10 =>
-                        StartCordic <= '0';
-                        AuxControlSelectOut <= AuxControlSelectOut;
-                        CounterCycles <= CounterCycles + 1;
-                        CounterClock <= 0;
-                    
-                    WHEN 3 =>
+                CASE CounterCentral IS
+                    WHEN 0 =>
+                        CounterCentral <= CounterCentral + 1;
                         StartCordic <= '1';
+                        CounterClockAux <= 0;
                         AuxControlSelectOut <= AuxControlSelectOut;
                         CounterCycles <= CounterCycles;
-                        CounterClock <= CounterClock + 1;
-                        
-                    WHEN 5 =>
+                        ChangeROM <= '0';
+                    
+                    WHEN 1 =>
+                        CounterCentral <= CounterCentral + 1;
                         StartCordic <= '0';
-                        AuxControlSelectOut <= AuxControlSelectOut + 1;
+                        CounterClockAux <= 0;
+                        AuxControlSelectOut <= AuxControlSelectOut;
                         CounterCycles <= CounterCycles;
-                        CounterClock <= CounterClock + 1;
+                        ChangeROM <= '0';
+                    
+                    WHEN 2 =>
+                        CounterCentral <= CounterCentral + 1;
+                        StartCordic <= '0';
+                        CounterClockAux <= 0;
+                        AuxControlSelectOut <= AuxControlSelectOut;
+                        CounterCycles <= CounterCycles;
+                        ChangeROM <= '0';
+                                                                            
+                    WHEN (NumberOfCordicInteractions+2) =>
+                        CounterCentral <= 0;
+                        StartCordic <= '0';
+                        CounterClockAux <= 0;
+                        AuxControlSelectOut <= AuxControlSelectOut+1;
+                        CounterCycles <= CounterCycles+1;
+                        ChangeROM <= '1';    
                          
                     WHEN OTHERS =>
+                        CounterCentral <= CounterCentral + 1;
                         StartCordic <= '0';
+                        CounterClockAux <= CounterClockAux + 1;
                         AuxControlSelectOut <= AuxControlSelectOut;
                         CounterCycles <= CounterCycles;
-                        CounterClock <= CounterClock + 1;
+                        ChangeROM <= '0';
 
                 END CASE; 
                 
-            ELSE
-                StartCordic <= '0';
-                AuxControlSelectOut <= 0;
-                CounterCycles <= 0;
-                CounterClock <= 0;
-            
             END IF;
 
         END IF;
