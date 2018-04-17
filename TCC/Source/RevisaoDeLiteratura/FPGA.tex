@@ -2,22 +2,4 @@ Como afirma \citeonline[Prefácio]{Meyer}, muitos algoritmos de processamento de 
 
 \citeonline{moore}[p.~4] define a FPGA como um dispositivo semicondutor capaz de ser totalmente redefinido após sua fabricação, permitindo ao desenvolvedor reconfigurar produtos e funções já implementadas, adaptando o \textit{hardware} a novas funções. De forma prática, a FPGA permite uma flexibilidade em um projeto, podendo mudar a forma como ele é implementado, sem a necessidade de se construir um \textit{hardware} novo.
 
-As FPGAs são baseadas em unidades lógicas elementares básicas, capazes de se conectar de diferentes formas criando uma variedade de componentes digitais. Na família de FPGAs \textit{Spartan$^\circledR$-3E}, fabricadas pela empresa \textit{Xilinx$^\circledR$}, as unidades lógicas elementares básicas são chamadas de \textit{slices}. Cada \textit{slice} possui 2 conjuntos de 4 entradas e uma saída LUTs \textit{(Look Up Table and Flip-Flops/Latches)}, 2 \textit{flip-flops} e sistema de controle compartilhado. Por fim, um conjunto de 4 \textit{slices}
-são combinados em um bloco lógico configurável (\textit{Configurable Logic Blocks}, CLB) \cite{Meyer}.
-
-O dispositivo escolhido para a implementação do algoritmo Radix-2 é o kit 
-de desenvolvimento para FPGA denominado \textit{Spartan$^\circledR$-3E} \textit{FPGA Starter Kit Board}, apresentado na figura 3. Tal kit possui uma FPGA XC3S500E, com 1.164 CLBs, 4.656 \textit{slices}, um bloco de RAM de 360 Kbits, 20 multiplicadores dedicados e 232 portas de entrada e saída utilizáveis \cite{xilinx}.
-
-\vspace{5mm}
-
-\begin{figure}[H]
-	\centering
-	\captionsetup{width=0.8\textwidth, font=footnotesize, textfont=bf}	
-	\includegraphics[width=0.8\linewidth]{Images/RevisaoDeLiteratura/spartan-3e.png}
-	\caption{\textit{Spartan$^\circledR$-3E FPGA Starter Kit Board}}
-	\vspace{-3.5mm}
-	\caption*{Fonte: \citeonline{xilinx}}
-	\label{fig:FPGA}
-\end{figure}
-
 \vspace{5mm}

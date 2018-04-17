@@ -69,7 +69,7 @@ architecture Behavioral of Simulation is
     
 begin
 
-    F1 : FFT8P PORT MAP(Reset => '0', Clock => Clock, Start => StartAux, SelectInputOutput => SelectInputOutput, Input => Input, Output => Output, FinishFFT => FinishFFT);
+    F1 : FFT16p PORT MAP(Reset => '0', Clock => Clock, Start => StartAux, SelectInputOutput => SelectInputOutput, Input => Input, Output => Output, FinishFFT => FinishFFT);
     
     Input <= Xin(Counter);
     SelectInputOutput <= Clock;    

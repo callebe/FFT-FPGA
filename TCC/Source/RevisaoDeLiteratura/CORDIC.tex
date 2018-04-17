@@ -1,0 +1,274 @@
+Na equação (\ref{eq:Xr}) nota-se que o calculo a FFT depende essencialmente de um multiplicação complexa entre $W_{N_0}^r$ e $H_r$, o que de fato nada mais é do que a operação trigonométrica de rotacionar o vetor $H_r$ pelo ângulo de $2\pi r/N_0$. Esta tarefa pode ser realizada através da representação dos vetores na forma retangular, e utilização de 4 multiplicadores e 2 somadores\cite[p.~1]{alvin}. Porém em termos de complexidade hardware, multiplicadores são mais elaborados e em muitos dispositivos FPGA possuem apenas algumas dezenas. Logo com o objetivo de oferecer uma solução para funções trigonométricas mais simples Jack E. Volder\cite{Volder} desenvolveu a técnica de computação trigonométrica CORDIC (\textit{COordinate Rotation DIgital Computer}).
+
+
+\subsection{CORDIC Tradicional}
+
+O algoritmo CORDIC tem como base as micro-rotações do vetor alvo, de tal modo que cada micro-rotação possa ser feita por somas e deslocamentos de bits. Para tal considere o vetor $~H ~ = ~x~+~iy$, e a matriz de rotação $A$ em função do angulo $\theta$. A rotação do vetor é dada  pela equação (\ref{eq:rotacaoVetorial})\cite{Garrido}.
+
+\begin{equation}
+	\left[\begin{array}{c}
+	x' \\ 
+	y' \\ 
+	\end{array}\right] = \left[\begin{array}{cc}
+	cos(\theta) & -sin(\theta)\\ 
+	sin(\theta) & cos(\theta) \\ 
+	\end{array}\right] \left[\begin{array}{c}
+	x \\ 
+	y \\ 
+	\end{array}\right]
+	\label{eq:rotacaoVetorial}
+\end{equation}
+   
+  
+Isolando o termo $cos( \theta )$ da equação (\ref{eq:rotacaoVetorial}), é obtido o sistema (\ref{eq:rotacaoVetorialB}), o qual é a base da técnica CORDIC convencional \cite{Motaz}.
+
+\begin{equation}
+	\left[\begin{array}{c}
+	x' \\ 
+	y' \\ 
+	\end{array}\right] = cos(\theta) \left[\begin{array}{cc}
+	1 & -tan(\theta)\\ 
+	tan(\theta) & 1 \\ 
+	\end{array}\right] \left[\begin{array}{c}
+	x \\ 
+	y \\ 
+	\end{array}\right]
+	\label{eq:rotacaoVetorialB}
+\end{equation}
+
+Segundo \cite{Volder}, ao invés de rotacionar o vetor $H$ pelo angulo $\theta$, o algoritmo CORDIC rotaciona $H$ por ângulos muito menores, de tal forma que:
+
+\begin{equation}
+	\sum_{n = 0}^{N-1} \theta_n ~ \simeq ~ \mu \theta
+	\label{eq:aproximation}
+\end{equation}
+
+e ainda,
+
+\begin{equation}
+	\theta_n ~=~ tan^{-1} (2^{-n})
+\end{equation}
+
+Logo aproximando $tan (\theta_n)$ para $\theta_n$, modifica-se a equação (\ref{eq:rotacaoVetorialB}) e se obtêm:
+
+\begin{equation}
+	\left[\begin{array}{c}
+	x' \\ 
+	y' \\ 
+	\end{array}\right] = \prod_{n=0}^{N-1} K_c \left[\begin{array}{cc}
+	1 & -\mu 2^{-n}\\ 
+	\mu 2^{-n} & 1 \\ 
+	\end{array}\right] \left[\begin{array}{c}
+	x \\ 
+	y \\ 
+	\end{array}\right]
+	\label{eq:rotacaoVetorialC}
+\end{equation}
+
+\begin{equation}
+	k_c = cos(tan^{-1} (2^{-n})) = \frac{1}{\sqrt{1 + 2^{-2n}}}
+	\label{eq:K}
+\end{equation}
+
+onde
+
+\begin{equation}
+	\mu \in \{-1,1\} 
+\end{equation}
+
+$K_c$  é calculado a cada micro-rotação $n$, assim seu valor total é dado pelo produto de todos os $N$ ganhos.  O número total de micro-rotações ($N$) é escolhido de acordo com o SQNR  (\textit{Signal-to-Quantization-Noise Ratio }) admissível a cada rotação. Segundo \cite{Volder}, considerando $N\rightarrow\infty$, $K_c$ é aproximadamente igual a $0,6073$, e seu inverso $1,647$ é conhecido como "Ganho CORDIC". Tal ganho é aproximadamente o mesmo para todas as rotações e em muitos sistemas ele não precisa ser compensado.
+
+Portanto o Algoritmo CORDIC se resume a operações de deslocamento de \textit{bit}  e somas. A direção das micro-rotações é determinada por $\mu$, que depende diretamente sinal do ângulo $\theta_n$ a se rotacionar. Em aplicações onde o ângulo a se rotacionar é previamente conhecido, que é o caso da FFT,  as sequências de rotações $\mu$ podem ser armazenado em uma ROM \cite{Motaz}. Tornando as micro-rotações como interações $n$, e armazenando em $z$ os ângulos rotacionados a cada interação $\theta_n$, o algoritmo CORDIC é dado por:
+
+\begin{eqnarray}
+	x(n+1) = x(n) - [\mu 2^{-n}]y(n) \\
+	y(n+1) = y(n) - [\mu 2^{-n}]x(n) \\
+	z(n+1) = z(n)-tan^{-1} [\mu 2^{-n}] 
+	\label{eq:CORDIC}
+\end{eqnarray}
+
+
+\subsection{EEAS-CORDIC}
+
+No algoritmo CORDIC cada ângulo de rotação $\theta_n$ é necessariamente determinado de maneira sequencial, após cada interação $n$. Em aplicações onde os ângulos de rotação são conhecidos é possível contornar está restrição através de métodos \textit{Angle Recording} (AR) \cite{Shing}. 
+
+Os AR tem como objetivo reduzir o numero de interações CORDIC através substituição dos ângulos de rotação pela combinação lineares de um conjunto elementar de micro-rotações. Com foco na redução do erro $~\epsilon~$ oriundo da aproximação  (\ref{eq:aproximation}), o método \textit{Elementary-Angle-Set} (EASR) é um AR que expande o conjunto de combinações lineares adicionando zero ao conjunto de $\mu$,  obtendo uma melhor aproximação para certos valores de $\theta$ e uma redução de até 50\% no número de interações \cite{Meher}. Deste modo o erro de aproximação é expresso por:
+
+\begin{equation}
+	\epsilon = \left| \theta~-~\sum_{n=0}^{N} \mu \theta_n \right| ~ =~ \left| \theta~-~\sum_{n=0}^{N}  \mu ~ tan^{-1} (2^{-n}) \right| 
+	\label{eq:erroTheta}
+\end{equation} 
+
+Onde:
+
+\begin{equation}
+	\mu \in \{-1,~0,~1\}
+\end{equation} 
+
+
+Por outro lado o \textit{Extended Elementary-Angle-Set Recoding} (EEASR) apresenta um método baseado no EASR que estende o conjunto de ângulos elementares (\textit{Elementary-Angle-Set}, EAS), para aumentar a possibilidades de decomposição do ângulo de rotação\cite{Cheng}. Para perceber a modificação que o EEASR propõem nota-se primeiramente que o conjunto de ângulos elementares no CORDIC tradicional é definido como:
+
+\begin{eqnarray}
+	S_1 = \{ tan^{-1} ( \mu 2^{-s} ) \} \\
+	:~\mu \in \{-1,0,1\},~s\in \{0,1, \dots, N-1\} 
+	\label{eq:s1}
+\end{eqnarray}    
+ 
+Como é possível notar em (\ref{eq:s1}) os ângulos elementares dependem de apenas um termo potência de dois, ou \textit{Signed Power of Two} (SPT). Segundo \cite{Cheng} para aumentar a precisão dos ângulos elementares e consequentemente reduzir o numero de interações pode-se adicionar mais um termo SPT em  (\ref{eq:s1}). Assim,
+  
+\begin{eqnarray}
+	 S_2 = \{ tan^{-1} ( \mu_{0} 2^{-s_0} + \mu_{1} 2^{-s_1}) \} \\ 
+    :~\mu_{0},\mu_{1} \in \{-1,0,1\},~s_0,s_1 \in \{0,1, \dots, N-1\} 
+    \label{eq:S2}
+\end{eqnarray}  
+
+Portanto alterando a equação (\ref{eq:rotacaoVetorialC}) com base em  \ref{eq:S2} é obtido seguinte expressão:
+
+\begin{eqnarray}
+	x(n+1) = x(n) - [\mu_{0}2^{-s_0 (n)} + \mu_{1}2^{-s_1 (n)}]y(n) \\
+	y(n+1) = y(n) - [\mu_{0}2^{-s_0 (n)} + \mu_{1}2^{-s_1 (n)}]x(n) \\
+	z(n+1) = z(n)-tan^{-1} [\mu_{0}2^{-s_0 (n)} + \mu_{1}2^{-s_1 (n)}] 
+	\label{eq:EEASR}
+\end{eqnarray}
+
+Ao adicionar mais termos tanto a $\mu$ e a $S_1$ cada operação de rotação do algoritmo CORDIC não tem mais o ganho constante $K_c$, e passa a ter um ganho na forma:
+
+\begin{equation}
+	K_c~=~\frac{1}{\sqrt{1+ [\mu_{0}2^{-s_0 (n)} + \mu_{1}2^{-s_1 (n)}]^2}}
+	\label{eq:EEASRKcn}
+\end{equation} 
+
+\begin{equation}
+	K_c~=~\prod_{n=0}^{N-1} K(n)_c
+	\label{eq:EEASRKc}
+\end{equation}  
+
+
+\subsection{MSR-CORDIC}
+
+O ganho CORDIC $K_c$ apresentado anteriormente sempre se estabelece acima de 1 em qualquer das variações do algoritmo CORDIC apresentados. Com um valor maior que a unidade $K_c$ demanda uma redução de escala no resultado do algoritmo, esta redução provoca uma degradação no valor de SQNR. Logo para evitar esta degradação é necessário manter o modulo do vetor de entrada o mais perto da unidade a cada interação \cite{Chih}. Assim em \cite{Chih} foi reformulada a expressão \ref{eq:EEASR} da seguinte forma:
+
+\begin{eqnarray}
+	x(n+1) = \left[\sum_{j=1}^{J} \mu_{j}2^{-s_j (n)} \right]x(n) -  \left[\sum_{i=1}^{I} \mu_{i}2^{-s_i (n)}\right]y(n)\\
+	y(n+1) =  \left[\sum_{i=1}^{I} \mu_{i}2^{-s_i (n)}\right]x(n) + \left[\sum_{j=1}^{J} \mu_{j}2^{-s_j (n)}\right]y(n)\\
+	z(n+1) = z(n)-tan^{-1} \left[\frac{\sum_{i=1}^{I} \mu_{i}2^{-s_i (n)}}{\sum_{j=1}^{J} \mu_{j}2^{-s_j (n)}}\right]
+	\label{eq:MSR}
+\end{eqnarray}
+
+Onde
+
+\begin{equation}
+	N = I + J
+\end{equation}
+
+
+O \textit{Mixed Scaling Rotation} (MSR) busca realizar em uma única interação a operação de redução de escala e de micro-rotação. Para tal ele adiciona mais graus de liberdade através da inserção de termos SPT em $x(n)$ da parcela $x(n+1)$, e em $y(n)$ da parcela $y(n+1)$. Consequentemente ao inserir tais termos na função tanto  $\theta_n$ quanto $K_c$ precisam ser corrigidos \cite{Kuo}. Portanto  $K_c$ passa a ser:
+
+   
+\begin{equation}
+	K(n)_c~=~\frac{1}{\sqrt{ \left( \sum_{i=1}^{I} 2^{-s_i (n)}\right)^2 + \left(\sum_{j=1}^{J} 2^{-s_j (n)} \right)^2 } }
+	\label{eq:MSRKnc}
+\end{equation}
+
+\begin{equation}
+	K_c~=~\prod_{n=0}^{N-1} K(n)_c
+	\label{eq:MSRKn}
+\end{equation} 
+
+Como pode ser percebido em (\ref{eq:MSRKnc}) e (\ref{eq:MSR}), através da escolha adequada dos conjuntos de termos $S_i$ e $S_j$, e dos valores de $I$ e $J$ é possível aproximar $K_c$ da unidade e ao mesmo tempo reduzir o erro $\epsilon$. Com mais graus de liberdade o MSR possui uma densidade combinacional dentro do circulo unitário maior do que o CORDIC tradicional e o EEAS-CORDIC \cite{Kuo}.%, como pode ser visto nas Figuras \ref{fig:CordicComparationCordic}, \ref{fig:CordicComparationEEAS} e \ref{CordicComparationMSR} .
+
+%\begin{figure}[h]
+%	\centering
+%	%\captionsetup{width=0.6\textwidth, font=footnotesize, textfont=bf}	
+%	\includegraphics[width=0.8\linewidth]{img/CordicComparationCordic.PNG}
+%	\caption{Cordic Tradicional com N=4  \\ Fonte: \cite{Chih}}
+%	\label{fig:CordicComparationCordic}
+%\end{figure} 
+
+%\begin{figure}[h]
+%	\centering
+%	%\captionsetup{width=0.6\textwidth, font=footnotesize, textfont=bf}	
+%	\includegraphics[width=0.8\linewidth]{img/CordicComparationEEAS.PNG}
+%	\caption{EEAS com N=2 e S=4 \\ Fonte: \cite{Chih}}
+%	\label{fig:CordicComparationEEAS}
+%\end{figure}    
+
+%\begin{figure}[h]
+%	\centering
+	%\captionsetup{width=0.6\textwidth, font=footnotesize, textfont=bf}	
+%	\includegraphics[width=0.8\linewidth]{img/CordicComparationMSR.PNG}
+%	\caption{MSR com I=2, J=1 e N=2  \\ Fonte: \cite{Chih}}
+%	\label{CordicComparationMSR}
+%\end{figure}   
+
+\subsection{Estratégia de Projeto dos Parâmetros CORDIC}  
+
+ Como apresentado anteriormente tanto o algoritmo EEAS-CORDIC quanto o MSR-CORDIC possuem parâmetros de projeto a serem selecionados para que o processo de rotação seja realizado minimizando interações e maximizando a precisão. Em \cite{Cheng} o autor propões um método de otimização para parâmetros EEAS chamado \textit{Trellis-Based Search}(TBS). A partir do numero máximo de interações $N$, do ângulo de rotação $\theta$ e de $W$, que representa numero de bits de $\theta$, o TBS emprega um método de otimização para encontrar os melhores parâmetros $S^0(n)$, $S^1(n)$, $\mu_{0}$ e $\mu_{1}$ \cite{Cheng}. A função de otimização usado em \textit{TBS} é dada pela minimização do erro $\epsilon$, o qual está descrita em \ref{eq:erroTheta}, e as restrições são dadas pelos conjuntos de ângulos elementares $S_2$ apresentados em (\ref{eq:S2}). 
+ 
+ \textit{TBS} é baseado no efeito que os diferentes arranjos dos ângulos elementares possíveis tem sobre $\epsilon$. Em \cite{Cheng} o autor utiliza um exemplo base para explicar o algoritmo, o qual também será usado aqui. 
+ 
+ Considerando um ângulos de rotação $\theta=\pi/3$, o máximo de interações $N=4$ e a resolução de $\theta$ com $W=~$ bits. O algoritmo segue o seguintes passos:
+ 
+ \begin{enumerate}
+ 	\item \textit{Inicialização:} Inicialmente é definido $z(S_2)$ como sendo o numero de elementos no conjunto de ângulos elementares, $r(k)$ representando cada elemento de $S_2$ individualmente, $1 \leq k \leq z(S_2)$ e $S_2$ sendo o conjunto dos ângulos elementares não redundantes. $\phi(n,k)$ representa a estrutura de acumulação do algoritmo, e será usada para se alcançar o resultado. Defini-se $z(S_2)=15$ combinações e $\phi(1,k)~=~r(k)$.
+ 		
+ 	\item \textit{Acumulação:} A cada elemento do vetor $\phi(i+1,k)$ é atribuído  o valor de $\phi(1:z(S_2),i)$ que corresponde ao mínimo de $\| \phi(1:z(S_2),i) + r(k) - \theta \|$. O índice $i$ varia $1 \leq i \leq R_m -1$, e $k$ varia de $1 \leq k \leq Z(S_2)$. 
+ 	
+ 	\item \textit{Determinação do Ótimo Global:} Ao final do processo de acumulação os elemento da coluna $R_m$ de $\phi$ apresentam os resultados globais. Logo dentro desta coluna é determinado o valor que mais se aproxima de $\theta$, defini-se este como $\theta_{TBS}$.
+ 	
+ 	\item \textit{Determinação do Caminho Solução:} A partir do elemento $\theta_{TBS}$ da coluna $R_m$ de $\phi$ é traçado o caminho reverso até a coluna $1$ de  $\phi$. A começar por $(k'=\theta_{TBS})$ e $(i=R_m)$ é  escolhido o valor da coluna $(i-1)$ que minimiza $\| \phi(1:z(S_2),i-1) + r(k') - \theta \|$, em seguida se atribui a $k'$ a posição $k$ do valor minimizante. Os valores $k'$ são armazenados em um vetor e representam as combinações de ângulos elementares que minimizam o erro $\epsilon$.
+ 	
+ 	 
+ \end{enumerate}
+ 
+ A tabela \ref{tab:TBSExemple} apresenta os valores encontrados para $\phi$ na execução do exemplo apresentado. Em destaque estão os valores considerados o conjunto minimizante solução $S_2$.
+ 
+ \begin{table}[h]
+ 	\centering
+	\captionsetup{width=.35\linewidth}
+	\caption{Matriz $\phi$ para o dado Exemplo}
+	\begin{tabular}{c|c|c|c|c|}
+		\cline{2-5}
+		& \cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} i=1} & \cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} i=2} & \cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} i=3} & \cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} i=4} \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} k=1}}  & -0,7854                                            & 0,3218                                             & 0,3556                                             & 0,3218                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} k=2}}  & -0,4636                                            & 0,6435                                             & 0,6774                                             & 0,6435                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} k=3}}  & -0,245                                             & 0,8622                                             & 0,8961                                             & 0,8622                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} k=4}}  & -0,6435                                            & 0,4636                                             & 0,4975                                             & 0,4636                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} k=5}}  & 0                                                  & 1,1071                                             & 1,0304                                             & 1,0304                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} k=6}}  & 0,4636                                             & 1,1071                                             & 1,1071                                             & 0,9612                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} k=7}}  & \cellcolor[HTML]{FE0000}0,245                      & 1,0304                                             & 1,1071                                             & 1,141                                              \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} k=8}}  & 0,7854                                             & 1,0304                                             & 0,9965                                             & 1,0304                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} k=9}}  & -0,9828                                            & 0,1244                                             & \cellcolor[HTML]{FE0000}0,1582                     & 0,1244                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} k=10}} & -0,8961                                            & 0,2111                                             & 0,245                                              & 0,2111                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} k=11}} & -1,1071                                            & 0                                                  & 0,0339                                             & 0                                                  \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} k=12}} & 0,9828                                             & 0,9828                                             & 1,1071                                             & 1,0167                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} k=13}} & 0,8961                                             & \cellcolor[HTML]{FE0000}1,141                      & 1,0204                                             & \cellcolor[HTML]{FE0000}1,0543                     \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} k=14}} & 0,6435                                             & 1,1071                                             & 1,1071                                             & 0,9991                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} k=15}} & 1,1071                                             & 1,1071                                             & 1,1071                                             & 1,141                                              \\ \hline
+	\end{tabular}
+	\vspace{0.5mm}
+	\captionsetup{width=.5\linewidth}
+	\caption*{Fonte: Autoria Própria}
+	\label{tab:TBSExemple}
+ \end{table}
+
+   
+  Para o algoritmo MSR-CORDIC porém é mais complicado determinar todos os parâmetros $S_j$, $S_i$, $\mu_{i}$, $\mu_{j}$, $I$ e $J$. Primeiramente nota-se que o conjunto dos ângulos fundamentais deixa de ser representado por (\ref{eq:S2}) e passa a ser \cite{Chih}:
+  
+  \begin{eqnarray}
+  	S_{N_{SPT}} = \frac{\sum_{i=1}^{I} \mu_{i}2^{-s_i (n)}}{\sum_{j=1}^{J} \mu_{j}2^{-s_j (n)}} \\
+  	: ~\mu_{i},{j} \in \{-1,0,1\}, \\ ~s_i,s_j \in \{0,1, \dots, N-1\}
+  \end{eqnarray}
+  
+  Portanto o conjunto de soluções ótimas de ângulos elementares para a redução do erro $\epsilon$ expande, o que em primeiro plano possibilidade uma maior oportunidade de conjuntos que otimizam o função do erro $\epsilon$. Entretanto como é desejado manter o ganho $K_c$ perto da unidade, não há apenas uma função objetivo a ser considerada, existe ainda a função do erro  entre $K_c$ e a unidade, o qual pode ser expressa como:
+  
+  \begin{equation}
+  	\epsilon_{Kc} = \left\| 1 - \prod_{n=0}^{N-1} \frac{1}{\sqrt{ \left( \sum_{i=1}^{I} 2^{-s_i (n)}\right)^2 + \left(\sum_{j=1}^{J} 2^{-s_j (n)} \right)^2 } } \right\|
+  \end{equation}
+  
+  Como ambos os erros $\epsilon$ e $\epsilon_{Kc}$ tem impactos distintos no erro total de cálculo de uma unidade CORDIC, sendo que o primeiro impacta no ângulo do vetor de saída e o segundo impacta no módulo deste ângulo. Assim neste artigo será usado uma adaptação do algoritmo TBS já apresentado. 
+  
+   Na modificação proposta aqui várias instâncias do algoritmo TBS são calculados para diferentes combinações de $I$ e $J$, sempre respeitando a restrição $N=I+J$. Cada combinação $I$ e $J$ gera diferentes combinações de  $S_{N_{SPT}}$. Assim cada instância TBS gera um valor de erro $\epsilon$ e $\epsilon_{Kc}$, então é selecionada a instância que possui o menor valor de $\epsilon + \epsilon_{Kc}$ como a melhor solução global. 
+   
+   
+  

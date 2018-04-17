@@ -1,18 +1,84 @@
-This is BibTeX, Version 0.99dThe top-level auxiliary file: tcc.aux
+This is BibTeX, Version 0.99d (TeX Live 2017/Debian)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: tcc.aux
 The style file: abnt-alf.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: abnt-options.bib
 Database file #2: bibliografia.bib
 Warning--entry type for "Wang" isn't style-file defined
---line 160 of file bibliografia.bib
-Warning--I didn't find a database entry for "NirmalRaj"
+--line 319 of file bibliografia.bib
+Warning--entry type for "NirmalRaj" isn't style-file defined
+--line 557 of file bibliografia.bib
+Repeated entry---line 595 of file bibliografia.bib
+ : @inproceedings{triantis
+ :                        ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 611 of file bibliografia.bib
+ : @book{martinsen
+ :                ,
+I'm skipping whatever remains of this entry
+Warning--I didn't find a database entry for "Volder"
 Warning--I didn't find a database entry for "SiteMoraes2010"
 Warning--I didn't find a database entry for "Grainger1994"
 Warning--I didn't find a database entry for "Anderson1977"
 Warning--I didn't find a database entry for "Glover2002"
 Warning--I didn't find a database entry for "abntex-doc"
+Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=20001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
 +---------------------------------------------------------+
 | Estilo bibliográfico abnt-alf.bst versão 1.45.2.1           |
 | Em caso de dúvidas ou problemas com este estilo procure |
 | http://abntex.codigolivre.org.br                        |
 +---------------------------------------------------------+
-(There were 7 warnings)
+You've used 32 entries,
+            6480 wiz_defined-function locations,
+            1354 strings with 13903 characters,
+and the built_in function-call counts, 26743 in all, are:
+= -- 2198
+> -- 941
+< -- 95
++ -- 458
+- -- 277
+* -- 1885
+:= -- 3356
+add.period$ -- 111
+call.type$ -- 34
+change.case$ -- 336
+chr.to.int$ -- 87
+cite$ -- 26
+duplicate$ -- 1429
+empty$ -- 2005
+format.name$ -- 1386
+if$ -- 6400
+int.to.chr$ -- 5
+int.to.str$ -- 3
+missing$ -- 564
+newline$ -- 133
+num.names$ -- 130
+pop$ -- 689
+preamble$ -- 1
+purify$ -- 128
+quote$ -- 0
+skip$ -- 1822
+stack$ -- 1
+substring$ -- 919
+swap$ -- 669
+text.length$ -- 35
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 2
+warning$ -- 0
+while$ -- 185
+width$ -- 0
+write$ -- 433
+(There were 2 error messages)

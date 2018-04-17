@@ -1,19 +1,25 @@
 \BOOKMARK [0][-]{chapter.1}{Introdu\347\343o}{}% 1
 \BOOKMARK [1][-]{section.1.1}{Justificativa}{chapter.1}% 2
 \BOOKMARK [0][-]{chapter.2}{Revis\343o de Literatura}{}% 3
-\BOOKMARK [1][-]{section.2.1}{Sistemas de Tempo Continuo e Tempo Discreto}{chapter.2}% 4
-\BOOKMARK [1][-]{section.2.2}{S\351rie de Fourier}{chapter.2}% 5
-\BOOKMARK [2][-]{subsection.2.2.1}{Espectro Exponencial de Fourier}{section.2.2}% 6
-\BOOKMARK [1][-]{section.2.3}{S\351rie de Fourier em Tempo Discreto}{chapter.2}% 7
-\BOOKMARK [1][-]{section.2.4}{Transformada R\341pida de Fourier}{chapter.2}% 8
-\BOOKMARK [1][-]{section.2.5}{FPGA}{chapter.2}% 9
-\BOOKMARK [0][-]{chapter.3}{Implementando FFT - 8 Pontos}{}% 10
-\BOOKMARK [1][-]{subsection.3.0.1}{Testes e exemplos de lista de siglas}{chapter.3}% 11
-\BOOKMARK [2][-]{subsection.3.0.2}{Testes e exemplos de lista de s\355mbolos}{subsection.3.0.1}% 12
-\BOOKMARK [2][-]{subsection.3.0.3}{Exemplos de cita\347\343o de refer\352ncias bibliogr\341ficas}{subsection.3.0.1}% 13
-\BOOKMARK [0][-]{chapter.4}{N\355vel 1 - Testes DE capitula\347\343o - Prim\341rio}{}% 14
-\BOOKMARK [1][-]{section.4.1}{N\355vel 2 - Secund\341rio}{chapter.4}% 15
-\BOOKMARK [2][-]{subsection.4.1.1}{N\355vel 3 - Terci\341rio}{section.4.1}% 16
-\BOOKMARK [3][-]{subsubsection.4.1.1.1}{N\355vel 4 - Quatern\341rio}{subsection.4.1.1}% 17
-\BOOKMARK [0][-]{chapter.annex.A}{Anexo A - Stellar Mystery Solved, Einstein Safe}{}% 18
-\BOOKMARK [1][-]{section.annex.A.1}{Exemplo de se\347\343o anexo}{chapter.annex.A}% 19
+\BOOKMARK [1][-]{section.2.1}{S\351rie de Fourier}{chapter.2}% 4
+\BOOKMARK [2][-]{subsection.2.1.1}{Espectro Exponencial de Fourier}{section.2.1}% 5
+\BOOKMARK [1][-]{section.2.2}{S\351rie de Fourier em Tempo Discreto}{chapter.2}% 6
+\BOOKMARK [1][-]{section.2.3}{Transformada R\341pida de Fourier}{chapter.2}% 7
+\BOOKMARK [1][-]{section.2.4}{FPGA}{chapter.2}% 8
+\BOOKMARK [1][-]{section.2.5}{Algoritmo CORDIC}{chapter.2}% 9
+\BOOKMARK [2][-]{subsection.2.5.1}{CORDIC Tradicional}{section.2.5}% 10
+\BOOKMARK [2][-]{subsection.2.5.2}{EEAS-CORDIC}{section.2.5}% 11
+\BOOKMARK [2][-]{subsection.2.5.3}{MSR-CORDIC}{section.2.5}% 12
+\BOOKMARK [2][-]{subsection.2.5.4}{Estrat\351gia de Projeto dos Par\342metros CORDIC}{section.2.5}% 13
+\BOOKMARK [1][-]{section.2.6}{Zynq-7000}{chapter.2}% 14
+\BOOKMARK [0][-]{chapter.3}{Implementando Processador COrdic}{}% 15
+\BOOKMARK [0][-]{chapter.4}{Implementando FFT no ZynqBerry - TE0726}{}% 16
+\BOOKMARK [1][-]{subsection.4.0.1}{Testes e exemplos de lista de siglas}{chapter.4}% 17
+\BOOKMARK [2][-]{subsection.4.0.2}{Testes e exemplos de lista de s\355mbolos}{subsection.4.0.1}% 18
+\BOOKMARK [2][-]{subsection.4.0.3}{Exemplos de cita\347\343o de refer\352ncias bibliogr\341ficas}{subsection.4.0.1}% 19
+\BOOKMARK [0][-]{chapter.5}{N\355vel 1 - Testes DE capitula\347\343o - Prim\341rio}{}% 20
+\BOOKMARK [1][-]{section.5.1}{N\355vel 2 - Secund\341rio}{chapter.5}% 21
+\BOOKMARK [2][-]{subsection.5.1.1}{N\355vel 3 - Terci\341rio}{section.5.1}% 22
+\BOOKMARK [3][-]{subsubsection.5.1.1.1}{N\355vel 4 - Quatern\341rio}{subsection.5.1.1}% 23
+\BOOKMARK [0][-]{chapter.annex.A}{Anexo A - Stellar Mystery Solved, Einstein Safe}{}% 24
+\BOOKMARK [1][-]{section.annex.A.1}{Exemplo de se\347\343o anexo}{chapter.annex.A}% 25

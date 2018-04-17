@@ -31,6 +31,27 @@ ISSN 0163-6804.}
 {CORMEN, Thomas~H; LEISERSON, Charles~E; RIVEST, Ronald~L; STEIN, Clifford.
   \textbf{Algoritmos: teoria e prática}. 2. ed. [S.l.]: Editora Campus, 2002.}
 
+\bibitem[Despain 1974]{alvin}
+\abntrefinfo{Despain}{DESPAIN}{1974}
+{DESPAIN, Alvin~M. Fourier transform computers using cordic iterations.
+\textbf{IEEE Transactions on Computers}, IEEE, v.~100, n.~10, p. 993--1001,
+  1974.}
+
+\bibitem[El-Motaz \textit{et al.} 2014]{Motaz}
+\abntrefinfo{El-Motaz \textit{et al.}}{EL-MOTAZ \textit{et al.}}{2014}
+{EL-MOTAZ, M.~A.; NASR, O.~A.; OSAMA, K. A cordic-friendly fft architecture.
+  In:  \textbf{2014 International Wireless Communications and Mobile Computing
+  Conference (IWCMC)}. [S.l.: s.n.], 2014. p. 1087--1092.
+ISSN 2376-6492.}
+
+\bibitem[Garrido \textit{et al.} 2016]{Garrido}
+\abntrefinfo{Garrido \textit{et al.}}{GARRIDO \textit{et al.}}{2016}
+{GARRIDO, M.; KäLLSTRöM, P.; KUMM, M.; GUSTAFSSON, O. Cordic ii: A new improved
+  cordic algorithm.
+\textbf{IEEE Transactions on Circuits and Systems II: Express Briefs}, v.~63,
+  n.~2, p. 186--190, Feb 2016.
+ISSN 1549-7747.}
+
 \bibitem[HAYKIN e Veen 2001]{Haykin}
 \abntrefinfo{HAYKIN e Veen}{HAYKIN; VEEN}{2001}
 {HAYKIN, SIMON~S; VEEN, Barry Van. \textbf{Sinais e sistemas}. [S.l.]: Bookman,
@@ -50,15 +71,42 @@ ISSN 0163-6804.}
   \textbf{Computing, Electronic and Electrical Engineering (ICE Cube), 2016
   International Conference on}. [S.l.], 2016. p. 154--157.}
 
+\bibitem[Kuo \textit{et al.} 2003]{Kuo}
+\abntrefinfo{Kuo \textit{et al.}}{KUO \textit{et al.}}{2003}
+{KUO, Jen-Chih; WEN, Ching-Hua; LIN, Chih-Hsiu; WU, An-Yeu~(Andy). Vlsi design
+  of a variable-length fft/ifft processor for ofdm-based communication systems.
+\textbf{EURASIP Journal on Advances in Signal Processing}, v.~2003, n.~13, p.
+  439360, Dec 2003.
+ISSN 1687-6180.
+Dispon{\'\i}vel em:
+  $<$https:\-/\-/doi\-.org\-/10\-.1155\-/S1110865703309060$>$.}
+
 \bibitem[Lathi 2007]{Lathi}
 \abntrefinfo{Lathi}{LATHI}{2007}
 {LATHI, Bhagwandas~Pannalal. \textbf{Sinais e Sistemas Lineares}. 2. ed.
   [S.l.]: Brasil: Bookman, 2007.}
 
+\bibitem[Lin e Wu 2005]{Chih}
+\abntrefinfo{Lin e Wu}{LIN; WU}{2005}
+{LIN, Chih-Hsiu; WU, An-Yeu. Mixed-scaling-rotation cordic (msr-cordic)
+  algorithm and architecture for high-performance vector rotational dsp
+  applications.
+\textbf{IEEE Transactions on Circuits and Systems I: Regular Papers}, v.~52,
+  n.~11, p. 2385--2396, Nov 2005.
+ISSN 1549-8328.}
+
 \bibitem[Martinsen e Grimnes 2011]{martinsen}
 \abntrefinfo{Martinsen e Grimnes}{MARTINSEN; GRIMNES}{2011}
 {MARTINSEN, Orjan~G; GRIMNES, Sverre. \textbf{Bioimpedance and bioelectricity
   basics}. [S.l.]: Academic press, 2011.}
+
+\bibitem[Meher \textit{et al.} 2009]{Meher}
+\abntrefinfo{Meher \textit{et al.}}{MEHER \textit{et al.}}{2009}
+{MEHER, P.~K.; VALLS, J.; JUANG, T.~B.; SRIDHARAN, K.; MAHARATNA, K. 50 years
+  of cordic: Algorithms, architectures, and applications.
+\textbf{IEEE Transactions on Circuits and Systems I: Regular Papers}, v.~56,
+  n.~9, p. 1893--1907, Sept 2009.
+ISSN 1549-8328.}
 
 \bibitem[Meyer-Baese 2007]{Meyer}
 \abntrefinfo{Meyer-Baese}{MEYER-BAESE}{2007}
@@ -69,6 +117,12 @@ ISSN 0163-6804.}
 \abntrefinfo{Moore}{MOORE}{2007}
 {MOORE, Andrew. \textbf{FPGAs for Dummies Altera Special Edition}. [S.l.]:
   Wiley Brand, 2007.}
+
+\bibitem[NirmalRaj e Vigneswaran 2015]{NirmalRaj}
+\abntrefinfo{NirmalRaj e Vigneswaran}{NIRMALRAJ; VIGNESWARAN}{2015}
+{NIRMALRAJ, S.; VIGNESWARAN, T. \textbf{A novel method to compress voice signal
+  using compressive sensing}. March 2015.
+1-4~p.}
 
 \bibitem[Oppenheim e Willsky 2010]{Oppenheim}
 \abntrefinfo{Oppenheim e Willsky}{OPPENHEIM; WILLSKY}{2010}
@@ -101,10 +155,21 @@ Acessado em 14 de Agosto de 2017.}
   Processor Based on FPGA}. Jan 2010.
 432-435~p.}
 
-\bibitem[XILINX 2013]{xilinx}
-\abntrefinfo{XILINX}{XILINX}{2013}
-{XILINX, Inc. \textbf{Spartan-3E FPGA Family Data Sheet}.
-4. ed. San Jose, EUA, Julho 2013. V4.1.}
+\bibitem[Wu e Wu 2001]{Shing}
+\abntrefinfo{Wu e Wu}{WU; WU}{2001}
+{WU, Cheng-Shing; WU, An-Yeu. A novel trellis-based searching scheme for
+  eeas-based cordic algorithm. In:  \textbf{2001 IEEE International Conference
+  on Acoustics, Speech, and Signal Processing. Proceedings (Cat.
+  No.01CH37221)}. [S.l.: s.n.], 2001. v.~2, p. 1229--1232 vol.2.
+ISSN 1520-6149.}
+
+\bibitem[Wu \textit{et al.} 2003]{Cheng}
+\abntrefinfo{Wu \textit{et al.}}{WU \textit{et al.}}{2003}
+{WU, Cheng-Shing; WU, An-Yeu; LIN, Chih-Hsiu. A high-performance/low-latency
+  vector rotational cordic architecture based on extended elementary angle set
+  and trellis-based searching schemes.
+\textbf{IEEE Transactions on Circuits and Systems II: Analog and Digital Signal
+  Processing}, v.~50, n.~9, p. 589--601, Sept 2003.}
 
 \bibitem[Zhou \textit{et al.} 2009]{zhou}
 \abntrefinfo{Zhou \textit{et al.}}{ZHOU \textit{et al.}}{2009}

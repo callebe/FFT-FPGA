@@ -12,7 +12,7 @@ USE IEEE.std_logic_unsigned.ALL;
 USE IEEE.numeric_std.ALL;
 USE work.MainPackage.all;
 
-ENTITY FFT8P IS
+ENTITY FFT16p IS
     PORT(
         Reset : IN STD_LOGIC;
     	Clock : IN STD_LOGIC;
@@ -22,9 +22,9 @@ ENTITY FFT8P IS
     	Output : OUT STD_LOGIC_VECTOR (25 DOWNTO 0);
     	FinishFFT : OUT STD_LOGIC
     );
-END FFT8P;
+END FFT16p;
 
-ARCHITECTURE Behavioral OF FFT8P IS
+ARCHITECTURE Behavioral OF FFT16p IS
    
     --Interconect Signals
     SIGNAL Butterfly_SelectIn : ComplexVector((NFFT -1) DOWNTO 0);

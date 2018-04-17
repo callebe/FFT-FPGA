@@ -43,7 +43,7 @@ PACKAGE MainPackage IS
     ------------------------------------------------
                     
     ------------------------------------------------
-    COMPONENT FFT8P IS
+    COMPONENT FFT16p IS
         PORT(
             Reset : IN STD_LOGIC;
             Clock : IN STD_LOGIC;
