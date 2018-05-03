@@ -1,27 +1,27 @@
-\select@language {brazil}
+\babel@toc {brazil}{}
 \contentsline {chapter}{\numberline {1}Introdu\c c\~ao}{11}{chapter.1}
 \contentsline {section}{\numberline {1.1}Justificativa}{11}{section.1.1}
 \contentsline {chapter}{\numberline {2}Revis\~ao de Literatura}{13}{chapter.2}
-\contentsline {section}{\numberline {2.1}S\'erie de Fourier}{14}{section.2.1}
-\contentsline {subsection}{\numberline {2.1.1}Espectro Exponencial de Fourier}{15}{subsection.2.1.1}
-\contentsline {section}{\numberline {2.2}S\'erie de Fourier em Tempo Discreto}{15}{section.2.2}
-\contentsline {section}{\numberline {2.3}Transformada R\'apida de Fourier}{18}{section.2.3}
-\contentsline {section}{\numberline {2.4}FPGA}{21}{section.2.4}
-\contentsline {section}{\numberline {2.5}Algoritmo CORDIC}{22}{section.2.5}
-\contentsline {subsection}{\numberline {2.5.1}CORDIC Tradicional}{22}{subsection.2.5.1}
-\contentsline {subsection}{\numberline {2.5.2}EEAS-CORDIC}{24}{subsection.2.5.2}
-\contentsline {subsection}{\numberline {2.5.3}MSR-CORDIC}{25}{subsection.2.5.3}
-\contentsline {subsection}{\numberline {2.5.4}Estrat\'egia de Projeto dos Par\^ametros CORDIC}{26}{subsection.2.5.4}
-\contentsline {section}{\numberline {2.6}Zynq-7000}{29}{section.2.6}
-\contentsline {chapter}{\numberline {3}Implementando Processador COrdic}{30}{chapter.3}
-\contentsline {chapter}{\numberline {4}Implementando FFT no ZynqBerry - TE0726}{31}{chapter.4}
-\contentsline {subsection}{\numberline {4.0.1}Testes e exemplos de lista de siglas}{32}{subsection.4.0.1}
-\contentsline {subsection}{\numberline {4.0.2}Testes e exemplos de lista de s\IeC {\'\i }mbolos}{32}{subsection.4.0.2}
-\contentsline {subsection}{\numberline {4.0.3}Exemplos de cita\c c\~ao de refer\^encias bibliogr\'aficas}{32}{subsection.4.0.3}
-\contentsline {chapter}{\numberline {5}N\IeC {\'\i }vel 1 - Testes DE capitula\c c\~ao - Prim\'ario}{33}{chapter.5}
-\contentsline {section}{\numberline {5.1}N\IeC {\'\i }vel 2 - Secund\'ario}{33}{section.5.1}
-\contentsline {subsection}{\numberline {5.1.1}N\IeC {\'\i }vel 3 - Terci\'ario}{33}{subsection.5.1.1}
-\contentsline {subsubsection}{\numberline {5.1.1.1}N\IeC {\'\i }vel 4 - Quatern\'ario}{33}{subsubsection.5.1.1.1}
-\contentsline {paragraph}{\numberline {5.1.1.1.1}N\IeC {\'\i }vel 5 - Quin\'ario}{33}{paragraph.5.1.1.1.1}
-\contentsline {chapter}{Anexo{} A{} -{} Stellar Mystery Solved, Einstein Safe}{36}{chapter.annex.A}
-\contentsline {section}{\numberline {A.1}Exemplo de se\c c\~ao anexo}{37}{section.annex.A.1}
+\contentsline {section}{\numberline {2.1}S\'erie de Fourier}{15}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Espectro Exponencial de Fourier}{16}{subsection.2.1.1}
+\contentsline {section}{\numberline {2.2}S\'erie de Fourier em Tempo Discreto}{16}{section.2.2}
+\contentsline {section}{\numberline {2.3}Transformada R\'apida de Fourier}{19}{section.2.3}
+\contentsline {section}{\numberline {2.4}FPGA}{22}{section.2.4}
+\contentsline {section}{\numberline {2.5}Algoritmo CORDIC}{23}{section.2.5}
+\contentsline {subsection}{\numberline {2.5.1}CORDIC Tradicional}{23}{subsection.2.5.1}
+\contentsline {subsection}{\numberline {2.5.2}EEAS-CORDIC}{25}{subsection.2.5.2}
+\contentsline {subsection}{\numberline {2.5.3}MSR-CORDIC}{26}{subsection.2.5.3}
+\contentsline {subsection}{\numberline {2.5.4}Estrat\'egia de Projeto dos Par\^ametros CORDIC}{27}{subsection.2.5.4}
+\contentsline {section}{\numberline {2.6}Zynq-7000}{30}{section.2.6}
+\contentsline {chapter}{\numberline {3}Implementando Processador COrdic}{31}{chapter.3}
+\contentsline {chapter}{\numberline {4}Implementando FFT no ZynqBerry - TE0726}{32}{chapter.4}
+\contentsline {subsection}{\numberline {4.0.1}Testes e exemplos de lista de siglas}{33}{subsection.4.0.1}
+\contentsline {subsection}{\numberline {4.0.2}Testes e exemplos de lista de s\IeC {\'\i }mbolos}{33}{subsection.4.0.2}
+\contentsline {subsection}{\numberline {4.0.3}Exemplos de cita\c c\~ao de refer\^encias bibliogr\'aficas}{33}{subsection.4.0.3}
+\contentsline {chapter}{\numberline {5}N\IeC {\'\i }vel 1 - Testes DE capitula\c c\~ao - Prim\'ario}{34}{chapter.5}
+\contentsline {section}{\numberline {5.1}N\IeC {\'\i }vel 2 - Secund\'ario}{34}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}N\IeC {\'\i }vel 3 - Terci\'ario}{34}{subsection.5.1.1}
+\contentsline {subsubsection}{\numberline {5.1.1.1}N\IeC {\'\i }vel 4 - Quatern\'ario}{34}{subsubsection.5.1.1.1}
+\contentsline {paragraph}{\numberline {5.1.1.1.1}N\IeC {\'\i }vel 5 - Quin\'ario}{34}{paragraph.5.1.1.1.1}
+\contentsline {chapter}{Anexo{} A{} -{} Stellar Mystery Solved, Einstein Safe}{38}{chapter.annex.A}
+\contentsline {section}{\numberline {A.1}Exemplo de se\c c\~ao anexo}{39}{section.annex.A.1}
