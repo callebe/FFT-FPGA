@@ -1,5 +1,22 @@
 
-A série de Fourier tem como base os estudos das somas trigonométricas de senos e cossenos harmonicamente relacionados,  com o intuito de descrever fenômenos periódicos. Tal estudo possui uma longa história que data pelo menos da época dos babilônicos, e que envolve  o estudo de diferentes fenômenos físicos \cite[p.~104]{Oppenheim}.
+A série de Fourier tem como principio os estudos das somas trigonométricas de senos e cossenos harmonicamente relacionados,  com o intuito de descrever fenômenos periódicos. Tal estudo possui uma longa história que data pelo menos da época dos babilônicos, e que envolve  o estudo de diferentes fenômenos físicos. Mas o marco moderno neste tema ocorre em 1748 com o matemático e físico suíço Leonhard Paul Euler \cite[p.~104]{Oppenheim}. Euler em seu estudo sobre ondas estacionárias através de cordas vibrantes observou que se a configuração da posição vertical $y_0$ de um ponto horizontal $x$ em uma onda estacionaria  no tempo $t_0$ for uma combinação linear dos modos normais da onda, o mesmo acontece com a configuração em qualquer valor de tempo $t_s$ subsequente. Com base nesse estudo Euler demonstrou que é possível calcular diretamente os coeficientes da combinação linear em tempos futuros usando os coeficientes em tempos anteriores. \cite[p.~104]{Oppenheim}.  
+
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.5\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.5\linewidth]{Images/RevisaoDeLiteratura/OndasEstacionarias.eps}
+	\caption{Modos Normais de uma Corda Vibrante}
+	\vspace{-3.5mm}
+	\caption*{Fonte: \citeonline[p.~105]{Oppenheim}}
+	\label{fig:OndasEstacionarias}
+\end{figure}
+
+
+O estudo de Euler se tornam ainda mais importantes quando aplicado a sinas e a sistemas LIT. Segundo \citeonline[p.~163]{Haykin}, se a entrada de um sistema Linear Invariante no Tempo (LIT) for expressa por uma combinação linear ponderada de senóides ou exponenciais complexas, a saída do sistema será expressa como uma combinação linear ponderada da resposta do sistema a cada senóide ou exponencial complexa. Expressar sinais em termo de senoides ou exponenciais complexas não apenas leva a uma expressão alternativa útil para o comportamento da entrada e saída de um sistema LTI, como também fornece uma caracterização muito criteriosa dos sinais e sistemas. O estudo de sinais e sistemas usando representação senoidal, ou exponencial complexa, é denominada análise de Fourier, em homenagem ao físico e matemático francês Jean-Baptiste Joseph Fourier (1768 - 1830) \cite[p.~163]{Haykin}.
+
+Segundo \citeonline[p.~105]{Oppenheim}, meio século depois da divulgação do trabalho de Euler, Fourier havia se envolvido no estudo sobre séries trigonométricas, com a motivação física de estudar o fenômeno da propagação e difusão de calor. Fourier conclui que  séries senoidais harmonicamente relacionadas eram úteis na representação da distribuição de temperatura em um corpo, e que 'qualquer' sinal periódico poderia ser representado po tal série. Fourier ainda apresentou uma representação para sinais aperiódicos, não através de somas ponderadas de senoides harmonicamente relacionadas, mas como integrais ponderadas de senoides que não são necessariamente harmonicamente relacionadas.
+
+Como afirma \citeonline[p.~106]{Oppenheim}, muitas das ideias básica por trás das contribuições de Fourier já eram conhecidas, e as condições precisas sob as quais a representação de sinais proposta era válida só foram apresentadas por P.L. Dirichlet em 1829. Porém foi Fourier que que teve a clara percepção do potencial pra essa representação, e até certo ponto foi o seu trabalho e suas afirmações que estimularam grande parte do trabalho subsequente. Logo em sua homenagem o estudo de sinais e sistemas, usando representações senoidais, é denominado análise de Fourier.    
 
 Segundo \citeonline[p.~530]{Lathi}  "Um sinal periódico $x(t)$ com período $T_0$ pode
 ser descrito como a soma de senoides de frequência $f_0$ e todas as suas harmônicas", conforme visto em (\ref{eq:SerieFourierFundamental}). O qual e conhecida como série trigonométrica de Fourier de um sinal periódico $x(t)$, sendo $\omega_0$ a frequência fundamental.
