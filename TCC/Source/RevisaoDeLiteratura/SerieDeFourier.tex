@@ -1,37 +1,39 @@
 
 A série de Fourier tem como principio os estudos das somas trigonométricas de senos e cossenos harmonicamente relacionados,  com o intuito de descrever fenômenos periódicos. Tal estudo possui uma longa história que data pelo menos da época dos babilônicos, e que envolve  o estudo de diferentes fenômenos físicos. Mas o marco moderno neste tema ocorre em 1748 com o matemático e físico suíço Leonhard Paul Euler \cite[p.~104]{Oppenheim}. Euler em seu estudo sobre ondas estacionárias através de cordas vibrantes observou que se a configuração da posição vertical $y_0$ de um ponto horizontal $x$ em uma onda estacionaria  no tempo $t_0$ for uma combinação linear dos modos normais da onda, o mesmo acontece com a configuração em qualquer valor de tempo $t_s$ subsequente. Com base nesse estudo Euler demonstrou que é possível calcular diretamente os coeficientes da combinação linear em tempos futuros usando os coeficientes em tempos anteriores. \cite[p.~104]{Oppenheim}.  
 
+\vspace{6mm}
 \begin{figure}[H]
 	\centering
-	\captionsetup{width=0.7\textwidth, font=footnotesize, textfont=bf}	
-	\includegraphics[width=0.7\linewidth]{Images/RevisaoDeLiteratura/OndasEstacionarias.eps}
+	\captionsetup{width=0.8\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.8\linewidth]{Images/RevisaoDeLiteratura/OndasEstacionarias.eps}
 	\caption{Modos Normais de uma Corda Vibrante}
 	\vspace{-3.5mm}
 	\caption*{Fonte: Adaptado de \citeonline[p.~105]{Oppenheim}}
 	\label{fig:OndasEstacionarias}
 \end{figure}
+\vspace{6mm}
 
 
-O estudo de Euler se tornam ainda mais importantes quando aplicado a sinas e a sistemas LIT. Segundo \citeonline[p.~163]{Haykin}, se a entrada de um sistema Linear Invariante no Tempo (LIT) for expressa por uma combinação linear ponderada de senóides ou exponenciais complexas, a saída do sistema será expressa como uma combinação linear ponderada da resposta do sistema a cada senóide ou exponencial complexa. Expressar sinais em termo de senoides ou exponenciais complexas não apenas leva a uma expressão alternativa útil para o comportamento da entrada e saída de um sistema LTI, como também fornece uma caracterização muito criteriosa dos sinais e sistemas. O estudo de sinais e sistemas usando representação senoidal, ou exponencial complexa, é denominada análise de Fourier, em homenagem ao físico e matemático francês Jean-Baptiste Joseph Fourier (1768 - 1830) \cite[p.~163]{Haykin}.
+O estudo de Euler se tornam ainda mais importantes quando aplicado a sinas e a sistemas LIT. Segundo \citeonline[p.~163]{Haykin}, se a entrada de um sistema Linear Invariante no Tempo (LIT) for expressa por uma combinação linear ponderada de senóides ou exponenciais complexas, a saída do sistema será expressa como uma combinação linear ponderada da resposta do sistema a cada senóide ou exponencial complexa. Expressar sinais em termo de senoides ou exponenciais complexas não apenas leva a uma expressão alternativa útil para o comportamento da entrada e saída de um sistema LTI, como também fornece uma caracterização muito criteriosa dos sinais e sistemas. 
 
-Segundo \citeonline[p.~105]{Oppenheim}, meio século depois da divulgação do trabalho de Euler, Fourier havia se envolvido no estudo sobre séries trigonométricas, com a motivação física de estudar o fenômeno da propagação e difusão de calor. Fourier conclui que  séries senoidais harmonicamente relacionadas eram úteis na representação da distribuição de temperatura em um corpo, e que 'qualquer' sinal periódico poderia ser representado po tal série. Fourier ainda apresentou uma representação para sinais aperiódicos, não através de somas ponderadas de senoides harmonicamente relacionadas, mas como integrais ponderadas de senoides que não são necessariamente harmonicamente relacionadas.
+Segundo \citeonline[p.~105]{Oppenheim}, meio século depois da divulgação do trabalho de Euler, o físico e matemático francês Jean-Baptiste Joseph Fourier (1768 - 1830), havia se envolvido no estudo sobre séries trigonométricas, com a motivação física de estudar o fenômeno da propagação e difusão de calor. Fourier conclui que  séries senoidais harmonicamente relacionadas eram úteis na representação da distribuição de temperatura em um corpo, e que 'qualquer' sinal periódico poderia ser representado po tal série. Fourier ainda apresentou uma representação para sinais aperiódicos, não através de somas ponderadas de senoides harmonicamente relacionadas, mas como integrais ponderadas de senoides que não são necessariamente harmonicamente relacionadas\cite[p.~163]{Haykin}.
 
-Como afirma \citeonline[p.~106]{Oppenheim}, muitas das ideias básica por trás das contribuições de Fourier já eram conhecidas, e as condições precisas sob as quais a representação de sinais proposta era válida só foram apresentadas por P.L. Dirichlet em 1829. Porém foi Fourier que que teve a clara percepção do potencial pra essa representação, e até certo ponto foi o seu trabalho e suas afirmações que estimularam grande parte do trabalho subsequente. Logo em sua homenagem o estudo de sinais e sistemas, usando representações senoidais, é denominado análise de Fourier. E as séries pelo qual é realizada a representação de sinais na forma de somas de senoides complexas é doniminada série de Fourier. 
+Como afirma \citeonline[p.~106]{Oppenheim}, muitas das ideias básica por trás das contribuições de Fourier já eram conhecidas, e as condições precisas sob as quais a representação de sinais proposta era válida só foram apresentadas por P.L. Dirichlet em 1829. Porém foi Fourier que que teve a clara percepção do potencial pra essa representação, e até certo ponto foi o seu trabalho e suas afirmações que estimularam grande parte do trabalho subsequente. Logo em sua homenagem o estudo de sinais e sistemas, usando representações senoidais, é denominado análise de Fourier. E as séries pelo qual é realizada a representação de sinais na forma de somas de senoides complexas é denominada série de Fourier. 
 
 \subsection{Resposta do Sistemas LTI a Entrada Senoidal} 
 
-Na análise de Fourier, os sinais de entrada senoidais são comumente usados para caracterizar a resposta de um sistema LTI. A resposta senoidal em estado estacionário de um sistema LTI é obtido pela convolução entre a entrada senoidal e o sinal de impulso\cite[p.~163]{Haykin}. 
+Na análise de Fourier, os sinais de entrada senoidais são comumente usados para caracterizar a resposta de um sistema Linear e Invariante no Tempo, ou LTI (Linear Time-Invariant). A resposta senoidal em estado estacionário de um sistema LTI é obtido pela convolução entre a entrada senoidal e o sinal de impulso\cite[p.~163]{Haykin}. 
 
-Ao aplicar um sinal impulso ($\delta (t)$) a entrada de um sistema LTI,  é gerado um sinal de saída, conhecido como resposta ao impulso $\delta (t)$. Através da resposta ao impulso é possível caracterizar de maneira completa o comportamento de um sistema. A resposta ao impulso também possibilita conhecer a resposta do sistema LTI a qualquer sinal de entrada, através da convolução deste sinal ao impulso \cite[p.~108]{Haykin}.    
+Ao aplicar um sinal impulso ($\delta (t)$) a entrada de um sistema LTI,  é gerado um sinal de saída conhecido como resposta ao impulso $\delta (t)$. Através da resposta ao impulso é possível caracterizar de maneira completa o comportamento de um sistema. A resposta ao impulso também possibilita conhecer a resposta do sistema LTI a qualquer sinal de entrada, através da convolução deste sinal ao impulso \cite[p.~108]{Haykin}.    
 
-Assim realizando a convolução do impulso ao sinal senoidal, segundo \citeonline[p.~164]{Haykin}, a saída de um sistema LTI dado uma entrada senoidal complexa $x(t)$, na forma exponencial $e^(j \omega t)$, é dada por:
+Assim realizando a convolução do impulso ao sinal senoidal, segundo \citeonline[p.~164]{Haykin}, a saída de um sistema LTI dado uma entrada senoidal complexa $x(t)$, na forma exponencial $e^{j \omega t}$, é dada por:
 
 \begin{equation}
 	y(t) = H(j \omega) e^{j \omega t}
 	\label{eq:SaidaSenoideComplexa}
 \end{equation}
 
-Em que $H(j \omega)$ é a resposta em frequência, definida em termos de resposta ao impulso $delta (t)$. Assim;
+Em que $H(j \omega)$ é a resposta em frequência, definida em termos de resposta ao impulso $\delta (t)$. Assim;
 
 \begin{equation}
 	H(j \omega) = \int_{-\infty}^{\infty} \delta (t) e^{-j \omega t} dt
@@ -46,21 +48,108 @@ As equações (\ref{eq:SaidaSenoideComplexa}) e (\ref{eq:RespostaSenoideComplexa})
 	H\| \psi \| ~=~ \lambda \psi (t)
 \end{equation}
 
-Segundo \citeonline[p.~164]{Haykin} a saída do sistema dada a entrada de uma autofunção é a dada pelo produto da entrada com um escalar. Esta relação pode ser vista na Figura (\ref{fig:PropriedadeDeAutofuncao}). 
+Como pode ser visto na Figura (\ref{fig:PropriedadeDeAutofuncao}), a saída de um sistema dada a entrada de uma autofunção, é o produto da entrada por um número complexo. Se $e_k$ for um autovetor de uma matriz $A$, e $\lambda_k$ os autovalores associados a esta matriz,  a autorrelação do problema tradicional do autovalor matricial é aplicável, $A e_k ~=~ \lambda_k e_k$ \cite[p.~164]{Haykin}.
 
+\vspace{6mm}
 \begin{figure}[H]
 	\centering
-	\captionsetup{width=0.7\textwidth, font=footnotesize, textfont=bf}	
-	\includegraphics[width=0.7\linewidth]{Images/RevisaoDeLiteratura/PropriedadeDeAutofuncao.pdf}
-	\caption{Ilustração da Propriedade de Autofunção de Sistemas Lineares. (a) Autofunção geral $\psi (t)$ e  autovalor $\lambda$. (b) Autofunção senoidal complexa $e^{i \omega t}$ e autovalor $H(j \omega)$.}
+	\captionsetup{width=0.8\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.8\linewidth]{Images/RevisaoDeLiteratura/PropriedadeDeAutofuncao.pdf}
+	\caption{Ilustração da Propriedade de Autofunção de Sistemas Lineares}
+	\vspace{-3.5mm}
+	\caption*{(a) Autofunção geral $\psi (t)$ e  autovalor $\lambda$. }
+	\vspace{-3.5mm}
+	\caption*{(b) Autofunção senoidal complexa $e^{i \omega t}$ e autovalor $H(j \omega)$.}
 	\vspace{-3.5mm}
 	\caption*{Fonte: Adaptado de \citeonline[p.~164]{Haykin}}
 	\label{fig:PropriedadeDeAutofuncao}
 \end{figure} 
-  
+\vspace{6mm}
 
-Segundo \citeonline[p.~530]{Lathi}  "Um sinal periódico $x(t)$ com período $T_0$ pode
-ser descrito como a soma de senoides de frequência $f_0$ e todas as suas harmônicas", conforme visto em (\ref{eq:SerieFourierFundamental}). O qual e conhecida como série trigonométrica de Fourier de um sinal periódico $x(t)$, sendo $\omega_0$ a frequência fundamental.
+A ideia principal aqui é utilizar a superposição ponderada de autofunções para representar um único sinal periódico. Para esse efeito \citeonline[p.~164]{Haykin} expressa a entrada de um sistema LTI como uma soma de $N$ senoides complexas ponderadas, na forma: 
+
+\begin{equation}
+	x(t) = \sum_{k=1}^{N} a_k e^{j\omega_k t}
+\end{equation}
+
+Ou seja na forma de série de Fourier.
+
+Expressar a entrada de um sistema LTI a partir de uma soma ponderada de senoides complexas possui a intenção de realizar uma aproximação coerente do sinal de entrada, utilizando uma composição de funções básicas já bem conhecidas. Por exemplo considere o sinal de onda quadrada presente na Figura (\ref{fig:AproximacaoPorSomasDeSenoidesA.eps}), o qual deseja-se aproximar utilizando uma soma de senoides complexas. Tomando uma senoide de amplitude 1.286 e uma frequência de $50Hz$ é possível realizar uma aproximação groseira, porém em fase com este sinal.
+
+\vspace{5mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.7\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.7\linewidth]{Images/RevisaoDeLiteratura/AproximacaoPorSomasDeSenoidesA.eps}
+	\caption{Aproximação do Sinal de Onda Quadrada por um Termo Senoidal}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Autoria Própria}
+	\label{fig:AproximacaoPorSomasDeSenoidesA.eps}
+\end{figure}
+\vspace{5mm}
+
+Para tornar melhorar a aproximação da representação em relação ao sinal de onda quadrada é possível adicionado mais  termos senoidais ao somatório.  Como pode ser visto nas Figura (\ref{fig:AproximacaoPorSomasDeSenoidesB.eps}) e (\ref{fig:AproximacaoPorSomasDeSenoidesC.eps}) as aproximações ficam mais suaves adicionando mais 2 ou mais 5 termos respectivamente. Quanto maior o número de termos senoidais complexas ponderados presentes no somatório da representação maior é a aproximação, sendo no limite perfeita.
+
+\vspace{5mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.7\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.7\linewidth]{Images/RevisaoDeLiteratura/AproximacaoPorSomasDeSenoidesB.eps}
+	\caption{Aproximação do Sinal de Onda Quadrada por Soma de 3 Termos Senoidais}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Autoria Própria}
+	\label{fig:AproximacaoPorSomasDeSenoidesB.eps}
+\end{figure}
+\vspace{5mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.7\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.7\linewidth]{Images/RevisaoDeLiteratura/AproximacaoPorSomasDeSenoidesC.eps}
+	\caption{Aproximação do Sinal de Onda Quadrada por Soma de 8 Termos Senoidais}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Autoria Própria}
+	\label{fig:AproximacaoPorSomasDeSenoidesC.eps}
+\end{figure} 
+\vspace{5mm}
+
+Logo utilizando se $e^{j\omega_k t}$ for uma autofunção e $H(j\omega_k)$ for o autovalor do sistema, aplicando-se a autorrelação apresentada anteriormente, o sinal de saída do sistema e dado por:
+
+\begin{equation}
+	y(t) = \sum_{k=1}^{N} a_k H(j\omega_k)e^{j\omega_k t}
+\end{equation}
+
+A saída, portanto nada mais é do que a soma ponderada das senoides complexas da entrada, sendo os pesos $a_k$ ponderados pela resposta em frequência $H(j\omega_k)$. Por meio deste resultados é possível transformar a operação de convolução em uma operação de multiplicação dos termos $a_k~H(j\omega_k)$. Segundo \citeonline[p.~164]{Oppenheim} o fato da saída de um sistema LTI dada uma entrada representada como combinação linear de senoides complexas, ser também uma combinação linear dos mesmos sinais, foi uma descoberta de Euler, que motivou Fourier e os outros matemáticos após ele no estudo da extensão de classes de sinais que poderiam ser representados nesta forma de somatórios de exponenciais complexas ponderadas.
+
+Além de tornar mais prático o cálculo da convolução de sinais, a representação em somais senoidais complexas ponderadas fornece uma interpretação alternativas para sinais e sistemas  \citeonline[p.~166]{Haykin}. Através da análise dos pesos  $a_k$ ponderados é possível descrever um sinal em função da frequência, ao invés do tempo. 
+
+A representação de sinais por séries de Fourier pode ser aplicada para diferentes tipos de sinais, com diferentes características. Há quatro classes de representações de  Fourier, dividias de acordo com a sua periodicidade e sua continuidade, como poder ser visto na Tabela \ref{tab:PropriedadeTempoERepresentacaoFourier}. 
+
+Para sinais periódicos a representação é feita como séries de Fourier, sendo que para sinais de tempo continuo é aplicado a Série de Fourier (FS - \textit{Fourier Series}), e para sinais de tempo discreto é usada as séries de Fourier de tempo discreto (DFS - \textit{Discrete Fourier Serie}). Quando os sinais não são periódicos a representação é denominada como transformada, para o caso do sinal ser contínuo a representação é feita pela transformada de Fourier (FT - \textit{Fourier Transform}), e no caso discreto é a transformada de Fourier de tempo discreto (DFT - \textit{Discrete Fourier Trasform}).
+
+\vspace{6mm}
+\begin{table}[h]
+\centering
+\captionsetup{width=0.9\linewidth}
+\begin{tabular}{|c|c|c|}
+	\hline
+	Propriedade do Tempo                                                      & \cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} Periódico} & \cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} Não Periodico} \\ \hline
+	\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} }                           & Série de Fourier (FS)                                    & Transformada de                                              \\
+	\multirow{-2}{*}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} Continuo}} & \multicolumn{1}{l|}{}                                    & Fourier (FT)                                                 \\ \hline
+	\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} }                           & Série de Fourier de                                      & Transformada de Fourier de                                   \\
+	\multirow{-2}{*}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} Discreto}} & \multicolumn{1}{l|}{Tempo Discreto (DFS)}                & \multicolumn{1}{l|}{Tempo DIscreto (DFT)}                    \\ \hline
+\end{tabular}
+\caption{Relação entre propriedade do tempo de um sinal e a representação de Fourier adequada}
+\vspace{-3.5mm}
+\caption*{Fonte: \citeonline[p.~166]{Oppenheim}}
+\label{tab:PropriedadeTempoERepresentacaoFourier}
+\end{table}
+\vspace{6mm}
+
+A representação de Fourier utilizada no desenvolvimento deste trabalho é a DFT, e portanto a mais importante a ser apresentada. As próximas seções deste trabalho passaram pela apresentação da FS depois pela DFS para em fim chegar na DFT. 
+
+\subsection{Série de Fourier}
+
+Segundo \citeonline[p.~530]{Lathi}  "Um sinal periódico $x(t)$ com período $T_0$ pode ser descrito como a soma de senoides de frequência $f_0$ e todas as suas harmônicas", conforme apresentado na Equação (\ref{eq:SerieFourierFundamental}). Esta é a chamada série de Fourier para sinais periódicos, ou apenas série de Fourier. Na expressão da Equação (\ref{eq:SerieFourierFundamental}) a série de Fourier está na forma trigonométrica. Onde $\omega_0$ é a frequência fundamental de $x(t)$, e $a_0$, $a_n$ e $b_n$ são os coeficientes de amplitude das harmônicas que compões $x(t)$, sendo $a_0$ a harmônica zero (nível CC).
 
 
 \begin{equation}
@@ -68,7 +157,12 @@ ser descrito como a soma de senoides de frequência $f_0$ e todas as suas harmôni
 	\label{eq:SerieFourierFundamental}
 \end{equation}
 
-E possível determinar os coeficientes $a_n$ e $b_n$ de (\ref{eq:SerieFourierFundamental} )pelas equações (\ref{eq:SerieFourierFundamentalan}) e (\ref{eq:SerieFourierFundamentalbn}), em que o coeficiente $T_0$ representa o período relativo a $f_0$.
+Os coeficientes $a_0$, $a_n$ e $b_n$ da Equação (\ref{eq:SerieFourierFundamental} ) são determinados pelas seguintes equações: 
+
+\begin{equation}
+	a_0~=~\frac{1}{T_0} \int_{T_0} x(t) dt
+	\label{eq:SerieFourierFundamentala0}
+\end{equation}
 
 \begin{equation}
 	a_n~=~\frac{2}{T_0} \int_{T_0} x(t) cos(n \omega_0 t) dt
@@ -76,11 +170,13 @@ E possível determinar os coeficientes $a_n$ e $b_n$ de (\ref{eq:SerieFourierFund
 \end{equation}
 
 \begin{equation}
-	a_n~=~\frac{2}{T_0} \int_{T_0} x(t) cos(n \omega_0 t) dt
+	b_n~=~\frac{2}{T_0} \int_{T_0} x(t) sen(n \omega_0 t) dt
 	\label{eq:SerieFourierFundamentalbn}
 \end{equation}
 
-A expressão da série de Fourier em termos exponenciais $e^{j \omega_0 t}$ e $e^{?j \omega_0 t}$ é facilmente obtida a partir da forma trigonométrica \cite{Lathi}. A forma exponencial da serie de Fourier é dada por (\ref{eq:SerieFourierExponencial}), em que o coeficiente $C_n$ e análogo aos coeficientes $a_n$ e $b_n$ da serie trigonométrica, sendo obtido por (\ref{eq:SerieFourierExponencialCn}.) Nota-se que diferente dos coeficientes $a_n$ e $b_n$, o coeficiente $C_n$ pode representar um valor complexo.
+em que $T_0$ representa o período relativo a frequência fundamental $f_0$.
+
+Á série de Fourier, além da forma trigonométrica, também pode ser apresentada na forma  exponencial, em termos de $e^{j \omega_0 t}$, como apresentado na seção anterior. A forma exponencial, segundo \citeonline[p.~533]{Lathi}, é dada através da Equação (\ref{eq:SerieFourierExponencial}), em que o coeficiente $C_n$ e análogo aos coeficientes $a_n$ e $b_n$ da serie trigonométrica, sendo obtido por (\ref{eq:SerieFourierExponencialCn}) .
 
 \begin{equation}
 	x(t)~=~\sum^{\infty} _{- \infty} C_n e^{j n \omega_0 t}
@@ -92,10 +188,47 @@ A expressão da série de Fourier em termos exponenciais $e^{j \omega_0 t}$ e $e^{
 	\label{eq:SerieFourierExponencialCn}
 \end{equation}
 
-\subsection{Espectro Exponencial de Fourier}
+Tanto a forma trigonométrica quanto a exponencial da série de Fourier consideram $x(t)$como sendo uma função qualquer, real ou complexa. Porém na maioria das aplicações $x(t)$ é real, como é o caso dos sinais neste trabalho. Segundo segundo \citeonline[p.~533]{Lathi}, se o sinal de entrada do sistema LTI $x(t)$ é real, isso significa que $a_n$ e $b_n$ também são reais para todos os valores de $n$, sendo portanto a série  de Fourier representada na forma compacta:
 
-Segundo \citeonline[p.~556]{Lathi}, o espectro exponencial de Fourier e traçado a partir dos coeficientes $C_n$ e das frequências $n \omega_0$ da forma exponencial da serie de Fourier. Então e necessário expressar o espectro em função da parte real e da parte imaginaria, ou do modulo e do ângulo. A forma de $C_n$ em modulo é angulo geralmente é mais útil para se expressar o espectro. Logo são taçados dois gráficos para o espectro exponencial de Fourier, um que relaciona $|C_n |$ com $n \omega_0$, e outro que relaciona $\angle C_n$ com $n \omega_0$.
+\begin{equation}
+	x(t) = D_0 + \sum_{n=1}^{\infty} D_n cos(n \omega_0 t + \theta_n)
+	\label{eq:FourierCompact}
+\end{equation}
 
-Para \citeonline[p.~533]{Lathi} os dois gráficos juntos formam o espectro de frequência, o qual revela os conteúdos de frequência do sinal $x(t)$, com suas
-amplitudes e fase. Conhecendo-se este espectro não só é possível analisar o sinal
-$x(t)$, como também reconstruí-lo de forma fácil.
+Sendo:
+
+\begin{equation}
+	D_0 = a_0
+\end{equation}
+
+\begin{equation}
+	D_n = \sqrt{a_n^2 + b_n^2}
+\end{equation}
+
+\begin{equation}
+	\theta_n = tan^{-1} \frac{-b_n}{a_n}
+\end{equation}
+
+Utilizar $cos $
+
+\subsection{Espectro de Fourier}
+
+Por meio da série de Fourier na forma compacta, apresentada na Equação \ref{eq:FourierCompact}, conclui-se que um sinal real periódico $x(t)$ pode ser descrito como uma soma de senoides de frequências $n \omega_0$ e amplitudes $D_n$ e fases $\theta_n$. Segundo \citeonline[p.~533]{Lathi}, o espectro exponencial de Fourier é traçado a partir de $D_n$ e $\theta_n$ em função das frequências $n \omega_0$. Logo são taçados dois gráficos para o espectro exponencial de Fourier, um que relaciona $C_n$ com $n \omega_0$, chamado espectro de magnitude. E outro que relaciona $\theta_n$ com $n \omega_0$, chamado de espectro de fase.
+
+Tomando como exemplo um sinal $x(t)~=~sin(2 \pi 15t) + sin(2\pi40t)$, expresso em um período igual a 1 segundo, como mostrado na Figura \ref{fig:EspectroDeFourier}. Para este sinal e expresso o espectro de Fourier na mesma Figura (\ref{fig:EspectroDeFourier}), com o espectro de magnitude e fase. 
+
+\vspace{5mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.9\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.9\linewidth]{Images/RevisaoDeLiteratura/EspectroDeFourier.eps}
+	\caption{Aproximação do Sinal de Onda Quadrada por Soma de 8 Termos Senoidais}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Autoria Própria}
+	\label{fig:EspectroDeFourier}
+\end{figure} 
+\vspace{5mm}
+
+Nota-se que o espectro da Figura  (\ref{fig:EspectroDeFourier}) aparecem frequências negativas, as quais dividem a magnitude com suas frequências simétricas. Isso ocorre devido a simetria do angulo $n \omega_0 t$ possui no calculo dos coeficientes da série de Fourier. Para resolver este problema basta considerar apenas a parte positiva do espectro e multiplicar por 2 a magnitude das frequências no espectro de magnitude. 
+
+Para \citeonline[p.~533]{Lathi} os dois gráficos de magnitude e fase juntos formam o espectro de frequência, o qual revela os conteúdos de frequência do sinal $x(t)$, com suas amplitudes e fase. Conhecendo-se este espectro não só é possível analisar o sinal $x(t)$ dentro do domínio da frequência, como também reconstruí-lo de forma fácil .

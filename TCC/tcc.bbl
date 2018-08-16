@@ -31,6 +31,12 @@ ISSN 0163-6804.}
 {CORMEN, Thomas~H; LEISERSON, Charles~E; RIVEST, Ronald~L; STEIN, Clifford.
   \textbf{Algoritmos: teoria e prática}. 2. ed. [S.l.]: Editora Campus, 2002.}
 
+\bibitem[Crockett \textit{et al.} 2014]{zynqbook}
+\abntrefinfo{Crockett \textit{et al.}}{CROCKETT \textit{et al.}}{2014}
+{CROCKETT, Louise~H; ELLIOT, Ross~A; ENDERWITZ, Martin~A; STEWART, Robert~W.
+  The zynq book.
+\textbf{Strathclyde Academic Media}, 2014.}
+
 \bibitem[Despain 1974]{alvin}
 \abntrefinfo{Despain}{DESPAIN}{1974}
 {DESPAIN, Alvin~M. Fourier transform computers using cordic iterations.
@@ -43,6 +49,17 @@ ISSN 0163-6804.}
   In:  \textbf{2014 International Wireless Communications and Mobile Computing
   Conference (IWCMC)}. [S.l.: s.n.], 2014. p. 1087--1092.
 ISSN 2376-6492.}
+
+\bibitem[Eletronic 2018]{trenz}
+\abntrefinfo{Eletronic}{ELETRONIC}{2018}
+{ELETRONIC, Inc Trenz. \textbf{TE0726 - ZynqBery}.
+San Jose, EUA, Julho 2018. V2.1.}
+
+\bibitem[Farooq \textit{et al.} 2012]{tree}
+\abntrefinfo{Farooq \textit{et al.}}{FAROOQ \textit{et al.}}{2012}
+{FAROOQ, Umer; MARRAKCHI, Zied; MEHREZ, Habib. \textbf{Tree-based Heterogeneous
+  FPGA Architectures: Application Specific Exploration and Optimization}.
+  [S.l.]: Springer Science \& Business Media, 2012.}
 
 \bibitem[Garrido \textit{et al.} 2016]{Garrido}
 \abntrefinfo{Garrido \textit{et al.}}{GARRIDO \textit{et al.}}{2016}
@@ -67,9 +84,9 @@ ISSN 1549-7747.}
 \bibitem[Ibrahim \textit{et al.} 2016]{ibrahim}
 \abntrefinfo{Ibrahim \textit{et al.}}{IBRAHIM \textit{et al.}}{2016}
 {IBRAHIM, Muhammad; KAMAL, Mohsin; KHAN, Omar; ULLAH, Khalil. Analysis of
-  radix-2 decimation in time algorithm for fpga co-processors. In:  IEEE.
-  \textbf{Computing, Electronic and Electrical Engineering (ICE Cube), 2016
-  International Conference on}. [S.l.], 2016. p. 154--157.}
+  radix-2 decimation in time algorithm for fpga co-processors.
+Computing, Electronic and Electrical Engineering (ICE Cube), 2016 International
+  Conference on, 2016.}
 
 \bibitem[Kuo \textit{et al.} 2003]{Kuo}
 \abntrefinfo{Kuo \textit{et al.}}{KUO \textit{et al.}}{2003}
@@ -121,7 +138,7 @@ ISSN 1549-8328.}
 {MEYER-BAESE, Uwe. \textbf{Digital signal processing with field programmable
   gate arrays}. 3. ed. [S.l.]: Springer, 2007.}
 
-\bibitem[Moore 2007]{moore}
+\bibitem[Moore 2007]{Moore}
 \abntrefinfo{Moore}{MOORE}{2007}
 {MOORE, Andrew. \textbf{FPGAs for Dummies Altera Special Edition}. [S.l.]:
   Wiley Brand, 2007.}
@@ -151,6 +168,13 @@ Acessado em 14 de Agosto de 2017.}
   Electrical Engineering (ICGCCEE), 2014 International Conference on}. [S.l.],
   2014. p.~1--5.}
 
+\bibitem[Volder 1959]{Volder}
+\abntrefinfo{Volder}{VOLDER}{1959}
+{VOLDER, J.~E. The cordic trigonometric computing technique.
+\textbf{IRE Transactions on Electronic Computers}, EC-8, n.~3, p. 330--334,
+  Sept 1959.
+ISSN 0367-9950.}
+
 \bibitem[Wang \textit{et al.} 2010]{Wang}
 \abntrefinfo{Wang \textit{et al.}}{WANG \textit{et al.}}{2010}
 {WANG, B.; ZHANG, Q.; AO, T.; HUANG, M. \textbf{Design of Pipelined FFT
@@ -172,6 +196,12 @@ ISSN 1520-6149.}
   and trellis-based searching schemes.
 \textbf{IEEE Transactions on Circuits and Systems II: Analog and Digital Signal
   Processing}, v.~50, n.~9, p. 589--601, Sept 2003.}
+
+\bibitem[Xilinx 2018]{zynqhome}
+\abntrefinfo{Xilinx}{XILINX}{2018}
+{XILINX. \textbf{Zynq-7000 SoC Product Advantages}. 2018.
+\url{https://www.xilinx.com/products/silicon-devices/soc/zynq-7000.html}.
+Acessado em 12 de Agosto de 2017.}
 
 \bibitem[Zhou \textit{et al.} 2009]{zhou}
 \abntrefinfo{Zhou \textit{et al.}}{ZHOU \textit{et al.}}{2009}

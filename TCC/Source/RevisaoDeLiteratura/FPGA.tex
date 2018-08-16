@@ -1,5 +1,92 @@
-Como afirma \citeonline[Prefácio]{Meyer}, muitos algoritmos de processamento de sinais, como FFT \textit{(Fast Fourier Transform)} e os filtros FIR ou IIR, implementados anteriormente em PDSPs ou em Circuitos Integrados de Aplicação Especifica ou ASIC \textit{(Application Specific Integrated Circuits)}, agora estão sendo implementados em FPGAs.
+\citeonline[p.~4]{Moore} define a FPGA como um dispositivo semicondutor capaz de ser totalmente redefinido após sua fabricação, permitindo ao programador reconfigurar produtos e funções já implementadas, adaptando o \emph{hardware} a novas funções. De forma prática, a FPGA permite uma flexibilidade em um projeto, podendo mudar a forma como ele é implementado, sem a necessidade de se construir um \emph{hardware} novo. 
 
-\citeonline{moore}[p.~4] define a FPGA como um dispositivo semicondutor capaz de ser totalmente redefinido após sua fabricação, permitindo ao desenvolvedor reconfigurar produtos e funções já implementadas, adaptando o \textit{hardware} a novas funções. De forma prática, a FPGA permite uma flexibilidade em um projeto, podendo mudar a forma como ele é implementado, sem a necessidade de se construir um \textit{hardware} novo.
+Para \citeonline[p.~4]{Moore}, comparado com as outras formas de construir um hardware, a FPGA oferece duas grandes vantagens em uma aplicação. Primeiro, para uma aplicação ao invés de se utilizar um circuito integrado padrão comercial, que geralmente é  super ou subdimensionado, ou ainda desenvolver um novo projeto de circuito integrado especifico, consumindo tempo e recursos, a FPGA  possibilita desenvolver um \textit{hardware} exatamente dentro das especificações, personalizado e otimizado para a função destinada. Em segundo, porém tão importante quanto, é que essa capacidade de personalização de \textit{hardware} possibilita a realização de operações de modo mais simplificado, rápido e energeticamente eficiente se comparado a um microprocessador.
 
-\vspace{5mm}
+As FPGAs são baseadas em unidades lógicas elementares básicas, ou BLEs (\textit{Basic Logic Elements}), dentro de uma hierarquia de interconexões reconfiguráveis que permitem que os LEs sejam fisicamente conectados uns aos outros de diferentes formas criando uma enorme variedade de componentes digitais. A arquitetura das FPGAs modernas são constituídas basicamente por conjunto de memórias de armazenamento em massa SRAM (\textit{Static Random Access Memory}), Portas de Entrada/Saída, blocos lógicos configuráveis CLB (\textit{Configurable Logic Blocks}) e sistema de roteamento, como pode ser visto na Figura (\ref{fig:FPGAArchitecture}) \cite[p.~5]{Moore}. 
+
+\vspace{8mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.5\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.5\linewidth]{Images/RevisaoDeLiteratura/FPGAArchitecture.eps}
+	\caption{Arquitetura Tipica de uma FPGA}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Adaptado \citeonline[p.~6]{Meyer}}
+	\label{fig:FPGAArchitecture}
+\end{figure}
+\vspace{8mm}
+
+Os  CLB são blocos realizam operações logicas básicas e armazenam pequenos volumes de dados. Comumente as operações complexas, necessárias para o processamento de uma aplicação, são divididas em processos mais simples para cada uma das CLBs selecionadas, de modo que a soma das tarefas de cada CLB seja equivalente a operação complexa, em uma estratégia de divisão e conquista. Para realizar operações lógicas básicas e ainda armazenar pequenos volumes de dados os CLBs tecnicamente poderiam ser apenas um pequeno circuito de transistores (granularidade fina), ou até mesmo um processador completo (granularidade grosseira). Se os CLBs fossem granularidade fina, para realizar tarefas complexas seria necessário um grande número de CLBs e um sistema de roteamento complexo para interconecta-los, o que resultaria em uma FPGA de baixa performance e um elevado consumo energético. Por outro lado de as CLBs forem de uma granularidade mais grosseira seria um desperdício de recurso utiliza-los em operações mais simples \cite[p.~11]{tree}. Assim a escolha do nível de complexabilidade, ou granulação, das CLBs de uma FPGA é um compromisso de otimização de recursos.
+
+Ainda segundo \citeonline[p.~11]{tree} dentro da grama de granulação das CLBs, algumas arquiteturas incluem o uso de portas NAND, interconexão de multiplexadores e tabelas de busca LUT (\textit{Lookup Table}). Em especial fabricantes como a Xilinx utilizam CLBs baseadas em LUTs, já que CLBs baseadas em LUT oferecem uma boa relação de granulação, otimizando os recursos da FPGA para aplicações simples até as mais complexas. Este tipo de CLB  pode incluir uma único elemento logico básico BLE (\textit{Basic Logic Element}), ou mesmo um \textit{cluster} de BLEs interconectados, como mostrado na Figura (\ref{fig:ArchitectureClusterBLE}).
+
+\vspace{6mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.4\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.4\linewidth]{Images/RevisaoDeLiteratura/ArchitectureClusterBLE.eps}
+	\caption{Arquitetura de uma CLB com 4 BLEs}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Adaptado \citeonline[p.~13]{tree}}
+	\label{fig:ArchitectureClusterBLE}
+\end{figure}
+\vspace{6mm}
+
+Segundo \citeonline[p.~11]{tree}, um BLE mais simples consiste basicamente de um LUT e um \textit{Flip-Flop} tipo D, como pode ser visto na Figura (\ref{fig:BasicLogicElement}). Um LUT com $k$ entradas pode implementar $k$ funções booleanas utilizando os espaços de memória SRAM dentro da LUT. O exemplo apresentado na Figura (\ref{fig:BasicLogicElement}) utiliza  16 bits de memória SRAM, os quais são conectadas a entrada do multiplexador que possui 4 bits de seleção, e cuja saída é ligada ao \textit{flip-flop}. Esta configuração permite que a LUT tenha $2^k$ combinações das $k$ operações booleanas. 
+
+\vspace{6mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.5\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.5\linewidth]{Images/RevisaoDeLiteratura/BasicLogicElement.eps}
+	\caption{Arquitetura de uma BLE (\textit{Basic Logic Element})}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Adaptado \citeonline[p.~13]{tree}}
+	\label{fig:BasicLogicElement}
+\end{figure}
+\vspace{6mm}
+
+Um único BLE é capaz de realizar algumas operações booleanas básicas, porém em clusters as combinações de operações aumentam. FPGAs modernas tipicamente contém de 4 a 10 BLEs em um único cluster. Porém estas FPGAs não possui apenas BLEs idênticas, na verdade há uma grande heterogenia de blocos, sendo muitos deles desenvolvidos para propósitos específicos. Entre estes blocos de propósito específico estão multiplicadores, somadores, memórias e DSPs (\textit{Digital Signal Processor}), entre outros. Estes blocos são desenvolvidos para otimizar o espaço, processamento, roteamento e demais recursos de \textit{hardware} que seriam necessários para implementar as mesmas funções em BLEs comuns, sendo essenciais em certas aplicações.
+
+Para \cite{Ibrahim}, a FPGA é uma boa escolha para a implementação do algoritmo da FFT  devido a grande variedade de recursos de hardware sintetizáveis, além de possuir recursos de programação paralela que permite o processamento paralelo de sinais, conferindo assim uma maior rapidez na execução do algoritmo. Como afirma \citeonline[Prefácio]{Meyer}, muitos algoritmos de processamento de sinais, como FFT (\emph{Fast Fourier Transform}) e os filtros FIR ou IIR,  implementados anteriormente em Circuitos Integrados de Aplicação Especifica ou ASIC (\emph{Application Specific Integrated Circuits}), agora estão sendo implementados em FPGAs.
+
+
+
+\subsection{ZynqBerry TE0726-03M}
+
+O dispositivo escolhido para a implementação do algoritmo Radix-2 é o  \textit{ZynqBerry - TE0726} da fabricante \textit{Trenz Eletronic$^\circledR$}, apresentado na figura (\ref{fig:ZynqBerry-TE0726}). Este dispositivo é baseado no SoC (\textit{System On Chip}) Raspberry Pi modelo 2, vem equipado com uma FPGA SoM (\textit{System on Module}) XC7Z010-1CLG225C-REV3, da família Zynq-700 fabricado pela \textit{Xilinx$^\circledR$} \cite{trenz}. 
+
+\vspace{6mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.6\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.6\linewidth]{Images/RevisaoDeLiteratura/TE0726-03M_0.jpg}
+	\caption{ZynqBery - TE0726}
+	\vspace{-3.5mm}
+	\caption*{Fonte: \citeonline{trenz}}
+	\label{fig:ZynqBerry-TE0726}
+\end{figure}
+\vspace{6mm}
+
+
+A FPGA XC7Z010-1CLG225C tem a mesma arquitetura dos modelos da família Artix-7, da mesma fabricante, contendo recursos como: 28.000 células lógicas, 17.600 LUTs, 2.1 Mb de memória RAM divididos em blocos de 26Kb e um total de 36.200 \textit{flip-flops}. Cada CLB, nesta FPGA, para implementar diferentes operações lógicas utiliza 16 \textit{flip-flops}, 2 somadores de 4bits cascateáveis e ainda 8 LUTs. Sendo possível configurar a memoria RAM das LUTs para 64x1 ou 32x2 bits, ou ainda como um  \textit{shift register (SRL)}. Além disso esta FPGA possuir 80 blocos DSP, cada um equipado com um multiplicador 18x25 simples, e um somador/acumulador de 48 bits. Todas estes recursos fazem do XC7Z010 um \textit{hardware} competente para as mais diversas aplicações de processamento de sinais, como o calculo da FFT.
+
+\subsubsection{Zynq-7000}
+
+Segundo a \citeonline{zynqhome}, Zynq-7000 é uma família de SoCs que integram a programabilidade em \textit{software} de um processador ARM  Cortex-A9, com  a programabilidade em \textit{hardware} de uma FPGA, possibilitando a integração entre CPU, DSPs e FPGA, agregando diversas funcionalidades em um único dispositivo. Zynq-7000 representa uma solução completa em processamento de sinais em um único equipamento, com um ótima relação performance/consumo energético.
+
+Para \citeonline[Introdução]{zynqbook} A principal característica do Zynq-7000 é a forma com que ele combina um sistema de processamento, neste caso um processador Cortex-A9 dual-core, com um sistema de lógico programável como a FPGA.  Ainda segundo \citeonline[Introdução]{zynqbook} processadores dedicados já tem sido utilizados em conjunto com FPGAs em diferentes aplicações, porém não da mesma forma como é feita na  familia Zynq-7000.  
+
+O processador dual-core ARM Cortex-A9 de até 1GHz  é competente na execução eficiente de sistemas operacionais completos como o sistemas baseados em kernel Linux, que podem incluem interface gráfica sofistica
+
+\vspace{6mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.6\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.6\linewidth]{Images/RevisaoDeLiteratura/ArquiteturaSimplificadaZynq.eps}
+	\caption{Arquitetura Simplificada - Zynq-7000}
+	\vspace{-3.5mm}
+	\caption*{Fonte: \citeonline{zynqbook}}
+	\label{fig:ArquiteturaSimplificadaZynq}
+\end{figure}
+\vspace{6mm}

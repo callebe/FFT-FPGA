@@ -1,9 +1,22 @@
-\select@language {brazil}
+\babel@toc {brazil}{}
 \contentsline {figure}{\numberline {1}{\ignorespaces Batimento Card\IeC {\'\i }aco em 3D\relax }}{15}{figure.caption.8}
 \contentsline {figure}{\numberline {2}{\ignorespaces \'Indice BM \& FBOVESPA, S\~ao Paulo - Brasil\relax }}{15}{figure.caption.9}
-\contentsline {figure}{\numberline {3}{\ignorespaces Temperatura de um Volume de \'Agua em um Ebulidor Controlado \relax }}{15}{figure.caption.10}
-\contentsline {figure}{\numberline {4}{\ignorespaces Modos Normais de uma Corda Vibrante\relax }}{16}{figure.caption.11}
-\contentsline {figure}{\numberline {5}{\ignorespaces Ilustra\c c\~ao da Propriedade de Autofun\c c\~ao de Sistemas Lineares. (a) Autofun\c c\~ao geral $\psi (t)$ e autovalor $\lambda $. (b) Autofun\c c\~ao senoidal complexa $e^{i \omega t}$ e autovalor $H(j \omega )$.\relax }}{19}{figure.caption.12}
-\contentsline {figure}{\numberline {6}{\ignorespaces Butterfly do Fluxo do Sinal\relax }}{25}{figure.caption.13}
-\contentsline {figure}{\numberline {7}{\ignorespaces FFT de 8 Pontos\relax }}{25}{figure.caption.14}
-\contentsline {figure}{\numberline {8}{\ignorespaces Arquitetura Implementada FFT de 16 Pontos\relax }}{36}{figure.caption.16}
+\contentsline {figure}{\numberline {3}{\ignorespaces Temperatura de um Volume de \'Agua em um Ebulidor Controlado \relax }}{16}{figure.caption.10}
+\contentsline {figure}{\numberline {4}{\ignorespaces Modos Normais de uma Corda Vibrante\relax }}{17}{figure.caption.11}
+\contentsline {figure}{\numberline {5}{\ignorespaces Ilustra\c c\~ao da Propriedade de Autofun\c c\~ao de Sistemas Lineares\relax }}{19}{figure.caption.12}
+\contentsline {figure}{\numberline {6}{\ignorespaces Aproxima\c c\~ao do Sinal de Onda Quadrada por um Termo Senoidal\relax }}{20}{figure.caption.13}
+\contentsline {figure}{\numberline {7}{\ignorespaces Aproxima\c c\~ao do Sinal de Onda Quadrada por Soma de 3 Termos Senoidais\relax }}{21}{figure.caption.14}
+\contentsline {figure}{\numberline {8}{\ignorespaces Aproxima\c c\~ao do Sinal de Onda Quadrada por Soma de 8 Termos Senoidais\relax }}{21}{figure.caption.15}
+\contentsline {figure}{\numberline {9}{\ignorespaces Aproxima\c c\~ao do Sinal de Onda Quadrada por Soma de 8 Termos Senoidais\relax }}{25}{figure.caption.17}
+\contentsline {figure}{\numberline {10}{\ignorespaces Butterfly do Fluxo do Sinal\relax }}{30}{figure.caption.18}
+\contentsline {figure}{\numberline {11}{\ignorespaces FFT de 8 Pontos\relax }}{31}{figure.caption.19}
+\contentsline {figure}{\numberline {12}{\ignorespaces Arquitetura Tipica de uma FPGA\relax }}{33}{figure.caption.20}
+\contentsline {figure}{\numberline {13}{\ignorespaces Arquitetura de uma CLB com 4 BLEs\relax }}{34}{figure.caption.21}
+\contentsline {figure}{\numberline {14}{\ignorespaces Arquitetura de uma BLE (\textit {Basic Logic Element})\relax }}{35}{figure.caption.22}
+\contentsline {figure}{\numberline {15}{\ignorespaces ZynqBery - TE0726\relax }}{36}{figure.caption.23}
+\contentsline {figure}{\numberline {16}{\ignorespaces ZynqBery - TE0726\relax }}{37}{figure.caption.24}
+\contentsline {figure}{\numberline {17}{\ignorespaces Cordic Tradicional com N=4 Fonte: \cite {Chih}\relax }}{42}{figure.caption.25}
+\contentsline {figure}{\numberline {18}{\ignorespaces EEAS com N=2 e S=4 Fonte: \cite {Chih}\relax }}{43}{figure.caption.26}
+\contentsline {figure}{\numberline {19}{\ignorespaces MSR com I=2, J=1 e N=2 Fonte: \cite {Chih}\relax }}{43}{figure.caption.27}
+\contentsline {figure}{\numberline {20}{\ignorespaces Arquitetura Implementada FFT de 16 Pontos\relax }}{48}{figure.caption.29}
+\contentsline {figure}{\numberline {21}{\ignorespaces Arquitetura Implementada FFT de 16 Pontos\relax }}{49}{figure.caption.30}

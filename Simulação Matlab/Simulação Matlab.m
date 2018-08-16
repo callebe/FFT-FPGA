@@ -1,12 +1,12 @@
 %##########################################################################
-%#                             SimulaÁ„o TCC                              #
+%#                             Simula√ß√£o TCC                              #
 %#                                                                        #
-%#                 IMPLEMENTA«√O DO ALGORITMO RADIX-2 PARA                #
-%#                       C¡LCULO DA FFT EM FPGA                           #
+%#                 IMPLEMENTA√á√ÉO DO ALGORITMO RADIX-2 PARA                #
+%#                       C√ÅLCULO DA FFT EM FPGA                           #
 %#                                                                        #
 %#   Autor : Callebe Soares Barbosa                                       #
-%#   AcadÍmico de Engenharia ElÈtrica                                     #
-%#   Universidade TecnolÛgica Federal do Paran· - Campus Pato Branco      #
+%#   Acad√™mico de Engenharia El√©trica                                     #
+%#   Universidade Tecnol√≥gica Federal do Paran√° - Campus Pato Branco      #
 %#   GitHub : https://github.com/callebe                                  #
 %##########################################################################
 
@@ -55,7 +55,7 @@ clear all
 close all
 
 %------------------------------------
-%  SimulaÁ„o do Algoritmo CORDIC
+%  Simula√ß√£o do Algoritmo CORDIC
 %------------------------------------
 clear all
 close all
@@ -95,34 +95,34 @@ O2 = 180/pi*atan(y(NumeroInteracao+1)/x(NumeroInteracao+1));
 
 
 %------------------------------------
-%  SimulaÁ„o do FFT
+%  Simula√ß√£o do FFT
 %------------------------------------
 clear all
 close all
 % Tamanho da FFT
 SizeOfFFT = 2048;
-%Numero de InteraÁıes Cordic
+%Numero de Intera√ß√µes Cordic
 NumeroInteracao = 8;
-%DefiniÁ„o do Numero de Layers do FFT
+%Defini√ß√£o do Numero de Layers do FFT
 NumberOfLevels = log2(SizeOfFFT);
-%DefiniÁ„o da ResoluÁ„o
+%Defini√ß√£o da Resolu√ß√£o
 Resolution = SizeOfFFT;
-%DefiniÁ„o da Frequencia Fundamental
+%Defini√ß√£o da Frequencia Fundamental
 f_0 = 10; % Hertz
-%DefiniÁ„o da FrÍquencia Fundamental
+%Defini√ß√£o da Fr√™quencia Fundamental
 T_0 = 1/f_0; %Segundos
-%DefiniÁ„o da FrequÍncia de Amostragem
+%Defini√ß√£o da Frequ√™ncia de Amostragem
 f_s = f_0*SizeOfFFT;
-%DefiniÁ„o do Periodo de Amostragem
+%Defini√ß√£o do Periodo de Amostragem
 T_s = 1/f_s
-%DefiniÁ„o da Matriz de Resultados
+%Defini√ß√£o da Matriz de Resultados
 Xin = zeros(SizeOfFFT,NumberOfLevels+1);
 erroY = zeros(1,SizeOfFFT*NumberOfLevels);
 erroX = zeros(1,SizeOfFFT*NumberOfLevels);
 erroComp = zeros(1,SizeOfFFT*NumberOfLevels);
 erroXr = zeros(1,SizeOfFFT*NumberOfLevels);
 
-%DefiniÁ„o do Sinal de Entrada
+%Defini√ß√£o do Sinal de Entrada
 A = 30;
 B= 4000;
 C=300;
@@ -179,7 +179,7 @@ for Layer = 0 : (NumberOfLevels-1)
             %Odd
             H = Xin(Odd+1, Layer+1);
 
-            %Calculo da MultiplicaÁ„o pelo Algoritmo Cordic
+            %Calculo da Multiplica√ß√£o pelo Algoritmo Cordic
             alpha = -2*pi*CountSizeofDFT/SizeofDFT*2^10;
 
             if(alpha < -pi/2)
@@ -261,9 +261,9 @@ figure;
 plot((0 : SizeOfFFT-1)*T_0/(SizeOfFFT),Input);
 
 
-%Plot do Erro de AproximaÁ„o entre Cordic e o Tradicional - Layer 1
+%Plot do Erro de Aproxima√ß√£o entre Cordic e o Tradicional - Layer 1
 figure;
-title('Erro de AproximaÁ„o Entre Cordic e o C·lculo Tradicional')
+title('Erro de Aproxima√ß√£o Entre Cordic e o C√°lculo Tradicional');
 stem((erroX),(erroY/SizeOfFFT));
 ylabel('Modulo do Erro');
 xlabel('Layers');

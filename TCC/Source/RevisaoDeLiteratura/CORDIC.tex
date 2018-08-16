@@ -122,7 +122,7 @@ Como é possível notar em (\ref{eq:s1}) os ângulos elementares dependem de apenas
     \label{eq:S2}
 \end{eqnarray}  
 
-Portanto alterando a equação (\ref{eq:rotacaoVetorialC}) com base em  \ref{eq:S2} é obtido seguinte expressão:
+Portanto alterando a equação (\ref{eq:rotacaoVetorialC}) com base em  (\ref{eq:S2}) é obtido seguinte expressão:
 
 \begin{eqnarray}
 	x(n+1) = x(n) - [\mu_{0}2^{-s_0 (n)} + \mu_{1}2^{-s_1 (n)}]y(n) \\
@@ -146,7 +146,7 @@ Ao adicionar mais termos tanto a $\mu$ e a $S_1$ cada operação de rotação do alg
 
 \subsection{MSR-CORDIC}
 
-O ganho CORDIC $K_c$ apresentado anteriormente sempre se estabelece acima de 1 em qualquer das variações do algoritmo CORDIC apresentados. Com um valor maior que a unidade $K_c$ demanda uma redução de escala no resultado do algoritmo, esta redução provoca uma degradação no valor de SQNR. Logo para evitar esta degradação é necessário manter o modulo do vetor de entrada o mais perto da unidade a cada interação \cite{Chih}. Assim em \cite{Chih} foi reformulada a expressão \ref{eq:EEASR} da seguinte forma:
+O ganho CORDIC $K_c$ apresentado anteriormente sempre se estabelece acima de 1 em qualquer das variações do algoritmo CORDIC apresentados. Com um valor maior que a unidade $K_c$ demanda uma redução de escala no resultado do algoritmo, esta redução provoca uma degradação no valor de SQNR. Logo para evitar esta degradação é necessário manter o modulo do vetor de entrada o mais perto da unidade a cada interação \cite{Chih}. Assim em \cite{Chih} foi reformulada a expressão (\ref{eq:EEASR}) da seguinte forma:
 
 \begin{eqnarray}
 	x(n+1) = \left[\sum_{j=1}^{J} \mu_{j}2^{-s_j (n)} \right]x(n) -  \left[\sum_{i=1}^{I} \mu_{i}2^{-s_i (n)}\right]y(n)\\
@@ -175,58 +175,58 @@ O \textit{Mixed Scaling Rotation} (MSR) busca realizar em uma única interação a 
 	\label{eq:MSRKn}
 \end{equation} 
 
-Como pode ser percebido em (\ref{eq:MSRKnc}) e (\ref{eq:MSR}), através da escolha adequada dos conjuntos de termos $S_i$ e $S_j$, e dos valores de $I$ e $J$ é possível aproximar $K_c$ da unidade e ao mesmo tempo reduzir o erro $\epsilon$. Com mais graus de liberdade o MSR possui uma densidade combinacional dentro do circulo unitário maior do que o CORDIC tradicional e o EEAS-CORDIC \cite{Kuo}.%, como pode ser visto nas Figuras \ref{fig:CordicComparationCordic}, \ref{fig:CordicComparationEEAS} e \ref{CordicComparationMSR} .
+Como pode ser percebido em (\ref{eq:MSRKnc}) e (\ref{eq:MSR}), através da escolha adequada dos conjuntos de termos $S_i$ e $S_j$, e dos valores de $I$ e $J$ é possível aproximar $K_c$ da unidade e ao mesmo tempo reduzir o erro $\epsilon$. Com mais graus de liberdade o MSR possui uma densidade combinacional dentro do circulo unitário maior do que o CORDIC tradicional e o EEAS-CORDIC \cite{Kuo}, como pode ser visto nas Figuras (\ref{fig:CordicComparationCordic}), (\ref{fig:CordicComparationEEAS}) e (\ref{CordicComparationMSR}).
 
-%\begin{figure}[h]
-%	\centering
-%	%\captionsetup{width=0.6\textwidth, font=footnotesize, textfont=bf}	
-%	\includegraphics[width=0.8\linewidth]{img/CordicComparationCordic.PNG}
-%	\caption{Cordic Tradicional com N=4  \\ Fonte: \cite{Chih}}
-%	\label{fig:CordicComparationCordic}
-%\end{figure} 
-
-%\begin{figure}[h]
-%	\centering
-%	%\captionsetup{width=0.6\textwidth, font=footnotesize, textfont=bf}	
-%	\includegraphics[width=0.8\linewidth]{img/CordicComparationEEAS.PNG}
-%	\caption{EEAS com N=2 e S=4 \\ Fonte: \cite{Chih}}
-%	\label{fig:CordicComparationEEAS}
-%\end{figure}    
-
-%\begin{figure}[h]
-%	\centering
-	%\captionsetup{width=0.6\textwidth, font=footnotesize, textfont=bf}	
-%	\includegraphics[width=0.8\linewidth]{img/CordicComparationMSR.PNG}
-%	\caption{MSR com I=2, J=1 e N=2  \\ Fonte: \cite{Chih}}
-%	\label{CordicComparationMSR}
-%\end{figure}   
+\vspace{5mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.6\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.6\linewidth]{Images/RevisaoDeLiteratura/CordicComparationCordic.PNG}
+	\caption{Cordic Tradicional com N=4  \\ Fonte: \cite{Chih}}
+	\label{fig:CordicComparationCordic}
+\end{figure} 
+\vspace{5mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.6\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.6\linewidth]{Images/RevisaoDeLiteratura/CordicComparationEEAS.PNG}
+	\caption{EEAS com N=2 e S=4 \\ Fonte: \cite{Chih}}
+	\label{fig:CordicComparationEEAS}
+\end{figure}    
+\vspace{5mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.6\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.6\linewidth]{Images/RevisaoDeLiteratura/CordicComparationMSR.PNG}
+	\caption{MSR com I=2, J=1 e N=2  \\ Fonte: \cite{Chih}}
+	\label{CordicComparationMSR}
+\end{figure}   
+\vspace{5mm}
 
 \subsection{Estratégia de Projeto dos Parâmetros CORDIC}  
 
- Como apresentado anteriormente tanto o algoritmo EEAS-CORDIC quanto o MSR-CORDIC possuem parâmetros de projeto a serem selecionados para que o processo de rotação seja realizado minimizando interações e maximizando a precisão. Em \cite{Cheng} o autor propões um método de otimização para parâmetros EEAS chamado \textit{Trellis-Based Search}(TBS). A partir do numero máximo de interações $N$, do ângulo de rotação $\theta$ e de $W$, que representa numero de bits de $\theta$, o TBS emprega um método de otimização para encontrar os melhores parâmetros $S^0(n)$, $S^1(n)$, $\mu_{0}$ e $\mu_{1}$ \cite{Cheng}. A função de otimização usado em \textit{TBS} é dada pela minimização do erro $\epsilon$, o qual está descrita em \ref{eq:erroTheta}, e as restrições são dadas pelos conjuntos de ângulos elementares $S_2$ apresentados em (\ref{eq:S2}). 
+Como apresentado anteriormente tanto o algoritmo EEAS-CORDIC quanto o MSR-CORDIC possuem parâmetros de projeto a serem selecionados para que o processo de rotação seja realizado minimizando interações e maximizando a precisão. Em \cite{Cheng} o autor propões um método de otimização para parâmetros EEAS chamado \textit{Trellis-Based Search}(TBS). A partir do numero máximo de interações $N$, do ângulo de rotação $\theta$ e de $W$, que representa numero de bits de $\theta$, o TBS emprega um método de otimização para encontrar os melhores parâmetros $S^0(n)$, $S^1(n)$, $\mu_{0}$ e $\mu_{1}$ \cite{Cheng}. A função de otimização usado em \textit{TBS} é dada pela minimização do erro $\epsilon$, o qual está descrita em (\ref{eq:erroTheta}), e as restrições são dadas pelos conjuntos de ângulos elementares $S_2$ apresentados em (\ref{eq:S2}). 
+
+\textit{TBS} é baseado no efeito que os diferentes arranjos dos ângulos elementares possíveis tem sobre $\epsilon$. Em \cite{Cheng} o autor utiliza um exemplo base para explicar o algoritmo, o qual também será usado aqui. 
+
+Considerando um ângulos de rotação $\theta=\pi/3$, o máximo de interações $N=4$ e a resolução de $\theta$ com $W=~$ bits. O algoritmo segue o seguintes passos:
+
+\begin{enumerate}
+	\item \textit{Inicialização:} Inicialmente é definido $z(S_2)$ como sendo o numero de elementos no conjunto de ângulos elementares, $r(k)$ representando cada elemento de $S_2$ individualmente, $1 \leq k \leq z(S_2)$ e $S_2$ sendo o conjunto dos ângulos elementares não redundantes. $\phi(n,k)$ representa a estrutura de acumulação do algoritmo, e será usada para se alcançar o resultado. Defini-se $z(S_2)=15$ combinações e $\phi(1,k)~=~r(k)$.
+		
+	\item \textit{Acumulação:} A cada elemento do vetor $\phi(i+1,k)$ é atribuído  o valor de $\phi(1:z(S_2),i)$ que corresponde ao mínimo de $\| \phi(1:z(S_2),i) + r(k) - \theta \|$. O índice $i$ varia $1 \leq i \leq R_m -1$, e $k$ varia de $1 \leq k \leq Z(S_2)$. 
+	
+	\item \textit{Determinação do Ótimo Global:} Ao final do processo de acumulação os elemento da coluna $R_m$ de $\phi$ apresentam os resultados globais. Logo dentro desta coluna é determinado o valor que mais se aproxima de $\theta$, defini-se este como $\theta_{TBS}$.
+	
+	\item \textit{Determinação do Caminho Solução:} A partir do elemento $\theta_{TBS}$ da coluna $R_m$ de $\phi$ é traçado o caminho reverso até a coluna $1$ de  $\phi$. A começar por $(k'=\theta_{TBS})$ e $(i=R_m)$ é  escolhido o valor da coluna $(i-1)$ que minimiza $\| \phi(1:z(S_2),i-1) + r(k') - \theta \|$, em seguida se atribui a $k'$ a posição $k$ do valor minimizante. Os valores $k'$ são armazenados em um vetor e representam as combinações de ângulos elementares que minimizam o erro $\epsilon$.
+\end{enumerate}
  
- \textit{TBS} é baseado no efeito que os diferentes arranjos dos ângulos elementares possíveis tem sobre $\epsilon$. Em \cite{Cheng} o autor utiliza um exemplo base para explicar o algoritmo, o qual também será usado aqui. 
+A tabela (\ref{tab:TBSExemple}) apresenta os valores encontrados para $\phi$ na execução do exemplo apresentado. Em destaque estão os valores considerados o conjunto minimizante solução $S_2$.
  
- Considerando um ângulos de rotação $\theta=\pi/3$, o máximo de interações $N=4$ e a resolução de $\theta$ com $W=~$ bits. O algoritmo segue o seguintes passos:
- 
- \begin{enumerate}
- 	\item \textit{Inicialização:} Inicialmente é definido $z(S_2)$ como sendo o numero de elementos no conjunto de ângulos elementares, $r(k)$ representando cada elemento de $S_2$ individualmente, $1 \leq k \leq z(S_2)$ e $S_2$ sendo o conjunto dos ângulos elementares não redundantes. $\phi(n,k)$ representa a estrutura de acumulação do algoritmo, e será usada para se alcançar o resultado. Defini-se $z(S_2)=15$ combinações e $\phi(1,k)~=~r(k)$.
- 		
- 	\item \textit{Acumulação:} A cada elemento do vetor $\phi(i+1,k)$ é atribuído  o valor de $\phi(1:z(S_2),i)$ que corresponde ao mínimo de $\| \phi(1:z(S_2),i) + r(k) - \theta \|$. O índice $i$ varia $1 \leq i \leq R_m -1$, e $k$ varia de $1 \leq k \leq Z(S_2)$. 
- 	
- 	\item \textit{Determinação do Ótimo Global:} Ao final do processo de acumulação os elemento da coluna $R_m$ de $\phi$ apresentam os resultados globais. Logo dentro desta coluna é determinado o valor que mais se aproxima de $\theta$, defini-se este como $\theta_{TBS}$.
- 	
- 	\item \textit{Determinação do Caminho Solução:} A partir do elemento $\theta_{TBS}$ da coluna $R_m$ de $\phi$ é traçado o caminho reverso até a coluna $1$ de  $\phi$. A começar por $(k'=\theta_{TBS})$ e $(i=R_m)$ é  escolhido o valor da coluna $(i-1)$ que minimiza $\| \phi(1:z(S_2),i-1) + r(k') - \theta \|$, em seguida se atribui a $k'$ a posição $k$ do valor minimizante. Os valores $k'$ são armazenados em um vetor e representam as combinações de ângulos elementares que minimizam o erro $\epsilon$.
- 	
- 	 
- \end{enumerate}
- 
- A tabela \ref{tab:TBSExemple} apresenta os valores encontrados para $\phi$ na execução do exemplo apresentado. Em destaque estão os valores considerados o conjunto minimizante solução $S_2$.
- 
- \begin{table}[h]
- 	\centering
-	\captionsetup{width=.35\linewidth}
-	\caption{Matriz $\phi$ para o dado Exemplo}
+\vspace{5mm}
+\begin{table}[h]
+	\centering
+	\captionsetup{width=.5\linewidth}
 	\begin{tabular}{c|c|c|c|c|}
 		\cline{2-5}
 		& \cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} i=1} & \cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} i=2} & \cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} i=3} & \cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} i=4} \\ \hline
@@ -246,29 +246,29 @@ Como pode ser percebido em (\ref{eq:MSRKnc}) e (\ref{eq:MSR}), através da escolh
 		\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} k=14}} & 0,6435                                             & 1,1071                                             & 1,1071                                             & 0,9991                                             \\ \hline
 		\multicolumn{1}{|c|}{\cellcolor[HTML]{000000}{\color[HTML]{FFFFFF} k=15}} & 1,1071                                             & 1,1071                                             & 1,1071                                             & 1,141                                              \\ \hline
 	\end{tabular}
-	\vspace{0.5mm}
-	\captionsetup{width=.5\linewidth}
+	\caption{Matriz $\phi$ para o dado Exemplo}
+	\vspace{-3.5mm}
 	\caption*{Fonte: Autoria Própria}
 	\label{tab:TBSExemple}
- \end{table}
+\end{table}
 
    
-  Para o algoritmo MSR-CORDIC porém é mais complicado determinar todos os parâmetros $S_j$, $S_i$, $\mu_{i}$, $\mu_{j}$, $I$ e $J$. Primeiramente nota-se que o conjunto dos ângulos fundamentais deixa de ser representado por (\ref{eq:S2}) e passa a ser \cite{Chih}:
+Para o algoritmo MSR-CORDIC porém é mais complicado determinar todos os parâmetros $S_j$, $S_i$, $\mu_{i}$, $\mu_{j}$, $I$ e $J$. Primeiramente nota-se que o conjunto dos ângulos fundamentais deixa de ser representado por (\ref{eq:S2}) e passa a ser \cite{Chih}:
+
+\begin{eqnarray}
+ 	S_{N_{SPT}} = \frac{\sum_{i=1}^{I} \mu_{i}2^{-s_i (n)}}{\sum_{j=1}^{J} \mu_{j}2^{-s_j (n)}} \\
+ 	: ~\mu_{i},{j} \in \{-1,0,1\}, \\ ~s_i,s_j \in \{0,1, \dots, N-1\}
+\end{eqnarray}
+
+Portanto o conjunto de soluções ótimas de ângulos elementares para a redução do erro $\epsilon$ expande, o que em primeiro plano possibilidade uma maior oportunidade de conjuntos que otimizam o função do erro $\epsilon$. Entretanto como é desejado manter o ganho $K_c$ perto da unidade, não há apenas uma função objetivo a ser considerada, existe ainda a função do erro  entre $K_c$ e a unidade, o qual pode ser expressa como:
+
+\begin{equation}
+ 	\epsilon_{Kc} = \left\| 1 - \prod_{n=0}^{N-1} \frac{1}{\sqrt{ \left( \sum_{i=1}^{I} 2^{-s_i (n)}\right)^2 + \left(\sum_{j=1}^{J} 2^{-s_j (n)} \right)^2 } } \right\|
+\end{equation}
   
-  \begin{eqnarray}
-  	S_{N_{SPT}} = \frac{\sum_{i=1}^{I} \mu_{i}2^{-s_i (n)}}{\sum_{j=1}^{J} \mu_{j}2^{-s_j (n)}} \\
-  	: ~\mu_{i},{j} \in \{-1,0,1\}, \\ ~s_i,s_j \in \{0,1, \dots, N-1\}
-  \end{eqnarray}
-  
-  Portanto o conjunto de soluções ótimas de ângulos elementares para a redução do erro $\epsilon$ expande, o que em primeiro plano possibilidade uma maior oportunidade de conjuntos que otimizam o função do erro $\epsilon$. Entretanto como é desejado manter o ganho $K_c$ perto da unidade, não há apenas uma função objetivo a ser considerada, existe ainda a função do erro  entre $K_c$ e a unidade, o qual pode ser expressa como:
-  
-  \begin{equation}
-  	\epsilon_{Kc} = \left\| 1 - \prod_{n=0}^{N-1} \frac{1}{\sqrt{ \left( \sum_{i=1}^{I} 2^{-s_i (n)}\right)^2 + \left(\sum_{j=1}^{J} 2^{-s_j (n)} \right)^2 } } \right\|
-  \end{equation}
-  
-  Como ambos os erros $\epsilon$ e $\epsilon_{Kc}$ tem impactos distintos no erro total de cálculo de uma unidade CORDIC, sendo que o primeiro impacta no ângulo do vetor de saída e o segundo impacta no módulo deste ângulo. Assim neste artigo será usado uma adaptação do algoritmo TBS já apresentado. 
-  
-   Na modificação proposta aqui várias instâncias do algoritmo TBS são calculados para diferentes combinações de $I$ e $J$, sempre respeitando a restrição $N=I+J$. Cada combinação $I$ e $J$ gera diferentes combinações de  $S_{N_{SPT}}$. Assim cada instância TBS gera um valor de erro $\epsilon$ e $\epsilon_{Kc}$, então é selecionada a instância que possui o menor valor de $\epsilon + \epsilon_{Kc}$ como a melhor solução global. 
+Como ambos os erros $\epsilon$ e $\epsilon_{Kc}$ tem impactos distintos no erro total de cálculo de uma unidade CORDIC, sendo que o primeiro impacta no ângulo do vetor de saída e o segundo impacta no módulo deste ângulo. Assim neste artigo será usado uma adaptação do algoritmo TBS já apresentado. 
+
+Na modificação proposta aqui várias instâncias do algoritmo TBS são calculados para diferentes combinações de $I$ e $J$, sempre respeitando a restrição $N=I+J$. Cada combinação $I$ e $J$ gera diferentes combinações de  $S_{N_{SPT}}$. Assim cada instância TBS gera um valor de erro $\epsilon$ e $\epsilon_{Kc}$, então é selecionada a instância que possui o menor valor de $\epsilon + \epsilon_{Kc}$ como a melhor solução global. 
    
    
   

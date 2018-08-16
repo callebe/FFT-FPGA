@@ -1,0 +1,69 @@
+\subsection{FPGA}
+
+\citeonline[p.~4]{Moore} define a FPGA como um dispositivo semicondutor capaz de ser totalmente redefinido após sua fabricação, permitindo ao programador reconfigurar produtos e funções já implementadas, adaptando o \emph{hardware} a novas funções. De forma prática, a FPGA permite uma flexibilidade em um projeto, podendo mudar a forma como ele é implementado, sem a necessidade de se construir um \emph{hardware} novo. 
+
+Para \citeonline[p.~4]{Moore}, comparado com as outras formas de construir um hardware, a FPGA oferece duas grandes vantagens em uma aplicação. Primeiro, para uma aplicação ao invés de se utilizar um circuito integrado padrão comercial, que geralmente é  super ou subdimensionado, ou ainda desenvolver um novo projeto de circuito integrado especifico, consumindo tempo e recursos, a FPGA  possibilita desenvolver um \textit{hardware} exatamente dentro das especificações, personalizado e otimizado para a função destinada. Em segundo, porém tão importante quanto, é que essa capacidade de personalização de \textit{hardware} possibilita a realização de operações de modo mais simplificado, rápido e energeticamente eficiente se comparado a um microprocessador.
+
+As FPGAs são baseadas em unidades lógicas elementares básicas, ou BLEs (\textit{Basic Logic Elements}), dentro de uma hierarquia de interconexões reconfiguráveis que permitem que os LEs sejam fisicamente conectados uns aos outros de diferentes formas criando uma enorme variedade de componentes digitais. A arquitetura das FPGAs modernas são constituídas basicamente por conjunto de memórias de armazenamento em massa SRAM (\textit{Static Random Access Memory}), Portas de Entrada/Saída, blocos lógicos configuráveis CLB (\textit{Configurable Logic Blocks}) e sistema de roteamento, como pode ser visto na Figura (\ref{fig:FPGAArchitecture}) \cite[p.~5]{Moore}. 
+
+\vspace{8mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.5\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.5\linewidth]{Images/RevisaoDeLiteratura/FPGAArchitecture.eps}
+	\caption{Arquitetura Tipica de uma FPGA}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Adaptado \citeonline[p.~6]{Meyer}}
+	\label{fig:FPGAArchitecture}
+\end{figure}
+\vspace{8mm}
+
+Os  CLB são blocos realizam operações logicas básicas e armazenam pequenos volumes de dados. Comumente as operações complexas, necessárias para o processamento de uma aplicação, são divididas em processos mais simples para cada uma das CLBs selecionadas, de modo que a soma das tarefas de cada CLB seja equivalente a operação complexa, em uma estratégia de divisão e conquista. Para realizar operações lógicas básicas e ainda armazenar pequenos volumes de dados os CLBs tecnicamente poderiam ser apenas um pequeno circuito de transistores (granularidade fina), ou até mesmo um processador completo (granularidade grosseira). Se os CLBs fossem granularidade fina, para realizar tarefas complexas seria necessário um grande número de CLBs e um sistema de roteamento complexo para interconecta-los, o que resultaria em uma FPGA de baixa performance e um elevado consumo energético. Por outro lado de as CLBs forem de uma granularidade mais grosseira seria um desperdício de recurso utiliza-los em operações mais simples \cite[p.~11]{tree}. Assim a escolha do nível de complexabilidade, ou granulação, das CLBs de uma FPGA é um compromisso de otimização de recursos.
+
+Ainda segundo \citeonline[p.~11]{tree} dentro da grama de granulação das CLBs, algumas arquiteturas incluem o uso de portas NAND, interconexão de multiplexadores e tabelas de busca LUT (\textit{Lookup Table}). Em especial fabricantes como a Xilinx utilizam CLBs baseadas em LUTs, já que CLBs baseadas em LUT oferecem uma boa relação de granulação, otimizando os recursos da FPGA para aplicações simples até as mais complexas. Este tipo de CLB  pode incluir uma único elemento logico básico BLE (\textit{Basic Logic Element}), ou mesmo um \textit{cluster} de BLEs interconectados, como mostrado na Figura (\ref{fig:ArchitectureClusterBLE}).
+
+\vspace{6mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.4\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.4\linewidth]{Images/RevisaoDeLiteratura/ArchitectureClusterBLE.eps}
+	\caption{Arquitetura de uma CLB com 4 BLEs}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Adaptado \citeonline[p.~13]{tree}}
+	\label{fig:ArchitectureClusterBLE}
+\end{figure}
+\vspace{6mm}
+
+Segundo \citeonline[p.~11]{tree}, um BLE mais simples consiste basicamente de um LUT e um \textit{Flip-Flop} tipo D, como pode ser visto na Figura (\ref{fig:BasicLogicElement}). Um LUT com $k$ entradas pode implementar $k$ funções booleanas utilizando os espaços de memória SRAM dentro da LUT. O exemplo apresentado na Figura (\ref{fig:BasicLogicElement}) utiliza  16 bits de memória SRAM, os quais são conectadas a entrada do multiplexador que possui 4 bits de seleção, e cuja saída é ligada ao \textit{flip-flop}. Esta configuração permite que a LUT tenha $2^k$ combinações das $k$ operações booleanas. 
+
+\vspace{6mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.5\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.5\linewidth]{Images/RevisaoDeLiteratura/BasicLogicElement.eps}
+	\caption{Arquitetura de uma BLE (\textit{Basic Logic Element})}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Adaptado \citeonline[p.~13]{tree}}
+	\label{fig:BasicLogicElement}
+\end{figure}
+\vspace{6mm}
+
+Um único BLE é capaz de realizar algumas operações booleanas básicas, porém em clusters as combinações de operações aumentam. FPGAs modernas tipicamente contém de 4 a 10 BLEs em um único cluster. Porém estas FPGAs não possui apenas BLEs idênticas, na verdade há uma grande heterogenia de blocos, sendo muitos deles desenvolvidos para propósitos específicos. Entre estes blocos de propósito específico estão multiplicadores, somadores, memórias e DSPs (\textit{Digital Signal Processor}), entre outros. Estes blocos são desenvolvidos para otimizar o espaço, processamento, roteamento e demais recursos de \textit{hardware} que seriam necessários para implementar as mesmas funções em BLEs comuns, sendo essenciais em certas aplicações.
+
+Para \cite{Ibrahim}, a FPGA é uma boa escolha para a implementação do algoritmo da FFT  devido a grande variedade de recursos de hardware sintetizáveis, além de possuir recursos de programação paralela que permite o processamento paralelo de sinais, conferindo assim uma maior rapidez na execução do algoritmo. Como afirma \citeonline[Prefácio]{Meyer}, muitos algoritmos de processamento de sinais, como FFT (\emph{Fast Fourier Transform}) e os filtros FIR ou IIR,  implementados anteriormente em Circuitos Integrados de Aplicação Especifica ou ASIC (\emph{Application Specific Integrated Circuits}), agora estão sendo implementados em FPGAs.
+
+O dispositivo escolhido para a implementação do algoritmo Radix-2 é o kit de desenvolvimento para FPGA denominado $Spartan^\circledR -3E~FPGA~Starter~Kit~Board$, apresentado na figura (\ref{fig:Sparta-3E-FPGA- StarterKitBoard}). Tal kit possui uma FPGA XC3S500E, com  1.164 CLBs,  4.656 \emph{slices}, um bloco de RAM de 360 Kbits, 20 multiplicadores dedicados e 232 portas de entrada e saída utilizáveis \cite{DataSheet}.
+
+%\begin{figure}[H]
+%	\centering
+%	\captionsetup{width=0.6\textwidth, font=footnotesize, textfont=bf}	
+%	\includegraphics[width=0.6\linewidth]{Images/Sparta-3E-FPGA-StarterKitBoard.eps}
+%	\caption{$Spartan^\circledR -3E~FPGA~Starter~Kit~Board$}
+%	\vspace{-3.5mm}
+%	\caption*{Fonte: \citeonline{DataSheet}}
+%	\label{fig:Sparta-3E-FPGA- StarterKitBoard}
+%\end{figure}
+
+\subsection{Zynq 7000}
+
+\subsection{ZynqBerry TE0726-03M}
