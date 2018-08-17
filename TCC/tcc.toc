@@ -12,10 +12,10 @@
 \contentsline {subsection}{\numberline {2.4.1}ZynqBerry TE0726-03M}{36}{subsection.2.4.1}
 \contentsline {subsubsection}{\numberline {2.4.1.1}Zynq-7000}{37}{subsubsection.2.4.1.1}
 \contentsline {section}{\numberline {2.5}Algoritmo CORDIC}{38}{section.2.5}
-\contentsline {subsection}{\numberline {2.5.1}CORDIC Tradicional}{38}{subsection.2.5.1}
-\contentsline {subsection}{\numberline {2.5.2}EEAS-CORDIC}{39}{subsection.2.5.2}
-\contentsline {subsection}{\numberline {2.5.3}MSR-CORDIC}{41}{subsection.2.5.3}
-\contentsline {subsection}{\numberline {2.5.4}Estrat\'egia de Projeto dos Par\^ametros CORDIC}{43}{subsection.2.5.4}
+\contentsline {subsection}{\numberline {2.5.1}CORDIC Tradicional}{39}{subsection.2.5.1}
+\contentsline {subsection}{\numberline {2.5.2}EEAS-CORDIC}{40}{subsection.2.5.2}
+\contentsline {subsection}{\numberline {2.5.3}MSR-CORDIC}{42}{subsection.2.5.3}
+\contentsline {subsection}{\numberline {2.5.4}Estrat\'egia de Projeto dos Par\^ametros CORDIC}{44}{subsection.2.5.4}
 \contentsline {chapter}{\numberline {3}Implementando Processador COrdic}{47}{chapter.3}
 \contentsline {chapter}{\numberline {4}Implementando a FFT no ZynqBerry}{48}{chapter.4}
 \contentsline {subsection}{\numberline {4.0.1}Implementando FFT 32 Pontos}{48}{subsection.4.0.1}

@@ -14,9 +14,9 @@
 \contentsline {figure}{\numberline {13}{\ignorespaces Arquitetura de uma CLB com 4 BLEs\relax }}{34}{figure.caption.21}
 \contentsline {figure}{\numberline {14}{\ignorespaces Arquitetura de uma BLE (\textit {Basic Logic Element})\relax }}{35}{figure.caption.22}
 \contentsline {figure}{\numberline {15}{\ignorespaces ZynqBery - TE0726\relax }}{36}{figure.caption.23}
-\contentsline {figure}{\numberline {16}{\ignorespaces ZynqBery - TE0726\relax }}{37}{figure.caption.24}
-\contentsline {figure}{\numberline {17}{\ignorespaces Cordic Tradicional com N=4 Fonte: \cite {Chih}\relax }}{42}{figure.caption.25}
+\contentsline {figure}{\numberline {16}{\ignorespaces Arquitetura Simplificada - Zynq-7000\relax }}{38}{figure.caption.24}
+\contentsline {figure}{\numberline {17}{\ignorespaces Cordic Tradicional com N=4 Fonte: \cite {Chih}\relax }}{43}{figure.caption.25}
 \contentsline {figure}{\numberline {18}{\ignorespaces EEAS com N=2 e S=4 Fonte: \cite {Chih}\relax }}{43}{figure.caption.26}
-\contentsline {figure}{\numberline {19}{\ignorespaces MSR com I=2, J=1 e N=2 Fonte: \cite {Chih}\relax }}{43}{figure.caption.27}
+\contentsline {figure}{\numberline {19}{\ignorespaces MSR com I=2, J=1 e N=2 Fonte: \cite {Chih}\relax }}{44}{figure.caption.27}
 \contentsline {figure}{\numberline {20}{\ignorespaces Arquitetura Implementada FFT de 16 Pontos\relax }}{48}{figure.caption.29}
 \contentsline {figure}{\numberline {21}{\ignorespaces Arquitetura Implementada FFT de 16 Pontos\relax }}{49}{figure.caption.30}
