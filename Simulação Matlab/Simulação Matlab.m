@@ -2,7 +2,7 @@
 %#                             Simulação TCC                              #
 %#                                                                        #
 %#                 IMPLEMENTAÇÃO DO ALGORITMO RADIX-2 PARA                #
-%#                       CÁLCULO DA FFT EM FPGA                           #
+%#                       C�?LCULO DA FFT EM FPGA                           #
 %#                                                                        #
 %#   Autor : Callebe Soares Barbosa                                       #
 %#   Acadêmico de Engenharia Elétrica                                     #
@@ -62,7 +62,7 @@ close all
 NumeroInteracao = 6;
 
 H = 10+10*i;
-alpha = (-2*pi*3/8)*2^10;
+a	
 
 if(alpha < -pi/2)
     x(1) = (imag(H)/2 + imag(H)/(2^3) - imag(H)/(2^6) - imag(H)/(2^9));

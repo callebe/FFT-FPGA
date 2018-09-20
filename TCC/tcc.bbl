@@ -14,6 +14,12 @@
 \textbf{Medical engineering \& physics}, Elsevier, v.~33, n.~3, p. 356--361,
   2011.}
 
+\bibitem[ARM 2018]{AMBA}
+\abntrefinfo{ARM}{ARM}{2018}
+{ARM. \textbf{System IP AMBA Specifications}. 2018.
+\url{https://www.arm.com/products/silicon-ip-system/embedded-system-design/amba-specifications}.
+Acessado em 13 de Agosto de 2017.}
+
 \bibitem[Bingham 1990]{Bingham}
 \abntrefinfo{Bingham}{BINGHAM}{1990}
 {BINGHAM, J. A.~C. Multicarrier modulation for data transmission: an idea whose
@@ -197,11 +203,17 @@ ISSN 1520-6149.}
 \textbf{IEEE Transactions on Circuits and Systems II: Analog and Digital Signal
   Processing}, v.~50, n.~9, p. 589--601, Sept 2003.}
 
-\bibitem[Xilinx 2018]{zynqhome}
+\bibitem[Xilinx 2017]{AXI}
+\abntrefinfo{Xilinx}{XILINX}{2017}
+{XILINX. \textbf{AXI Reference Guide}. 2017.
+\url{https://www.xilinx.com/support/documentation/ip_documentation/ug761_axi_reference_guide.pdf}.
+Acessado em 15 de Agosto de 2017.}
+
+\bibitem[Xilinx 2018]{zynq-7000}
 \abntrefinfo{Xilinx}{XILINX}{2018}
-{XILINX. \textbf{Zynq-7000 SoC Product Advantages}. 2018.
-\url{https://www.xilinx.com/products/silicon-devices/soc/zynq-7000.html}.
-Acessado em 12 de Agosto de 2017.}
+{XILINX. \textbf{Zynq-7000 SoC Data Sheet: Overview}. 2018.
+\url{https://www.xilinx.com/support/documentation/data_sheets/ds190-Zynq-7000-Overview.pdf}.
+Acessado em 16 de Agosto de 2017.}
 
 \bibitem[Zhou \textit{et al.} 2009]{zhou}
 \abntrefinfo{Zhou \textit{et al.}}{ZHOU \textit{et al.}}{2009}

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="142.56609mm"
+   height="109.77612mm"
+   viewBox="0 0 142.56609 109.77612"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.1 r15371"
+   sodipodi:docname="ArquiteturaSimplificadaSD.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="186.76794"
+     inkscape:cy="265.35575"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1280"
+     inkscape:window-height="961"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4"
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4493"
+       originx="0.40009576"
+       originy="-157.29174" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Camada 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0.40009575,-29.932125)">
+    <rect
+       style="opacity:0.97000002;fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:0.80019134;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4487"
+       width="37.041668"
+       height="31.75"
+       x="-7.9472869e-008"
+       y="68.183281"
+       ry="4.2333331" />
+    <rect
+       style="opacity:0.97000002;fill:#800080;fill-opacity:1;stroke:#000000;stroke-width:0.64865518;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4489"
+       width="28.726158"
+       height="14.363079"
+       x="4.1577549"
+       y="125.02084"
+       ry="3.0116136" />
+    <g
+       id="g4542"
+       transform="translate(-2.3643637,-0.093826)">
+      <path
+         sodipodi:nodetypes="cccccccc"
+         inkscape:connector-curvature="0"
+         id="path4501"
+         d="m 41.010418,84.057331 7.656029,-3.828015 v 2.55201 H 119.0625 v 2.552007 H 48.666447 v 2.552012 z"
+         style="fill:#000000;stroke:#000000;stroke-width:0.15627803px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path4503"
+         d="m 136.29704,80.135493 v 2.645833 h -3.96875 v 2.645834 h 3.96875 v 2.645833 l 7.9375,-3.96875 -7.9375,-3.96875"
+         style="fill:#000000;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <rect
+         y="82.804276"
+         x="120.38541"
+         height="2.6228819"
+         width="2.6701267"
+         id="rect4505"
+         style="opacity:0.97000002;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.52916664;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="82.804276"
+         x="124.39079"
+         height="2.6228819"
+         width="2.6701269"
+         id="rect4505-5"
+         style="opacity:0.97000002;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.52916664;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         y="82.804276"
+         x="128.35954"
+         height="2.6228819"
+         width="2.6701272"
+         id="rect4505-5-1"
+         style="opacity:0.97000002;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.52916664;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.76111126px;line-height:1.25;font-family:'Advanced LED Board-7';-inkscape-font-specification:'Advanced LED Board-7';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="39.6875"
+       y="95.916664"
+       id="text4561"><tspan
+         sodipodi:role="line"
+         id="tspan4559"
+         x="39.6875"
+         y="102.70763"
+         style="stroke-width:0.26458332" /></text>
+    <path
+       style="fill:#1a1a1a;stroke:#000000;stroke-width:0.22563739px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 22.489584,107.46212 -3.96875,-5.77273 -3.96875,5.77273 h 2.645833 v 9.62121 h -2.645833 l 3.96875,5.77273 3.96875,-5.77273 h -2.645832 v -9.62121 z"
+       id="path4563-8"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.76111126px;line-height:1.25;font-family:'Advanced LED Board-7';-inkscape-font-specification:'Advanced LED Board-7';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="1.1685767"
+       y="85.333328"
+       id="text4615"><tspan
+         sodipodi:role="line"
+         id="tspan4613"
+         x="1.1685767"
+         y="85.333328"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:5.64444447px;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#ffffff;stroke-width:0.26458332">Processador</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.76111126px;line-height:1.25;font-family:'Advanced LED Board-7';-inkscape-font-specification:'Advanced LED Board-7';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="6.8088875"
+       y="134.22397"
+       id="text4615-7"><tspan
+         sodipodi:role="line"
+         id="tspan4613-5"
+         x="6.8088875"
+         y="134.22397"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:5.64444447px;font-family:Arial;-inkscape-font-specification:'Arial Bold';fill:#ffffff;stroke-width:0.26458332">Memória</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.76111126px;line-height:1.25;font-family:'Advanced LED Board-7';-inkscape-font-specification:'Advanced LED Board-7';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="41.525715"
+       y="96.619545"
+       id="text4615-7-3"><tspan
+         sodipodi:role="line"
+         id="tspan4613-5-7"
+         x="41.525715"
+         y="96.619545"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:5.64444447px;font-family:Arial;-inkscape-font-specification:'Arial Bold';stroke-width:0.26458332">Interligações</tspan></text>
+    <path
+       style="fill:#1a1a1a;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 75.40625,61.520834 -3.96875,-7.9375 -3.96875,7.9375 h 2.645833 V 74.75 H 67.46875 L 71.4375,82.687496 75.40625,74.75 H 72.760417 V 61.520834 Z"
+       id="path4563"
+       inkscape:connector-curvature="0" />
+    <rect
+       style="opacity:0.97000002;fill:#0000ff;fill-opacity:0.64251206;stroke:#000000;stroke-width:0.58456486;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4491"
+       width="27.214289"
+       height="22.300594"
+       x="57.830353"
+       y="30.224407"
+       ry="3.4017856" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.76111126px;line-height:1.25;font-family:'Advanced LED Board-7';-inkscape-font-specification:'Advanced LED Board-7';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="71.203087"
+       y="38.661026"
+       id="text4615-7-3-7"><tspan
+         sodipodi:role="line"
+         id="tspan4613-5-7-1"
+         x="71.203087"
+         y="38.661026"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:5.64444447px;font-family:Arial;-inkscape-font-specification:'Arial Bold';text-align:center;text-anchor:middle;stroke-width:0.26458332">Periférico</tspan><tspan
+         sodipodi:role="line"
+         x="71.203087"
+         y="48.362415"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:5.64444447px;font-family:Arial;-inkscape-font-specification:'Arial Bold';text-align:center;text-anchor:middle;stroke-width:0.26458332"
+         id="tspan4671">A</tspan></text>
+    <path
+       style="fill:#1a1a1a;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 111.125,61.520834 -3.96876,-7.9375 -3.96875,7.9375 h 2.64584 V 74.75 h -2.64584 l 3.96875,7.937497 L 111.125,74.75 h -2.64584 V 61.520834 Z"
+       id="path4563-1"
+       inkscape:connector-curvature="0" />
+    <rect
+       style="opacity:0.97000002;fill:#917c6f;fill-opacity:1;stroke:#000000;stroke-width:0.58456486;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4491-5"
+       width="27.214289"
+       height="22.300594"
+       x="93.549103"
+       y="30.224407"
+       ry="3.4017856" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.76111126px;line-height:1.25;font-family:'Advanced LED Board-7';-inkscape-font-specification:'Advanced LED Board-7';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="106.92184"
+       y="38.661026"
+       id="text4615-7-3-7-9"><tspan
+         sodipodi:role="line"
+         id="tspan4613-5-7-1-9"
+         x="106.92184"
+         y="38.661026"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:5.64444447px;font-family:Arial;-inkscape-font-specification:'Arial Bold';text-align:center;text-anchor:middle;stroke-width:0.26458332">Periférico</tspan><tspan
+         sodipodi:role="line"
+         x="106.92184"
+         y="48.362415"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:5.64444447px;font-family:Arial;-inkscape-font-specification:'Arial Bold';text-align:center;text-anchor:middle;stroke-width:0.26458332"
+         id="tspan4671-2">B</tspan></text>
+    <path
+       style="fill:#1a1a1a;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 93.927083,106.95357 -3.96875,7.9375 -3.968753,-7.9375 h 2.645833 V 93.724402 H 85.98958 l 3.968753,-7.937496 3.96875,7.937496 h -2.64584 v 13.229168 z"
+       id="path4563-2"
+       inkscape:connector-curvature="0" />
+    <rect
+       style="opacity:0.97000002;fill:#00aa00;fill-opacity:1;stroke:#000000;stroke-width:0.58456486;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4491-3"
+       width="27.214289"
+       height="22.300594"
+       x="76.351189"
+       y="-138.25"
+       ry="3.4017856"
+       transform="scale(1,-1)" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.76111126px;line-height:1.25;font-family:'Advanced LED Board-7';-inkscape-font-specification:'Advanced LED Board-7';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="89.85498"
+       y="124.30367"
+       id="text4615-7-3-7-3"><tspan
+         sodipodi:role="line"
+         id="tspan4613-5-7-1-3"
+         x="89.85498"
+         y="124.30367"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:5.64444447px;font-family:Arial;-inkscape-font-specification:'Arial Bold';text-align:center;text-anchor:middle;stroke-width:0.26458332">Periférico</tspan><tspan
+         sodipodi:role="line"
+         x="89.85498"
+         y="134.00507"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:5.64444447px;font-family:Arial;-inkscape-font-specification:'Arial Bold';text-align:center;text-anchor:middle;stroke-width:0.26458332"
+         id="tspan4671-1">C</tspan></text>
+  </g>
+</svg>

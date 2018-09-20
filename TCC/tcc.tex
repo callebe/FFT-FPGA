@@ -17,6 +17,7 @@
 \usepackage{float}
 \usepackage{amsmath}
 \usepackage{multirow}
+\usepackage{upgreek}
 \usepackage[table,xcdraw]{xcolor}
 % A linha abaixo chama o pacote hyperref, configurado para usar o programa 
 % pdftex.exe. Se você utiliza outra forma de compilacao altere a linha abaixo 
@@ -26,8 +27,54 @@
 % Insira seus dados nos campos pdfauthor, pdftitle, pdfsubject e pdfcreator, estes dados
 % aparecerão nas propriedades do arquivo pdf.
 
+%Definições para Códigos
+% Definindo novas cores
+\definecolor{verde}{rgb}{0,0.5,0}
+% Configurando layout para mostrar codigos C++
+\usepackage{listings}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\usepackage{color}
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{cyan}{rgb}{0.0,0.6,0.6}
+\definecolor{darkgreen}{rgb}{0.0, 0.3, 0.0}
+\definecolor{darkred}{rgb}{0.8, 0.0, 0.0}
+\definecolor{greenblue}{rgb}{0, 0.47, 0.6}
+\definecolor{palatinatepurple}{rgb}{0.0, 0.0, 0.4}
+\definecolor{blackyellow}{rgb}{1, 0.4, 0.0}
+
+\lstdefinelanguage{VHDL}{
+	morekeywords={
+		library,use,all,entity,is,port,in,out,end,architecture,of,
+		begin,and
+	},
+	morecomment=[l]--
+}
+\lstdefinestyle{VHDL}{
+	language=VHDL,
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=1
+}
+
 % alterado de dvips para pdftex em 11/04/16, por Otavio Augusto Gomes
-\usepackage[pdftex,linktocpage=true,pdfauthor={Seu nome},pdftitle={Titulo do documento},pdfsubject={Exemplo de documento}]{hyperref}
+\usepackage[pdftex,linktocpage=true,pdfauthor={Callebe Soares Barbosa},pdftitle={Implementation of the Radix-2 Algorithm for FFT Calculation in FPGA},pdfsubject={TCC UTFPR}]{hyperref}
 
 \usepackage[alf,abnt-emphasize=bf,abnt-etal-text=it,bibjustif,abnt-etal-cite=2,abnt-etal-list=0,abnt-full-initials=yes]{abntcite}
 
@@ -82,8 +129,8 @@
 \orientador{Prof. Dr. Fábio Luiz Bertotti}
 %\coorientador[Coorientadora: ]{Marie Curie}
 
-\palavraschave{\LaTeX, FFT, Transformada Rápida de Fourier, Sistemas Digitais, FPGA, Spartan 3E} % Palavras chave
-\keywords{\LaTeX, FFT, Fast Fourier Transform, Digital System, FPGA, Spartan 3E, Digital Signal Process} % Palavras chave em inglês
+\palavraschave{\LaTeX, FFT, Transformada Rápida de Fourier, Sistemas Digitais, FPGA, Zyn} % Palavras chave
+\keywords{\LaTeX, FFT, Fast Fourier Transform, Digital System, FPGA, Zynq, Digital Signal Process} % Palavras chave em inglês
 
 % Instruções para banca examinadora:
 %   -> O primeiro membro da banca, será automaticamente o orientador, o presidente da banca.
@@ -101,7 +148,7 @@
 
 \local{Pato Branco}
 
-\data{2017} % Mes de publicação
+\data{2018} % Mes de publicação
 
 \atanumero{123} % Número da ata de defesa.
 
