@@ -17,15 +17,15 @@
 \contentsline {figure}{\numberline {16}{\ignorespaces Exemplo de execu\c c\~ao do Algoritmo TBS\relax }}{45}{figure.caption.24}
 \contentsline {figure}{\numberline {17}{\ignorespaces MSR com I=2, J=1 e N=2 Fonte: \cite {Chih}\relax }}{48}{figure.caption.26}
 \contentsline {figure}{\numberline {18}{\ignorespaces MSR com I=2, J=1 e N=2 Fonte: \cite {Chih}\relax }}{49}{figure.caption.27}
-\contentsline {figure}{\numberline {19}{\ignorespaces Arquitetura Tipica de uma FPGA\relax }}{51}{figure.caption.28}
-\contentsline {figure}{\numberline {20}{\ignorespaces Arquitetura de uma CLB com 4 BLEs\relax }}{53}{figure.caption.29}
-\contentsline {figure}{\numberline {21}{\ignorespaces Arquitetura de uma BLE (\textit {Basic Logic Element})\relax }}{54}{figure.caption.30}
-\contentsline {figure}{\numberline {22}{\ignorespaces Diagrama L\'ogico Full Adder 4 Bits - ISE Design Suite 14\relax }}{55}{figure.caption.31}
-\contentsline {figure}{\numberline {23}{\ignorespaces CPU MicroBlaze e Coprocessador para FFT com Interface UART - Vivado 2017.4\relax }}{57}{figure.caption.32}
-\contentsline {figure}{\numberline {24}{\ignorespaces ZynqBery - TE0726\relax }}{58}{figure.caption.33}
-\contentsline {figure}{\numberline {25}{\ignorespaces Arquitetura Simplificada - Zynq-7000\relax }}{60}{figure.caption.34}
-\contentsline {figure}{\numberline {26}{\ignorespaces Arquitetura Simplificada de um Sistema Digital\relax }}{61}{figure.caption.35}
-\contentsline {figure}{\numberline {27}{\ignorespaces Arquitetura Simplificado do um Sistema Digital Mapeado para o Zynq\relax }}{62}{figure.caption.36}
-\contentsline {figure}{\numberline {28}{\ignorespaces Vis\~ao Geralda Arquitetura - Zynq 7000\relax }}{63}{figure.caption.37}
-\contentsline {figure}{\numberline {29}{\ignorespaces Arquitetura Implementada FFT de 16 Pontos\relax }}{65}{figure.caption.38}
-\contentsline {figure}{\numberline {30}{\ignorespaces Arquitetura Implementada FFT de 16 Pontos\relax }}{66}{figure.caption.39}
+\contentsline {figure}{\numberline {19}{\ignorespaces Arquitetura Tipica de uma FPGA\relax }}{53}{figure.caption.28}
+\contentsline {figure}{\numberline {20}{\ignorespaces Arquitetura de uma CLB com 4 BLEs\relax }}{54}{figure.caption.29}
+\contentsline {figure}{\numberline {21}{\ignorespaces Arquitetura de uma BLE (\textit {Basic Logic Element})\relax }}{55}{figure.caption.30}
+\contentsline {figure}{\numberline {22}{\ignorespaces Diagrama L\'ogico Full Adder 4 Bits - ISE Design Suite 14\relax }}{56}{figure.caption.31}
+\contentsline {figure}{\numberline {23}{\ignorespaces CPU MicroBlaze e Coprocessador para FFT com Interface UART - Vivado 2017.4\relax }}{58}{figure.caption.32}
+\contentsline {figure}{\numberline {24}{\ignorespaces ZynqBery - TE0726\relax }}{59}{figure.caption.33}
+\contentsline {figure}{\numberline {25}{\ignorespaces Arquitetura Simplificada - Zynq-7000\relax }}{61}{figure.caption.34}
+\contentsline {figure}{\numberline {26}{\ignorespaces Arquitetura Simplificada de um Sistema Digital\relax }}{62}{figure.caption.35}
+\contentsline {figure}{\numberline {27}{\ignorespaces Arquitetura Simplificado do um Sistema Digital Mapeado para o Zynq\relax }}{63}{figure.caption.36}
+\contentsline {figure}{\numberline {28}{\ignorespaces Vis\~ao Geralda Arquitetura - Zynq 7000\relax }}{64}{figure.caption.37}
+\contentsline {figure}{\numberline {29}{\ignorespaces Arquitetura Implementada FFT de 16 Pontos\relax }}{66}{figure.caption.38}
+\contentsline {figure}{\numberline {30}{\ignorespaces Arquitetura Implementada FFT de 16 Pontos\relax }}{67}{figure.caption.39}

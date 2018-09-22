@@ -12,25 +12,26 @@
 \BOOKMARK [2][-]{subsection.2.4.2}{EEAS-CORDIC}{section.2.4}% 12
 \BOOKMARK [3][-]{subsubsection.2.4.2.1}{Algoritmo TBS}{subsection.2.4.2}% 13
 \BOOKMARK [2][-]{subsection.2.4.3}{MSR-CORDIC}{section.2.4}% 14
-\BOOKMARK [1][-]{section.2.5}{FPGA}{chapter.2}% 15
-\BOOKMARK [2][-]{subsection.2.5.1}{Aspectos Construtivos da FPGA}{section.2.5}% 16
-\BOOKMARK [2][-]{subsection.2.5.2}{Programa\347\343o na FPGA}{section.2.5}% 17
-\BOOKMARK [2][-]{subsection.2.5.3}{ZynqBerry TE0726-03M}{section.2.5}% 18
-\BOOKMARK [3][-]{subsubsection.2.5.3.1}{Zynq-7000}{subsection.2.5.3}% 19
-\BOOKMARK [0][-]{chapter.3}{Implementando Processador COrdic}{}% 20
-\BOOKMARK [0][-]{chapter.4}{Implementando a FFT no ZynqBerry}{}% 21
-\BOOKMARK [1][-]{subsection.4.0.1}{Implementando FFT 32 Pontos}{chapter.4}% 22
-\BOOKMARK [2][-]{subsection.4.0.2}{Implementando FFT 1024 Pontos}{subsection.4.0.1}% 23
-\BOOKMARK [0][-]{chapter.5}{An\341lise dos Resultados}{}% 24
-\BOOKMARK [1][-]{subsection.5.0.1}{Implementando FFT 32 Pontos}{chapter.5}% 25
-\BOOKMARK [2][-]{subsection.5.0.2}{Implementando FFT 1024 Pontos}{subsection.5.0.1}% 26
-\BOOKMARK [0][-]{chapter.6}{Conclus\343o}{}% 27
-\BOOKMARK [1][-]{subsection.6.0.1}{Testes e exemplos de lista de siglas}{chapter.6}% 28
-\BOOKMARK [2][-]{subsection.6.0.2}{Testes e exemplos de lista de s\355mbolos}{subsection.6.0.1}% 29
-\BOOKMARK [2][-]{subsection.6.0.3}{Exemplos de cita\347\343o de refer\352ncias bibliogr\341ficas}{subsection.6.0.1}% 30
-\BOOKMARK [0][-]{chapter.7}{N\355vel 1 - Testes DE capitula\347\343o - Prim\341rio}{}% 31
-\BOOKMARK [1][-]{section.7.1}{N\355vel 2 - Secund\341rio}{chapter.7}% 32
-\BOOKMARK [2][-]{subsection.7.1.1}{N\355vel 3 - Terci\341rio}{section.7.1}% 33
-\BOOKMARK [3][-]{subsubsection.7.1.1.1}{N\355vel 4 - Quatern\341rio}{subsection.7.1.1}% 34
-\BOOKMARK [0][-]{chapter.annex.A}{Anexo A - Stellar Mystery Solved, Einstein Safe}{}% 35
-\BOOKMARK [1][-]{section.annex.A.1}{Exemplo de se\347\343o anexo}{chapter.annex.A}% 36
+\BOOKMARK [3][-]{subsubsection.2.4.3.1}{An\341lise do Erro}{subsection.2.4.3}% 15
+\BOOKMARK [1][-]{section.2.5}{FPGA}{chapter.2}% 16
+\BOOKMARK [2][-]{subsection.2.5.1}{Aspectos Construtivos da FPGA}{section.2.5}% 17
+\BOOKMARK [2][-]{subsection.2.5.2}{Programa\347\343o na FPGA}{section.2.5}% 18
+\BOOKMARK [2][-]{subsection.2.5.3}{ZynqBerry TE0726-03M}{section.2.5}% 19
+\BOOKMARK [3][-]{subsubsection.2.5.3.1}{Zynq-7000}{subsection.2.5.3}% 20
+\BOOKMARK [0][-]{chapter.3}{Implementando Processador COrdic}{}% 21
+\BOOKMARK [0][-]{chapter.4}{Implementando a FFT no ZynqBerry}{}% 22
+\BOOKMARK [1][-]{subsection.4.0.1}{Implementando FFT 32 Pontos}{chapter.4}% 23
+\BOOKMARK [2][-]{subsection.4.0.2}{Implementando FFT 1024 Pontos}{subsection.4.0.1}% 24
+\BOOKMARK [0][-]{chapter.5}{An\341lise dos Resultados}{}% 25
+\BOOKMARK [1][-]{subsection.5.0.1}{Implementando FFT 32 Pontos}{chapter.5}% 26
+\BOOKMARK [2][-]{subsection.5.0.2}{Implementando FFT 1024 Pontos}{subsection.5.0.1}% 27
+\BOOKMARK [0][-]{chapter.6}{Conclus\343o}{}% 28
+\BOOKMARK [1][-]{subsection.6.0.1}{Testes e exemplos de lista de siglas}{chapter.6}% 29
+\BOOKMARK [2][-]{subsection.6.0.2}{Testes e exemplos de lista de s\355mbolos}{subsection.6.0.1}% 30
+\BOOKMARK [2][-]{subsection.6.0.3}{Exemplos de cita\347\343o de refer\352ncias bibliogr\341ficas}{subsection.6.0.1}% 31
+\BOOKMARK [0][-]{chapter.7}{N\355vel 1 - Testes DE capitula\347\343o - Prim\341rio}{}% 32
+\BOOKMARK [1][-]{section.7.1}{N\355vel 2 - Secund\341rio}{chapter.7}% 33
+\BOOKMARK [2][-]{subsection.7.1.1}{N\355vel 3 - Terci\341rio}{section.7.1}% 34
+\BOOKMARK [3][-]{subsubsection.7.1.1.1}{N\355vel 4 - Quatern\341rio}{subsection.7.1.1}% 35
+\BOOKMARK [0][-]{chapter.annex.A}{Anexo A - Stellar Mystery Solved, Einstein Safe}{}% 36
+\BOOKMARK [1][-]{section.annex.A.1}{Exemplo de se\347\343o anexo}{chapter.annex.A}% 37
