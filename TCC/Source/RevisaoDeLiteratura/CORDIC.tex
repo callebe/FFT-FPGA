@@ -1,3 +1,5 @@
+
+\label{section:Cordic}
 Na equação (\ref{eq:Xr}) nota-se que o calculo a FFT depende essencialmente de um multiplicação complexa entre $W_{N_0}^r$ e $H_r$, onde $H_r$ representa um vetor complexo qualquer, e $W_{N_0}^r$ é igual a $e^{\frac{2\pi r}{N_0}}$. Esta tarefa pode ser realizada através da representação de $W_{N_0}^r$ e $H_r$ na forma retangular, considerando para efeitos de exemplo $W_{N_0}^r ~=~x+iy$ e $H_r~=~a+ib$, logo:
 
 \begin{eqnarray}
@@ -250,14 +252,14 @@ Portanto alterando a equação (\ref{eq:rotacaoVetorialC}) com base em  (\ref{eq:S
 É importante notar que ao adicionar mais termos a $S_1$, o ganho $K_c$ também é modificado passando a ser definido por:
 
 \begin{equation}
-	K(n)_c~=~\frac{1}{\sqrt{1+ [\mu_{0}2^{-s_0 (n)} + \mu_{1}2^{-s_1 (n)}]^2}}
+	K_n~=~\frac{1}{\sqrt{1+ [\mu_{0}2^{-s_0 (n)} + \mu_{1}2^{-s_1 (n)}]^2}}
 	\label{eq:EEASRKcn}
 \end{equation}
 
 Com a alteração de $K_c$ o ganho passa a não ser mais constante, e varia de acordo com cada interação $N$. Sendo assim necessário calcular o ganho $K_c$ para cada interação afim de realizar a compensação. O valor de $K_c$ ao final de cada operação de calculo CORDIC passa a ser definido por: 
 
 \begin{equation}
-	K_c~=~\prod_{n=0}^{N-1} K(n)_c
+	K_c~=~\prod_{n=0}^{N-1} K_n
 	\label{eq:EEASRKc}
 \end{equation}
 
@@ -287,6 +289,7 @@ Com a relaxação das restrições introduzidas pelo método AR e pelo EEASR, a densi
 \vspace{5mm}
 
 \subsubsection{Algoritmo TBS}
+\label{section:TBS}
 
 A relaxação das restrições feita pelos métodos AR e  EEASR tornaram o algoritmo iterativo CORDIC mais eficiente, porém ele abre uma questão crucial: a determinação dos conjuntos $\mu$ e $s$. No algoritmo CORDIC tradicional o valor de $\mu$ estava contido no conjunto $\{-1, 1\}$, e era determinado com base no sinal de $z(n)$ a cada interação, porém no método AR $\mu$ passa a estar contido no conjunto $\{-1, 0, 1\}$. Logo determinar o valor de $\mu$ a cada interação torna-se uma tarefa de otimização, em relação a minimizar o erro $\zeta$, na forma:
 
@@ -416,7 +419,7 @@ A tabela (\ref{tab:TBSExemple}) apresenta os valores encontrados para $\phi$ na 
 
 
 \subsection{MSR-CORDIC}
-
+\label{section:MSR-CORDIC}
 
 Como pode ser visto na Seção (\ref{sec:CoricTradicional}) o Algoritmo Cordic Tradicional possui a necessidade de realizar a correção do ganho $k_c$ após o processo de rotação do vetor, além de requisitar um número elevado de interações a fim de reduzir o erro de aproximação do vetor. Para reduzir o número de interações Cordic o EEAS aumenta o número de termos SPT, porém acaba por impactar o ganho $K_c$, que passa a não ser mais constante e necessita ser compensado a cada iteração. Tanto no algoritmo tradicional quanto o EEAS a correção final de $K_c$, que se estabelece sempre abaixo da unidade, provoca uma degradação do SQNR.
 
@@ -428,25 +431,27 @@ Segundo \citeonline{Chih} para evitar esta degradação é necessário manter o modu
 		y(n+1) \\
 	\end{array}\right]
 	\left[\begin{array}{cc}
+		\sum_{i=1}^{I} \mu_{i}2^{-s_i (n)} & - \sum_{j=1}^{J} \mu_{j}2^{-s_j (n)}\\
 		\sum_{j=1}^{J} \mu_{j}2^{-s_j (n)} & \sum_{i=1}^{I} \mu_{i}2^{-s_i (n)} \\
-		\sum_{i=1}^{I} \mu_{i}2^{-s_i (n)} & \sum_{j=1}^{J} \mu_{j}2^{-s_j (n)} \\
 	\end{array}\right] \left[\begin{array}{c}
 			x(n) \\
 			y(n) \\
 	\end{array}	\right] \label{eq:MSR} \\
 	z(n+1)~=~z(n-1)+\theta_n \\
-	:~\mu_{i},\mu_{j} \in \{-1,0,1\},~s_i,s_j \in \{0,1, \dots, S\}
+	:~\mu_{i},\mu_{j} \in \{-1,0,1\},~s_i,s_j \in \{0,1, \dots, S\} \\
+	:~I + J~=~N_{spt} 
+	\label{eq:Nspt}
 \end{eqnarray}
 
 A reformulação apresentada por \citeonline{Chih} incrementa termos SPT  nas parcelas $x(n)$ de $x(n+1)$ e $y(n)$ de $y(n+1)$, afim de possibilitar o ganho $K_c$ se tornar maior ou menor do que a unidade, dependendo da escolha dos parâmetros Cordic. Através desta alteração  é possível realizar a operação de microrotação e a compensação do ganho $K_c$ simultaneamente.  Por tais motivos este algoritmo Coridc é denominado de \textit{Mixed Scaling Rotation} (MSR). Consequentemente ao inserir mais termos  na função Coridc, tanto  $\theta_n$ quanto $K_c$ precisam ser corrigidos \cite{Kuo}. Portanto  $\theta_n$ e $K_c$ passam a definidos por:
 
 \begin{equation}
-	\theta_n~=~tan^{-1} \left(\frac{\sum_{i=1}^{I} \mu_{i}2^{-s_i (n)}}{\sum_{j=1}^{J} \mu_{j}2^{-s_j (n)}}\right)
+	\theta_n~=~tan^{-1} \left(\frac{\sum_{j=1}^{J} \mu_{j}2^{-s_j (n)}}{\sum_{i=1}^{I} \mu_{i}2^{-s_i (n)}}\right)
 	\label{eq:MSRtheta}
 \end{equation}
 
 \begin{equation}
-	K(n)~=~\frac{1}{\sqrt{ \left( \sum_{i=1}^{I} 2^{-s_i (n)}\right)^2 + \left(\sum_{j=1}^{J} 2^{-s_j (n)} \right)^2 } }
+	K_n~=~\frac{1}{\sqrt{ \left( \sum_{i=1}^{I} 2^{-s_i (n)}\right)^2 + \left(\sum_{j=1}^{J} 2^{-s_j (n)} \right)^2 } }
 	\label{eq:MSRKnc}
 \end{equation}
 
@@ -459,16 +464,16 @@ A reformulação apresentada por \citeonline{Chih} incrementa termos SPT  nas parc
 Como pode ser percebido em (\ref{eq:MSRKnc}) e (\ref{eq:MSRtheta}), através da escolha adequada dos conjuntos de termos $\mu_i$, $\mu_j$, $S_i$ e $S_j$, e dos valores de $I$ e $J$ é possível aproximar $K_c$ da unidade a cada interação ao mesmo tempo em que o erro $\zeta$ é reduzido. No MSR o conjunto de ângulos elementares  é definidor por:
 
 \begin{eqnarray}
-	S_3 = \{ tan^{-1} ( \mu_{0} 2^{-s_0} + \mu_{1} 2^{-s_1}) \} \\ 
-	:~\mu_{0},\mu_{1} \in \{-1,0,1\},~s_0,s_1 \in \{0,1, \dots, S\} 
+	S_3 = \{ tan^{-1} \left(\frac{\sum_{j=1}^{J} \mu_{j}2^{-s_j (n)}}{\sum_{i=1}^{I} \mu_{i}2^{-s_i (n)}}\right) \} \\ 
+	:~\mu_{i},\mu_{j} \in \{-1,0,1\},~s_i,s_j \in \{0,1, \dots, S\} 
 	\label{eq:S3}
 \end{eqnarray}
 
 E consequentemente o erro $\zeta$ é definido por:
 
 \begin{eqnarray}
-	min~\zeta~=~\left| \theta~-~\sum_{n=0}^{N-1}  tan^{-1} (\mu_{0} 2^{-s_0} + \mu_{1} 2^{-s_1}) \right| \\
-	:~\mu_{0},\mu_{1} \in \{-1,0,1\},~s_0,s_1 \in \{0,1, \dots, S\}
+	min~\zeta~=~\left| \theta~-~\sum_{n=0}^{N-1}  tan^{-1} \left(\frac{\sum_{j=1}^{J} \mu_{j}2^{-s_j (n)}}{\sum_{i=1}^{I} \mu_{i}2^{-s_i (n)}}\right) \right| \\
+	:~\mu_{i},\mu_{j} \in \{-1,0,1\},~s_0,s_1 \in \{0,1, \dots, S\}
 	\label{eq:Zeta2}
 \end{eqnarray} 
 
@@ -527,6 +532,7 @@ Assim determinar o conjunto dos melhores valores para os parâmetros Cordic $J$, 
 Para solucionar esta tarefa de otimização de $\upepsilon$  é possível utilizar diferentes tipos de algoritmos, e inclusive adaptar o algoritmo TBS já apresentado. Segundo \citeonline{Chih} existe uma certa restrição quanto a utilização de algoritmos como o \textit{greedy}, pois este tipo de algoritmo "guloso" não garante a melhor solução dentro do conjunto de soluções possíveis deste problema.
 
 \subsubsection{Análise do Erro}
+\label{section:AnaliseDoErro}
 
 Um importante fator para a determinação do melhor conjunto de parâmetros Cordic para o MSR, além da minimização do erro  $\upepsilon$, é o efeito do ruído de arredondamento (\textit{Roundoff Noise Analysis}) $e_n$, e o erro de \textit{overflow}, ou estouro da palavra binária. Ambos os efeitos ocorrem ao longo das operações lógicas promovidas pela algoritmo Cordic, em especial devido a operação de compensação do ganho $K_c$. Esta compensação envolve uma operação de multiplicação, o que acentua os problemas de arredondamento da parte fracionária, e dependendo do valor da compensação pode causar um \textit{overflow} da palavras binária.
 
@@ -553,7 +559,7 @@ Considerando a amplitude $\rho$ de um sinal de entrada, definido entre os interv
 onde $Wa$ e $Wb$ representam respectivamente o limite superior e inferior da amplitude do módulo deste sinal. E ainda:
 
 \begin{equation}
-	W_{max}~=~max{W_a,W_b}
+	W_{max}~=~max\{W_a,W_b\}
 \end{equation} 
  
 como o limite absoluto deste sinal. O número mínimo de \textit{bits} necessários para representar este sinal seria de $(W_{max}+1)$. Assim, segundo \cite{Chih}, para evitar um \textit{overflow} seria necessário manter o sinal de entrada dentro da seguinte restrição:
@@ -571,23 +577,23 @@ Para solver o problema do ruído de arredondamento, \citeonline{Chih} assume que 
 
 Onde  $V_{LSB}$ é igual a $2^i$. Logo a variância do erro de arredondamento é proporcional ao quadrado valor do ultimo $bit$ da palavra binária. 
 
-Como base na Equação (\ref{eq:variancia}) \citeonline{Chih} analisa o efeito a operação de rotação tem sobre a variância de $e_n$, e mais especificamento o efeito que o ganho $K_c$ tem sobre o SQNR. Quando o ganho $K_c$ é $> ~1$ ou $<~1$ SQNR é reduzido para $1/(K(n))$ a cada interação Cordic.
+Como base na Equação (\ref{eq:variancia}) \citeonline{Chih} analisa o efeito a operação de rotação tem sobre a variância de $e_n$, e mais especificamento o efeito que o ganho $K_c$ tem sobre o SQNR. Quando o ganho $K_c$ é $> ~1$ ou $<~1$ SQNR é reduzido para $1/(K_n)$ a cada interação Cordic.
 
-Assim o ganho $K_C$ é fator importante no projeto dos parâmetros Cordic para o MSR, afetando tanto o erro $e_n$ quanto $\upepsilon$. Assim para refinar a função de minimização apresentada em (\cite{eq:OtimizacaoMSR}), \citeonline{Chih} adiciona a seguinte restrição em relação ao valor do ganho $K_c$:
+Assim o ganho $K_C$ é fator importante no projeto dos parâmetros Cordic para o MSR, afetando tanto o erro $e_n$ quanto $\upepsilon$. Assim para refinar a função de minimização apresentada em (\ref{eq:OtimizacaoMSR}), \citeonline{Chih} adiciona a seguinte restrição em relação ao valor do ganho $K_c$:
 
 \begin{equation}
 	P_{lower} ~=~1/P_{upper}
 \end{equation}
 
-Onde $P_{upper}$ e $P_{lower}$ são respectivamente o limite superior e o limite inferior de $K(n)$ a cada interação.
+Onde $P_{upper}$ e $P_{lower}$ são respectivamente o limite superior e o limite inferior de $K_n$ a cada interação.
 
 O gráfico da Figura (\ref{fig:RelacaoSQNReKc}) faz uma análise prática entre o nível do SQNR e o $P_{upper}$, para diferentes valores de deslocamento de \textit{bits} ($S$). 
 
 \vspace{5mm}
 \begin{figure}[H]
 	\centering
-	\captionsetup{width=0.45\textwidth, font=footnotesize, textfont=bf}	
-	\includegraphics[width=0.45\linewidth]{Images/RevisaoDeLiteratura/RelacaoSQNReKc.pdf}
+	\captionsetup{width=0.9\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.9\linewidth]{Images/RevisaoDeLiteratura/RelacaoSQNReKc.pdf}
 	\caption{Relação entre o $P_{upper}$ e o SQNR para MSR-CORDIC, como $N_{spt}~=~3$ e $N=3$}
 	\vspace{-3.5mm}
 	\caption*{Fonte: \cite{Chih}}
@@ -597,7 +603,18 @@ O gráfico da Figura (\ref{fig:RelacaoSQNReKc}) faz uma análise prática entre o n
 
 Por meio desta análise \citeonline{Chih} sugere que para um bom projeto de parâmetros MSR Cordic, onde $N_{spt}~=~3$ e $N=3$, o valor de  $P_{upper}$ deve estar próximo de $1,5$. Já que como pode ser visto na Figura (\ref{fig:RelacaoSQNReKc}), para valores maiores o desempenho de SQNR é saturado. Logo, para este caso, é possível adicionar mais esta restrição a equação de minimização do erro $\epsilon$.
 
-O ultimo aspecto da melhoria do erro $e_n$ é a escola dos parâmetros $I$ e $J$. Estes parâmetros estão diretamente relacionados ao número de termos SPT $N$ escolhidos para realizar a operação Cordic, através da Equação . 
+O ultimo aspecto da melhoria do erro $e_n$ é a escola dos parâmetros $I$ e $J$. Estes parâmetros estão diretamente relacionados a $N_{spt}$, o número de termos SPT presentes na equação $x(n+1)$ e $y(n+1)$. Esta relação é descrita pela Equação (\ref{eq:Nspt}). O valor de $N_{spt}$ é uma escolha que impacta na no número de deslocadores de \textit{bits} (\textit{shifters}) necessários para realizar a operação Cordic, sendo mais comum na bibliografia observar implementação MSR Cordic com $N_{spt}=3$ ou $N_{spt}=4$ \cite{Park} \cite{Chih} \cite{Kamal} \cite{Meher}. 
+
+Os valores $I$ e $J$ podem ser escolhidos como fixos (Modo Normal) ou podem ser dinâmicos a cada operação de rotacionamento (Modo Generalizado). Tanto no modo Normal quanto o Generalizado, o valor de $I$ e $J$ devem obedecer a restrição $I+J=N_{SPT}$, porém ao utilizar o modo Normal é possível reduzir a complexabilidade do \textit{hardware} e alcança um desempenho aceitável. Para tal quando em modo de operação Normal os parâmetros deve $I$ e $J$ devem atender a duas restrição dadas a seguir \cite{Chih}:
+
+\begin{itemize}
+	\item Se $N_{spt}$ é par: $I~=~J~=~N_{spt}/2$
+	\item Se $N_{spt}$ é ímpar: $J~=(N_{spt}+1)/2$ e $I~=~J-1$
+\end{itemize}
+
+A operação em modo Generalizado permite que o desempenho do MSR Cordic seja maior, já que nesta configuração as possibilidades combinatórias dos parâmetros Cordic são maiores. Neste modo passa a existir, além da operação normal de rotacionamento, a possibilidade de ocorrer a operação de multiplicação de escala, quando $J=0$, e a operação de inversão de escala, quando $I=0$. Estas operações adicionais maximizam o desempenho nas rotações em ângulos como $\pi/4$, $\pi/2$ e $\pi$. Na prática este modo requer o uso de mais 3 \textit{switch} de controle,o que em muitas aplicações torna viável aumentar o consumo de recursos para alcançar um melhor desempenho. 
+
+Alinhando todas as restrições apresentadas com a equação de minimização apresentada em (\ref{eq:OtimizacaoMSR}), é obtido um conjunto de parâmetros Cordic que otimizam a operação de rotacionamento, elevando o valor de SQNR do sinal.
 
 
 

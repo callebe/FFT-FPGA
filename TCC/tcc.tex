@@ -85,9 +85,9 @@
 % Não esqueça do comando \bibliographystyle{abnt-num} antes the chamar o seu arquivo .bib. (\bibliography) ao final do documento para que a lista de referências também esteja no formato numérico.
 
 \usepackage{nomencl} % Pacote necessário para a lista de siglas.
+\makenomenclature
 % O comando a seguir diz ao Latex para salvar as siglas em um arquivo separado:
 %\usepackage{quadros}
-
 \usepackage{amssymb}
 
 \fazlistasiglas[Lista de Abreviaturas e Siglas] % Parâmetro opcional é o título da lista.
@@ -224,7 +224,7 @@ Write here the English version of your Resumo...
 \chapter{Revisão de Literatura}
 	\input{Source/RevisaoDeLiteratura.tex}
 
-\chapter{Implementando Processador COrdic}
+\chapter{Implementando Processador Cordic}
 	\input{Source/ImplementacaoCOrdic.tex}
 	
 \chapter{Implementando a FFT no ZynqBerry}
@@ -236,104 +236,104 @@ Write here the English version of your Resumo...
 \chapter{Conclusão}
 	\input{Source/Conclusao.tex}
 	
-\vspace{1cm}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%Exemplo de inserção de uma tabela no texto
-
-\begin{table}[h!]
-	\begin{center}
-		\captionsetup{width=.35\linewidth}
-		\caption{Exemplo de Tabela}
-		\begin{tabular}{clr}
-			\hline
-				Posição & Município & População \\
-			\hline
-				1 & São Paulo & 11.376.685\\
-				2 & Rio de Janeiro & 6.690.290\\
-				3 & Salvador & 2.710.968\\
-				4 & Brasília & 2.648.532\\
-				5 & Fortaleza & 2.500.194\\
-			\hline
-		\end{tabular}
-	\end{center}
-	%\vspace{-0.5mm}
-	\captionsetup{width=.5\linewidth}
-	\caption*{Fonte: \cite{SiteMoraes2010}}
-\end{table}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%% Inserção de um quadro
-%\begin{quadro}
-%\centering
-%\quadros{Informaçõs sobre as grandezas de entrada do CSTR}label{Q02}
- % \begin{tabular}{|c|c|} hline
-  %  A &amp; B \ hline
- %   1 &amp; 2 \ hline
- % \end{tabular}
-%\end{quadro}
-
-
-% Corrigir:
-\subsection{Testes e exemplos de lista de siglas}
-
-Testes da lista de siglas:
-
-% Sintaxe do comando \sigla:
-% \sigla[descrição]{sigla}:
-\sigla[Teste da lista de siglas 1]{TDLS1}.
-
-
-\sigla[Teste da lista de siglas 2. Esta possui um significado bem grande que ocupa mais de uma linha]{EASREFER}.
-
-\sigla[Teste da lista de siglas 3]{ER}.
-
-Esta é uma sigla em que os parênteses não aparecem: \sigla*[Sigla em Que os Parênteses Não Aparecem ]{SQPNA}.
-
-\sigla[]{DMA}.
-
-É preciso rodar duas vezes o Latex para que a lista de siglas seja atualizada.
-
-
-\subsection{Testes e exemplos de lista de símbolos}
-
-% Sintaxe do comando \simb:
-% \simb[descrição]{símbolo}:
-	
-\begin{equation}
-\phi = \vec{\alpha}\otimes \upsilon\omega\psi^{jk}_{n-1}
-\end{equation}
-
-Onde:
-
-\simb[]{\phi}: Angulo phi.
-
-\simb[alpha]{\vec{\alpha}}: Alfa.
-
+%\vspace{1cm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%Exemplo de inserção de uma tabela no texto
+%
+%\begin{table}[h!]
+%	\begin{center}
+%		\captionsetup{width=.35\linewidth}
+%		\caption{Exemplo de Tabela}
+%		\begin{tabular}{clr}
+%			\hline
+%				Posição & Município & População \\
+%			\hline
+%				1 & São Paulo & 11.376.685\\
+%				2 & Rio de Janeiro & 6.690.290\\
+%				3 & Salvador & 2.710.968\\
+%				4 & Brasília & 2.648.532\\
+%				5 & Fortaleza & 2.500.194\\
+%			\hline
+%		\end{tabular}
+%	\end{center}
+%	%\vspace{-0.5mm}
+%	\captionsetup{width=.5\linewidth}
+%	\caption*{Fonte: \cite{SiteMoraes2010}}
+%\end{table}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%% Inserção de um quadro
+%%\begin{quadro}
+%%\centering
+%%\quadros{Informaçõs sobre as grandezas de entrada do CSTR}label{Q02}
+% % \begin{tabular}{|c|c|} hline
+%  %  A &amp; B \ hline
+% %   1 &amp; 2 \ hline
+% % \end{tabular}
+%%\end{quadro}
+%
+%
+%% Corrigir:
+%\subsection{Testes e exemplos de lista de siglas}
+%
+%Testes da lista de siglas:
+%
+%% Sintaxe do comando \sigla:
+%\sigla[descrição]{sigla}:
+%\sigla[Teste da lista de siglas 1]{TDLS1}.
+%
+%
+%\sigla[Teste da lista de siglas 2. Esta possui um significado bem grande que ocupa mais de uma linha]{EASREFER}.
+%
+%\sigla[Teste da lista de siglas 3]{ER}.
+%
+%Esta é uma sigla em que os parênteses não aparecem: \sigla*[Sigla em Que os Parênteses Não Aparecem ]{SQPNA}.
+%
+%\sigla[as]{DMA}.
+%
+%É preciso rodar duas vezes o Latex para que a lista de siglas seja atualizada.
+%
+%
+%\subsection{Testes e exemplos de lista de símbolos}
+%
+%% Sintaxe do comando \simb:
+%% \simb[descrição]{símbolo}:
+%	
+%\begin{equation}
+%\phi = \vec{\alpha}\otimes \upsilon\omega\psi^{jk}_{n-1}
+%\end{equation}
+%
+%Onde:
+%
+%\simb[]{\phi}: Angulo phi.
+%
+%\simb[alpha]{\vec{\alpha}}: Alfa.
+%
 \simb[Função de teste da lista de símbolos. Está é uma descrição longa para um único símbolo]{\upsilon\omega\psi^{jk}_{n-1}}: Um simbolo grande.
-
-Este símbolo (\simb[Gradiente]{\nabla}) foi inserido no texto, fora do ambiente \textit{equation}.
-
+%
+%Este símbolo (\simb[Gradiente]{\nabla}) foi inserido no texto, fora do ambiente \textit{equation}.
+%
 \simb[teste]{\upsilon\omega\psi^{jk}_{n-1}}
-
-%\the\simbmaxwidth
-
-\subsection{Exemplos de citação de referências bibliográficas}
-
-\cite{Grainger1994}
-
-\cite{Anderson1977,Glover2002}
-
-Conforme \citeonline{abntex-doc} a metodologia proposta é, bla bla bla...
-
-\cite{SiteMoraes2010}
-% Bibliografia o arquivo
-
-\chapter{Nível 1 - Testes DE capitulação - Primário}
-\section{Nível 2 - Secundário}
-\subsection{Nível 3 - Terciário}
-\subsubsection{Nível 4 - Quaternário}
-\paragraph{Nível 5 - Quinário}
-%\subparagraph{Nível 6 - ???}
+%
+%%\the\simbmaxwidth
+%
+%\subsection{Exemplos de citação de referências bibliográficas}
+%
+%\cite{Grainger1994}
+%
+%\cite{Anderson1977,Glover2002}
+%
+%Conforme \citeonline{abntex-doc} a metodologia proposta é, bla bla bla...
+%
+%\cite{SiteMoraes2010}
+%% Bibliografia o arquivo
+%
+%\chapter{Nível 1 - Testes DE capitulação - Primário}
+%\section{Nível 2 - Secundário}
+%\subsection{Nível 3 - Terciário}
+%\subsubsection{Nível 4 - Quaternário}
+%\paragraph{Nível 5 - Quinário}
+%%\subparagraph{Nível 6 - ???}
 
 
 \bibliographystyle{abnt-alf} % Estilo autor-data
@@ -343,69 +343,66 @@ Conforme \citeonline{abntex-doc} a metodologia proposta é, bla bla bla...
 
 \anexo
 
-\chapter{Stellar Mystery Solved, Einstein Safe}
-
-For more than 30 years, Villanova University astronomer Ed Guinan has been plagued, puzzled, and perplexed by DI Herculis. On the surface, this binary star seems pretty much like any other binary star, with two stars going 'round and 'round each other in a predictable, orderly fashion. But there remained a nagging problem that as much as Guinan wanted, he couldn't just sweep under the rug: DI Her was not behaving in accordance with Einstein's general theory of relativity.
-
-%\begin{figure}[htbp]
-%	\centering
-%	\includegraphics[width=0.5\linewidth]{./imagens/DI-Her-art.eps}
-%	\captionsetup{width=.5\linewidth, font=footnotesize, textfont=bf}
-%	\caption{The binary star DI Herculis consists of two B stars separated by about one-fifth the Earth-Sun distance. Both stars are about 5 times the mass of our Sun. No artist's rendition, like the one shown here, can possibly portray the fact that these stars have about 50 times the surface brightness $\phi$ of the Sun.}
-%	\vspace{-3.5mm}
-%	\caption*{Fonte: \cite{Grainger1994}}
-%	\label{fig:artist}
-%\end{figure}
-
-Every year, Guinan and his colleagues would observe the 8.5 - magnitude star. The two stars orbit each other in a plane lined up perfectly with Earth's line of sight, and they eclipse each other every 10.55 days. Thanks to these eclipses, which have been recorded since 1900, Guinan could make exceedingly precise measurements of the stars' masses, sizes, luminosities, and orbital characteristics.
-
-Almost every known aspect of the system was hunky-dory. The stars are exactly as massive, large, and bright as theory predicts. But in a series of published papers, Guinan and his Villanova colleague Frank Maloney kept pointing out that the orbit was not behaving in accordance with general relativity, the cornerstone for modern science's understanding of gravity.
-
-For years, Guinan looked for a third star in the system, or some other factor that could be throwing the orbit out of whack, but to no avail. The point in the orbit at which the two stars come closest continues to advance (precess) each orbital cycle at a rate only one-fourth the amount theory predicts. Guinan continually receives mail from armchair theorists who attempt to explain DI Her's anomalous precession with alternative theories of gravity.
+%\chapter{Stellar Mystery Solved, Einstein Safe}
 %
-%\begin{figure}[htbp]
-%	\centering
-%	\includegraphics[width=0.5\linewidth]{./imagens/DI_Herculis_precession.eps}
-%	\captionsetup{width=0.5\linewidth, font=footnotesize, textfont=bf}
-%	\caption{This illustration shows the precession in DI Herculis. The point at which the two stars come closest (periastron) in their mutual orbit advances (precesses) from orbit to orbit. But the amount of precession in DI Her is less than what theory predicted. The illustration is not to scale.}
-%	\vspace{-3.5mm}
-%	\caption*{Fonte: \cite{Grainger1994}}
-%	\label{fig:orbital}
-%\end{figure}
-
-Finally, after decades of frustration, a group led by Simon Albrecht (MIT) has solved the problem, and Einstein's theory has survived unscathed. "The monkey has been lifted off my back," jokes Guinan.
-
-After being informed about DI Her by Guinan, Albrecht and his colleagues took detailed spectra in 2008 using a 1.93-meter telescope in France. These measurements, unlike earlier ones made by Guinan and others, were obtained with a high-resolution spectrograph. With more modern equipment, computers, and techniques, Albrecht revealed that the rotation axes of the two stars are tipped over on their sides with respect to the orbital plane (similar to Uranus's orientation with respect to the Sun), which makes DI Her an oddity among closely separated binary stars.
-
-In this unusual arrangement, gravitational forces created by the misaligned equatorial bulges of the stars give them an extra "kick" when they are closest in their elliptical (oval-shaped) orbits. This kick reduces the orbital precession to the observed rate, eliminating any discrepancies with Einstein's theory. "We consider the mystery of the anomalous orbital precession of DI Herculis to be solved," says Albrecht, whose paper will appear in tomorrow's \textit{Nature}.
-
-%\begin{figure}[htbp]
-%	\centering
-%	\includegraphics[width=0.5\linewidth]{./imagens/DIHerculis_illo-crop.eps}
-%	\captionsetup{width=0.5\linewidth, font=footnotesize, textfont=bf}
-%	\caption{This illustration demonstrates how the equatorial bulges of the two stars in DI Herculis are nearly perpendicular to the binary's orbital plane. This unusual configuration explains why DI Her's orbital precession is not in accordance with theoretical predictions.}
-%	\vspace{-3.5mm}
-%	\caption*{Fonte: \cite{Grainger1994}}
-% 	\label{fig:equatorial}
-%\end{figure}
-
-Guinan concurs, but he adds, "I'm relieved that the general relativity problem is solved. But it's been replaced with a new mystery."
-
-DI Her's two members, both hot, massive, B-type stars, should have formed from a common disk of gas and dust. By feeding from the same disk, the spin axes of the two stars should be nearly perpendicular to the orbital plane, an arrangement seen in the large majority of binary stars, especially those like DI Her that have small separations.
-
-"My guess is that there was a third-body interaction that perturbed the system, or the two stars formed separately and formed a binary through a capture process," says Guinan. "Another possibility is that our ideas of how binaries form may be off."
-
-Together with MIT colleague Joshua Winn, Albrecht is observing other binary systems that display similar anomalies. "We want to understand if DI Her is a unique system or if misalignment is more common among close systems," says Albrecht. "We also want to understand what might cause this misalignment. Clearly, there is more going on then we guessed so far."
-
-Even if Einstein's theory remains safe and sound, astronomers and physicists continue to subject it to more stringent tests. Given general relativity's incompatibility with quantum mechanics (the theory that describes the microworld of atoms and light with extraordinary accuracy), scientists expect that Einstein will not have the last word on gravity. Ultimately, it will be replaced by an even deeper "theory of everything."
-
-
-\section{Exemplo de seção anexo}
-
-Esta é uma seção, dentro dos anexos.
-
-
-
+%For more than 30 years, Villanova University astronomer Ed Guinan has been plagued, puzzled, and perplexed by DI Herculis. On the surface, this binary star seems pretty much like any other binary star, with two stars going 'round and 'round each other in a predictable, orderly fashion. But there remained a nagging problem that as much as Guinan wanted, he couldn't just sweep under the rug: DI Her was not behaving in accordance with Einstein's general theory of relativity.
+%
+%%\begin{figure}[htbp]
+%%	\centering
+%%	\includegraphics[width=0.5\linewidth]{./imagens/DI-Her-art.eps}
+%%	\captionsetup{width=.5\linewidth, font=footnotesize, textfont=bf}
+%%	\caption{The binary star DI Herculis consists of two B stars separated by about one-fifth the Earth-Sun distance. Both stars are about 5 times the mass of our Sun. No artist's rendition, like the one shown here, can possibly portray the fact that these stars have about 50 times the surface brightness $\phi$ of the Sun.}
+%%	\vspace{-3.5mm}
+%%	\caption*{Fonte: \cite{Grainger1994}}
+%%	\label{fig:artist}
+%%\end{figure}
+%
+%Every year, Guinan and his colleagues would observe the 8.5 - magnitude star. The two stars orbit each other in a plane lined up perfectly with Earth's line of sight, and they eclipse each other every 10.55 days. Thanks to these eclipses, which have been recorded since 1900, Guinan could make exceedingly precise measurements of the stars' masses, sizes, luminosities, and orbital characteristics.
+%
+%Almost every known aspect of the system was hunky-dory. The stars are exactly as massive, large, and bright as theory predicts. But in a series of published papers, Guinan and his Villanova colleague Frank Maloney kept pointing out that the orbit was not behaving in accordance with general relativity, the cornerstone for modern science's understanding of gravity.
+%
+%For years, Guinan looked for a third star in the system, or some other factor that could be throwing the orbit out of whack, but to no avail. The point in the orbit at which the two stars come closest continues to advance (precess) each orbital cycle at a rate only one-fourth the amount theory predicts. Guinan continually receives mail from armchair theorists who attempt to explain DI Her's anomalous precession with alternative theories of gravity.
+%%
+%%\begin{figure}[htbp]
+%%	\centering
+%%	\includegraphics[width=0.5\linewidth]{./imagens/DI_Herculis_precession.eps}
+%%	\captionsetup{width=0.5\linewidth, font=footnotesize, textfont=bf}
+%%	\caption{This illustration shows the precession in DI Herculis. The point at which the two stars come closest (periastron) in their mutual orbit advances (precesses) from orbit to orbit. But the amount of precession in DI Her is less than what theory predicted. The illustration is not to scale.}
+%%	\vspace{-3.5mm}
+%%	\caption*{Fonte: \cite{Grainger1994}}
+%%	\label{fig:orbital}
+%%\end{figure}
+%
+%Finally, after decades of frustration, a group led by Simon Albrecht (MIT) has solved the problem, and Einstein's theory has survived unscathed. "The monkey has been lifted off my back," jokes Guinan.
+%
+%After being informed about DI Her by Guinan, Albrecht and his colleagues took detailed spectra in 2008 using a 1.93-meter telescope in France. These measurements, unlike earlier ones made by Guinan and others, were obtained with a high-resolution spectrograph. With more modern equipment, computers, and techniques, Albrecht revealed that the rotation axes of the two stars are tipped over on their sides with respect to the orbital plane (similar to Uranus's orientation with respect to the Sun), which makes DI Her an oddity among closely separated binary stars.
+%
+%In this unusual arrangement, gravitational forces created by the misaligned equatorial bulges of the stars give them an extra "kick" when they are closest in their elliptical (oval-shaped) orbits. This kick reduces the orbital precession to the observed rate, eliminating any discrepancies with Einstein's theory. "We consider the mystery of the anomalous orbital precession of DI Herculis to be solved," says Albrecht, whose paper will appear in tomorrow's \textit{Nature}.
+%
+%%\begin{figure}[htbp]
+%%	\centering
+%%	\includegraphics[width=0.5\linewidth]{./imagens/DIHerculis_illo-crop.eps}
+%%	\captionsetup{width=0.5\linewidth, font=footnotesize, textfont=bf}
+%%	\caption{This illustration demonstrates how the equatorial bulges of the two stars in DI Herculis are nearly perpendicular to the binary's orbital plane. This unusual configuration explains why DI Her's orbital precession is not in accordance with theoretical predictions.}
+%%	\vspace{-3.5mm}
+%%	\caption*{Fonte: \cite{Grainger1994}}
+%% 	\label{fig:equatorial}
+%%\end{figure}
+%
+%Guinan concurs, but he adds, "I'm relieved that the general relativity problem is solved. But it's been replaced with a new mystery."
+%
+%DI Her's two members, both hot, massive, B-type stars, should have formed from a common disk of gas and dust. By feeding from the same disk, the spin axes of the two stars should be nearly perpendicular to the orbital plane, an arrangement seen in the large majority of binary stars, especially those like DI Her that have small separations.
+%
+%"My guess is that there was a third-body interaction that perturbed the system, or the two stars formed separately and formed a binary through a capture process," says Guinan. "Another possibility is that our ideas of how binaries form may be off."
+%
+%Together with MIT colleague Joshua Winn, Albrecht is observing other binary systems that display similar anomalies. "We want to understand if DI Her is a unique system or if misalignment is more common among close systems," says Albrecht. "We also want to understand what might cause this misalignment. Clearly, there is more going on then we guessed so far."
+%
+%Even if Einstein's theory remains safe and sound, astronomers and physicists continue to subject it to more stringent tests. Given general relativity's incompatibility with quantum mechanics (the theory that describes the microworld of atoms and light with extraordinary accuracy), scientists expect that Einstein will not have the last word on gravity. Ultimately, it will be replaced by an even deeper "theory of everything."
+%
+%
+%\section{Exemplo de seção anexo}
+%
+%Esta é uma seção, dentro dos anexos.
 
 \end{document}
 

@@ -87,12 +87,12 @@ ISSN 1549-7747.}
   Application, 2008. IITA'08. Second International Symposium on}. [S.l.], 2008.
   v.~3, p. 239--243.}
 
-\bibitem[Ibrahim \textit{et al.} 2016]{ibrahim}
+\bibitem[Ibrahim \textit{et al.} 2016]{kamal}
 \abntrefinfo{Ibrahim \textit{et al.}}{IBRAHIM \textit{et al.}}{2016}
 {IBRAHIM, Muhammad; KAMAL, Mohsin; KHAN, Omar; ULLAH, Khalil. Analysis of
   radix-2 decimation in time algorithm for fpga co-processors.
-Computing, Electronic and Electrical Engineering (ICE Cube), 2016 International
-  Conference on, 2016.}
+Computing, Electronic and Electrical Engineering 2016 International Conference,
+  2016.}
 
 \bibitem[Kuo \textit{et al.} 2003]{Kuo}
 \abntrefinfo{Kuo \textit{et al.}}{KUO \textit{et al.}}{2003}
@@ -153,6 +153,14 @@ ISSN 1549-8328.}
 \abntrefinfo{Oppenheim e Willsky}{OPPENHEIM; WILLSKY}{2010}
 {OPPENHEIM, Alan~V; WILLSKY, Alan~S. \textbf{Sinais e Sistemas}. 2. ed. [S.l.]:
   Brasil:Pearson, 2010.}
+
+\bibitem[Park e Yu 2012]{Park}
+\abntrefinfo{Park e Yu}{PARK; YU}{2012}
+{PARK, S.~Y.; YU, Y.~J. Fixed-point analysis and parameter selections of
+  msr-cordic with applications to fft designs.
+\textbf{IEEE Transactions on Signal Processing}, v.~60, n.~12, p. 6245--6256,
+  Dec 2012.
+ISSN 1053-587X.}
 
 \bibitem[TradingView 2017]{bovespa}
 \abntrefinfo{TradingView}{TRADINGVIEW}{2017}

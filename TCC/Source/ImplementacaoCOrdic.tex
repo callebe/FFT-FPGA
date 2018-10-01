@@ -1,0 +1,11 @@
+Como apresentado na Seção (\ref{section:Cordic}), devido a limitações em disponibilidade de blocos multiplicadores nas FPGAs, se faz necessário ultilizar o algoritmo Cordic implementado em \textit{hardware} para realizar as operações de rotacionamento do vetor $H_r$ pelo ângulo descrito por $W_{N_o}^r$. 
+
+A FPGA XC7Z010-1CLG225 possui ao total 80 blocos de DSP (\textit{Digital signal processing}), onde cada um deles possui um \textit{hardware} multiplicador. Tais multiplicadores seriam suficientes para implementar a função de rotação de vetores necessária ao cálculo da FFT. Porém como tais blocos estão em pequena quantidade e são essenciais para uma vasta gama de aplicações. Como a FFT é um recurso que raramente é implementado isoladamente, sendo mais comum encontrar a FFT como apenas um dos elementos constituintes de um aplicação bem maior, evitar o uso de DSP para reserva-los a outros sistemas é pertinente.    
+
+Nesta etapa será realizado o projeto e implementação em FPGA do processador Cordic utilizado para montar o bloco da FFT. Tal processador seguira o funcionamento do algoritmo MSR Cordic apresentado na Seção (\ref{section:MSR-CORDIC}).
+
+\section{Projeto dos Parâmetros Cordic}
+\input{Source/ImplementacaoCordic/ProjetoParametrosCordic.tex}
+
+\section{Arquitetura Cordic Implementada}
+\input{Source/ImplementacaoCordic/ArquiteturaCordicImplementada.tex}
