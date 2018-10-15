@@ -29,8 +29,7 @@
 \contentsline {figure}{\numberline {28}{\ignorespaces Arquitetura Simplificado do um Sistema Digital Mapeado para o Zynq\relax }}{66}{figure.caption.38}
 \contentsline {figure}{\numberline {29}{\ignorespaces Vis\~ao Geralda Arquitetura - Zynq 7000\relax }}{67}{figure.caption.39}
 \contentsline {figure}{\numberline {30}{\ignorespaces Rela\c c\~ao entre $S$ e o SQNR para MSR Cordic Modo Normal\relax }}{71}{figure.caption.40}
-\contentsline {figure}{\numberline {31}{\ignorespaces Arquitetura Switch 2x2\relax }}{72}{figure.caption.41}
-\contentsline {figure}{\numberline {32}{\ignorespaces Arquitetura MSR Cordic Modo Generalizado $N_{spt}=3$\relax }}{72}{figure.caption.42}
-\contentsline {figure}{\numberline {33}{\ignorespaces Arquitetura MSR Cordic Modo Normal $N_{spt}=3$\relax }}{73}{figure.caption.43}
-\contentsline {figure}{\numberline {34}{\ignorespaces Arquitetura Implementada FFT de 16 Pontos\relax }}{74}{figure.caption.44}
-\contentsline {figure}{\numberline {35}{\ignorespaces Arquitetura Implementada FFT de 16 Pontos\relax }}{75}{figure.caption.45}
+\contentsline {figure}{\numberline {31}{\ignorespaces Arquitetura da Itera\c c\~ao MSR Cordic Modo Normal $N_{spt}=3$\relax }}{73}{figure.caption.41}
+\contentsline {figure}{\numberline {32}{\ignorespaces Arquitetura Switch 2x2\relax }}{74}{figure.caption.42}
+\contentsline {figure}{\numberline {33}{\ignorespaces Arquitetura Implementada FFT de 16 Pontos\relax }}{75}{figure.caption.43}
+\contentsline {figure}{\numberline {34}{\ignorespaces Arquitetura Implementada FFT de 16 Pontos\relax }}{76}{figure.caption.44}
