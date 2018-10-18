@@ -8,3 +8,9 @@
 \nomenclatureentry{aDFS@[{DFS}]\begingroup Discrete Fourier Serie\nomeqref {5}|nompageref}{26}
 \nomenclatureentry{aFT@[{FT}]\begingroup Fourier Transform\nomeqref {5}|nompageref}{26}
 \nomenclatureentry{aDFT@[{DFT}]\begingroup Discrete Fourier Trasform\nomeqref {5}|nompageref}{26}
+\nomenclatureentry{aADC@[{ADC}]\begingroup Analog-to-Digital Converter \nomeqref {5}|nompageref}{26}
+\nomenclatureentry{aROM@[{ROM}]\begingroup Read-Only Memory\nomeqref {55}|nompageref}{39}
+\nomenclatureentry{aBLE@[{BLE}]\begingroup Basic Logic Elements\nomeqref {105}|nompageref}{57}
+\nomenclatureentry{aCLB@[{CLB}]\begingroup Configurable Logic Blocks\nomeqref {105}|nompageref}{57}
+\nomenclatureentry{aHDL@[{HDL}]\begingroup Hardware Description Linguage\nomeqref {105}|nompageref}{61}
+\nomenclatureentry{aS.O.@[{S.O.}]\begingroup Sistema Operacional\nomeqref {105}|nompageref}{71}

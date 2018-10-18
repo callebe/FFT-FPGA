@@ -1,50 +1,52 @@
 
-Para se calcular uma DFT de $N_0$ valores usando apenas (\ref{eq:DFT}), e necessário realizar um total de $N^2_0$ multiplicações e  $N_0(N_0 - 1)$ somas utilizando números complexos. Deste modo, quando $N_0$ assume um valor elevado, muitos recursos computacionais são necessários, até chegar ao ponto de que esse algoritmo se torna impraticável.
+Para se calcular uma DFT de $N_0$ valores usando apenas (\ref{eq:DFT}), é necessário realizar um total de $N^2_0$ multiplicações e  $N_0(N_0 - 1)$ somas, utilizando números complexos. Deste modo, quando $N_0$ assume um valor elevado, muitos recursos computacionais são necessários, até chegar ao ponto de que esse algoritmo se torna impraticável.
 
-Para que se possa reduzir o numero de operações matemáticas necessárias para calcular a DFT é que surgiu o algoritmo criado por J.W. Cooley e John Tukey, conhecido como Transformada Rápida de Fourier ou FFT \textit{(Fast Fourier Transform)} \citeonline[p.~719]{Lathi}. Para reduzir o numero de cálculos, a FFT se utiliza da propriedade linear da transformada de Fourier. Já que, segundo \citeonline[p.~119]{Oppenheim}, a transformada de Fourier de um sinal pode ser dada pela combinação linear da transformada de Fourier de segmentos menores do mesmo sinal. Logo, é possível aplicar a DFT o paradigma da Divisão e Conquista, o qual é um recurso muito utilizado em algoritmos de ordenação. 
+A redução do numero de operações matemáticas necessárias para calcular a DFT é possível a partir do algoritmo criado por J.W. Cooley e John Tukey, conhecido como Transformada Rápida de Fourier ou FFT \textit{(Fast Fourier Transform)} \citeonline[p.~719]{Lathi}. Para reduzir o numero de cálculos, a FFT se utiliza da propriedade linear da transformada de Fourier. Segundo \citeonline[p.~119]{Oppenheim}, a transformada de Fourier de um sinal pode ser dada pela combinação linear da transformada de Fourier de segmentos menores do mesmo sinal. Logo, é possível aplicar a DFT o paradigma da Divisão e Conquista, o qual é um recurso muito utilizado em algoritmos de ordenação. 
 
-Segundo \citeonline[p.~21]{Cormen} um algoritmo de Divisão e Conquista realiza o desmembramento de um problema em vários subproblemas que são idênticos ao original, porém menores em sua faixa de ação, o que os torna mais simples de resolver. Em seguida, resolvem-se os subproblemas recursivamente e combinam-se essas soluções de modo a obter a solução para o problema original.
+Segundo \citeonline[p.~21]{Cormen}, um algoritmo de Divisão e Conquista realiza o desmembramento de um problema em vários subproblemas que são idênticos ao original, porém menores em sua faixa de ação, o que os torna mais simples de resolver. Em seguida, resolvem-se os subproblemas recursivamente e combinam-se essas soluções de modo a obter a solução para o problema original.
 
-De modo muito semelhante o algoritmo da FFT prevê uma divisão recursiva  da DFT em dois blocos: bloco par e o bloco ímpar, como mostrado em (\ref{eq:DenicaoFFT}) \cite[p.~35]{Chu}. Nesta mesma equação os limites dos somatórios de ambas as parcelas ímpar e par foram redefinidas para englobar apenas metade dos $N_0$ pontos, bem como os expoentes de $W$ foram ajustados.
+De modo muito semelhante, o algoritmo da FFT prevê uma divisão recursiva  da DFT em dois blocos: bloco par e o bloco ímpar, como mostrado abaixo\cite[p.~35]{Chu}: 
 
 \begin{equation}
-	X_r~=~\underbrace{\sum^{\frac{N_0}{2} - 1}_{n=0} x_{2n} W^{2nr}_{N_0}}_{Parcela~Par} ~ + ~\underbrace{\sum^{\frac{N_0}{2} - 1}_{n=0} x_{2n+1} W^{(2n+1)r}_{N_0}}_{Parcela~\acute{I}mpar}
+	X_r~=~\underbrace{\sum^{\frac{N_0}{2} - 1}_{n=0} x_{2n} W^{2nr}_{N_0}}_{Parcela~Par} ~ + ~\underbrace{\sum^{\frac{N_0}{2} - 1}_{n=0} x_{2n+1} W^{(2n+1)r}_{N_0}}_{Parcela~\acute{I}mpar}.
 	\label{eq:DenicaoFFT}  
 \end{equation}
 
-Utilizando algumas das propriedades geométricas de $W$, já que o mesmo representa um numero complexo, pode-se realizar simplificações importantes em \ref{eq:DenicaoFFTA}. Primeiro nota-se que $W_{N_0 / 2}~=~W_{N_0} ^{2}$, logo:
+Nesta mesma equação os limites dos somatórios de ambas as parcelas ímpar e par foram redefinidas para englobar apenas metade dos $N_0$ pontos, bem como os expoentes de $W$ foram ajustados.
+
+Utilizando algumas das propriedades geométricas de $W$, já que este representa um numero complexo, pode-se realizar simplificações importantes em \ref{eq:DenicaoFFTA}. Primeiro, nota-se que $W_{N_0 / 2}~=~W_{N_0} ^{2}$, logo:
 
 \begin{equation}
-	X_r~=~\underbrace{\sum^{\frac{N_0}{2} - 1}_{n=0} x_{2n} W^{2nr}_{N_0}}_{G_r} ~ + ~\underbrace{\sum^{\frac{N_0}{2} - 1}_{n=0} x_{2n+1} W^{(2n+1)r}_{N_0}}_{H_r}
+	X_r~=~\underbrace{\sum^{\frac{N_0}{2} - 1}_{n=0} x_{2n} W^{2nr}_{N_0}}_{G_r} ~ + ~\underbrace{\sum^{\frac{N_0}{2} - 1}_{n=0} x_{2n+1} W^{(2n+1)r}_{N_0}}_{H_r}.
 	\label{eq:DenicaoFFTA}  
 \end{equation}
 
-Como $G_r$ e $H_r$ são DFTs com $N_0 / 2$ pontos cada, então ambos possuem um período de $N_0 / 2$. Com base na propriedade periódica destas DFTs pode-se utilizar as simplificações (\ref{eq:Gr}) e (\ref{eq:Hr}) para reduzir o número de cálculos na DFT \cite[p. 721]{Lathi}.
+Como $G_r$ e $H_r$ são DFTs com $N_0 / 2$ pontos cada, então ambos possuem um período de $N_0 / 2$. Com base na propriedade periódica destas DFTs, pode-se utilizar as simplificações (\ref{eq:Gr}) e (\ref{eq:Hr}) para reduzir o número de cálculos na DFT \cite[p. 721]{Lathi}.
 
 \begin{equation}
-	G_{r+ \frac{N_0}{2}}~=~G_{r}
+	G_{r+ \frac{N_0}{2}}~=~G_{r},
 	\label{eq:Gr}
 \end{equation}
 
 \begin{equation}
-	H_{r+ \frac{N_0}{2}}~=~H_{r}
+	H_{r+ \frac{N_0}{2}}~=~H_{r},
 	\label{eq:Hr}
 \end{equation}
 
 \begin{equation}
-	W_{N_0} ^{r+\frac{N_0}{2}}~=~W_{N_0} ^{\frac{N_0}{2}}~=~e^{-j \pi} W_{N_0}~=~-W^{r}_{N_0}
+	W_{N_0} ^{r+\frac{N_0}{2}}~=~W_{N_0} ^{\frac{N_0}{2}}~=~e^{-j \pi} W_{N_0}~=~-W^{r}_{N_0}.
 	\label{eq:WN}
 \end{equation}
 
-Alem disso, a expressão em (\ref{eq:WN}) pode ser assumida para se reduzir o numero de cálculos da FFT. Portanto, usando (\ref{eq:Xr}) e (\ref{eq:Xr1}) se obtém, respectivamente, os primeiros $N_0/2$ pontos e os últimos $N_0/2$ pontos da FFT.
+Além disso, a expressão em (\ref{eq:WN}) pode ser assumida para se reduzir o número de cálculos da FFT. Portanto, usando (\ref{eq:Xr}) e (\ref{eq:Xr1}) se obtém, respectivamente, os primeiros $N_0/2$ pontos e os últimos $N_0/2$ pontos da FFT.
 
 \begin{equation}
-	W_{N_0} ^{r+\frac{N_0}{2}}~=~W_{N_0} ^{\frac{N_0}{2}}~=~e^{-j \pi} W_{N_0}~=~-W^{r}_{N_0}
+	W_{N_0} ^{r+\frac{N_0}{2}}~=~W_{N_0} ^{\frac{N_0}{2}}~=~e^{-j \pi} W_{N_0}~=~-W^{r}_{N_0},
 	\label{eq:Xr}
 \end{equation}
 
 \begin{equation}
-	W_{N_0} ^{r+\frac{N_0}{2}}~=~W_{N_0} ^{\frac{N_0}{2}}~=~e^{-j \pi} W_{N_0}~=~-W^{r}_{N_0}
+	W_{N_0} ^{r+\frac{N_0}{2}}~=~W_{N_0} ^{\frac{N_0}{2}}~=~e^{-j \pi} W_{N_0}~=~-W^{r}_{N_0},
 	\label{eq:Xr1}
 \end{equation}
 
@@ -52,21 +54,18 @@ Portanto, uma DFT pode ser calculada combinando duas DFTs de $N_0/2$, tal
 como mostrado em (\ref{eq:Xr}) e (\ref{eq:Xr1}). É comum na literatura representar este processo de cálculo de DFT feito pelo algoritmo da FFT pelo diagrama da Figura (\ref{fig:Butterfly}). Este diagrama é conhecido como \textit{Butterfly} de Fluxo do Sinal \cite[p.~36]{Chu}.
 
 \vspace{4mm}
-
 \begin{figure}[H]
 	\centering
-	\captionsetup{width=0.6\textwidth, font=footnotesize, textfont=bf}	
-	\includegraphics[width=0.6\linewidth]{Images/RevisaoDeLiteratura/Butterfly.pdf}
+	\captionsetup{width=0.5\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.5\linewidth]{Images/RevisaoDeLiteratura/Butterfly.pdf}
 	\caption{Butterfly do Fluxo do Sinal}
 	\vspace{-3.5mm}
 	\caption*{Fonte: \citeonline[p.~721]{Lathi}}
 	\label{fig:Butterfly}
 \end{figure}
-
 \vspace{4mm}
 
-Aliando o conceito de divisão em conquista ao método de cálculo da DFT usando o diagrama \textit{Butterfly}, a representação do algoritmo da FFT pode ser facilmente
-representado pelo diagrama da Figura (\ref{fig:FFT8P}) \cite[p.~722]{Lathi}. Nesta figura, a FFT  é feita para apenas 8 amostras de sinal $X$.
+Aliando o conceito de divisão em conquista ao método de cálculo da DFT, usando o diagrama \textit{Butterfly}, a representação do algoritmo da FFT pode ser facilmente representado pelo diagrama da Figura (\ref{fig:FFT8P}) \cite[p.~722]{Lathi}. Nesta figura, a FFT  é feita para apenas 8 amostras de sinal $X$.
 
 \vspace{4mm}
 \begin{figure}[H]
@@ -80,16 +79,15 @@ representado pelo diagrama da Figura (\ref{fig:FFT8P}) \cite[p.~722]{Lathi}. Nes
 \end{figure}
 \vspace{4mm}
 
-Apos se dividir uma DFT de tamanho $N_0$ em duas DTFs de tamanho $N_0/2$,
-e subdividindo cada uma das DFTs de tamanho $N_0/2$ em duas $N_0/4$ \cite[p.~721]{Lathi}. E assim o procedimento continua ate que se atinja um nível em que as DFTs tenham tamanho $N_0 / 2^n = 2$, ou seja quando se atinge DFTs que possuam um custo de cálculo mínimo.
+Após se dividir uma DFT de tamanho $N_0$ em duas DTFs de tamanho $N_0/2$,
+e subdividindo cada uma das DFTs de tamanho $N_0/2$ em duas $N_0/4$ \cite[p.~721]{Lathi}. E assim o procedimento continua ate que se atinja um nível em que as DFTs tenham tamanho $N_0 / 2^n = 2$, ou seja, quando se atinge DFTs que possuam um custo de cálculo mínimo.
 
-Um fato importante sobre o algoritmo da FFT e que o valor $N_0$ pode ser escolhido segundo a relação $N_0~=~r_n$, onde $n$ e o numero de níveis necessários para calcular a FFT, e $r$ e o mínimo tamanho DFT. Os algoritmos de FFT mais usados possuem a base $r$ igual a 2 ou a 4. Consequentemente, estes algoritmos são
-conhecidos respectivamente como Radix-2 e Radix-4 \cite[p.~365]{Meyer}. Neste trabalho o foco sera o algoritmo com a base $r$ igual a 2, ou seja o Radix-2.
+Um fato importante sobre o algoritmo da FFT é que o valor $N_0$ pode ser escolhido segundo a relação $N_0~=~r_n$, onde $n$ é o numero de níveis necessários para calcular a FFT, e $r$ é o mínimo tamanho DFT. Os algoritmos de FFT mais usados possuem a base $r$ igual a 2 ou a 4. Consequentemente, estes algoritmos são
+conhecidos como Radix-2 e Radix-4, respectivamente \cite[p.~365]{Meyer}. Neste trabalho o foco será o algoritmo com a base $r$ igual a 2, ou seja, o Radix-2.
 
-Na Figura (\ref{fig:FFT8P}) as DFTs estão agrupadas por níveis, onde cada nível abrange as DFTs de mesmo tamanho $N_0/n$, e no ultimo nível a esquerda há quatro DFTs de tamanho 2. O numero de níveis necessários em uma FFT de $N_0$ pontos é $log_2 N_0$. Os valores de $X$, na Figura (\ref{fig:FFT8P}),  a direita estão ordenados de forma crescente, porém os valores de $x$
-a esquerda estão ordenados de forma diferente. Está ordenação é conhecida como \textit{Bit-Reverse} \cite[p.~51]{Chu}.
+Na Figura (\ref{fig:FFT8P}) as DFTs estão agrupadas por níveis, onde cada nível abrange as DFTs de mesmo tamanho $N_0/n$, e no último nível a esquerda há quatro DFTs de tamanho 2. O número de níveis necessários em uma FFT de $N_0$ pontos é $log_2 N_0$. Os valores de $X$, na Figura (\ref{fig:FFT8P})  à direita estão ordenados de forma crescente, porém os valores de $x$ à esquerda estão ordenados de forma diferente. Está ordenação é conhecida como \textit{Bit-Reverse} \cite[p.~51]{Chu}.
 
-Segundo \citeonline[p.~51]{Chu}, quando se divide o processo de cálculo de uma DFT em duas, sendo uma responsável pelos valores pares e a outra pelo valores ímpares, conforme as conexões entres o níveis vão ocorrendo há, permutações entre os sinais. O processo de \textit{Bit-Reverse} prevê estas permutações, e através dele é possível saber qual a ordem adequada dos sinais na entrada da FFT. Para aplicar o conceito de \textit{Bit-Reverse}, basta considerar um elemento $x_k$ de ordem $n$ e escreve-lo na base binaria com $log_2 N_0$ bits. Em seguida, para determinar onde $x_k$ será ocupado, basta converter novamente para base decimal o número binário obtido lendo esse na ordem inversa dos bits.
+Segundo \citeonline[p.~51]{Chu}, quando se divide o processo de cálculo de uma DFT em duas, sendo uma responsável pelos valores pares e a outra pelo valores ímpares, conforme as conexões entres o níveis vão ocorrendo, há permutações entre os sinais. O processo de \textit{Bit-Reverse} prevê estas permutações, sendo possível saber qual a ordem adequada dos sinais na entrada da FFT. Para aplicar o conceito de \textit{Bit-Reverse}, basta considerar um elemento $x_k$ de ordem $n$ e escrevê-lo na base binaria com $log_2 N_0$ bits. Em seguida, para determinar onde $x_k$ será ocupado, basta converter novamente para base decimal o número binário obtido, lendo esse na ordem inversa dos bits.
 
 Ao final de todo o processo de simplificação do cálculo da DFT, o algoritmo da FFT necessita apenas realizar $(N_0/2)~log_2~N_0$ multiplicações e $N_0~log_2~N_0$ somas
 complexas \cite[p.~720]{Lathi}. Desta forma, reduz-se assim a complexabilidade do

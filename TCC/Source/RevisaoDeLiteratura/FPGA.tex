@@ -1,10 +1,10 @@
 \citeonline[p.~4]{Moore} define a FPGA como um dispositivo semicondutor capaz de ser totalmente redefinido após sua fabricação, permitindo ao programador reconfigurar produtos e funções já implementadas, adaptando o \emph{hardware} a novas funções. De forma prática, a FPGA permite uma flexibilidade em um projeto, podendo mudar a forma como ele é implementado, sem a necessidade de se construir um \emph{hardware} novo. 
 
-Para \citeonline[p.~4]{Moore}, comparado com as outras formas de construir um hardware, a FPGA oferece duas grandes vantagens em uma aplicação. Primeiro, para uma aplicação ao invés de se utilizar um circuito integrado padrão comercial, que geralmente é  super ou subdimensionado, ou ainda desenvolver um novo projeto de circuito integrado especifico, consumindo tempo e recursos, a FPGA  possibilita desenvolver um \textit{hardware} exatamente dentro das especificações, personalizado e otimizado para a função destinada. Em segundo, porém tão importante quanto, é que essa capacidade de personalização de \textit{hardware} possibilita a realização de operações de modo mais simplificado, rápido e energeticamente eficiente se comparado a um microprocessador.
+Para \citeonline[p.~4]{Moore}, comparado com as outras formas de construir um hardware, a FPGA oferece duas grandes vantagens em uma aplicação. Primeiro, para uma aplicação, ao invés de se utilizar um circuito integrado padrão comercial, que geralmente é  super ou subdimensionado, ou ainda desenvolver um novo projeto de circuito integrado especifico, consumindo tempo e recursos, a FPGA  possibilita desenvolver um \textit{hardware} exatamente dentro das especificações, personalizado e otimizado para a função destinada. Em segundo, porém tão importante quanto, é que essa capacidade de personalização de \textit{hardware} possibilita a realização de operações de modo mais simplificado, rápido e energeticamente eficiente se comparado a um microprocessador.
 
 \subsection{Aspectos Construtivos da FPGA}
 
-As FPGAs são baseadas em unidades lógicas elementares básicas, ou BLEs (\textit{Basic Logic Elements}), dentro de uma hierarquia de interconexões reconfiguráveis que permitem que os LEs sejam fisicamente conectados uns aos outros de diferentes formas criando uma enorme variedade de componentes digitais. A arquitetura das FPGAs modernas são constituídas basicamente por conjunto de memórias de armazenamento em massa SRAM (\textit{Static Random Access Memory}), Portas de Entrada/Saída, blocos lógicos configuráveis CLB (\textit{Configurable Logic Blocks}) e sistema de roteamento, como pode ser visto na Figura (\ref{fig:FPGAArchitecture}) \cite[p.~5]{Moore}. 
+As FPGAs são baseadas em unidades lógicas elementares básicas, ou \sigla[Basic Logic Elements]{BLE} \textit{Basic Logic Elements}, dentro de uma hierarquia de interconexões reconfiguráveis que permitem que os BLEs sejam fisicamente conectados uns aos outros de diferentes formas, criando uma enorme variedade de componentes digitais. A arquitetura das FPGAs modernas são constituídas, basicamente, por conjunto de memórias de armazenamento em massa SRAM (\textit{Static Random Access Memory}), Portas de Entrada/Saída, blocos lógicos configuráveis  \sigla[Configurable Logic Blocks]{CLB} e sistema de roteamento, como pode ser visto na Figura (\ref{fig:FPGAArchitecture}) \cite[p.~5]{Moore}. 
 
 \vspace{8mm}
 \begin{figure}[H]
@@ -18,9 +18,9 @@ As FPGAs são baseadas em unidades lógicas elementares básicas, ou BLEs (\textit{
 \end{figure}
 \vspace{8mm}
 
-Os  CLB são blocos realizam operações logicas básicas e armazenam pequenos volumes de dados. Comumente as operações complexas, necessárias para o processamento de uma aplicação, são divididas em processos mais simples para cada uma das CLBs selecionadas, de modo que a soma das tarefas de cada CLB seja equivalente a operação complexa, em uma estratégia de divisão e conquista. Para realizar operações lógicas básicas e ainda armazenar pequenos volumes de dados os CLBs tecnicamente poderiam ser apenas um pequeno circuito de transistores (granularidade fina), ou até mesmo um processador completo (granularidade grosseira). Se os CLBs fossem granularidade fina, para realizar tarefas complexas seria necessário um grande número de CLBs e um sistema de roteamento complexo para interconecta-los, o que resultaria em uma FPGA de baixa performance e um elevado consumo energético. Por outro lado de as CLBs forem de uma granularidade mais grosseira seria um desperdício de recurso utiliza-los em operações mais simples \cite[p.~11]{tree}. Assim a escolha do nível de complexabilidade, ou granulação, das CLBs de uma FPGA é um compromisso de otimização de recursos.
+Os  CLB são blocos realizam operações logicas básicas e armazenam pequenos volumes de dados. Comumente as operações complexas, necessárias para o processamento de uma aplicação, são divididas em processos mais simples para cada uma das CLBs selecionadas, de modo que a soma das tarefas de cada CLB seja equivalente a operação complexa, em uma estratégia de divisão e conquista. Para realizar operações lógicas básicas e ainda armazenar pequenos volumes de dados, os CLBs tecnicamente poderiam ser apenas um pequeno circuito de transistores (granularidade fina), ou até mesmo um processador completo (granularidade grosseira). Se os CLBs fossem granularidade fina, para realizar tarefas complexas seria necessário um grande número de CLBs e um sistema de roteamento complexo para interconecta-los, o que resultaria em uma FPGA de baixo desempenho e um elevado consumo energético. Por outro lado, se as CLBs forem de uma granularidade mais grosseira, seria um desperdício de recurso utilizá-los em operações mais simples \cite[p.~11]{tree}. Assim a escolha do nível de complexabilidade, ou granulação, das CLBs de uma FPGA é um compromisso de otimização de recursos.
 
-Ainda segundo \citeonline[p.~11]{tree} dentro da grama de granulação das CLBs, algumas arquiteturas incluem o uso de portas NAND, interconexão de multiplexadores e tabelas de busca LUT (\textit{Lookup Table}). Em especial fabricantes como a Xilinx utilizam CLBs baseadas em LUTs, já que CLBs baseadas em LUT oferecem uma boa relação de granulação, otimizando os recursos da FPGA para aplicações simples até as mais complexas. Este tipo de CLB  pode incluir uma único elemento logico básico BLE (\textit{Basic Logic Element}), ou mesmo um \textit{cluster} de BLEs interconectados, como mostrado na Figura (\ref{fig:ArchitectureClusterBLE}).
+Segundo \citeonline[p.~11]{tree}, dentro da gama de granulação das CLBs, algumas arquiteturas incluem o uso de portas NAND, interconexão de multiplexadores e tabelas de busca LUT (\textit{Lookup Table}). Em especial, fabricantes como a Xilinx utilizam CLBs baseadas em LUTs, já que CLBs baseadas em LUT oferecem uma boa relação de granulação, otimizando os recursos da FPGA para aplicações simples até as mais complexas. Este tipo de CLB  pode incluir uma único BLE, ou mesmo um \textit{cluster} de BLEs interconectados, como mostrado na Figura (\ref{fig:ArchitectureClusterBLE}).
 
 \vspace{6mm}
 \begin{figure}[H]
@@ -48,11 +48,11 @@ Segundo \citeonline[p.~11]{tree}, um BLE mais simples consiste basicamente de um
 \end{figure}
 \vspace{6mm}
 
-Um único BLE é capaz de realizar algumas operações booleanas básicas, porém em clusters as combinações de operações aumentam. FPGAs modernas tipicamente contém de 4 a 10 BLEs em um único cluster. Porém estas FPGAs não possui apenas BLEs idênticas, na verdade há uma grande heterogenia de blocos, sendo muitos deles desenvolvidos para propósitos específicos. Entre estes blocos de propósito específico estão multiplicadores, somadores, memórias e DSPs (\textit{Digital Signal Processor}), entre outros. Estes blocos são desenvolvidos para otimizar o espaço, processamento, roteamento e demais recursos de \textit{hardware} que seriam necessários para implementar as mesmas funções em BLEs comuns, sendo essenciais em certas aplicações \citeonline[p.~10]{tree}.
+Um único BLE é capaz de realizar algumas operações booleanas básicas, porém em clusters as combinações de operações aumentam. FPGAs modernas tipicamente contém de 4 a 10 BLEs em um único cluster. Porém, estas FPGAs não possui apenas BLEs idênticas, na verdade há uma grande heterogenia de blocos, sendo muitos deles desenvolvidos para propósitos específicos. Entre estes blocos de propósito específico estão multiplicadores, somadores, memórias e DSPs (\textit{Digital Signal Processor}), entre outros. Estes blocos são desenvolvidos para otimizar o espaço, processamento, roteamento e demais recursos de \textit{hardware} que seriam necessários para implementar as mesmas funções em BLEs comuns, sendo essenciais em certas aplicações \citeonline[p.~10]{tree}.
 
-A implementação de qualquer circuito lógico é feita pela associação de diferentes blocos lógicos e pelas portas de entrada e saída da FPGA, os quais são conectados uns aos outros através da rede de roteamento programável, ou PLN (\textit{Programmable Logic Network}). Na Figura (\ref{fig:FPGAArchitecture}) a PLN é representada pela Matriz Programável de Interconexões e pelos Canais de Roteamento. Para que a FPGA possa implementar qualquer circuito digital as interconexões de roteamento devem ser flexíveis para suportar a grande variedade de conexões demandada, otimizando sempre as distâncias das conexões e reduzindo a latência dos sinais.  Portanto ao projetar um circuito a ser implementado na FPGA deve ser ter especial atenção a forma como o roteamento do blocos lógicos é feito, buscando flexibilidade e eficiência \citeonline[p.~13]{tree}.
+A implementação de qualquer circuito lógico é feita pela associação de diferentes blocos lógicos e pelas portas de entrada e saída da FPGA, os quais são conectados uns aos outros por meio da rede de roteamento programável, ou PLN (\textit{Programmable Logic Network}). Na Figura (\ref{fig:FPGAArchitecture}) a PLN é representada pela Matriz Programável de Interconexões e pelos Canais de Roteamento. Para que a FPGA possa implementar qualquer circuito digital, as interconexões de roteamento devem ser flexíveis para suportar a grande variedade de conexões demandada, otimizando sempre as distâncias das conexões e reduzindo a latência dos sinais.  Portanto, ao projetar um circuito a ser implementado na FPGA deve ser ter especial atenção a forma como o roteamento do blocos lógicos é feito, buscando flexibilidade e eficiência \citeonline[p.~13]{tree}.
 
-Nas FPGAs modernas além da unidades de armazenamento de Dados SRAM contido dentro das BLEs, mais especificamente nas LUTs, existe ainda grandes blocos SRAM isolados das BLEs, destinados a funcionar como o armazenamento de dados em massa. Estes blocos são importantes em aplicações digitais onde  é necessário armazenar, como por exemplo, dados de amostragem ou mesmo dados pós-processamento que devem aguardar para serem passados para uma próxima etapa de processamento, ou mesmo transmitidos para fora da FPGA pelas portas de entrada e saída de dados. Estes bloco de memória é apresentada na Figura (\ref{fig:FPGAArchitecture}) como parte integrante da arquitetura tipica de uma FPGA.
+Nas FPGAs modernas, além da unidades de armazenamento de Dados SRAM contido dentro das BLEs, mais especificamente nas LUTs, existe ainda grandes blocos SRAM isolados das BLEs, destinados a funcionar como o armazenamento de dados em massa. Estes blocos são importantes em aplicações digitais onde  é necessário armazenar, como por exemplo, dados de amostragem ou mesmo dados que devem aguardar para serem passados para uma próxima etapa de processamento, ou mesmo transmitidos para fora da FPGA pelas portas de entrada e saída de dados. Estes blocos de memória é apresentada na Figura (\ref{fig:FPGAArchitecture}) como parte integrante da arquitetura tipica de uma FPGA.
 
 \subsection{Programação na FPGA}
 
@@ -70,11 +70,13 @@ O desenvolvimento de uma aplicação em FPGA começa pela elaboração do Design de R
 \end{figure}
 \vspace{6mm}
 
-Programar um somador de 4 bits como apresentado na Figura (\ref{fig:ExemploFullAdder4Bits}), utilizando portas lógicas parece ser realmente simples. Porém para circuitos mais elaborados como um contador, ou até mesmo uma máquina de estados, pode ser tornar impraticável utilizar este método de desenvolvimento. Pra circuitos mais elaborados é possível utilizar uma linguagem de descrição de \textit{hardware} HDL (\textit{Hardware Description Linguage}), para tornam o desenvolvimento mais fácil e intuitivo. Tendo em vista ainda que uma linguagem descritiva, como por exemplo VHDL, é visivelmente mais familiar ao desenvolvedor que está acostumado a linguagens de programação como por exemplo Linguagem C. O Código (\ref{code:ExemploFullAdder4Bits}) descrito abaixo apresenta o mesmo somador de 4 bits desenvolvido em VHDL. 
+Programar um somador de 4 bits, como apresentado na Figura (\ref{fig:ExemploFullAdder4Bits}), utilizando portas lógicas parece ser realmente simples. Porém, para circuitos mais elaborados como um contador, ou até mesmo uma máquina de estados, pode ser tornar impraticável utilizar este método de desenvolvimento. Para circuitos mais elaborados é possível utilizar uma linguagem de descrição de \textit{hardware} \sigla[Hardware Description Linguage]{HDL}, para tornam o desenvolvimento mais fácil e intuitivo. Tendo em vista, que mesmo esta linguagem não ser destinada a execução por um processador, e na verdade descrever o comportamento de circuitos lógicos, ela  é visivelmente mais familiar ao desenvolvedor que está acostumado a linguagens de programação, como por exemplo Linguagem C. 
+
+O Código VHDL (\ref{code:ExemploFullAdder4Bits}), descrito abaixo, apresenta o mesmo somador de 4 bits apresentado anteriormente em (\ref{fig:ExemploFullAdder4Bits}). 
 
 \vspace{3mm}
 	\lstset{style=VHDL}
-	\begin{lstlisting}
+	\begin{lstlisting}[caption={Autoria Própria},captionpos=b,mathescape]
 	library IEEE;
 	use IEEE.STD_LOGIC_1164.ALL;
 	use IEEE.NUMERIC_STD.ALL;
@@ -101,57 +103,33 @@ Programar um somador de 4 bits como apresentado na Figura (\ref{fig:ExemploFullA
 	\label{code:ExemploFullAdder4Bits}
 \vspace{3mm}
 
-Após definir o Design de Referência, via diagrama de portas lógicas ou mesmo por código HDL, o próximo passo é utilizar uma ferramenta de síntese da própria IDE para converter o design de referência em um conjunto de configurações de registradores, conexões e portas que serão usadas  na FPGA para implementar as funcionalidades descritas no designe de referência. Durante o processo de síntese a ferramenta verifica a sintaxe do código HDL, e a coerência entre as portas de externas, como sinais de \textit{clock} e portas de entrada e saída,  selecionadas no design de referência.
+Após definir o Design de Referência, via diagrama de portas lógicas ou mesmo em linguagem VHDL, o próximo passo é utilizar uma ferramenta de síntese da própria IDE para converter o design de referência em um conjunto de configurações de registradores, conexões e portas que serão usadas  na FPGA para implementar as funcionalidades descritas no design de referência. Durante o processo de síntese a ferramenta verifica a sintaxe do código HDL, e a coerência entre as portas de externas, como sinais de \textit{clock} e portas de entrada e saída,  selecionadas no design de referência.
 
-Ao desenvolver um design para implementação em FPGA é comum dividir as funcionalidades do sistema em pequenos blocos de modo a modulariza-lo, permitindo reaproveitar trechos de circuitos lógicos em diferentes aplicações. Segundo \citeonline[p.~20]{Moore} ao longo dos anos os fabricantes FPGA perceberam também que vários dos sistemas implementados pelos desenvolvedores tinham funcionalidades muito comuns, como por exemplo processamento gráfico, interfaces de comunicação serial e até mesmo implementação de microprocessadores. Logo não fazia sentido o desenvolvedor desperdiças tempo implementando um circuito extremamente comum. Assim os fabricantes passaram a oferecer bibliotecas circuitos lógicos modularizados para funcionalidades comuns, que passaram a ser chamados de IP (\textit{Intellectual Property}).
+Ao desenvolver um design para implementação em FPGA é comum dividir as funcionalidades do sistema em pequenos blocos de modo a modularizá-lo, permitindo reaproveitar trechos de circuitos lógicos em diferentes aplicações. Segundo \citeonline[p.~20]{Moore} ao longo dos anos os fabricantes FPGA perceberam também que vários dos sistemas implementados pelos desenvolvedores tinham funcionalidades muito comuns, como por exemplo processamento gráfico, interfaces de comunicação serial e até mesmo implementação de microprocessadores. Logo, não fazia sentido o desenvolvedor desperdiças tempo implementando um circuito extremamente comum. Assim, os fabricantes passaram a oferecer bibliotecas circuitos lógicos modularizados para funcionalidades comuns, que passaram a ser chamados de IP (\textit{Intellectual Property}).
  
-A maioria dos IDEs mais recentes possuem uma interface gráfica de diagrama de blocos, onde cada bloco representa uma IP. Nesta interface é possível construir um Design de Referência utilizando a associação de IPs das bibliotecas do fabricante, ou de um repositório externo ou ainda utilizar uma IP própria, já que estes IDEs possibilitam a criação de IPs personalizadas. A Figura (\ref{fig:ExemploDiagramaDeBlocosMicroBlazeUART}) apresenta o diagrama de blocos de um circuito lógico desenvolvido na IDE Vivado 2017.4, composto pelas seguintes IPs da Biblioteca padrão Xilinx: microprocessador MicroBlaze 10.0, bloco seu memória local, o controlador de periféricos MicroBlaze, a interface de comunicação UART, controle global de interrupções e controle de global de reset. E ainda IP \textit{FFT16p\_V1\_0\_0} desenvolvida individualmente utilizando código VHDL.
+A maioria dos IDEs mais recentes possuem uma interface gráfica de diagrama de blocos, onde cada bloco representa uma IP. Nesta interface é possível construir um Design de Referência utilizando a associação de IPs das bibliotecas do fabricante, ou de um repositório externo ou ainda utilizar uma IP própria, já que estes IDEs possibilitam a criação de IPs personalizadas. A Figura (\ref{fig:ExemploDiagramaDeBlocosMicroBlazeUART}) apresenta o diagrama de blocos de um circuito lógico desenvolvido na IDE Vivado 2017.4, composto pelas seguintes IPs da Biblioteca padrão Xilinx: microprocessador MicroBlaze 10.0, bloco seu memória local, o controlador de periféricos MicroBlaze, a interface de comunicação UART, controle global de interrupções e controle de global de \textit{reset}. A IP \textit{FFT16p\_V1\_0\_0} desenvolvida individualmente utilizando código VHDL.
 
-\vspace{6mm}
-\begin{figure}[H]
-	\centering
-	\captionsetup{width=\textwidth, font=footnotesize, textfont=bf}	
-	\includegraphics[width=\linewidth]{Images/RevisaoDeLiteratura/ExemploDiagramaDeBlocosMicroBlazeUART.png}
-	\caption{CPU MicroBlaze e Coprocessador para FFT com Interface UART - Vivado 2017.4}
-	\vspace{-3.5mm}
-	\caption*{Fonte: Autoria Própria}
-	\label{fig:ExemploDiagramaDeBlocosMicroBlazeUART}
-\end{figure}
-\vspace{6mm}
+\begin{landscape}
+	\begin{figure}[H]
+		\centering
+		\captionsetup{width=0.9\textwidth, font=footnotesize, textfont=bf}	
+		\includegraphics[width=0.9\linewidth]{Images/RevisaoDeLiteratura/ExemploDiagramaDeBlocosMicroBlazeUART.png}
+		\caption{CPU MicroBlaze e Coprocessador para FFT com Interface UART - Vivado 2017.4}
+		\vspace{-3.5mm}
+		\caption*{Fonte: Autoria Própria}
+		\label{fig:ExemploDiagramaDeBlocosMicroBlazeUART}
+	\end{figure}
+\end{landscape}
  
-A FPGA é uma boa escolha para a implementação do algoritmo da FFT  devido a grande variedade de recursos de hardware sintetizáveis, além de possuir recursos de programação paralela que permite o processamento paralelo de sinais, conferindo assim uma maior rapidez na execução do algoritmo \cite{kamal}. Como afirma \citeonline[Prefácio]{Meyer}, muitos algoritmos de processamento de sinais, como FFT (\emph{Fast Fourier Transform}) e os filtros FIR ou IIR,  implementados anteriormente em Circuitos Integrados de Aplicação Especifica ou ASIC (\emph{Application Specific Integrated Circuits}), agora estão sendo implementados em FPGAs.
-
-
-
-\subsection{ZynqBerry TE0726-03M}
-
-O dispositivo escolhido para a implementação do algoritmo Radix-2 é o  \textit{ZynqBerry - TE0726} da fabricante \textit{Trenz Eletronic$^\circledR$}, apresentado na figura (\ref{fig:ZynqBerry-TE0726}). Este dispositivo é baseado no SoC (\textit{System On Chip}) Raspberry Pi modelo 2, vem equipado com uma FPGA SoM (\textit{System on Module}) XC7Z010-1CLG225C-REV3, da família Zynq-700 fabricado pela \textit{Xilinx$^\circledR$} \cite{trenz}. 
-
-\vspace{6mm}
-\begin{figure}[H]
-	\centering
-	\captionsetup{width=0.6\textwidth, font=footnotesize, textfont=bf}	
-	\includegraphics[width=0.6\linewidth]{Images/RevisaoDeLiteratura/TE0726-03M_0.jpg}
-	\caption{ZynqBery - TE0726}
-	\vspace{-3.5mm}
-	\caption*{Fonte: \citeonline{trenz}}
-	\label{fig:ZynqBerry-TE0726}
-\end{figure}
-\vspace{6mm}
-
-
-A FPGA XC7Z010-1CLG225C tem a mesma arquitetura dos modelos da família Artix-7, também da Xilinx, e contendo recursos como: 28.000 células lógicas, 17.600 LUTs, 2.1 Mb de memória RAM divididos em blocos de 26Kb e um total de 36.200 \textit{flip-flops}. Cada CLB, nesta FPGA, para implementar diferentes operações lógicas utiliza 16 \textit{flip-flops}, 2 somadores de 4bits cascateáveis e ainda 8 LUTs. Sendo possível configurar a memoria RAM das LUTs para 64x1 ou 32x2 bits, ou ainda como um  \textit{shift register (SRL)}. Além disso esta FPGA possuir 80 blocos DSP, cada um equipado com um multiplicador 18x25 simples, e um somador/acumulador de 48 bits. Todas estes recursos fazem do XC7Z010 um \textit{hardware} competente para as mais diversas aplicações de processamento de sinais, como o calculo da FFT.
-
-O processador utilizado no ZynqBerry TE0726-03M é um dual-core ARM Cortex-A9 de 866MHz é competente na execução eficiente de sistemas operacionais completos como o sistemas baseados em kernel Linux, que podem incluem interface gráfica sofistica. Cada núcleo deste processador conta ainda uma unidade NEON\texttrademark  Media Processing Engine (MPE), para alto desempenho em codificação e decodificação de áudio e vídeo, e uma unidade de ponto flutuante para incremento da precisão em operações matemáticas.  Aliando a versatilidade da XC7Z010 e o poder de processamento do ARM Cortex-A9 é possível construir dispositivo que rode uma versão Linux, tirando proveito de toda a funcionalidade de tal sistema operacional pode prover, e que ainda disponha de um \textit{hardware} acelerador personalizado para uma aplicação especifica, e que trabalhe em paralelo á uma alta frequência. Provendo assim uma solução engenhosa de alto desempenho para processamento de sinais.
-
+A FPGA é uma boa escolha para a implementação do algoritmo da FFT  devido a grande variedade de recursos de \textit{hardware} sintetizáveis, além de possuir recursos de programação paralela que permite o processamento paralelo de sinais, conferindo assim uma maior rapidez na execução do algoritmo \cite{kamal}. Como afirma \citeonline[Prefácio]{Meyer}, muitos algoritmos de processamento de sinais, como FFT (\emph{Fast Fourier Transform}) e os filtros FIR ou IIR,  implementados anteriormente em Circuitos Integrados de Aplicação Especifica ou ASIC (\emph{Application Specific Integrated Circuits}), agora estão sendo implementados em FPGAs.
 
 \subsubsection{Zynq-7000}
 
-Segundo a \citeonline{zynqbook}, Zynq-7000 é uma família de SoCs que integram a programabilidade em \textit{software} de um processador ARM  Cortex-A9, com  a programabilidade em \textit{hardware} de uma FPGA, possibilitando a integração entre CPU, DSPs e FPGA, agregando diversas funcionalidades em um único dispositivo. Zynq-7000 representa uma solução completa em processamento de sinais em um único equipamento, com um ótima relação performance/consumo energético.
+Segundo a \citeonline{zynqbook}, Zynq-7000 é uma família de SoCs que integram a programabilidade em \textit{software} de um processador ARM  Cortex-A9, com  a programabilidade em \textit{hardware} de uma FPGA, possibilitando a integração entre CPU, DSPs e FPGA, agregando diversas funcionalidades em um único dispositivo. Zynq-7000 representa uma solução completa em processamento de sinais em um único dispositivo, com um ótima relação performance/consumo energético.
 
 A principal característica do Zynq-7000 é a forma com que ele combina um sistema de processamento (PS - \textit{Processing System}), formado pelo entorno do processador ARM Cortex-A9, e um sistema de lógico programável (PL - \textit{Programmable Logic}), caracterizado como um FPGA.  Processadores dedicados já tem sido utilizados em conjunto com FPGAs em diferentes aplicações, porém não da mesma forma como é feita na  familia Zynq-7000 \citeonline[Introdução]{zynqbook}.
 
-Segundo Para \citeonline[p. 26]{zynqbook} o PL é ideal para a implementação de operações lógicas de alta performance e sistemas de fluxo de dados contínuos. Por outro lado o PS é capaz de suportar rotinas de \textit{software} e sistemas operacionais. Qualquer aplicação pode ser particionada em duas partes a serem implementadas uma em PL e outra em PS, afim de se tirar proveito do melhor dos dois mundos. Porém estas duas partes, mesmo que estando contidas dentro do encapsulamento do Zynq, como pode ser visto na Figura \ref{fig:ArquiteturaSimplificadaZynq}, são fisicamente distintas, e comumente estão operando em frequências diferentes. Para realizar a ponte de comunicação entre o PL e o PS, a família Zynq-7000 utiliza o padrão industrial conhecido como AXI (\textit{Advanced eXtensible Interface}), ou interface extensível avançada. Esta interface permite estabelecer um fluxo de dados sincronizados entre PS e PL, de ambos os sentidos, suportando inclusive o disparo de interrupções através de ambos os sistemas.
+Para \citeonline[p. 26]{zynqbook}, o PL é ideal para a implementação de operações lógicas de alta performance e sistemas de fluxo de dados contínuos. Por outro lado o PS é capaz de suportar rotinas de \textit{software} e sistemas operacionais. Qualquer aplicação pode ser particionada em duas partes a serem implementadas uma em PL e outra em PS, a fim de se tirar proveito do melhor dos dois mundos. Porém, estas duas partes, mesmo que estando contidas dentro do encapsulamento do Zynq, como pode ser visto na Figura \ref{fig:ArquiteturaSimplificadaZynq}, são fisicamente distintas, e comumente estão operando em frequências diferentes. Para realizar a ponte de comunicação entre o PL e o PS, a família Zynq-7000 utiliza o padrão industrial conhecido como AXI (\textit{Advanced eXtensible Interface}), ou interface extensível avançada. Esta interface permite estabelecer um fluxo de dados sincronizados entre PS e PL, de ambos os sentidos, suportando inclusive o disparo de interrupções através de ambos os sistemas.
 
 \vspace{6mm}
 \begin{figure}[H]
@@ -165,7 +143,7 @@ Segundo Para \citeonline[p. 26]{zynqbook} o PL é ideal para a implementação de o
 \end{figure}
 \vspace{6mm}
 
-Para entender como os componentes de um sistema digital são mapeados dentro de um dispositivo Zynq, e como estes são divididos entre o PS eo PL, é necessário compreender como é a arquitetura de um sistema digital comum. Para \citeonline[p. 27]{zynqbook}, o modelo básico do \textit{hardware} de um sistemas digitais incorpora processadores, memórias, barramentos de interligação e os mais distintos periféricos. Como pode ser visto na Figura (\ref{fig:ArquiteturaSimplificadaSD}).
+Para entender como os componentes de um sistema digital são mapeados dentro de um dispositivo Zynq, e como estes são divididos entre o PS e o PL, é necessário compreender como é a arquitetura de um sistema digital comum. Para \citeonline[p. 27]{zynqbook}, o modelo básico do \textit{hardware} de um sistemas digitais incorpora processadores, memórias, barramentos de interligação e os mais distintos periféricos, como pode ser visto na Figura (\ref{fig:ArquiteturaSimplificadaSD}).
 
 \vspace{6mm}
 \begin{figure}[H]
@@ -179,7 +157,7 @@ Para entender como os componentes de um sistema digital são mapeados dentro de u
 \end{figure}
 \vspace{6mm}
 
-O processador é o elemento central deste modelo, pois é ele que executa o sistema de \textit{software}, que compreende as camadas de mais alto nível como aplicações baseadas em sistemas operacionais, o próprio sistema operacional, e até o nível mais baixo como o \textit{firmware} de interface com os periféricos do \textit{hardware}. Já os periféricos são componentes funcionais externos ao processador, e que em geral são divididos em três tipos: 
+O processador é o elemento central deste modelo, pois é ele que executa o sistema de \textit{software}, que compreende as camadas de mais alto nível como aplicações baseadas em sistemas operacionais, o próprio sistema operacional, e até o nível mais baixo como o \textit{firmware} de interface com os periféricos do \textit{hardware}\cite[p. 27]{zynqbook}. Já os periféricos são componentes funcionais externos ao processador, e que em geral são divididos em três tipos: 
 
 \begin{itemize}
 	
@@ -191,40 +169,30 @@ O processador é o elemento central deste modelo, pois é ele que executa o sistem
 	
 \end{itemize} 
 
-A Figura (\ref{fig:ArquiteturaSimplificadaZynqSoftwareHardware}) apresentam a mesma arquitetura simplificada da Figura (\ref{fig:ArquiteturaSimplificadaSD}), porém mapeado para um dispositivo Zynq. A estrutura do sistema digital é dividida entre processador e memória para o lado PS, e os demais possíveis periféricos para o lado PL. Do lado PS a arquitetura é fixa, obedecendo a estrutura definida pelo fabricando, em total contraponto com o lado PS. No lado PS a estrutura é totalmente flexível, limitada apenas pelo número de CLBs disponíveis da FPGA, o que oferece ao desenvolvedor um ambiente de "caixa de areia" para construir qualquer tipo de periférico.
+A Figura (\ref{fig:ArquiteturaSimplificadaZynqSoftwareHardware}) apresentam a mesma arquitetura simplificada da Figura (\ref{fig:ArquiteturaSimplificadaSD}), porém mapeado para um dispositivo Zynq. A estrutura do sistema digital é dividida entre processador e memória para o lado PS, e os demais possíveis periféricos para o lado PL. Do lado PS, a arquitetura é fixa, obedecendo a estrutura definida pelo fabricante, em total contraponto com o lado PS. No lado PS, a estrutura é totalmente flexível, limitada apenas pelo número de CLBs disponíveis na FPGA, o que oferece ao desenvolvedor um ambiente de caixa de areia para construir qualquer tipo de periférico.
 
 \vspace{6mm}
 \begin{figure}[H]
 	\centering
 	\captionsetup{width=0.6\textwidth, font=footnotesize, textfont=bf}	
 	\includegraphics[width=0.6\linewidth]{Images/RevisaoDeLiteratura/ArquiteturaSimplificadaZynqSoftwareHardware.eps}
-	\caption{Arquitetura Simplificado do um Sistema Digital Mapeado para o Zynq}
+	\caption{Arquitetura Simplificada do um Sistema Digital Mapeado para o Zynq}
 	\vspace{-3.5mm}
-	\caption*{Fonte: \citeonline[p. 27]{zynqbook}}
+	\caption*{Fonte: Adaptado de \citeonline[p. 27]{zynqbook}}
 	\label{fig:ArquiteturaSimplificadaZynqSoftwareHardware}
 \end{figure}
 \vspace{6mm}
 
-A interface AXI possui uma grande importância no desenvolvimento no Zynq-7000,já que por meio desta interface é que os periféricos em PL se comunicam com o processador em PS.  A interface AXI faz parte da família de barramentos para microcontroladores ARM AMBA (\textit{Advanced Microcontroller Bus Architecture}). O ARM AMBA é um protocolo \textit{Open Standard} para conexões e gerenciamento de blocos funcionais dentro de dispositivos  \textit{Systens-on-Chip} (Soc), facilitando o desenvolvimento de designs com múltiplos processadores, e com grande número de controladores e periféricos \cite{AMBA}. A família de SoCs Zynq-7000 utilizam a interface AXI versão 4, o qual obedece ao mais recentes padrões ARM AMBA 4.0 \cite{AXI}. Existem no três tipos de interface AXI4:
+A interface AXI possui uma grande importância no desenvolvimento no Zynq-7000, já que por meio desta interface é que os periféricos em PL se comunicam com o processador em PS.  A interface AXI faz parte da família de barramentos para microcontroladores ARM AMBA (\textit{Advanced Microcontroller Bus Architecture}). O ARM AMBA é um protocolo \textit{Open Standard} para conexões e gerenciamento de blocos funcionais dentro de dispositivos  \textit{Systens-on-Chip} (Soc), facilitando o desenvolvimento de designs com múltiplos processadores, e com grande número de controladores e periféricos \cite{AMBA}. A família de SoCs Zynq-7000 utilizam a interface AXI versão 4, o qual obedece ao mais recentes padrões ARM AMBA 4.0 \cite{AXI}.
 
-\begin{itemize}
-	
-	\item \textbf{AXI :} Interface destinada a transferências de dados em alta velocidade e de maior volume utilizando mapeamento de memória, utiliza endereços de memória para acessar dados e portanto consome recursos de memória para ser implementado. Interface mais complexa, e oferece maiores opções de controle de dados, inclusive transferência no modo \textit{brust}.
-	
-	\item \textbf{AXI-Lite:}Interface destinada a transferências de dados em baixa velocidade utilizando mapeamento de memória, consome espaço de memória apenas para controlar dados da transferência, como destino, origem e status da transmissão. Interface mais simples do que a AXI, logo não oferece controle de dados como o modo \textit{brust}.
-	
-	\item \textbf{AXI-Stream:} Interface para transferência de dados em alta velocidade, porém não utiliza mapeamento de memória. Toda a transferência nesta interface é peita por em  fluxo de dados contínuos, os quais não são armazenados pela interface. 
-	
-\end{itemize} 
-
-Dentro do ambiente do PS no Zynq além do processador ARM Cortex-A9  existe ainda um conjunto de periféricos de memória, interconexão, comunicação e gerenciamento. A maioria destes periféricos utiliza a interface AXI, com 32 ou 64 Bits, inclusive a próprias conexões de fronteira entre PS e PL. Diferente de PS onde a arquitetura já está pronta e é estática, em PL o desenvolvedor pode criar todo uma gama de periféricos, e consequentemente conecta-los com uma quantidade enorme de interfaces AXI de qualquer tipo dos já citados. Porém a fronteira entre PS e PL é limitada e representa um gargalo na interação entre os dois lados. Os dispositivos da família Zynq-7000 possuem 2 interfaces AXI Mestre de 32-Bits, 2 interfaces AXI Escravo de 32-Bits e 4 interfaces 64-Bit/32-Bit configuráveis de alta velocidade. A Figura (\ref{fig:VisaoGeralArquiteturaZynq7000}) apresenta uma visão geral da arquitetura do SoC Zynq-700, mostrando as conexões AXI dentro de PS e também as conexões na fronteira de PL. 
+Dentro do ambiente do PS no Zynq, além do processador ARM Cortex-A9,  existe ainda um conjunto de periféricos de memória, interconexão, comunicação e gerenciamento. A maioria destes periféricos utiliza a interface AXI, com 32 ou 64 Bits, inclusive a próprias conexões de fronteira entre PS e PL. Diferente de PS, onde a arquitetura já está pronta e é estática, em PL o desenvolvedor pode criar todo uma gama de periféricos, e consequentemente conectá-los com uma quantidade enorme de interfaces AXI de qualquer tipo dos já citados. Porém, a fronteira entre PS e PL é limitada e representa um gargalo na interação entre os dois lados. Os dispositivos da família Zynq-7000 possuem 2 interfaces AXI Mestre de 32-Bits, 2 interfaces AXI Escravo de 32-Bits e 4 interfaces 64-Bit/32-Bit configuráveis de alta velocidade. A Figura (\ref{fig:VisaoGeralArquiteturaZynq7000}) apresenta uma visão geral da arquitetura do SoC Zynq-700, mostrando as conexões AXI dentro de PS e também as conexões na fronteira de PL. 
 
 \vspace{6mm}
 \begin{figure}[H]
 	\centering
 	\captionsetup{width=0.8\textwidth, font=footnotesize, textfont=bf}	
 	\includegraphics[width=0.8\linewidth]{Images/RevisaoDeLiteratura/VisaoGeralArquiteturaZynq7000.eps}
-	\caption{Visão Geralda Arquitetura - Zynq 7000}
+	\caption{Visão Geral da Arquitetura - Zynq 7000}
 	\vspace{-3.5mm}
 	\caption*{Legenda: {\color{darkgreen}AXI 32-Bits/64-Bits}, {\color{greenblue}AXI 64-Bits}, {\color{darkred}AXI 32-Bits}, {\color{palatinatepurple}AHB 32-Bits}, {\color{blackyellow}AXI 32-Bits}}
 	\vspace{-3.5mm}
