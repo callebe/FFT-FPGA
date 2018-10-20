@@ -32,15 +32,15 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity AdressROMFFT is
+entity AdressRAMFFT is
   Port (
     Adress : in STD_LOGIC;
     reset : in STD_LOGIC;
     OutputAdress : buffer AdressVector(31 downto 0)
   );
-end AdressROMFFT;
+end AdressRAMFFT;
 
-architecture Behavioral of AdressROMFFT is
+architecture Behavioral of AdressRAMFFT is
     constant TotalCordic : STD_LOGIC_VECTOR(9 downto 0) := "1000000000";
     signal LimitOfDFT : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');
     signal LengthDFT : STD_LOGIC_VECTOR(9 downto 0) := (others => '0');

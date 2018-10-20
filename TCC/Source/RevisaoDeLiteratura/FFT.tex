@@ -89,6 +89,22 @@ Na Figura (\ref{fig:FFT8P}) as DFTs estão agrupadas por níveis, onde cada nível 
 
 Segundo \citeonline[p.~51]{Chu}, quando se divide o processo de cálculo de uma DFT em duas, sendo uma responsável pelos valores pares e a outra pelo valores ímpares, conforme as conexões entres o níveis vão ocorrendo, há permutações entre os sinais. O processo de \textit{Bit-Reverse} prevê estas permutações, sendo possível saber qual a ordem adequada dos sinais na entrada da FFT. Para aplicar o conceito de \textit{Bit-Reverse}, basta considerar um elemento $x_k$ de ordem $n$ e escrevê-lo na base binaria com $log_2 N_0$ bits. Em seguida, para determinar onde $x_k$ será ocupado, basta converter novamente para base decimal o número binário obtido, lendo esse na ordem inversa dos bits.
 
+Na FFT da Figura (\ref{fig:FFT8P}) a subdivisão das DFTs é deita a partir da saída, sinal em frequência, com DFT de 8 pontos, até a entrada, sinal no tempo, com as DFTs de 2 pontos com custo mínimo. Essa subdivisão é conhecida como decimação, e no caso da Figura (\ref{fig:FFT8P}), ela é feita a partir do sinal no tempo, logo essa estrutura é conhecida como Decimação no Tempo. Porém, existe uma outra forma, a decimação na frequência. A partir de uma alteração em (\ref{eq:DenicaoFFTA}), é possível alterar a ordem da decimação, partindo do sinal de entrada no tempo, até a saída em frequência, como pode ser visto na Figura(\ref{fig:FFT8PDIF}) \cite[p.~37]{Chu}.
+
+\vspace{4mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=1\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=1\linewidth]{Images/RevisaoDeLiteratura/FFT8PDIF.pdf}
+	\caption{FFT DIF de 8 Pontos}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Adaptado de \citeonline[p.~44]{Chu}}
+	\label{fig:FFT8PDIF}
+\end{figure}
+\vspace{4mm}
+
+Na decimação em frequência, a ordem de entrada dos sinais na FFT ficar ordenados de forma crescente, porém a saída passa a estar ordenado no esquema \textit{Bit-Reverse}. Este esquema de decimação é preferencialmente escolhido por dispensar a reordenação dos dados de entrada.
+
 Ao final de todo o processo de simplificação do cálculo da DFT, o algoritmo da FFT necessita apenas realizar $(N_0/2)~log_2~N_0$ multiplicações e $N_0~log_2~N_0$ somas
 complexas \cite[p.~720]{Lathi}. Desta forma, reduz-se assim a complexabilidade do
 algoritmo, tornando a DFT praticável até para valores elevados de $N_0$.

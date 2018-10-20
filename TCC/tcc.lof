@@ -1,35 +1,44 @@
 \babel@toc {brazil}{}
-\contentsline {figure}{\numberline {1}{\ignorespaces Batimento Card\IeC {\'\i }aco em 3D\relax }}{19}{figure.caption.9}
-\contentsline {figure}{\numberline {2}{\ignorespaces \'Indice BM \& FBOVESPA, S\~ao Paulo - Brasil\relax }}{19}{figure.caption.10}
-\contentsline {figure}{\numberline {3}{\ignorespaces Temperatura de um Volume de \'Agua em um Ebulidor Controlado \relax }}{20}{figure.caption.11}
-\contentsline {figure}{\numberline {4}{\ignorespaces Modos Normais de uma Corda Vibrante\relax }}{21}{figure.caption.12}
-\contentsline {figure}{\numberline {5}{\ignorespaces Ilustra\c c\~ao da Propriedade de Autofun\c c\~ao de Sistemas Lineares\relax }}{23}{figure.caption.13}
-\contentsline {figure}{\numberline {6}{\ignorespaces Aproxima\c c\~ao do Sinal de Onda Quadrada por um Termo Senoidal\relax }}{24}{figure.caption.14}
-\contentsline {figure}{\numberline {7}{\ignorespaces Aproxima\c c\~ao do Sinal de Onda Quadrada por Soma de 3 Termos Senoidais\relax }}{25}{figure.caption.15}
-\contentsline {figure}{\numberline {8}{\ignorespaces Aproxima\c c\~ao do Sinal de Onda Quadrada por Soma de 8 Termos Senoidais\relax }}{25}{figure.caption.16}
-\contentsline {figure}{\numberline {9}{\ignorespaces Aproxima\c c\~ao do Sinal de Onda Quadrada por Soma de 8 Termos Senoidais\relax }}{29}{figure.caption.18}
-\contentsline {figure}{\numberline {10}{\ignorespaces Butterfly do Fluxo do Sinal\relax }}{34}{figure.caption.19}
-\contentsline {figure}{\numberline {11}{\ignorespaces FFT de 8 Pontos\relax }}{34}{figure.caption.20}
-\contentsline {figure}{\numberline {12}{\ignorespaces Rota\c c\~ao de $H_r$ pelo \^angulo de $2\pi r/N_0$\relax }}{37}{figure.caption.21}
-\contentsline {figure}{\numberline {13}{\ignorespaces \^Angulos Elementares - Cordic Tradicional com N=4\relax }}{41}{figure.caption.22}
-\contentsline {figure}{\numberline {14}{\ignorespaces EEAS com N=2 e S=4\relax }}{44}{figure.caption.23}
-\contentsline {figure}{\numberline {15}{\ignorespaces Exemplo de execu\c c\~ao do Algoritmo TBS\relax }}{47}{figure.caption.24}
-\contentsline {figure}{\numberline {16}{\ignorespaces Exemplo de execu\c c\~ao do Algoritmo TBS\relax }}{48}{figure.caption.25}
-\contentsline {figure}{\numberline {17}{\ignorespaces MSR com I=2, J=1 e N=2\relax }}{51}{figure.caption.27}
-\contentsline {figure}{\numberline {18}{\ignorespaces MSR com I=2, J=1 e N=2\relax }}{52}{figure.caption.28}
-\contentsline {figure}{\numberline {19}{\ignorespaces Rela\c c\~ao entre o $P_{upper}$ e o SQNR para MSR-CORDIC, como $N_{spt}~=~3$ e $N=3$\relax }}{55}{figure.caption.29}
-\contentsline {figure}{\numberline {20}{\ignorespaces Arquitetura Tipica de uma FPGA\relax }}{58}{figure.caption.30}
-\contentsline {figure}{\numberline {21}{\ignorespaces Arquitetura de uma CLB com 4 BLEs\relax }}{59}{figure.caption.31}
-\contentsline {figure}{\numberline {22}{\ignorespaces Arquitetura de uma BLE (\textit {Basic Logic Element})\relax }}{60}{figure.caption.32}
-\contentsline {figure}{\numberline {23}{\ignorespaces Diagrama L\'ogico Full Adder 4 Bits - ISE Design Suite 14\relax }}{61}{figure.caption.33}
-\contentsline {figure}{\numberline {24}{\ignorespaces CPU MicroBlaze e Coprocessador para FFT com Interface UART - Vivado 2017.4\relax }}{64}{figure.caption.34}
-\contentsline {figure}{\numberline {25}{\ignorespaces Arquitetura Simplificada - Zynq-7000\relax }}{66}{figure.caption.35}
-\contentsline {figure}{\numberline {26}{\ignorespaces Arquitetura Simplificada de um Sistema Digital\relax }}{66}{figure.caption.36}
-\contentsline {figure}{\numberline {27}{\ignorespaces Arquitetura Simplificada do um Sistema Digital Mapeado para o Zynq\relax }}{67}{figure.caption.37}
-\contentsline {figure}{\numberline {28}{\ignorespaces Vis\~ao Geral da Arquitetura - Zynq 7000\relax }}{69}{figure.caption.38}
-\contentsline {figure}{\numberline {29}{\ignorespaces SoC ZynqBery - TE0726\relax }}{70}{figure.caption.39}
-\contentsline {figure}{\numberline {30}{\ignorespaces Rela\c c\~ao entre $S$ e o SQNR M\'edio para MSR Cordic Modo Normal\relax }}{75}{figure.caption.40}
-\contentsline {figure}{\numberline {31}{\ignorespaces Arquitetura da Itera\c c\~ao MSR Cordic Modo Normal $N_{spt}=3$\relax }}{77}{figure.caption.41}
-\contentsline {figure}{\numberline {32}{\ignorespaces Arquitetura Switch 2x2\relax }}{78}{figure.caption.42}
-\contentsline {figure}{\numberline {33}{\ignorespaces Arquitetura Implementada FFT de 16 Pontos\relax }}{79}{figure.caption.43}
-\contentsline {figure}{\numberline {34}{\ignorespaces Arquitetura Implementada FFT de 16 Pontos\relax }}{80}{figure.caption.44}
+\contentsline {figure}{\numberline {1}{\ignorespaces Batimento Card\IeC {\'\i }aco em 3D\relax }}{18}{figure.caption.8}
+\contentsline {figure}{\numberline {2}{\ignorespaces \'Indice BM \& FBOVESPA, S\~ao Paulo - Brasil\relax }}{18}{figure.caption.9}
+\contentsline {figure}{\numberline {3}{\ignorespaces Temperatura de um Volume de \'Agua em um Ebulidor Controlado \relax }}{19}{figure.caption.10}
+\contentsline {figure}{\numberline {4}{\ignorespaces Modos Normais de uma Corda Vibrante\relax }}{20}{figure.caption.11}
+\contentsline {figure}{\numberline {5}{\ignorespaces Ilustra\c c\~ao da Propriedade de Autofun\c c\~ao de Sistemas Lineares\relax }}{22}{figure.caption.12}
+\contentsline {figure}{\numberline {6}{\ignorespaces Aproxima\c c\~ao do Sinal de Onda Quadrada por um Termo Senoidal\relax }}{23}{figure.caption.13}
+\contentsline {figure}{\numberline {7}{\ignorespaces Aproxima\c c\~ao do Sinal de Onda Quadrada por Soma de 3 Termos Senoidais\relax }}{24}{figure.caption.14}
+\contentsline {figure}{\numberline {8}{\ignorespaces Aproxima\c c\~ao do Sinal de Onda Quadrada por Soma de 8 Termos Senoidais\relax }}{24}{figure.caption.15}
+\contentsline {figure}{\numberline {9}{\ignorespaces Aproxima\c c\~ao do Sinal de Onda Quadrada por Soma de 8 Termos Senoidais\relax }}{28}{figure.caption.17}
+\contentsline {figure}{\numberline {10}{\ignorespaces Butterfly do Fluxo do Sinal\relax }}{33}{figure.caption.18}
+\contentsline {figure}{\numberline {11}{\ignorespaces FFT de 8 Pontos\relax }}{33}{figure.caption.19}
+\contentsline {figure}{\numberline {12}{\ignorespaces FFT DIF de 8 Pontos\relax }}{35}{figure.caption.20}
+\contentsline {figure}{\numberline {13}{\ignorespaces Rota\c c\~ao de $H_r$ pelo \^angulo de $2\pi r/N_0$\relax }}{37}{figure.caption.21}
+\contentsline {figure}{\numberline {14}{\ignorespaces \^Angulos Elementares - Cordic Tradicional com N=4\relax }}{41}{figure.caption.22}
+\contentsline {figure}{\numberline {15}{\ignorespaces EEAS com N=2 e S=4\relax }}{44}{figure.caption.23}
+\contentsline {figure}{\numberline {16}{\ignorespaces Exemplo de execu\c c\~ao do Algoritmo TBS\relax }}{47}{figure.caption.24}
+\contentsline {figure}{\numberline {17}{\ignorespaces Exemplo de execu\c c\~ao do Algoritmo TBS\relax }}{48}{figure.caption.25}
+\contentsline {figure}{\numberline {18}{\ignorespaces MSR com I=2, J=1 e N=2\relax }}{51}{figure.caption.27}
+\contentsline {figure}{\numberline {19}{\ignorespaces MSR com I=2, J=1 e N=2\relax }}{52}{figure.caption.28}
+\contentsline {figure}{\numberline {20}{\ignorespaces Rela\c c\~ao entre o $P_{upper}$ e o SQNR para MSR-CORDIC, como $N_{spt}~=~3$ e $N=3$\relax }}{55}{figure.caption.29}
+\contentsline {figure}{\numberline {21}{\ignorespaces Arquitetura Tipica de uma FPGA\relax }}{58}{figure.caption.30}
+\contentsline {figure}{\numberline {22}{\ignorespaces Arquitetura de uma CLB com 4 BLEs\relax }}{59}{figure.caption.31}
+\contentsline {figure}{\numberline {23}{\ignorespaces Arquitetura de uma BLE (\textit {Basic Logic Element})\relax }}{60}{figure.caption.32}
+\contentsline {figure}{\numberline {24}{\ignorespaces Diagrama L\'ogico Full Adder 4 Bits - ISE Design Suite 14\relax }}{61}{figure.caption.33}
+\contentsline {figure}{\numberline {25}{\ignorespaces CPU MicroBlaze e Coprocessador para FFT com Interface UART - Vivado 2017.4\relax }}{64}{figure.caption.34}
+\contentsline {figure}{\numberline {26}{\ignorespaces Arquitetura Simplificada - Zynq-7000\relax }}{66}{figure.caption.35}
+\contentsline {figure}{\numberline {27}{\ignorespaces Arquitetura Simplificada de um Sistema Digital\relax }}{66}{figure.caption.36}
+\contentsline {figure}{\numberline {28}{\ignorespaces Arquitetura Simplificada do um Sistema Digital Mapeado para o Zynq\relax }}{67}{figure.caption.37}
+\contentsline {figure}{\numberline {29}{\ignorespaces Vis\~ao Geral da Arquitetura - Zynq 7000\relax }}{69}{figure.caption.38}
+\contentsline {figure}{\numberline {30}{\ignorespaces Diagrama Geral do Sistema Implementado\relax }}{70}{figure.caption.39}
+\contentsline {figure}{\numberline {31}{\ignorespaces SoC ZynqBery - TE0726\relax }}{71}{figure.caption.40}
+\contentsline {figure}{\numberline {32}{\ignorespaces Rela\c c\~ao entre $S$ e o SQNR M\'edio para MSR Cordic Modo Normal\relax }}{76}{figure.caption.41}
+\contentsline {figure}{\numberline {33}{\ignorespaces Arquitetura da Itera\c c\~ao MSR Cordic Modo Normal $N_{spt}=3$\relax }}{78}{figure.caption.43}
+\contentsline {figure}{\numberline {34}{\ignorespaces Arquitetura Switch 2x2\relax }}{78}{figure.caption.44}
+\contentsline {figure}{\numberline {35}{\ignorespaces Arquitetura Implementada FFT de 16 Pontos\relax }}{80}{figure.caption.45}
+\contentsline {figure}{\numberline {36}{\ignorespaces Caminho at\'e a ferramenta: \textit {Tools: Create and Package New IP}\relax }}{82}{figure.caption.46}
+\contentsline {figure}{\numberline {37}{\ignorespaces Ferramenta de Cria\c c\~ao e Empacotamento de Novas IPs\relax }}{83}{figure.caption.47}
+\contentsline {figure}{\numberline {38}{\ignorespaces Escolha da Op\c c\~ao: \textit {Create a New Peripheral}\relax }}{83}{figure.caption.48}
+\contentsline {figure}{\numberline {39}{\ignorespaces Configura\c c\~oes da nova IP\relax }}{84}{figure.caption.49}
+\contentsline {figure}{\numberline {40}{\ignorespaces Cria\c c\~ao de um Novo Bloco de Design\relax }}{85}{figure.caption.50}
+\contentsline {figure}{\numberline {41}{\ignorespaces Cria\c c\~ao de um Novo Bloco de Design\relax }}{86}{figure.caption.51}
+\contentsline {figure}{\numberline {42}{\ignorespaces Bloco de Design para FFT 16 Pontos\relax }}{87}{figure.caption.52}
+\contentsline {figure}{\numberline {43}{\ignorespaces Endere\c co de Mem\'oria da Interface AXI FFT\relax }}{88}{figure.caption.53}

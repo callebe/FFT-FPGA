@@ -37,8 +37,8 @@ entity Teste is
         Clock : in STD_LOGIC;
         reset : in STD_LOGIC;
         start : in STD_LOGIC;
-        Input : in STD_LOGIC_VECTOR(15 downto 0);
-        Output : out STD_LOGIC_VECTOR(15 downto 0)
+        Input : in STD_LOGIC_VECTOR(31 downto 0);
+        Output : out STD_LOGIC_VECTOR(31 downto 0)
   );
 end Teste;
 
@@ -75,6 +75,7 @@ begin
     
     --RAM for FFT
     RAM01 : RAMFFT Port Map (Adress => AuxAdress, WE =>WE, Input => OutputCordic, Output => InputCordic);
+    
     --Cordic Processors 
     CORDIC: for i in 0 to 15 generate
         C1 : CordicMSR Port Map (Ain => InputCordic(2*i) , Bin=> InputCordic(2*i+1), Start => CordicStart, Control => ROMCordic(i), Clock => Clock, Aout => OutputCordic(2*i), Bout => OutputCordic(2*i+1));

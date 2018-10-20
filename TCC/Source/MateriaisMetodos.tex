@@ -1,32 +1,37 @@
-\subsection{ZynqBerry TE0726-03M}
+Este capitulo destina-se a apresentação dos dispositivos e programas, bem como os algoritmos, funções e metodologias utilizadas para projetar e implementar a FFT. Todos os passos apresentados aqui foram embasados na teoria apresentada no Capitulo (\ref{cap:RevisaoLiteratura}).
 
-O dispositivo escolhido para a implementação do algoritmo Radix-2 é o  \textit{ZynqBerry - TE0726} da fabricante \textit{Trenz Eletronic$^\circledR$}, apresentado na figura (\ref{fig:ZynqBerry-TE0726}). Este dispositivo é baseado no SoC (\textit{System On Chip}) Raspberry Pi modelo 2, vem equipado com uma FPGA SoM (\textit{System on Module}) XC7Z010-1CLG225C-REV3, da família Zynq-700 fabricada pela \textit{Xilinx$^\circledR$} \cite{trenz}. 
+O desenvolvimento de um \text{hardware} para cálculo de uma FFT em FPGA, abrindo mão de IPs prontas e blocos de DSPs, utilizando apenas as bibliotecas padrão de componentes, como a \textit{IEEE 1164} e a \textit{UNISIM}, disponibilizadas pelo fabricante, é uma tarefa que exige um projeto e implementação eficiente. Para o projeto da arquitetura  da FFT, é necessário ter conhecimento de toda a base matemática, tanto da Transformada de Fourier, quanto do algoritmo CORDIC e de suas variantes, para que se possa tirar o máximo proveito das simplificações e otimizações matemáticas possíveis. Na implementação do algoritmo, um design eficiente dos diferentes componentes que formam o \text{hardware}, além de reduzir a latência dos sinais, também reduz o consumo de Flip-Flops, LUTs, \textit{Muxes} e blocos de memória. Tornando, assim,  possível a implementação de uma \text{hardware} mais eficiente dentro das restrições de recursos da FPGA.
+	
+Para que fosse possível testar as funcionalidades e o desempenho após a implementação, desde o inicio do projeto da FFT, fora elaborado o seguinte diagrama representativo:
 
 \vspace{6mm}
 \begin{figure}[H]
 	\centering
-	\captionsetup{width=0.6\textwidth, font=footnotesize, textfont=bf}	
-	\includegraphics[width=0.6\linewidth]{Images/RevisaoDeLiteratura/TE0726-03M_0.jpg}
-	\caption{SoC ZynqBery - TE0726}
+	\captionsetup{width=0.9\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.9\linewidth]{Images/MateriaisMetodos/SistemaImplementacao.eps}
+	\caption{Diagrama Geral do Sistema Implementado}
 	\vspace{-3.5mm}
-	\caption*{Fonte: \citeonline{trenz}}
-	\label{fig:ZynqBerry-TE0726}
+	\caption*{Fonte: Autoria Própria}
+	\label{fig:SistemaImplementacao}
 \end{figure}
 \vspace{6mm}
 
+Como pode ser percebido na Figura (\ref{fig:SistemaImplementacao}), no sistema desenvolvido neste trabalho os dados de entrada da FFT, que pode ser dados amostrados ou simplesmente gerados por \textit{software}, são enviados por um computador via USB, pelo protocolo de comunicação UART - TTL, para dentro da parte PS do placa ZynqBerry. Os dados são encaminhados pelo processador Cortex-A9 para o endereço do \textit{hardware} de Interface AXI, o qual finalmente disponibiliza os dados de entrada ao módulo FFT implementado. Após computado os dados de saída da FFT fazem o caminho reverso, para então serem enviados ao computador via UART. Assim, este é o diagrama geral utilizado como guia, ao longo de todas as etapas do desenvolvimento, que estão apresentados nas próximas seções.
 
-A FPGA XC7Z010-1CLG225C tem a mesma arquitetura dos modelos da família Artix-7, também da Xilinx, e contendo recursos como: 28.000 células lógicas, 17.600 LUTs, 2.1 Mb de memória RAM divididos em blocos de 26Kb e um total de 36.200 \textit{flip-flops}. Cada CLB, nesta FPGA, para implementar diferentes operações lógicas utiliza 16 \textit{flip-flops}, 2 somadores de 4 \textit{bits} cascateáveis e ainda 8 LUTs, sendo possível configurar a memoria RAM das LUTs para 64x1 ou 32x2 bits, ou ainda como um  \textit{shift register (SRL)}. Além disso, esta FPGA possuir 80 blocos DSP, cada um equipado com um multiplicador 18x25 simples, e um somador/acumulador de 48 bits. Todas estes recursos fazem do XC7Z010 um \textit{hardware} competente para as mais diversas aplicações de processamento de sinais, como o calculo da FFT.
+\section{ZynqBerry TE0726-03M}
+	\input{Source/MateriaisMetodos/ZynqBerry.tex}
 
-O processador utilizado no ZynqBerry TE0726-03M é um dual-core ARM Cortex-A9 de 866MHz, que proporciona um desempenho significativo em Sistemas Operacionais \sigla[Sistema Operacional]{S.O.},  como o sistemas baseados em kernel Linux, que podem incluem interface gráfica sofistica. Cada núcleo deste processador conta ainda uma unidade NEON\texttrademark  Media Processing Engine (MPE), para alto desempenho em codificação e decodificação de áudio e vídeo, e uma unidade de ponto flutuante para incremento da precisão em operações matemáticas.  Aliando a versatilidade da XC7Z010 e o poder de processamento do ARM Cortex-A9, é possível construir um sistema que execute uma versão do S.O. Linux, tirando proveito de toda a funcionalidade de tal sistema operacional pode prover, e que ainda disponha de um \textit{hardware} acelerador personalizado para uma aplicação especifica, e que trabalhe em paralelo a uma alta frequência. Provendo assim uma solução engenhosa de alto desempenho para processamento de sinais.
+\section{Implementando Processador Cordic}
+	\input{Source/MateriaisMetodos/ImplementacaoCOrdic.tex}
 
- Existem no três tipos de interface AXI4:
+\section{Implementando a FFT 16 Pontos}
+	\input{Source/MateriaisMetodos/ImplementandoFFT16.tex}
 
-\begin{itemize}
+\section{Implementando a Interface AXI}
+	\input{Source/MateriaisMetodos/InterfaceAXI.tex}
 	
-	\item \textbf{AXI :} Interface destinada a transferências de dados em alta velocidade e de maior volume utilizando mapeamento de memória, utiliza endereços de memória para acessar dados e portanto consome recursos de memória para ser implementado. Interface mais complexa, e oferece maiores opções de controle de dados, inclusive transferência no modo \textit{brust}.
+\section{Programando o ZynqBerry}
+	\input{Source/MateriaisMetodos/MapeamentoProgZynq.tex}
 	
-	\item \textbf{AXI-Lite:}Interface destinada a transferências de dados em baixa velocidade utilizando mapeamento de memória, consome espaço de memória apenas para controlar dados da transferência, como destino, origem e status da transmissão. Interface mais simples do que a AXI, logo não oferece controle de dados como o modo \textit{brust}.
-	
-	\item \textbf{AXI-Stream:} Interface para transferência de dados em alta velocidade, porém não utiliza mapeamento de memória. Toda a transferência nesta interface é peita por em  fluxo de dados contínuos, os quais não são armazenados pela interface. 
-	
-\end{itemize} 
+\section{Implementando a FFT 1024 Pontos}
+	\input{Source/MateriaisMetodos/ImplementandoFFT1024.tex}

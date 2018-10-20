@@ -1,0 +1,61 @@
+Para enviar os dados para a FFT em PL, é necessário que o processador Cortex-A9 consiga mapear o endereço do periférico de Interface AXI relacionada com a FFT. Após criar uma nova IP com a interface AXI, é necessário criar um novo Bloco de Design, no Vivado HLx 2017.4, como pode ser visto na Figura(\ref{fig:FFT16pImplementacaoA}).
+
+\vspace{6mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=1\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=1\linewidth]{Images/MateriaisMetodos/FFT16pImplementacaoA.JPG}
+	\caption{Criação de um Novo Bloco de Design}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Vivado HLx 2017.4}
+	\label{fig:FFT16pImplementacaoA}
+\end{figure}
+\vspace{6mm}
+
+A partir deste novo bloco é preciso incluir uma IP \textit{ZYNQ7 Process System}, o qual representa o ambiente PS, juntamente com um IP AXI da FFT, criada na Seção (\ref{sec:AXI}), e também uma unidade de controle de Interrupções ($axi_int$).
+
+\vspace{6mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=1\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=1\linewidth]{Images/MateriaisMetodos/FFT16pImplementacaoB.JPG}
+	\caption{Criação de um Novo Bloco de Design}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Vivado HLx 2017.4}
+	\label{fig:FFT16pImplementacaoB}
+\end{figure}
+\vspace{6mm}
+
+Após a inclusão deste 3 blocos é preciso realizar as devidas conexões entre os blocos e a configuração do bloco ZYNQ7. O Vivado 2017.4 disponibiliza ferramentas de automatização das conexões entre blocos e suas configurações. Após executar estas ferramentas, e conectar a saída da interrupção do Bloco da FFT ao bloco de controle de interrupções, o bloco de design é concluído, como mostra a Figura (\ref{fig:FFT16pImplementacaoC}).
+
+\vspace{6mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=1\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=1\linewidth]{Images/MateriaisMetodos/FFT16pImplementacaoC.JPG}
+	\caption{Bloco de Design para FFT 16 Pontos}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Vivado HLx 2017.4}
+	\label{fig:FFT16pImplementacaoC}
+\end{figure}
+\vspace{6mm}
+
+Para identificar o endereço de memória que dá acesso aos registradores da Interface AXI do FFT, basta abrir a aba \textit{Adress Editor}. Como mostra a Figura (\ref{fig:FFT16pImplementacaoD}), o Vivado automaticamente reservou um endereço de memória que começa em \textit{0x43C000000}. Logo, basta somente criar uma rotina em PS, para acessar este endereço e enviar os dados.
+
+\vspace{6mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=1\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=1\linewidth]{Images/MateriaisMetodos/FFT16pImplementacaoD.JPG}
+	\caption{Endereço de Memória da Interface AXI FFT}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Vivado HLx 2017.4}
+	\label{fig:FFT16pImplementacaoD}
+\end{figure}
+\vspace{6mm}
+
+Por fim, após a inclusão e configurações de todos os blocos de IPs, basta rodar o comando \textit{Create HDL Wrapper}, para que o Vivado crie a hierarquia de códigos HDL das IPs instanciadas. Em seguida é rodado a função de síntese (\textit{Run Synthesis}), e implementação (\textit{Run Implementation}). Se todos os passos anteriores forem executados corretamente, então o comando de geração do Bitstream (\textit{Generate Bitstream}) pode ser executado.
+
+Para programar a parte PS e também carregar a FPGA com o arquivo \textit{Bitstream} gerado, o projeto de \textit{hardware} feito no Vivado HLx precisa ser exportado para um projeto de \textit{hardware/software} e então carregado para dentro do IDE Vivado SDK 2017.4. Para isso, basta escolher a opção  File, na barra de tarefas do projeto aberto no Vivado HLx, ir em \textit{Export}, em seguida em \textit{Export Hardware}. Ao fim, basta abrir o Vivado SDK, pela opções \textit{Launch SDK}.
+
+Após exportar o projeto para o Vivado SDK, o PS fora programado para utilizar a interface UART0 do ZynqBerry para receber e enviar os dados retirados do endereço de memória da interface AXI da FFT de 16 pontos implementada. Para realizar esta operação foram necessários apenas algumas operações com ponteiros de memória. Ao fim, basta executar a compilação e \textit{debugger} do Vivado SDK, para então realizar os testes de funcionamento da FFT. 

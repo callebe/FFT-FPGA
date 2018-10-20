@@ -1,0 +1,70 @@
+\label{sec:AXI}
+Como citado na Seção (\ref{sec:Zynq-7000}), na família de SoC Zynq-7000, o AXI é o meio padrão pelo qual diferentes componentes dentro do ambiente PL se conectam, e mais importante, é o meio pelo qual componentes em PL se comunicam com o processador em PS. Como a implementação da FFT, realizada na Seção (\ref{sec:ImplementandoFFT16}), é feita em PL, e se deseja enviar e receber dados da FFT via UART, ao computador fora da placa ZynqBerry, é preciso incluir uma Interface AXI.
+
+Uma Interface AXI para este projeto deve ser capaz de converter os sinais de saída da FFT para um formato padronizado de comunicação AXI. Segundo \citeonline{zynq-7000}, existem 3 tipos básicos de interfaces AXI: 
+
+\begin{itemize}
+	
+	\item \textbf{AXI-Standard:} Interface destinada a transferências de dados em alta velocidade e de maior volume. Utiliza endereçamento de  memória para acessar dados, e portanto consome recursos de memória para ser implementado. Interface mais complexa, e oferece maiores opções de controle de dados, inclusive transferência no modo \textit{brust}.
+	
+	\item \textbf{AXI-Lite:}Interface destinada a transferências de dados em baixa velocidade, e de menor volume.  Consome espaço de memória apenas para controlar dados da transferência, como destino, origem e status da transmissão. Interface mais simples do que a AXI-Standard, não oferece controle de dados como o modo \textit{brust}.
+	
+	\item \textbf{AXI-Stream:} Interface para transferência de dados em alta velocidade, porém não utiliza mapeamento de memória. Toda a transferência nesta interface é peita por em  fluxo de dados contínuos, os quais não são armazenados pela interface. 
+	
+\end{itemize} 
+
+Teoricamente qualquer uma das 3 opções de interface AXI seriam capazes de transmitir e receber os dados da FFT. Porém deve ter em mente que uma interface AXI também consome recursos da FPGA, os quais devem ser destinados principalmente a FFT. Logo uma interface como a AXI-Standard não seria adequado, já que não há necessidade de utilizar recursos como controle de dados. Neste projeto é de interesse ter acesso seletivo aos dados de saída da FFT, de modo que seja possível ao PS acessar os valores de amplitude de frequências especificas. Como a interface AXI-Stream não possui mapeamento de memória, não seria de interesse utilizar esta interface. Portanto, será utilizada a interface  AXI-Lite.
+
+O fabricante do Zynq-7010 que equipa a placa ZynqBerry, utilizada neste trabalho, disponibiliza em sua IDE de desenvolvimento, o Vivado HLx 2017.4, uma ferramenta de criação de IPs. Utilizando esta ferramenta, partindo design em VHDL da FFT, foi criado um novo periférico AXI, como pode ser visto no quadro de Figuras (\ref{fig:DeterminacaoS}).
+
+\vspace{5mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.8\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.8\linewidth]{Images/MateriaisMetodos/CriacaoAXI.png}
+	\caption{Caminho até a ferramenta: \textit{Tools: Create and Package New IP}}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Vivado HLx 2017.4}
+	\label{fig:FerramentaIPA}
+\end{figure}    
+\vspace{5mm}
+
+\vspace{5mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.8\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.8\linewidth]{Images/MateriaisMetodos/CriacaoAXI2.png}
+	\caption{Ferramenta de Criação e Empacotamento de Novas IPs}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Vivado HLx 2017.4}
+	\label{fig:FerramentaIPB}
+\end{figure}    
+\vspace{5mm}
+
+\vspace{5mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.8\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.8\linewidth]{Images/MateriaisMetodos/CriacaoAXI3.png}
+	\caption{Escolha da Opção: \textit{Create a New Peripheral}}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Vivado HLx 2017.4}
+	\label{fig:FerramentaIPC}
+\end{figure}    
+\vspace{5mm}
+
+\vspace{5mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.8\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.8\linewidth]{Images/MateriaisMetodos/CriacaoAXI4.png}
+	\caption{Configurações da nova IP}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Vivado HLx 2017.4}
+	\label{fig:FerramentaIPD}
+\end{figure}    
+\vspace{5mm}
+ 
+Como pode ser observado na Figura (\ref{fig:FerramentaIPD}), para a criação da Interface AXI fora escolhido utilizar uma interface do tipo \textit{Lite}, no modo \textit{Slave}, com 8 endereços de memória, cada endereço com 32 \textit{bits}, e ainda escolhida a opção de habilitação de interrupções. Como é necessário transmitir apenas metade dos 16 pontos da FFT, ao fim do processo de cálculo, são necessários 8 endereços, sendo que cada endereço de 32 \textit{bits} é divido de forma que, os 16 \textit{bits} mais significativos são destinados a parte real do sinal, e os 16 textit{bits} menos significativos para a parte imaginária. Para o envio dos dados, basta preencher cada um dos 8 endereços de 32 \textit{bits}, com o valor de dois pontos de 16 \textit{bits} do sinal de entrada concatenados, considerando que os dados de entrada são puramente reais.
+
+Após a criação do Periférico AXI, foi necessário editar o código Verilog do periférico, a fim de incluir o código da implementação em VHDL da FFT de 16 pontos. Após feitas tais alterações, o design é salvo, e o Vivado geral os arquivos fonte para uma nova IP, que contém a implementação da FFT. Esta IP pode ser reutilizada em qualquer outra IDE de desenvolvimento de FPGAs, desde que  estas tenham suporte a AXI4.

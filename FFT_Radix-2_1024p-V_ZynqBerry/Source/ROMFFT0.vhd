@@ -11,6 +11,7 @@ end ROMFFT0;
 
 architecture Behavioral of ROMFFT0 is
 
+    signal Counter : integer range 0 to 1023 := 0;
 	type ROM is array (863 downto 0) of std_logic_vector(20 downto 0) ;
 	-- ROM 1 
 	constant ROM_tb : ROM := (
@@ -879,23 +880,26 @@ architecture Behavioral of ROMFFT0 is
 		862 => "111000010100001010000",
 		863 => "111000010100001010000");
 
-	begin
-		--Process to acess Data
-		process(Adress, reset)
+begin
 
-			variable Counter : integer range 510 downto 0 := 0;
-
-		begin
-
-		Data <= Rom_tb(Counter);
-		if(reset = '1')then
-			Counter := 0;
-
-		elsif(Adress'event and Adress = '1') then
-			Counter := Counter + 1;
-
-		end if;
-
-	end process;
+    --Output
+    Data <= Rom_tb(Counter);
+    
+    --Process to acess Data
+    process(Adress, reset)
+    
+    begin
+    
+        if(reset = '1')then
+            Counter <= 0;
+        
+        elsif(Adress'event and Adress = '1') then
+            if(Counter < 863) then
+                Counter <= Counter + 1;
+            end if;
+        
+        end if;
+    
+    end process;
 
 end Behavioral;

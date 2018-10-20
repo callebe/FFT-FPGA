@@ -18,6 +18,7 @@
 \usepackage{amsmath}
 \usepackage{multirow}
 \usepackage{upgreek}
+\usepackage{subcaption}
 \usepackage[table,xcdraw]{xcolor}
 % A linha abaixo chama o pacote hyperref, configurado para usar o programa 
 % pdftex.exe. Se você utiliza outra forma de compilacao altere a linha abaixo 
@@ -32,7 +33,7 @@
 \definecolor{verde}{rgb}{0,0.5,0}
 % Configurando layout para mostrar codigos C++
 \usepackage{listings}
-\renewcommand{\lstlistingname}{Fonte}% Listing -> Algorithm
+\renewcommand{\lstlistingname}{Código}% Listing -> Algorithm
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
@@ -208,7 +209,7 @@ Write here the English version of your Resumo...
 % No TeXnicCenter vá em Build -> Define Output Profiles. Escolha o profile que estiver usando
 % por exemplo LaTeX => DVI e na área do Makeindex prencha o campo ``Command line arguments...'' com: 
 %
-% "%tm".nlo -s nomencl.ist -o "%tm".nls
+% \documentclass[options]{class}st -o "%tm".nlstm".nls]{class}
 %
 % Certifique-se de que nas propriedades do projeto (Project -> properties) o caixa ``Uses Makeindex'' esteja selecionada.
 \listadesiglas
@@ -225,17 +226,11 @@ Write here the English version of your Resumo...
 \chapter{Revisão de Literatura}
 	\input{Source/RevisaoDeLiteratura.tex}
 
-\chapter{Material e Métodos}
+\chapter{Materiais e Métodos}
 	\input{Source/MateriaisMetodos.tex}
-
-\chapter{Implementando Processador Cordic}
-	\input{Source/ImplementacaoCOrdic.tex}
 	
-\chapter{Implementando a FFT no ZynqBerry}
-	\input{Source/ImplementandoFFT16.tex}
-	
-\chapter{Análise dos Resultados}
-	\input{Source/ImplementandoFFT16.tex}	
+\chapter{Resultados e Discussão}
+	\input{Source/AnaliseResultados.tex}	
 
 \chapter{Conclusão}
 	\input{Source/Conclusao.tex}

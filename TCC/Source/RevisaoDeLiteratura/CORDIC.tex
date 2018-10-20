@@ -333,33 +333,37 @@ Segue abaixo o pseudo-código que implementa o algoritmo TBS.
  
 \vspace{3mm}
 \lstset{style=VHDL}
-\begin{lstlisting}[caption={\citeonline{Chih}},captionpos=b,mathescape]
-	% Inicialização
-	$\displaystyle \phi(1,k)~=~r(k)$ para todo k,
-	
-	%Acumulação
-	$\displaystyle FOR~i=1~to~N-1$
-		$\displaystyle FOR~k=1~to~Z(S_2)$
-			$\displaystyle \phi(i+1, k) ~=~ min \left\{ \mid \phi(i,k^*)+r(k)-\theta \mid : 1 \leq k^* \leq Z(S_2) \right\}$
+	\begin{lstlisting}[mathescape]
+		% Inicialização
+		$\displaystyle \phi(1,k)~=~r(k)$ para todo k,
+		
+		%Acumulação
+		$\displaystyle FOR~i=1~to~N-1$
+			$\displaystyle FOR~k=1~to~Z(S_2)$
+				$\displaystyle \phi(i+1, k) ~=~ min \left\{ \mid \phi(i,k^*)+r(k)-\theta \mid : 1 \leq k^* \leq Z(S_2) \right\}$
+			$\displaystyle END$
 		$\displaystyle END$
-	$\displaystyle END$
-	
-	%Determinação do Ótimo Global
-	$\displaystyle \theta_{TBS}~=~min \left\{ \mid \phi(R_m,k^*)-\theta \mid : 1 \leq k^* \leq Z(S_2) \right\}$
-	$\displaystyle Result(N)~=~k^*$
-	
-	%Determinação do Caminho Solução
-	$\displaystyle FOR~i=N~to~2$
-		$\displaystyle Encontra~k'~tal~que~\phi(i,k^*)~=~min \left\{ \mid \phi(i-1,k')+r(k^*)-\theta \mid : 1 \leq k' \leq Z(S_2) \right\}$
-		$\displaystyle k^*=k'$
-		$\displaystyle Result(i-1)=k'$
-	$\displaystyle END$
-\end{lstlisting}
-\label{code:PCTBS}
+		
+		%Determinação do Ótimo Global
+		$\displaystyle \theta_{TBS}~=~min \left\{ \mid \phi(R_m,k^*)-\theta \mid : 1 \leq k^* \leq Z(S_2) \right\}$
+		$\displaystyle Result(N)~=~k^*$
+		
+		%Determinação do Caminho Solução
+		$\displaystyle FOR~i=N~to~2$
+			$\displaystyle Encontra~k'~tal~que~\phi(i,k^*)~=~min \left\{ \mid \phi(i-1,k')+r(k^*)-\theta \mid : 1 \leq k' \leq Z(S_2) \right\}$
+			$\displaystyle k^*=k'$
+			$\displaystyle Result(i-1)=k'$
+		$\displaystyle END$
+	\end{lstlisting}
+	%\captionof{lstlisting}{Pseudocódigo Algoritmo TBS}
+	%\vspace{-3.5mm}
+	%\captionof*{lstlisting}{Fonte : \citeonline{Cheng}}
+	\label{code:PCTBS}
 \vspace{3mm}
 
 
 Em \citeonline{Cheng} o autor utiliza um exemplo base para explicar o algoritmo TBS, o qual também será usado aqui. Para este exemplo, o ângulo de rotação $\theta$ será $pi/3$, o número máximo de interações será $N=4$ e a resolução de $\theta$ será de $W=~4$ bits. 
+
 
 A primeira etapa do algoritmo então inicia com a definição do vetor $r(k)$, e o preenchimento da primeira coluna da matriz $\phi(1, )$, como pode ser visto na Figura (\ref{fig:TBSExempleA}). Na segunda etapa do algoritmo é realizada a acumulação, onde cada elemento das colunas 2, 3 e 4 são preenchidos com base na coluna anterior a partir da expressão $\| \phi(n,k^*) + r(k) - \theta \|$. Na Figura (\ref{fig:TBSExempleA}) o elemento $\phi(2,15) $ representa esta etapa, onde o valor do elemento $\phi(2,15)$ é definido a partir da soma do ângulo representante da linha 15 (r(15)), com o elemento da coluna 1 que minimiza o erro de aproximação do resultado desta soma com $\theta$, que neste caso é $\pi/3$. Este processo se estende até completar a coluna 4 da matriz $\phi$.
 

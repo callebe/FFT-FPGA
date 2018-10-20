@@ -29,6 +29,16 @@ PACKAGE MainPackage IS
 	------------------------------------------------
 	           
     ------------------------------------------------
+    component AdressRAM is
+      Port (
+        Adress : in STD_LOGIC;
+        reset : in STD_LOGIC;
+        OutputAdress : buffer AdressVector(31 downto 0)
+      );
+    end component;
+    ------------------------------------------------
+                   
+    ------------------------------------------------
     component RAMFFT is
       Port (
          Adress : in AdressVector(31 downto 0);
@@ -216,9 +226,9 @@ PACKAGE MainPackage IS
         Port ( 
             Ain : in SIGNED (31 downto 0);
             Bin : in SIGNED (31 downto 0);
-            Start : in STD_LOGIC;
             Control : in STD_LOGIC_VECTOR (20 downto 0);
             Clock : in STD_LOGIC;
+            Start : in STD_LOGIC;
             Aout : out SIGNED (31 downto 0);
             Bout : out SIGNED (31 downto 0)
         );

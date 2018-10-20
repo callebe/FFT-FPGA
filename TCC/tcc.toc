@@ -1,16 +1,16 @@
 \babel@toc {brazil}{}
-\contentsline {chapter}{\numberline {1}Introdu\c c\~ao}{14}{chapter.1}
-\contentsline {section}{\numberline {1.1}Objetivos}{16}{section.1.1}
-\contentsline {subsection}{\numberline {1.1.1}Objetivo Geral}{16}{subsection.1.1.1}
-\contentsline {subsection}{\numberline {1.1.2}Objetivos Espec\IeC {\'\i }ficos}{16}{subsection.1.1.2}
-\contentsline {section}{\numberline {1.2}Organiza\c c\~ao do Trabalho}{17}{section.1.2}
-\contentsline {chapter}{\numberline {2}Revis\~ao de Literatura}{18}{chapter.2}
-\contentsline {section}{\numberline {2.1}Representa\c c\~ao de Fourier para Sinais}{20}{section.2.1}
-\contentsline {subsection}{\numberline {2.1.1}Resposta do Sistemas LTI a Entrada Senoidal}{22}{subsection.2.1.1}
-\contentsline {subsection}{\numberline {2.1.2}S\'erie de Fourier}{26}{subsection.2.1.2}
-\contentsline {subsection}{\numberline {2.1.3}Espectro de Fourier}{28}{subsection.2.1.3}
-\contentsline {section}{\numberline {2.2}S\'erie de Fourier em Tempo Discreto}{29}{section.2.2}
-\contentsline {section}{\numberline {2.3}Transformada R\'apida de Fourier}{32}{section.2.3}
+\contentsline {chapter}{\numberline {1}Introdu\c c\~ao}{13}{chapter.1}
+\contentsline {section}{\numberline {1.1}Objetivos}{15}{section.1.1}
+\contentsline {subsection}{\numberline {1.1.1}Objetivo Geral}{15}{subsection.1.1.1}
+\contentsline {subsection}{\numberline {1.1.2}Objetivos Espec\IeC {\'\i }ficos}{15}{subsection.1.1.2}
+\contentsline {section}{\numberline {1.2}Organiza\c c\~ao do Trabalho}{16}{section.1.2}
+\contentsline {chapter}{\numberline {2}Revis\~ao de Literatura}{17}{chapter.2}
+\contentsline {section}{\numberline {2.1}Representa\c c\~ao de Fourier para Sinais}{19}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Resposta do Sistemas LTI a Entrada Senoidal}{21}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}S\'erie de Fourier}{25}{subsection.2.1.2}
+\contentsline {subsection}{\numberline {2.1.3}Espectro de Fourier}{27}{subsection.2.1.3}
+\contentsline {section}{\numberline {2.2}S\'erie de Fourier em Tempo Discreto}{28}{section.2.2}
+\contentsline {section}{\numberline {2.3}Transformada R\'apida de Fourier}{31}{section.2.3}
 \contentsline {section}{\numberline {2.4}Algoritmo CORDIC}{35}{section.2.4}
 \contentsline {subsection}{\numberline {2.4.1}CORDIC Tradicional}{37}{subsection.2.4.1}
 \contentsline {subsection}{\numberline {2.4.2}EEAS-CORDIC}{40}{subsection.2.4.2}
@@ -21,15 +21,14 @@
 \contentsline {subsection}{\numberline {2.5.1}Aspectos Construtivos da FPGA}{57}{subsection.2.5.1}
 \contentsline {subsection}{\numberline {2.5.2}Programa\c c\~ao na FPGA}{61}{subsection.2.5.2}
 \contentsline {subsubsection}{\numberline {2.5.2.1}Zynq-7000}{65}{subsubsection.2.5.2.1}
-\contentsline {chapter}{\numberline {3}Material e M\'etodos}{70}{chapter.3}
-\contentsline {subsection}{\numberline {3.0.1}ZynqBerry TE0726-03M}{70}{subsection.3.0.1}
-\contentsline {chapter}{\numberline {4}Implementando Processador Cordic}{72}{chapter.4}
-\contentsline {section}{\numberline {4.1}Projeto dos Par\^ametros Cordic}{72}{section.4.1}
-\contentsline {section}{\numberline {4.2}Arquitetura Cordic Implementada}{76}{section.4.2}
-\contentsline {chapter}{\numberline {5}Implementando a FFT no ZynqBerry}{79}{chapter.5}
-\contentsline {subsection}{\numberline {5.0.1}Implementando FFT 1024 Pontos}{79}{subsection.5.0.1}
-\contentsline {subsection}{\numberline {5.0.2}Implementando FFT 1024 Pontos}{79}{subsection.5.0.2}
-\contentsline {chapter}{\numberline {6}An\'alise dos Resultados}{80}{chapter.6}
-\contentsline {subsection}{\numberline {6.0.1}Implementando FFT 1024 Pontos}{80}{subsection.6.0.1}
-\contentsline {subsection}{\numberline {6.0.2}Implementando FFT 1024 Pontos}{80}{subsection.6.0.2}
-\contentsline {chapter}{\numberline {7}Conclus\~ao}{81}{chapter.7}
+\contentsline {chapter}{\numberline {3}Materiais e M\'etodos}{70}{chapter.3}
+\contentsline {section}{\numberline {3.1}ZynqBerry TE0726-03M}{71}{section.3.1}
+\contentsline {section}{\numberline {3.2}Implementando Processador Cordic}{72}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Projeto dos Par\^ametros Cordic}{73}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Arquitetura Cordic Implementada}{77}{subsection.3.2.2}
+\contentsline {section}{\numberline {3.3}Implementando a FFT 16 Pontos}{79}{section.3.3}
+\contentsline {section}{\numberline {3.4}Implementando a Interface AXI}{81}{section.3.4}
+\contentsline {section}{\numberline {3.5}Programando o ZynqBerry}{85}{section.3.5}
+\contentsline {section}{\numberline {3.6}Implementando a FFT 1024 Pontos}{88}{section.3.6}
+\contentsline {chapter}{\numberline {4}Resultados e Discuss\~ao}{89}{chapter.4}
+\contentsline {chapter}{\numberline {5}Conclus\~ao}{90}{chapter.5}

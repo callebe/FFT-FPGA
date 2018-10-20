@@ -20,15 +20,14 @@
 \BOOKMARK [2][-]{subsection.2.5.1}{Aspectos Construtivos da FPGA}{section.2.5}% 20
 \BOOKMARK [2][-]{subsection.2.5.2}{Programa\347\343o na FPGA}{section.2.5}% 21
 \BOOKMARK [3][-]{subsubsection.2.5.2.1}{Zynq-7000}{subsection.2.5.2}% 22
-\BOOKMARK [0][-]{chapter.3}{Material e M\351todos}{}% 23
-\BOOKMARK [1][-]{subsection.3.0.1}{ZynqBerry TE0726-03M}{chapter.3}% 24
-\BOOKMARK [0][-]{chapter.4}{Implementando Processador Cordic}{}% 25
-\BOOKMARK [1][-]{section.4.1}{Projeto dos Par\342metros Cordic}{chapter.4}% 26
-\BOOKMARK [1][-]{section.4.2}{Arquitetura Cordic Implementada}{chapter.4}% 27
-\BOOKMARK [0][-]{chapter.5}{Implementando a FFT no ZynqBerry}{}% 28
-\BOOKMARK [1][-]{subsection.5.0.1}{Implementando FFT 1024 Pontos}{chapter.5}% 29
-\BOOKMARK [2][-]{subsection.5.0.2}{Implementando FFT 1024 Pontos}{subsection.5.0.1}% 30
-\BOOKMARK [0][-]{chapter.6}{An\341lise dos Resultados}{}% 31
-\BOOKMARK [1][-]{subsection.6.0.1}{Implementando FFT 1024 Pontos}{chapter.6}% 32
-\BOOKMARK [2][-]{subsection.6.0.2}{Implementando FFT 1024 Pontos}{subsection.6.0.1}% 33
-\BOOKMARK [0][-]{chapter.7}{Conclus\343o}{}% 34
+\BOOKMARK [0][-]{chapter.3}{Materiais e M\351todos}{}% 23
+\BOOKMARK [1][-]{section.3.1}{ZynqBerry TE0726-03M}{chapter.3}% 24
+\BOOKMARK [1][-]{section.3.2}{Implementando Processador Cordic}{chapter.3}% 25
+\BOOKMARK [2][-]{subsection.3.2.1}{Projeto dos Par\342metros Cordic}{section.3.2}% 26
+\BOOKMARK [2][-]{subsection.3.2.2}{Arquitetura Cordic Implementada}{section.3.2}% 27
+\BOOKMARK [1][-]{section.3.3}{Implementando a FFT 16 Pontos}{chapter.3}% 28
+\BOOKMARK [1][-]{section.3.4}{Implementando a Interface AXI}{chapter.3}% 29
+\BOOKMARK [1][-]{section.3.5}{Programando o ZynqBerry}{chapter.3}% 30
+\BOOKMARK [1][-]{section.3.6}{Implementando a FFT 1024 Pontos}{chapter.3}% 31
+\BOOKMARK [0][-]{chapter.4}{Resultados e Discuss\343o}{}% 32
+\BOOKMARK [0][-]{chapter.5}{Conclus\343o}{}% 33

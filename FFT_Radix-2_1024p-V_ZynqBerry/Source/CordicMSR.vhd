@@ -36,9 +36,9 @@ entity CordicMSR is
     Port ( 
         Ain : in SIGNED (31 downto 0);
         Bin : in SIGNED (31 downto 0);
-        Start : in STD_LOGIC;
         Control : in STD_LOGIC_VECTOR (20 downto 0);
         Clock : in STD_LOGIC;
+        Start : in STD_LOGIC;
         Aout : out SIGNED (31 downto 0);
         Bout : out SIGNED (31 downto 0)
     );
@@ -70,7 +70,6 @@ architecture Behavioral of CordicMSR is
     signal Y1 : SIGNED(15 downto 0) := (others => '0');
     signal Y2 : SIGNED(15 downto 0) := (others => '0');
     signal Y3 : SIGNED(15 downto 0) := (others => '0');
-    signal CounterCycles : INTEGER RANGE 3 downto 0 := 0;
         
 begin
     
@@ -89,10 +88,10 @@ begin
     
     --Switchs
     -- Input
-    XinSelect <= Bin(31 downto 16) when CounterCycles = 0 else
+    XinSelect <= Bin(31 downto 16) when Start = '1' else
                  FeedbackX;
                  
-    YinSelect <= Bin(15 downto 0) when CounterCycles = 0 else
+    YinSelect <= Bin(15 downto 0) when Start = '1' else
                  FeedbackY;
     -- X(n+1)
     SwitchX1 <= AuxOutputX1 when Control(20) = '1' else
@@ -183,21 +182,4 @@ begin
     
     end process;
     
-    --Counter Control
-    process(Clock)
-   
-    begin
-    
-        if(Clock'event and Clock = '1') then
-            if(Start = '1') then
-                CounterCycles <= 0;
-                
-            else
-                CounterCycles <= CounterCycles + 1; 
-                    
-            end if;
-        
-        end if;
-    
-    end process;
 end Behavioral;

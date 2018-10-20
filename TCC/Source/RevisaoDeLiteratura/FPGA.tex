@@ -76,7 +76,7 @@ O Código VHDL (\ref{code:ExemploFullAdder4Bits}), descrito abaixo, apresenta o m
 
 \vspace{3mm}
 	\lstset{style=VHDL}
-	\begin{lstlisting}[caption={Autoria Própria},captionpos=b,mathescape]
+	\begin{lstlisting}[mathescape]
 	library IEEE;
 	use IEEE.STD_LOGIC_1164.ALL;
 	use IEEE.NUMERIC_STD.ALL;
@@ -100,6 +100,9 @@ O Código VHDL (\ref{code:ExemploFullAdder4Bits}), descrito abaixo, apresenta o m
 		
 	end architecture Behavioral;
 	\end{lstlisting}
+	%\captionof{lstlisting}{Somador 4 \textit{bits} em VHDL}
+	%\vspace{-3.5mm}
+	%\captionof*{lstlisting}{Fonte : Autoria Própria}
 	\label{code:ExemploFullAdder4Bits}
 \vspace{3mm}
 
@@ -124,6 +127,7 @@ A maioria dos IDEs mais recentes possuem uma interface gráfica de diagrama de bl
 A FPGA é uma boa escolha para a implementação do algoritmo da FFT  devido a grande variedade de recursos de \textit{hardware} sintetizáveis, além de possuir recursos de programação paralela que permite o processamento paralelo de sinais, conferindo assim uma maior rapidez na execução do algoritmo \cite{kamal}. Como afirma \citeonline[Prefácio]{Meyer}, muitos algoritmos de processamento de sinais, como FFT (\emph{Fast Fourier Transform}) e os filtros FIR ou IIR,  implementados anteriormente em Circuitos Integrados de Aplicação Especifica ou ASIC (\emph{Application Specific Integrated Circuits}), agora estão sendo implementados em FPGAs.
 
 \subsubsection{Zynq-7000}
+\label{sec:Zynq-7000}
 
 Segundo a \citeonline{zynqbook}, Zynq-7000 é uma família de SoCs que integram a programabilidade em \textit{software} de um processador ARM  Cortex-A9, com  a programabilidade em \textit{hardware} de uma FPGA, possibilitando a integração entre CPU, DSPs e FPGA, agregando diversas funcionalidades em um único dispositivo. Zynq-7000 representa uma solução completa em processamento de sinais em um único dispositivo, com um ótima relação performance/consumo energético.
 

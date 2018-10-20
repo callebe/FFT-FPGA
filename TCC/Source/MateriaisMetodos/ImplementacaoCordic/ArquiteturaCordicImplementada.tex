@@ -1,0 +1,38 @@
+Após a definição dos parâmetros CORDIC, é então realizada a implementação da arquitetura em FPGA, através da linguagem VHDL. Segundo \citeonline{Chih}, as operações de multiplicação dos termos SPT em (\ref{eq:MSR}), podem ser realizadas utilizando operadores lógicos de deslocamento de \textit{bit}, ou  \textit{shifters}. Como observado em (\ref{eq:MSR}), as duas partes $x$ e $y$ do sinal de entrada precisam ser desolados para direita de forma diferenciada com base nos parâmetros $I$ e $J$, gerando assim cada parte $N_{SPT}$ sinais deslocados. 
+
+As operações de deslocamento de $x$ e $y$ podem ser realizada utilizando apenas dois \textit{Barrel shifter}, ambos com uma entrada e três saídas. O \textit{Barrel shifter} é um componentes lógico capaz de deslocar um palavras binária por um número especifico de \textit{bits} utilizando apenas lógica combinacional, o que possibilita efetuar a operação de deslocamento em apenas um ciclo de \textit{clock}. A única desvantagem deste componente é o número elevado de multiplexadores necessários para sua implementação: $n log_2 n$, onde $n$ é o tamanho da palavra binária. Porém, como neste projeto $n=16$ \textit{bits}, optou-se por utilizar dois \textit{Barrel shifter}.
+
+Para a implementação em VHDL fora utilizado o diagrama de interação sugerido por \citeonline{Chih}, o qual segue na Figura (\ref{fig:ArquiteturaCordicGeneralizado}).
+
+\vspace{5mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.8\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.8\linewidth]{Images/ImplementandoCordic/ArquiteturaCordicGeneralizado.eps}
+	\caption{Arquitetura da Iteração MSR Cordic Modo Normal $N_{spt}=3$}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Adaptado \cite{Chih}}
+	\label{fig:ArquiteturaCordicGeneralizado}
+\end{figure}    
+\vspace{5mm}
+
+\vspace{5mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.3\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.3\linewidth]{Images/ImplementandoCordic/Sswitch.eps}
+	\caption{Arquitetura Switch 2x2}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Adaptado \cite{Chih}}
+	\label{fig:Sswitch}
+\end{figure}    
+\vspace{5mm}
+
+Como pode ser visto na Figura (\ref{fig:ArquiteturaCordicGeneralizado}) a implementação da interação CORDIC é feita basicamente de um conjunto de 4 somadores e 2 \textit{Barrel Shifters}. A implementação do Algoritmo CORDIC pode ser feita na forma sequencial ou na forma \textit{pipeline}. Na forma sequencial a Unidade de Controle da Figura (\ref{fig:ArquiteturaCordicGeneralizado}), por meio de um conjunto de \textit{flip-flops}, armazenam o valor final da interação e retro alimentam a entrada do circuito, durante os $N$ ciclos de interação CORDIC. A cada interação a Unidade de Controle muda os parâmetros de acordo com os dados armazenados na ROM. Na forma de \textit{piperline} várias unidades Cordic, como as vista Figura (\ref{fig:ArquiteturaCordicGeneralizado}), são encadeadas sequencialmente de modo que cada unidade seja responsável por uma interação, separadamente, o que possibilita que a operação seja realizada em apenas um ciclo de \text{clock}.
+
+Na forma sequencial a implementação do Algoritmo ocupa menos recursos da FPGA, já que são necessários apenas um hardware de interação, e \textit{flip-flops} de controle. Porém o número de ciclos de \textit{clock} necessários para concluir a operação é ditada pelas operação sequencial do Unidade de Controle, que nunca será inferior a $N$ ciclos. Já forma \textit{pipeline} o número de ciclos de \textit{clock} necessários para finalizar a operação de rotação  é dependente apenas da velocidade de propagação dos sinais através do \textit{hardware} encadeado das iteração. Porém como neste modo existem $N$ \textit{hardware} de interação encadeados, o consumo de recursos da FPGA é bem maior. Por questão de limitação de recursos de \textit{hardware} da FPGA utilizada, se optou pela implementação na forma sequencial. 
+
+
+
+ 
+
