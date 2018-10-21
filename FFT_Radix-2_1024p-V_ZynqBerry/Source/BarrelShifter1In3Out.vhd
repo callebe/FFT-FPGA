@@ -50,7 +50,7 @@ begin
     
     -- S1 Output
     with S1 Select
-        Output1 <= Input(15 downto 0) when "0000",
+        Output1 <= Input when "0000",
                 '0' & Input(15 downto 1) when "0001",
                 "00" & Input(15 downto 2) when "0010",
                 "000" & Input(15 downto 3) when "0011",
@@ -69,7 +69,7 @@ begin
                 
     -- S2 Output
     with S2 Select
-        Output2 <= Input(15 downto 0) when "0000",
+        Output2 <= Input when "0000",
                 '0' & Input(15 downto 1) when "0001",
                 "00" & Input(15 downto 2) when "0010",
                 "000" & Input(15 downto 3) when "0011",
@@ -86,23 +86,23 @@ begin
                 "00000000000000" & Input(15 downto 14) when "1110",
                 "000000000000000" & Input(15) when others;
        
-        -- S2 Output
-        with S3 Select
-            Output3 <= Input(15 downto 0) when "0000",
-                    '0' & Input(15 downto 1) when "0001",
-                    "00" & Input(15 downto 2) when "0010",
-                    "000" & Input(15 downto 3) when "0011",
-                    "0000" & Input(15 downto 4) when "0100",
-                    "00000" & Input(15 downto 5) when "0101",
-                    "000000" & Input(15 downto 6) when "0110",
-                    "0000000" & Input(15 downto 7) when "0111",
-                    "00000000" & Input(15 downto 8) when "1000",
-                    "000000000" & Input(15 downto 9) when "1001",
-                    "0000000000" & Input(15 downto 10) when "1010",
-                    "00000000000" & Input(15 downto 11) when "1011",
-                    "000000000000" & Input(15 downto 12) when "1100",
-                    "0000000000000" & Input(15 downto 13) when "1101",
-                    "00000000000000" & Input(15 downto 14) when "1110",
-                    "000000000000000" & Input(15) when others;     
+    -- S3 Output
+    with S3 Select
+        Output3 <= Input when "0000",
+                '0' & Input(15 downto 1) when "0001",
+                "00" & Input(15 downto 2) when "0010",
+                "000" & Input(15 downto 3) when "0011",
+                "0000" & Input(15 downto 4) when "0100",
+                "00000" & Input(15 downto 5) when "0101",
+                "000000" & Input(15 downto 6) when "0110",
+                "0000000" & Input(15 downto 7) when "0111",
+                "00000000" & Input(15 downto 8) when "1000",
+                "000000000" & Input(15 downto 9) when "1001",
+                "0000000000" & Input(15 downto 10) when "1010",
+                "00000000000" & Input(15 downto 11) when "1011",
+                "000000000000" & Input(15 downto 12) when "1100",
+                "0000000000000" & Input(15 downto 13) when "1101",
+                "00000000000000" & Input(15 downto 14) when "1110",
+                "000000000000000" & Input(15) when others;     
     
 end Behavioral;

@@ -83,8 +83,8 @@ begin
     -- (6) - Switch S3
     -- (5-4) - mu3
     -- (3-0) - S3 
-    BarrelShifterX : BarrelShifter1In3Out Port Map (Input => XinSelect, Output1 => AuxOutputX1, Output2 => AuxOutputX2, Output3 => AuxOutputX3, S1 => Control(17 downto 14), S2 => Control(10 downto 7), S3 => Control(3 downto 0));
-    BarrelShifterY : BarrelShifter1In3Out Port Map (Input => XinSelect, Output1 => AuxOutputY1, Output2 => AuxOutputY2, Output3 => AuxOutputY3, S1 => Control(17 downto 14), S2 => Control(10 downto 7), S3 => Control(3 downto 0));
+    BarrelShifterX : BarrelShifter1In3Out Port Map (Input => Xin, Output1 => AuxOutputX1, Output2 => AuxOutputX2, Output3 => AuxOutputX3, S1 => Control(17 downto 14), S2 => Control(10 downto 7), S3 => Control(3 downto 0));
+    BarrelShifterY : BarrelShifter1In3Out Port Map (Input => Yin, Output1 => AuxOutputY1, Output2 => AuxOutputY2, Output3 => AuxOutputY3, S1 => Control(17 downto 14), S2 => Control(10 downto 7), S3 => Control(3 downto 0));
     
     --Switchs
     -- Input
@@ -95,22 +95,22 @@ begin
                  FeedbackY;
     -- X(n+1)
     SwitchX1 <= AuxOutputX1 when Control(20) = '1' else
-                AuxOutputY1 when Control(20) = '0';
+                AuxOutputY1;
         
     SwitchX2 <= AuxOutputX2 when Control(13) = '1' else
-                AuxOutputY2 when Control(13) = '0';
+                AuxOutputY2;
     
     SwitchX3 <= AuxOutputX3 when Control(6) = '1' else
-                AuxOutputY3 when Control(6) = '0';
+                AuxOutputY3;
     -- Y(n+1)
     SwitchY1 <= AuxOutputY1 when Control(20) = '1' else
-                AuxOutputX1 when Control(20) = '0';
+                AuxOutputX1;
           
     SwitchY2 <= AuxOutputY2 when Control(13) = '1' else
-                AuxOutputX2 when Control(13) = '0';
+                AuxOutputX2;
     
     SwitchY3 <= AuxOutputY3 when Control(6) = '1' else
-                AuxOutputX3 when Control(6) = '0';
+                AuxOutputX3;
                                   
     -- Sign Select
     X1 <= SwitchX1 when Control(19 downto 18) = "11" and Control(20) = '0' else
@@ -144,8 +144,8 @@ begin
           (others => '0');
                     
     --Adders
-    FeedbackX <= X1 + X2 + X3;
-    FeedbackY <= Y1 + Y2 + Y3;
+    FeedbackX <= to_signed(to_integer(X1) + to_integer(X2) + to_integer(X3), FeedbackX'length);
+    FeedbackY <= to_signed(to_integer(Y1) + to_integer(Y2) + to_integer(Y3), FeedbackX'length);
     
     --Output and Feedback
     Bout(31 downto 16) <= FeedbackX;

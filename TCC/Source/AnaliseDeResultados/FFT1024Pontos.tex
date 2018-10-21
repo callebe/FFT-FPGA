@@ -1,0 +1,101 @@
+Após a implementação do código VHDL, é realizada a síntese da FFT de 1024 pontos. A tabela (\ref{tab:ResultadoSinteseFFt1024}) apresenta os dados referentes ao volume de recursos utilizados para esta implementação.
+
+\vspace{5mm}
+\begin{table}[H]
+	\centering
+	\captionsetup{width=.5\linewidth}
+	\begin{tabular}{|l|c|c|}
+		\hline
+		Recurso & Utilização & Utilização \% \\ \hline
+		LUT & 17021 & 96\% \\ \hline
+		FF  & 22178 & 63\%  \\ \hline
+		BRAM &  32  & 100\%  \\ \hline
+		DSP & 0 & 0 \\ \hline 
+	\end{tabular}
+	\caption{Resultado de Síntese FFT 1024 Pontos}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Autoria Própria}
+	\label{tab:ResultadoSinteseFFt1024}
+\end{table}
+
+Assim como foi feito na seção anterior, a comparação entre os recursos consumidos pela FFT de 1024 pontos em relação as FFTs encontradas na bibliografia, deve ser realizada. Para tal, segue a Tabela (\ref{tab:ResultadoSinteseFFt1024Comparativo}).
+
+\vspace{5mm}
+\begin{table}[H]
+	\centering
+	\captionsetup{width=\linewidth}
+	\begin{tabular}{|l|c|c|c|c|c|}
+		\hline
+		Referência       & LUT  & FF   & BRAM   & DSP & Wordlength(\textit{bits})\\ \hline
+		Autoria Própria  & 17021 & 22178 &  16     & 0  & 16\\ \hline
+		\citeonline{zhou} & 18384 & 12256 &  8     & 16 & 16\\ \hline
+	\end{tabular}
+	\caption{Comparativo de Síntese - FFT 1024 Pontos}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Autoria Própria}
+	\label{tab:ResultadoSinteseFFt1024Comparativo}
+\end{table}
+
+Além das diferenças explicitas na Tabela (\ref{tab:ResultadoSinteseFFt1024Comparativo}), a FFT apresentada por \citeonline{zhou}, implementa a arquitetura Radix-4SDC, e não utiliza operadores CORDIC, mas sim blocos de DSP para realizar as operações de rotação vetorial. Em comparação, a FFT implementada neste trabalho, consome mais recursos em termos de \textit{flip-flops} e blocos de \textit{RAM}, devido principalmente a presença dos operadores CORDIC.
+
+Em relação ao desempenho de números de \textit{clock} necessários para efetuar o cálculo da FFT, o \textit{hardware} aqui implementado, cumpre sua função em 1728 ciclos de \textit{clock}. Levando em consideração, que a cada nível da FFT as unidades CORDIC são reutilizadas 64 vezes, e que, em cada operação é gasto 3 ciclos de \textit{clock}, logo, cada nível leva 192 ciclos de \textit{clock} para ser computado. O ultimo nível da FFT não é considerado neste cálculo de desempenho, pois, no nível 9 nenhuma operação CORDIC é realizada, sendo somente executado o envio de dados ao PS.
+
+A FFT Radix-4SDC, apresentada por \citeonline{zhou}, consegue desempenhar o cálculo da FFT em 1024 ciclos. Segundo \cite{he},  o DSP (\textit{Digital Signal Processor}) comercial de ponto-fixo \textit{TMS320C6416} da fabricante \textit{Texas Instrument}, computa uma FFT de 1024 pontos, com \textit{wordlength} de 16 \textit{bits}, em cerca de 6.526 ciclos de \textit{clock}. Comparando o desempenho entre este DSP comercial, e a FFT Radix-4SDC, pode-se perceber que a FFT aqui implementada possui um desempenho em velocidade de processamento superior a um DSP comercial, e mais próximo de uma FFT em FPGA da bibliografia.
+
+Após programar a FPGA e o PS do ZynqBerry, foi realizado os testes de desempenho da FFT de 1024 pontos. Foram enviados dados de diferentes formas de onda, todas geradas pelo \textit{software} \textit{Matlab}. Após recolha dos dados, fora calculado o valor médio do nível SQNR da FFT.  Ao longo dos testes o valor do nível de SQNR da FFT ficou próximo a 41dB. A Tabela (\ref{tab:ResultFFT1024}), relaciona este resultado aos demais encontrados na bibliografia.
+
+
+\vspace{5mm}
+\begin{table}[H]
+	\centering
+	\captionsetup{width=\linewidth}
+	\begin{tabular}{|l|c|c|c|ll|}
+		\hline
+		Arquitetura & CORDIC & SQNR(dB)  & Wordlength(\text{bits}) &Referência & \\ \hline
+		Radix-2     &   MSR  & 41        &    16     & Autoria Própria & \\ \hline
+		Radix-4SDC  &   -    & 61,25     &    16     & \citeonline{zhou} &  \\ \hline
+		Radix-2     &   MSR  & 62,39     &    16     &\citeonline{two}  &  \\ \hline
+		Radix-2     &   EEAS & 55,05     &    16     &\citeonline{two} & \\ \hline
+		Radix-2     &   MVR  & 51,53     &    16     &\citeonline{two} & \\ \hline 
+	\end{tabular}
+	\caption{Comparativo Nível de SNQR para FFT de 16 Pontos}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Autoria Própria}
+	\label{tab:ResultFFT1024}
+\end{table}
+
+Como pode ser observado na Tabela (\ref{tab:ResultFFT1024}), o desempenho da FFT implementada em relação ao nível de SQNR ficou abaixo do observado na bibliografia, mesmo para arquiteturas Radix-2 utilizando processadores CORDIC EEAS. Este baixo desempenho se deve principalmente ao fato de que na arquitetura implementada não foram utilizados métodos de redução de latência de sinais, ou mesmos métodos de redução de erros como os aplicados por \citeonline{two}. 
+
+Então, para demonstrar o desempenho da FFT de 1024 pontos, a Figura (\ref{fig:SinalDeEntradaDaFFT16p}) apresenta o sinal descrito pela equação: 
+
+\begin{eqnarray}
+X_{in} = 401 * sin(2 \pi (100) t) +12*sin(2 \pi (200)t) + \dots \\+ 520* sin(2\pi(1250)t) + 230*sin(2\pi(5000)t) + \dots \\ + 120*sin(2\pi(2780)t);
+\end{eqnarray}
+
+Os dados da forma de onda da Figura \ref{fig:SinalDeEntradaDaFFT1024p}, foram enviados a FFT,  e resultado obtido é apresentada na Figura (\ref{fig:FFTResult1024p}).  
+
+\vspace{5mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.9\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.9\linewidth]{Images/ResultadosDiscussao/SinalDeEntradaDaFFT1024.eps}
+	\caption{Sinal com Componentes em 100Hz, 200Hz, 1250Hz, 5000Hz e 2780Hz}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Simulação\textit{Matlab}}
+	\label{fig:SinalDeEntradaDaFFT1024p}
+\end{figure}    
+\vspace{5mm}
+
+
+\vspace{5mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.9\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.9\linewidth]{Images/ResultadosDiscussao/FFT1024pImplementada.eps}
+	\caption{Espectro de Fourier proveniente da FFT de 1024 Pontos}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Autoria Própria}
+	\label{fig:FFTResult1024p}
+\end{figure}    
+\vspace{5mm}   
+    

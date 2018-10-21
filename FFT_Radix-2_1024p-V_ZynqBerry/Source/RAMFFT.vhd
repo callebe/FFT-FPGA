@@ -34,103 +34,581 @@ use UNISIM.VComponents.all;
 
 entity RAMFFT is
   Port (
-     Adress : in AdressVector(31 downto 0);
-     WE : in STD_LOGIC;
-     Input : in Complex(31 downto 0);
-     Output : out Complex(31 downto 0)
+     clock : in STD_LOGIC;
+     Adress : in AdressVector(3 downto 0);
+     Input : in Complex(3 downto 0);
+     Output : out Complex(3 downto 0)
   );
 end RAMFFT;
 
 architecture Behavioral of RAMFFT is
 
-    signal RAM : Complex(1023 downto 0);
-    
+    signal RAM : Complex(1023 downto 0) := (others=>(others=>'0'));
+
 begin
 
-    -- Write Enable Process
-    process(WE)
+    Output(0) <= RAM(to_integer(unsigned(Adress(0))));
+    Output(1) <= RAM(to_integer(unsigned(Adress(1))));
+    Output(2) <= RAM(to_integer(unsigned(Adress(2))));
+    Output(3) <= RAM(to_integer(unsigned(Adress(3))));
+    
+    process(Clock)
     
     begin
-        
-        if(WE'event and WE = '1') then
-            RAM(to_integer(signed(Adress(0)))) <= Input(0);
-            RAM(to_integer(signed(Adress(1)))) <= Input(1);
-            RAM(to_integer(signed(Adress(2)))) <= Input(2);
-            RAM(to_integer(signed(Adress(3)))) <= Input(3);
-            RAM(to_integer(signed(Adress(4)))) <= Input(4);
-            RAM(to_integer(signed(Adress(5)))) <= Input(5);
-            RAM(to_integer(signed(Adress(6)))) <= Input(6);
-            RAM(to_integer(signed(Adress(7)))) <= Input(7);
-            RAM(to_integer(signed(Adress(8)))) <= Input(8);
-            RAM(to_integer(signed(Adress(9)))) <= Input(9);
-            RAM(to_integer(signed(Adress(10)))) <= Input(10);
-            RAM(to_integer(signed(Adress(11)))) <= Input(11);
-            RAM(to_integer(signed(Adress(12)))) <= Input(12);
-            RAM(to_integer(signed(Adress(13)))) <= Input(13);
-            RAM(to_integer(signed(Adress(14)))) <= Input(14);
-            RAM(to_integer(signed(Adress(15)))) <= Input(15);
-            RAM(to_integer(signed(Adress(16)))) <= Input(16);
-            RAM(to_integer(signed(Adress(17)))) <= Input(17);
-            RAM(to_integer(signed(Adress(18)))) <= Input(18);
-            RAM(to_integer(signed(Adress(19)))) <= Input(19);
-            RAM(to_integer(signed(Adress(20)))) <= Input(20);
-            RAM(to_integer(signed(Adress(21)))) <= Input(21);
-            RAM(to_integer(signed(Adress(22)))) <= Input(22);
-            RAM(to_integer(signed(Adress(23)))) <= Input(23);
-            RAM(to_integer(signed(Adress(24)))) <= Input(24);
-            RAM(to_integer(signed(Adress(25)))) <= Input(25);
-            RAM(to_integer(signed(Adress(26)))) <= Input(26);
-            RAM(to_integer(signed(Adress(27)))) <= Input(27);
-            RAM(to_integer(signed(Adress(28)))) <= Input(28);
-            RAM(to_integer(signed(Adress(29)))) <= Input(29);
-            RAM(to_integer(signed(Adress(30)))) <= Input(30);
-            RAM(to_integer(signed(Adress(31)))) <= Input(31);
-                        
+        if(clock'event and clock = '1')then
+            if(Adress(0) = "00")then
+              RAM(0) <= Input(0);         
+            
+            else
+                if(Adress(1) = "00")then
+                    RAM(0) <= Input(1);
+                
+                else
+                     if(Adress(2) = "00")then
+                        RAM(0) <= Input(2);
+                     
+                     else
+                        RAM(0) <= Input(3);
+                     
+                     end if;
+                end if;
+                
+            end if;
+            
         end if;
         
     end process;
 
-    -- Reading
-    process(WE)
-        
+    process(Clock)
+    
     begin
-        
-        if(WE'event and WE = '0') then
-            Output(0) <= RAM(to_integer(signed(Adress(0))));
-            Output(1) <= RAM(to_integer(signed(Adress(1))));
-            Output(2) <= RAM(to_integer(signed(Adress(2))));
-            Output(3) <= RAM(to_integer(signed(Adress(3))));
-            Output(4) <= RAM(to_integer(signed(Adress(4))));
-            Output(5) <= RAM(to_integer(signed(Adress(5))));
-            Output(6) <= RAM(to_integer(signed(Adress(6))));
-            Output(7) <= RAM(to_integer(signed(Adress(7))));
-            Output(8) <= RAM(to_integer(signed(Adress(8))));
-            Output(9) <= RAM(to_integer(signed(Adress(9))));
-            Output(10) <= RAM(to_integer(signed(Adress(10))));
-            Output(11) <= RAM(to_integer(signed(Adress(11))));
-            Output(12) <= RAM(to_integer(signed(Adress(12))));
-            Output(13) <= RAM(to_integer(signed(Adress(13))));
-            Output(14) <= RAM(to_integer(signed(Adress(14))));
-            Output(15) <= RAM(to_integer(signed(Adress(15))));
-            Output(16) <= RAM(to_integer(signed(Adress(16))));
-            Output(17) <= RAM(to_integer(signed(Adress(17))));
-            Output(18) <= RAM(to_integer(signed(Adress(18))));
-            Output(19) <= RAM(to_integer(signed(Adress(19))));
-            Output(20) <= RAM(to_integer(signed(Adress(20))));
-            Output(21) <= RAM(to_integer(signed(Adress(21))));
-            Output(22) <= RAM(to_integer(signed(Adress(22))));
-            Output(23) <= RAM(to_integer(signed(Adress(23))));
-            Output(24) <= RAM(to_integer(signed(Adress(24))));
-            Output(25) <= RAM(to_integer(signed(Adress(25))));
-            Output(26) <= RAM(to_integer(signed(Adress(26))));
-            Output(27) <= RAM(to_integer(signed(Adress(27))));
-            Output(28) <= RAM(to_integer(signed(Adress(28))));
-            Output(29) <= RAM(to_integer(signed(Adress(29))));
-            Output(30) <= RAM(to_integer(signed(Adress(30))));
-            Output(31) <= RAM(to_integer(signed(Adress(31))));            
-                            
+        if(clock'event and clock = '1')then
+            if(Adress(0) = "01")then
+              RAM(1) <= Input(0);         
+            
+            else
+                if(Adress(1) = "01")then
+                    RAM(1) <= Input(1);
+                
+                else
+                     if(Adress(2) = "01")then
+                        RAM(1) <= Input(2);
+                     
+                     else
+                        RAM(1) <= Input(3);
+                     
+                     end if;
+                end if;
+                
+            end if;
+            
         end if;
         
     end process;
     
+    process(Clock)
+        
+        begin
+            if(clock'event and clock = '1')then
+                if(Adress(0) = "11")then
+                  RAM(3) <= Input(0);         
+                
+                else
+                    if(Adress(1) = "11")then
+                        RAM(3) <= Input(1);
+                    
+                    else
+                         if(Adress(2) = "11")then
+                            RAM(3) <= Input(2);
+                         
+                         else
+                            RAM(3) <= Input(3);
+                         
+                         end if;
+                    end if;
+                    
+                end if;
+                
+            end if;
+            
+        end process;
+        
+        process(Clock)
+            
+            begin
+                if(clock'event and clock = '1')then
+                    if(Adress(0) = "10")then
+                      RAM(2) <= Input(0);         
+                    
+                    else
+                        if(Adress(1) = "10")then
+                            RAM(2) <= Input(1);
+                        
+                        else
+                             if(Adress(2) = "10")then
+                                RAM(2) <= Input(2);
+                             
+                             else
+                                RAM(2) <= Input(3);
+                             
+                             end if;
+                        end if;
+                        
+                    end if;
+                    
+                end if;
+                
+            end process;
+            
+            
+--    -- Reading and Write Enable Process
+--    process(clock, WE)
+    
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(0)))) <= Input(0);
+                
+--            else
+--                Output(0) <= RAM(to_integer(unsigned(Adress(0))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(1)))) <= Input(1);
+                
+--            else
+--                Output(1) <= RAM(to_integer(unsigned(Adress(1))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(2)))) <= Input(2);
+                
+--            else
+--                Output(2) <= RAM(to_integer(unsigned(Adress(2))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(3)))) <= Input(3);
+                
+--            else
+--                Output(3) <= RAM(to_integer(unsigned(Adress(3))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(4)))) <= Input(4);
+                
+--            else
+--                Output(4) <= RAM(to_integer(unsigned(Adress(4))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;              
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(5)))) <= Input(5);
+                
+--            else
+--                Output(5) <= RAM(to_integer(unsigned(Adress(5))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(6)))) <= Input(6);
+                
+--            else
+--                Output(6) <= RAM(to_integer(unsigned(Adress(6))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(7)))) <= Input(7);
+                
+--            else
+--                Output(7) <= RAM(to_integer(unsigned(Adress(7))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;                            
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(8)))) <= Input(8);
+                
+--            else
+--                Output(8) <= RAM(to_integer(unsigned(Adress(8))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;   
+--     process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(9)))) <= Input(9);
+                
+--            else
+--                Output(9) <= RAM(to_integer(unsigned(Adress(9))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;   
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(10)))) <= Input(10);
+                
+--            else
+--                Output(10) <= RAM(to_integer(unsigned(Adress(10))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(11)))) <= Input(11);
+                
+--            else
+--                Output(11) <= RAM(to_integer(unsigned(Adress(11))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(12)))) <= Input(12);
+                
+--            else
+--                Output(12) <= RAM(to_integer(unsigned(Adress(12))));
+                
+--            end if;                
+--        end if;
+        
+--    end process; 
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(13)))) <= Input(13);
+                
+--            else
+--                Output(13) <= RAM(to_integer(unsigned(Adress(13))));
+                
+--            end if;                
+--        end if;
+        
+--    end process; 
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(14)))) <= Input(14);
+                
+--            else
+--                Output(14) <= RAM(to_integer(unsigned(Adress(14))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;         
+--        process(clock, WE)
+    
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(15)))) <= Input(15);
+                
+--            else
+--                Output(15) <= RAM(to_integer(unsigned(Adress(15))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(16)))) <= Input(16);
+                
+--            else
+--                Output(16) <= RAM(to_integer(unsigned(Adress(16))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(17)))) <= Input(17);
+                
+--            else
+--                Output(17) <= RAM(to_integer(unsigned(Adress(1))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(18)))) <= Input(18);
+                
+--            else
+--                Output(18) <= RAM(to_integer(unsigned(Adress(18))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(19)))) <= Input(19);
+                
+--            else
+--                Output(19) <= RAM(to_integer(unsigned(Adress(19))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;              
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(20)))) <= Input(20);
+                
+--            else
+--                Output(20) <= RAM(to_integer(unsigned(Adress(20))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(21)))) <= Input(21);
+                
+--            else
+--                Output(21) <= RAM(to_integer(unsigned(Adress(21))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(22)))) <= Input(22);
+                
+--            else
+--                Output(22) <= RAM(to_integer(unsigned(Adress(22))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;                            
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(23)))) <= Input(23);
+                
+--            else
+--                Output(23) <= RAM(to_integer(unsigned(Adress(23))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;   
+--     process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(24)))) <= Input(24);
+                
+--            else
+--                Output(24) <= RAM(to_integer(unsigned(Adress(24))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;   
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(25)))) <= Input(25);
+                
+--            else
+--                Output(25) <= RAM(to_integer(unsigned(Adress(25))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(26)))) <= Input(26);
+                
+--            else
+--                Output(26) <= RAM(to_integer(unsigned(Adress(26))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(27)))) <= Input(27);
+                
+--            else
+--                Output(27) <= RAM(to_integer(unsigned(Adress(27))));
+                
+--            end if;                
+--        end if;
+        
+--    end process; 
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(28)))) <= Input(28);
+                
+--            else
+--                Output(28) <= RAM(to_integer(unsigned(Adress(28))));
+                
+--            end if;                
+--        end if;
+        
+--    end process; 
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(29)))) <= Input(29);
+                
+--            else
+--                Output(29) <= RAM(to_integer(unsigned(Adress(29))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(30)))) <= Input(30);
+                
+--            else
+--                Output(30) <= RAM(to_integer(unsigned(Adress(30))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;
+--    process(clock, WE)
+        
+--    begin
+--        if(clock'event and clock = '1')then
+--            if( WE = '1') then
+--                RAM(to_integer(unsigned(Adress(31)))) <= Input(31);
+                
+--            else
+--                Output(31) <= RAM(to_integer(unsigned(Adress(31))));
+                
+--            end if;                
+--        end if;
+        
+--    end process;
+                
 end Behavioral;

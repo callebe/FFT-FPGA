@@ -30,4 +30,6 @@
 \BOOKMARK [1][-]{section.3.5}{Programando o ZynqBerry}{chapter.3}% 30
 \BOOKMARK [1][-]{section.3.6}{Implementando a FFT 1024 Pontos}{chapter.3}% 31
 \BOOKMARK [0][-]{chapter.4}{Resultados e Discuss\343o}{}% 32
-\BOOKMARK [0][-]{chapter.5}{Conclus\343o}{}% 33
+\BOOKMARK [1][-]{section.4.1}{FFT 16 Pontos}{chapter.4}% 33
+\BOOKMARK [1][-]{section.4.2}{FFT 1024 Pontos}{chapter.4}% 34
+\BOOKMARK [0][-]{chapter.5}{Conclus\343o}{}% 35

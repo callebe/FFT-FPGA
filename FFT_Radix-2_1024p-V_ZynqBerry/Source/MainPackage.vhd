@@ -13,7 +13,7 @@ PACKAGE MainPackage IS
     ------------------------------------------------
         
     ------------------------------------------------
-    TYPE AdressVector IS ARRAY (NATURAL range <>) OF  STD_LOGIC_VECTOR(9 downto 0);  
+    TYPE AdressVector IS ARRAY (NATURAL range <>) OF  STD_LOGIC_VECTOR(1 downto 0);  
     ------------------------------------------------
     
     ------------------------------------------------
@@ -166,9 +166,9 @@ PACKAGE MainPackage IS
     ------------------------------------------------
     component ROMFFT10 is
         Port(
-             Adress : in STD_LOGIC;
-             reset : in STD_LOGIC;
-             Data : out STD_LOGIC_VECTOR (20 downto 0)
+            Adress : in STD_LOGIC;
+            reset : in STD_LOGIC;
+            Data : out STD_LOGIC_VECTOR (20 downto 0)
         );
     end component;
     ------------------------------------------------

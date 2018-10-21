@@ -131,8 +131,8 @@
 \orientador{Prof. Dr. Fábio Luiz Bertotti}
 %\coorientador[Coorientadora: ]{Marie Curie}
 
-\palavraschave{\LaTeX, FFT, Transformada Rápida de Fourier, Sistemas Digitais, FPGA, Zyn} % Palavras chave
-\keywords{\LaTeX, FFT, Fast Fourier Transform, Digital System, FPGA, Zynq, Digital Signal Process} % Palavras chave em inglês
+\palavraschave{FFT, Transformada Rápida de Fourier, Sistemas Digitais, FPGA, Zynq} % Palavras chave
+\keywords{FFT, Fast Fourier Transform, Digital System, FPGA, Zynq, Digital Signal Process} % Palavras chave em inglês
 
 % Instruções para banca examinadora:
 %   -> O primeiro membro da banca, será automaticamente o orientador, o presidente da banca.
@@ -142,10 +142,8 @@
 %   -> Deixando os parametros dos comandos dos membros da banca vazios (exemplo \bancaA{}), fará
 %      com que as respectivas linhas não apareçam.
 %
-\bancaA{Prof. Dr. Stephen Hawking}
-\bancaB{Dr. Brian Greene}
-\bancaC{Prof. Dr. Michio Kaku}
-\bancaD{Prof. Richard Feynman}
+\bancaA{Prof. Dr. Giovanni Alfredo Guarneri}
+\bancaB{Dr. Jean Patric da Costa}
 
 
 \local{Pato Branco}
@@ -170,33 +168,34 @@
 % DEDICATÓRIA
 %
 % Estão disponíveis dois tipos de dedicatória:
-\begin{Dedicatoria}
-Aqui vai o texto da dedicatória. Aqui vai o texto da dedicatória. Aqui vai o texto da dedicatória.
-\end{Dedicatoria}
+%\begin{Dedicatoria}
+%Aqui vai o texto da dedicatória. Aqui vai o texto da dedicatória. Aqui vai o texto da dedicatória.
+%\end{Dedicatoria}
 
 
 
 % EPIGRAFE (opcional).
-\begin{Epigrafe}{Bruce Calvert} % Parametro obrigatorio entre {} é o autor da epigrafe.
-Acreditar é mais fácil do que pensar. Daí existem muito mais crentes do que pensadores.
-\end{Epigrafe}
+%\begin{Epigrafe}{Bruce Calvert} % Parametro obrigatorio entre {} é o autor da epigrafe.
+%Acreditar é mais fácil do que pensar. Daí existem muito mais crentes do que pensadores.
+%\end{Epigrafe}
 
 
 %% AGRADECIMENTOS
-\begin{Agradecimentos}
-Aqui são os agradecimentos.
-\end{Agradecimentos}
+%\begin{Agradecimentos}
+%Aqui são os agradecimentos.
+%\end{Agradecimentos}
 
 % RESUMO:
 \begin{Resumo}
-Escreva aqui o texto de seu resumo... 
-\utfprTeX
+BARBOSA, Callebe Soares. Implementação do Algoritmo Radix-2 para o Cálculo da FFT em FPGA. 2018. 104 f. Monografia (Trabalho de Conclusão de Curso) - Curso de Engenharia Elétrica, Universidade Tecnológica Federal do Paraná. Pato Branco, 2018.
+
+O presente trabalho aborda o projeto e implementação do Algoritmo Radix-2, em um dispositivos FPGA, com o objetivo de utilizar o paralelismo de sinais para tornar a tarefa de computar a FFT mais eficiente. Para alcançar tal objetivo, são apresentados os conceitos básicos sobre a FFT, o algoritmo Radix-2, o algoritmo CORDIC, e o projeto de parâmetros que maximizam o desempenho destes algoritmos. O dispositivo escolhido para implementação é o \textit{ZynqBerry - TE0726}, o qual é equipado com a FPGA da família Zynq-700. Neste trabalho é implementado duas arquiteturas de FFT. A primeira FFT possui 16 pontos, e é computada com apenas 12 ciclos de \textit{clock}, atingindo um desempenho de SQNR de 52dB. A segunda FFT possui 1024 pontos, e é computada com 1728 ciclos \textit{clock}, atingindo um desempenho de 41dB. Ao final deste trabalho é possível compreender como é projetado e implementado uma FFT de bom desempenho, em um ambiente vantajoso como a FPGA.
 \end{Resumo}
 
 % ABSTRACT
-\begin{Abstract}
-Write here the English version of your Resumo... 
-\end{Abstract}
+%\begin{Abstract}
+%Write here the English version of your Resumo... 
+%\end{Abstract}
 
 
 \listadefiguras
@@ -212,9 +211,9 @@ Write here the English version of your Resumo...
 % \documentclass[options]{class}st -o "%tm".nlstm".nls]{class}
 %
 % Certifique-se de que nas propriedades do projeto (Project -> properties) o caixa ``Uses Makeindex'' esteja selecionada.
-\listadesiglas
+%\listadesiglas
 
-\listadesimbolos
+%\listadesimbolos
 
 \sumario
 
@@ -308,11 +307,11 @@ Write here the English version of your Resumo...
 %
 %\simb[alpha]{\vec{\alpha}}: Alfa.
 %
-\simb[Função de teste da lista de símbolos. Está é uma descrição longa para um único símbolo]{\upsilon\omega\psi^{jk}_{n-1}}: Um simbolo grande.
+%\simb[Função de teste da lista de símbolos. Está é uma descrição longa para um único símbolo]{\upsilon\omega\psi^{jk}_{n-1}}: Um simbolo grande.
 %
 %Este símbolo (\simb[Gradiente]{\nabla}) foi inserido no texto, fora do ambiente \textit{equation}.
 %
-\simb[teste]{\upsilon\omega\psi^{jk}_{n-1}}
+%\simb[teste]{\upsilon\omega\psi^{jk}_{n-1}}
 %
 %%\the\simbmaxwidth
 %

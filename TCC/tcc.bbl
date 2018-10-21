@@ -56,6 +56,13 @@ ISSN 0163-6804.}
   Conference (IWCMC)}. [S.l.: s.n.], 2014. p. 1087--1092.
 ISSN 2376-6492.}
 
+\bibitem[El-Shafiey \textit{et al.} 2015]{two}
+\abntrefinfo{El-Shafiey \textit{et al.}}{EL-SHAFIEY \textit{et al.}}{2015}
+{EL-SHAFIEY, Ahmed~M; FARAG, Mohamed~E; EL-MOTAZ, Mohammed~A; NASR, Omar~A;
+  FAHMY, Hossam~AH. Two-stage optimization of cordic-friendly fft. In:  IEEE.
+  \textbf{Electronics, Circuits, and Systems (ICECS), 2015 IEEE International
+  Conference on}. [S.l.], 2015. p. 408--411.}
+
 \bibitem[Eletronic 2018]{trenz}
 \abntrefinfo{Eletronic}{ELETRONIC}{2018}
 {ELETRONIC, Inc Trenz. \textbf{TE0726 - ZynqBery}.
@@ -74,6 +81,13 @@ San Jose, EUA, Julho 2018. V2.1.}
 \textbf{IEEE Transactions on Circuits and Systems II: Express Briefs}, v.~63,
   n.~2, p. 186--190, Feb 2016.
 ISSN 1549-7747.}
+
+\bibitem[Hassan \textit{et al.} 2018]{hassan}
+\abntrefinfo{Hassan \textit{et al.}}{HASSAN \textit{et al.}}{2018}
+{HASSAN, SLM; SULAIMAN, N; SHARIFFUDIN, SS; YAAKUB, TNT. Signal-to-noise ratio
+  study on pipelined fast fourier transform processor.
+\textbf{Bulletin of Electrical Engineering and Informatics}, v.~7, n.~2, p.
+  230--235, 2018.}
 
 \bibitem[HAYKIN e Veen 2001]{Haykin}
 \abntrefinfo{HAYKIN e Veen}{HAYKIN; VEEN}{2001}
@@ -161,6 +175,26 @@ ISSN 1549-8328.}
 \textbf{IEEE Transactions on Signal Processing}, v.~60, n.~12, p. 6245--6256,
   Dec 2012.
 ISSN 1053-587X.}
+
+\bibitem[Saeed \textit{et al.} 2009]{saeed}
+\abntrefinfo{Saeed \textit{et al.}}{SAEED \textit{et al.}}{2009}
+{SAEED, Ahmed; ELBABLY, M; ABDELFADEEL, G; ELADAWY, MI. Efficient fpga
+  implementation of fft/ifft processor.
+\textbf{International Journal of circuits, systems and signal processing},
+  v.~3, n.~3, p. 103--110, 2009.}
+
+\bibitem[Santhosh e Thomas 2013]{santhosh}
+\abntrefinfo{Santhosh e Thomas}{SANTHOSH; THOMAS}{2013}
+{SANTHOSH, Lakshmi; THOMAS, Anoop. Implementation of radix 2 and radix 2 2 fft
+  algorithms on spartan6 fpga. In:  IEEE. \textbf{Computing, Communications and
+  Networking Technologies (ICCCNT), 2013 Fourth International Conference on}.
+  [S.l.], 2013. p.~1--4.}
+
+\bibitem[Siqueira 2004]{Tonny}
+\abntrefinfo{Siqueira}{SIQUEIRA}{2004}
+{SIQUEIRA, Tonny~Matos. \textbf{Implementação de um modem OFDM em FPGA}. 2004.
+\url{ftp://ftp.lab.unb.br/pub/hardware/opencores/ofdm/Docs/OFDM%20-%20portuguese.pdf}.
+Acessado em 16 de Agosto de 2017.}
 
 \bibitem[TradingView 2017]{bovespa}
 \abntrefinfo{TradingView}{TRADINGVIEW}{2017}

@@ -15,7 +15,7 @@
 %  Baud Rate : 9600
 %------------------------------------
 
-SizeOfFFT = 32;
+SizeOfFFT = 16;
 % 
 s = serial('COM4');%get(instrfind, 'Port'));
 set(s,'BaudRate',9600);
@@ -104,7 +104,7 @@ close all
 % Tamanho da FFT
 SizeOfFFT = 1024;
 %Numero de Interações Cordic
-NumeroInteracao = 16;
+NumeroInteracao = 14;
 %Definição do Numero de Layers do FFT
 NumberOfLevels = log2(SizeOfFFT);
 %Definição da Resolução
@@ -125,15 +125,15 @@ erroComp = zeros(1,SizeOfFFT*NumberOfLevels);
 erroXr = zeros(1,SizeOfFFT*NumberOfLevels);
 
 %Definição do Sinal de Entrada
-A = 120;
-B= 15;
-C=50;
-D=8;
-E=70;
-fA = 10;
-fB = 3000;
-fC = 250;
-fD = 4000;
+A=401;
+B=12;
+C=520;
+D=230;
+E=120;
+fA = 100;
+fB = 200;
+fC = 1250;
+fD = 5000;
 fE = 2780;
 
 for n = 1: Resolution;
@@ -244,7 +244,8 @@ Xr = abs(ModXr/SizeOfFFT);
 Xrc =  2*Xr(1:SizeOfFFT/2);
 %Plot da FFT
 figure;
-stem((0 : SizeOfFFT/2-1)*f_s/(SizeOfFFT), Xrc);
+stem((0 : SizeOfFFT/2-1)*f_s/(SizeOfFFT), round(Xrc));
+grid on;
 ylabel('Amplitude');
 xlabel('Frequência (H)');
 title('FFT Implementada');
@@ -258,6 +259,7 @@ Y2 = 2*Y1(1:SizeOfFFT/2);
 %Plot da FFT
 figure;
 stem((0 : SizeOfFFT/2-1)*f_s/(SizeOfFFT),Y2);
+grid on;
 ylabel('Amplitude');
 xlabel('Frequência (H)');
 title('FFT Tradicional');
@@ -265,12 +267,14 @@ title('FFT Tradicional');
 %Plot do sinal original
 figure;
 plot((0 : SizeOfFFT-1)*T_0/(SizeOfFFT),Input);
+grid on;
 ylabel('Amplitude');
 xlabel('Tempo (s)');
 title('Sinal de Entrada da FFT');
-
+Tal = snr(Y2,round(Xrc)-Y2);
 %Plot do Erro de Aproximação entre Cordic e o Tradicional - Layer 1
 figure;
+grid on;
 plot([0:(10/10240):10-(10/10240)],smooth((erroY/SizeOfFFT)));
 ylabel('Modulo do Erro');
 xlabel('Níveis da FFT');
