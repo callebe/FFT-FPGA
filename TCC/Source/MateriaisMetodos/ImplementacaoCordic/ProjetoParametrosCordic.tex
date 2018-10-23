@@ -1,14 +1,13 @@
-
 Como apresentado na Seção (\ref{section:MSR-CORDIC}), a determinação dos parâmetros Cordic $\mu_i$, $\mu_j$, $s_i$, $s_j$, $I$ e $J$ em (\ref{eq:MSR}), é feita com base na minimização do erro de aproximação $\upepsilon$, descrito em (\ref{eq:OtimizacaoMSR}). Para encontrar o conjunto ótimo de parâmetros CORDIC é possível utilizar uma variedade de algoritmos determinísticos, já que este sistema se assemelha a problemas clássicos de otimização. 
 
-Na Seção (\ref{section:TBS}) fora apresentado o algoritmo de otimização TBS, o qual se destinava a determinação do conjunto de parâmetros CORDIC para o EEASR. O EEASR possuí um conjunto de ângulos elementares menores do que o MSR, e a função de otimização não incluí a redução do erro de $K_c$ em relação a unidade, já que a compensação deste ganho era realizada em uma etapa independente através de uma pseudo-rotação. Logo, decidido adaptar o algoritmo TBS, corrigindo a equação de minimização para o caso do MSR e, consequentemente, incluir no conjunto de solução os ângulos elementares do MSR.
+Na Seção (\ref{section:TBS}) fora apresentado o algoritmo de otimização TBS, o qual se destinava a determinação do conjunto de parâmetros CORDIC para o EEASR. O EEASR possuí um conjunto de ângulos elementares menores do que o MSR, e a função de otimização não incluí a redução do erro de $K_c$ em relação a unidade, já que a compensação deste ganho era realizada em uma etapa independente através de uma pseudo-rotação. Logo, fora decidido adaptar o algoritmo TBS, corrigindo a equação de minimização para o caso do MSR e, consequentemente, incluir no conjunto de solução os ângulos elementares do MSR.
 
-Segue abaixo o pseudo-código do TBS adaptado, utilizado para obter o conjunto ótimo de parâmetros CORDIC para o MSR. O vetor $r_{\theta}$ representa o conjunto de todos ângulos elementares, e $r_p$ presenta o conjuntos dos ganhos $K_n$, ambos oriundos das diferentes combinações entre os parâmetros Cordic.
+Segue abaixo o pseudo-código do TBS adaptado, utilizado para obter o conjunto ótimo de parâmetros CORDIC para o MSR. O vetor $r_{\theta}$ representa o conjunto de todos ângulos elementares, e $r_p$ presenta o conjuntos dos ganhos $K_n$, ambos oriundos das diferentes combinações entre os parâmetros CORDIC.
 
  
 \vspace{3mm}
 	\lstset{style=VHDL}
-	\begin{lstlisting}[mathescape]
+	\begin{lstlisting}[caption={Algoritmo TBS Adaptado para MSR \\ Fonte : Adaptado de \citeonline{Cheng}},captionpos=b, mathescape]
 		% Inicialização
 		$\displaystyle \phi_{\theta}(1,k)~=~r_{\theta}(k)~para~todo~k,$
 		$\displaystyle \phi_p(1,k)~=~r_p(k)~para~todo~k,$
@@ -38,9 +37,6 @@ Segue abaixo o pseudo-código do TBS adaptado, utilizado para obter o conjunto ót
 	
 	\end{lstlisting}
 	\label{code:PCTBSAlterado}
-	%\captionof{lstlisting}{Pseudocódigo TBS Adaptado para MSR CORDIC}
-	%\vspace{-3.5mm}
-	%\captionof*{lstlisting}{Fonte : Autoria Própria}
 \vspace{3mm}
 
 Uma atenção especial é dada para o vetor de ângulos elementares $r_{\theta}$. Este vetor é preenchido com os ângulos obtidos pelo conjunto de combinações possíveis dos parâmetros CORDIC do MSR, através da (\ref{eq:S3}), o qual é reescrita como:
@@ -54,28 +50,28 @@ Uma atenção especial é dada para o vetor de ângulos elementares $r_{\theta}$. Es
 	\label{eq:S32}
 \end{eqnarray}
 
-Através das diferentes combinações de parâmetros, uma variedade de possibilidades de ângulos preenchem o vetor  $r_{\theta}$. Porém há um problema com o cálculo do arco tangente para combinações onde o  $(\alpha<0, \beta<0)$ e $(\alpha>0, \beta<0)$. Pois, nestes casos as operações de rotação deslocariam o vetor para o 4º e  3º quadrantes respectivamente, o que deveria resultar em valores de ângulos maiores que $\pi/2$. Porém o arco tangente considera apenas valores dentro do intervalo $(-\pi/2, \pi/2)$. Para corrigir tal efeito basta aplicar a seguinte condição em $r_{\theta}$:
+A partir das diferentes combinações de parâmetros, uma variedade de possibilidades de ângulos preenchem o vetor  $r_{\theta}$. Porém há um problema com o cálculo do arco tangente para combinações onde o  $(\alpha<0, \beta<0)$ e $(\alpha>0, \beta<0)$. Pois, nestes casos as operações de rotação deslocariam o vetor para o 4º e  3º quadrantes respectivamente, o que deveria resultar em valores de ângulos maiores que $\pi/2$. Porém, o arco tangente considera apenas valores dentro do intervalo $(-\pi/2, \pi/2)$. Para corrigir tal efeito basta aplicar a seguinte condição em $r_{\theta}$:
 
 \begin{eqnarray}
 	Se~\alpha<0~e~\beta<0:~~r_{\theta} =  tan^{-1} \left(\frac{\alpha}{\beta}\right) -\frac{\pi}{2} \\ 
 	Se~\alpha<0~e~\beta>0:~~r_{\theta} =  tan^{-1} \left(\frac{\alpha}{\beta}\right) +\frac{\pi}{2} \\ 
 \end{eqnarray}  
  
-Alguns parâmetros do MSR são determinados de acordo com as limitações de complexabilidade e disponibilidade de \textit{hardware}, como é o caso do número de iterações Cordic $N$, o número de termos SPT $N_{SPT}$, e o número máximo de deslocamentos de \textit{bit} $S$. Para alguns valores fora observado a recomendação usual na literatura, em \cite{Chih}, \cite{Kuo} e \cite{Park}. 
+Alguns parâmetros do MSR são determinados de acordo com as limitações de disponibilidade de \textit{hardware}, como é o caso do número de iterações Cordic $N$ e o número de termos SPT $N_{SPT}$. Para estes valores fora observado a recomendação usual na literatura, em \cite{Chih}, \cite{Kuo} e \cite{Park}. 
 
-O número de iteração CORDIC ($N$), impacta diretamente no número de ciclos de \textit{clock} necessários para realizar a operação, e também impacta no erro final $\upepsilon$. Como observado em \citeonline{Chih}, é admissível tomar $N$ como 3, e ainda obter um bom SQNR.  $N_{SPT}$ também impacta no desempenho do erro $\upepsilon$, mas afeta ainda no consumo de \textit{hardware}, já que mais termos SPT significa mais operadores de deslocamento de \textit{bit}. Como a intenção é montar uma FFT de bom desempenho, com o maior número de pontos possível, $N_{SPT}=3$ é admissível baseado no que é visto em \citeonline{Chih}.
+O número de iteração CORDIC ($N$), impacta diretamente no número de ciclos de \textit{clock} necessários para realizar a operação de rotacionamento, impactando no erro final $\upepsilon$. Como observado em \citeonline{Chih}, é admissível tomar $N$ como 3, e ainda obter um bom nível de SQNR.  $N_{SPT}$ também impacta no desempenho do erro $\upepsilon$, mas afeta ainda no consumo de \textit{hardware}, já que mais termos SPT significa mais operadores de deslocamento de \textit{bit}. Como a intenção é montar uma FFT de bom desempenho, com o maior número de pontos possível, $N_{SPT}=3$ é admissível baseado no que é visto em \citeonline{Chih}.
 
-A escolha do número máximo de deslocamento de \textit{bits} ($S$), implica na utilização de \textit{barrel shifters} maiores, e também no aumento do volume de memória necessária para guardar os conjuntos de parâmetros CORDIC, para utilizar durante as operações de rotação. Quanto maior for $S$, mais liberdade é dado ao conjunto de ângulos elementares, e mais fácil é encontrar conjuntos que reduzam $\upepsilon$ dentro das restrições. 
+A escolha do número máximo de deslocamento de \textit{bits} ($S$), implica na utilização de \textit{barrel shifters} maiores, e também impacta no aumento do volume de memória necessária para guardar os conjuntos de parâmetros CORDIC, utilizados durante as operações de rotação. Quanto maior for $S$, mais liberdade é dado ao conjunto de ângulos elementares, e mais fácil é encontrar conjuntos que reduzam $\upepsilon$ dentro das restrições. 
 
-A arquitetura da FFT implementada neste trabalho é pensada de modo que o fluxo de dados de entrada possam vir do Sistema de Processamento (PS), mas também possibilite a entrada de dados advinda de um ADC Flash de 12 \textit{bits}. Portanto as palavras binárias utilizadas para representar os sinais precisam ter no mínimo 12 \textit{bits}.  Para evitar a ocorrência de \textit{overflow}, em uma estrutura de 1024 pontos, onde há 10 níveis, apenas um ponto de soma a cada nível, e os ganhos são próximos da unidade, se faz necessário utilizar 16 \textit{bits} para a representação de sinais.
+A arquitetura da FFT implementada neste trabalho é pensada de modo que o fluxo de dados de entrada possam vir do Sistema de Processamento (PS), mas também possibilite a entrada de dados advinda de um ADC Flash de 12 \textit{bits}. Portanto as palavras binárias utilizadas para representar os sinais precisam ter no mínimo 12 \textit{bits}.  Para evitar a ocorrência de \textit{overflow}, em uma estrutura de 1024 pontos, onde há 10 níveis, apenas um ponto de soma a cada nível, e os ganhos são próximos da unidade, é adequado utilizar 16 \textit{bits} para a representação de sinais.
 
-Logo para determinar um valor para $S$, foi implementado o Algoritmo (\label{{code:PCTBSAlterado}}) com auxilio do \textit{software} $Matlab^\circledR$. Para cada valor de $S \in \{1...16\}$ fora criado conjunto de parâmetros CORDIC, fixando $I=1$ e $J=2$ (Modo Normal). Para, a partir destes parâmetros, realizar operações de rotacionamento de vetores nos moldes de (\ref{eq:MSR}). A partir destas operações de rotacionamento fora obtido o SQNR para cada valor de $S$, a fim de medir o impacto que este parâmetro tem no desempenho do algoritmo. O resultado deste teste é expresso na Figura (\ref{fig:DeterminacaoS}).
+Para determinar um valor para $S$, foi implementado o Algoritmo (\ref{code:PCTBSAlterado}) com auxilio do \textit{software} $Matlab^\circledR$. Para cada valor de $S \in \{1...16\}$ fora criado conjunto de parâmetros CORDIC, fixando $I=1$ e $J=2$ (Modo Normal). Para, a partir destes parâmetros, realizar operações de rotacionamento de vetores nos moldes de (\ref{eq:MSR}). A partir destas operações de rotacionamento fora obtido o SQNR para cada valor de $S$, a fim de medir o impacto que este parâmetro tem no desempenho do algoritmo. O resultado deste teste é expresso na Figura (\ref{fig:DeterminacaoS}).
 
 \vspace{5mm}
 \begin{figure}[H]
 	\centering
 	\captionsetup{width=0.9\textwidth, font=footnotesize, textfont=bf}	
-	\includegraphics[width=0.9\linewidth]{Images/ImplementandoCordic/DeterminacaoS.eps}
+	\includegraphics[width=0.9\linewidth]{Images/MateriaisMetodos/DeterminacaoS.eps}
 	\caption{Relação entre $S$ e o SQNR Médio para MSR Cordic Modo Normal}
 	\vspace{-3.5mm}
 	\caption*{Fonte: Autoria Própria}
@@ -83,14 +79,14 @@ Logo para determinar um valor para $S$, foi implementado o Algoritmo (\label{{co
 \end{figure}    
 \vspace{5mm}
 
-Os conjuntos parâmetros $s_i$ e $s_j$ para cada iteração do algoritmo  serão armazenados em uma ROM de controle de cada Unidade CORDIC. O número de \textit{bits} necessários para armazenar estes parâmetros é dado por $log(S)$. Como visto na Figura (\ref{fig:DeterminacaoS}), escolher $S=8$ promove um desempenho SQNR de $50dB$, e se faz necessário armazenar apenas $3$ \textit{bits} para cada elemento $s_i$ e $s_j$. Porém, ao utilizar $4$ \textit{bits} para os mesmo fins é possível fazer $S=15$, e alcançar um desempenho médio de $70dB$. Logo toma-se $S=15$, para alcançar o máximo desempenho possível.
+Os conjuntos parâmetros $s_i$ e $s_j$ para cada iteração do algoritmo  serão armazenados em uma ROM de controle de cada Unidade CORDIC. O número de \textit{bits} necessários para armazenar estes parâmetros é dado por $log(S)$. Como visto na Figura (\ref{fig:DeterminacaoS}), escolher $S=8$ promove um desempenho SQNR de 50dB, e se faz necessário armazenar apenas 3 \textit{bits} para cada elemento $s_i$ e $s_j$. Porém, ao utilizar $4$ \textit{bits} para o mesmo fim, é possível fazer $S=15$, e alcançar um desempenho médio de 70dB. Logo toma-se $S=15$, para alcançar o máximo desempenho possível.
 
-Com citado na Seção (\ref{section:AnaliseDoErro}), os parâmetros $I$ e $J$ podem ser constantes independente da operação de rotação (Modo Normal), ou este podem variar a cada iteração (Modo Generalizado). Com base no mesmo algoritmo (\ref{code:PCTBSAlterado}), foi incluído no vetor de ângulos elementares $r$ as combinações de parâmetros possíveis quanto $N_{spt}=4$, e $(I=1,J=2)$ e $(I=2,J=1)$. Então, foram gerados os conjuntos ótimos de parâmetros CORDIC, para estas combinações, e em seguida, simulados as operações de rotação, para um conjunto de ângulos de rotação $[0:0,703125º:360º]$. A Tabela (\ref{tab:DesempenhoMSRNormalGeneralizado}), apresenta nível do SQNR encontrado nestas simulações.
+Com citado na Seção (\ref{section:AnaliseDoErro}), os parâmetros $I$ e $J$ podem ser constantes independente da operação de rotação (Modo Normal), ou este podem variar a cada iteração (Modo Generalizado). Com base no mesmo algoritmo (\ref{code:PCTBSAlterado}), foi incluído no vetor de ângulos elementares $r$ as combinações de parâmetros possíveis quanto $N_{spt}=4$, e $(I=1,J=2)$ e $(I=2,J=1)$. Então, foram gerados os conjuntos ótimos de parâmetros CORDIC, para estas combinações, e em seguida, simulados as operações de rotação para um conjunto de ângulos de rotação $[0:0,703125º:360º]$. A Tabela (\ref{tab:DesempenhoMSRNormalGeneralizado}), apresenta nível do SQNR encontrado nestas simulações.
 
-\vspace{5mm}
-\begin{table}[h]
+\vspace{10mm}
+\begin{table}[H]
 	\centering
-	\captionsetup{width=.5\linewidth}
+	\captionsetup{width=.7\linewidth}
 	\begin{tabular}{|l|c|c|c|c|}
 		\hline
 		Modo de Operação & $I$ & $J$ & $S_{max}$ & SQNR \\ \hline
@@ -103,7 +99,6 @@ Com citado na Seção (\ref{section:AnaliseDoErro}), os parâmetros $I$ e $J$ podem
 	\caption*{Fonte: Autoria Própria}
 	\label{tab:DesempenhoMSRNormalGeneralizado}
 \end{table}
+\vspace{10mm}
 
-O Modo Generalizado, para a simulação proposta, apresentou um valor médio de SQNR de 92.9786 dB, já o Modo Normal para o mesmo método de simulação apresentou um valor de 83.9786 dB. Segundo \cite{Chih}, para armazenar os parâmetros $\{\mu_{i}, \mu_{j}\} \in \{-1,0, 1\}$, $\{s_i,s_j\} \in \{0,1,..,6\}$ de uma única interação do Algoritmo MSR Cordic, são necessários $(log(S)+2)N_{SPT}$ \textit{bits} para o modo Normalizado e $(log(S)+3)N_{SPT}$ para o Modo Generalizado. Ou seja o impacto do inserção dos \textit{switches}, necessários no caso do Modo Generalizado, em termos de implementação é apenas a inclusão de mais um \text{bit} no conjunto de dados de cada iteração. Justificando portanto a escolha da implementação do MSR Cordic no Modo Generalizado.
-
-Assim os dados referente aos parâmetros escolhidos com base no Algoritmo (\ref{code:PCTBSAlterado}), para o MSR Cordic Modo Generalizado, com $N_{SPT}=3$ e $S=16$, são armazenados na forma binário em uma componente ROM em VHDL. Esta ROM é presente e individual a cada unidade CORDIC. 
+O Modo Generalizado, para a simulação proposta, apresentou um valor médio de SQNR de 92.97 dB, já o Modo Normal, para o mesmo método de simulação, apresentou um valor de 83.97 dB. Segundo \cite{Chih}, para armazenar os parâmetros $\{\mu_{i}, \mu_{j}\} \in \{-1,0, 1\}$, $\{s_i,s_j\} \in \{0,1,..,6\}$ de uma única interação do Algoritmo MSR CORDIC, são necessários $(log(S)+2)N_{SPT}$ \textit{bits} para o modo Normalizado e $(log(S)+3)N_{SPT}$ para o Modo Generalizado. Ou seja o impacto do inserção dos \textit{switches}, necessários no caso do Modo Generalizado, em termos de implementação é apenas a inclusão de mais um \text{bit} no conjunto de dados de cada iteração. Justificando portanto a escolha da implementação do MSR Cordic no Modo Generalizado. Assim os dados referentes aos parâmetros escolhidos com base no Algoritmo (\ref{code:PCTBSAlterado}), para o MSR Cordic Modo Generalizado, com $N_{SPT}=3$ e $S=16$, são armazenados na forma binária em uma componente ROM, individual a cada unidade CORDIC. 

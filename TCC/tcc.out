@@ -22,14 +22,14 @@
 \BOOKMARK [3][-]{subsubsection.2.5.2.1}{Zynq-7000}{subsection.2.5.2}% 22
 \BOOKMARK [0][-]{chapter.3}{Materiais e M\351todos}{}% 23
 \BOOKMARK [1][-]{section.3.1}{ZynqBerry TE0726-03M}{chapter.3}% 24
-\BOOKMARK [1][-]{section.3.2}{Implementando Processador Cordic}{chapter.3}% 25
+\BOOKMARK [1][-]{section.3.2}{Implementando o Processador Cordic}{chapter.3}% 25
 \BOOKMARK [2][-]{subsection.3.2.1}{Projeto dos Par\342metros Cordic}{section.3.2}% 26
 \BOOKMARK [2][-]{subsection.3.2.2}{Arquitetura Cordic Implementada}{section.3.2}% 27
 \BOOKMARK [1][-]{section.3.3}{Implementando a FFT 16 Pontos}{chapter.3}% 28
-\BOOKMARK [1][-]{section.3.4}{Implementando a Interface AXI}{chapter.3}% 29
-\BOOKMARK [1][-]{section.3.5}{Programando o ZynqBerry}{chapter.3}% 30
-\BOOKMARK [1][-]{section.3.6}{Implementando a FFT 1024 Pontos}{chapter.3}% 31
-\BOOKMARK [0][-]{chapter.4}{Resultados e Discuss\343o}{}% 32
-\BOOKMARK [1][-]{section.4.1}{FFT 16 Pontos}{chapter.4}% 33
-\BOOKMARK [1][-]{section.4.2}{FFT 1024 Pontos}{chapter.4}% 34
-\BOOKMARK [0][-]{chapter.5}{Conclus\343o}{}% 35
+\BOOKMARK [1][-]{section.3.4}{Implementando a FFT 1024 Pontos}{chapter.3}% 29
+\BOOKMARK [0][-]{chapter.4}{Resultados e Discuss\343o}{}% 30
+\BOOKMARK [1][-]{section.4.1}{FFT 16 Pontos}{chapter.4}% 31
+\BOOKMARK [1][-]{section.4.2}{FFT 1024 Pontos}{chapter.4}% 32
+\BOOKMARK [0][-]{chapter.5}{Conclus\343o}{}% 33
+\BOOKMARK [0][-]{chapter.annex.A}{Anexo A - Implementando a Interface AXI}{}% 34
+\BOOKMARK [0][-]{chapter.annex.B}{Anexo B - Programando o ZynqBerry}{}% 35

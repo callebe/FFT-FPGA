@@ -7,7 +7,7 @@ Result = importdata('Result2.mat');
 Parametros = importdata('Parametros.mat');
 
 %Conexões (Um Cordic a cada 2 Linhas)
-Nfft = 1024;
+Nfft = 16;
 CordicConexions=zeros(Nfft,log2(Nfft));
 NumberOfLevels = log2(Nfft);
 for Level=1:NumberOfLevels

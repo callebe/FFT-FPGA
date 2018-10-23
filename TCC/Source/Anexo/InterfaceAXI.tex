@@ -1,4 +1,4 @@
-\label{sec:AXI}
+\label{cap:AXI}
 Como citado na Seção (\ref{sec:Zynq-7000}), na família de SoC Zynq-7000, o AXI é o meio padrão pelo qual diferentes componentes dentro do ambiente PL se conectam, e mais importante, é o meio pelo qual componentes em PL se comunicam com o processador em PS. Como a implementação da FFT, realizada na Seção (\ref{sec:ImplementandoFFT16}), é feita em PL, e se deseja enviar e receber dados da FFT via UART, ao computador fora da placa ZynqBerry, é preciso incluir uma Interface AXI.
 
 Uma Interface AXI para este projeto deve ser capaz de converter os sinais de saída da FFT para um formato padronizado de comunicação AXI. Segundo \citeonline{zynq-7000}, existem 3 tipos básicos de interfaces AXI: 
@@ -15,13 +15,13 @@ Uma Interface AXI para este projeto deve ser capaz de converter os sinais de saí
 
 Teoricamente qualquer uma das 3 opções de interface AXI seriam capazes de transmitir e receber os dados da FFT. Porém deve ter em mente que uma interface AXI também consome recursos da FPGA, os quais devem ser destinados principalmente a FFT. Logo uma interface como a AXI-Standard não seria adequado, já que não há necessidade de utilizar recursos como controle de dados. Neste projeto é de interesse ter acesso seletivo aos dados de saída da FFT, de modo que seja possível ao PS acessar os valores de amplitude de frequências especificas. Como a interface AXI-Stream não possui mapeamento de memória, não seria de interesse utilizar esta interface. Portanto, será utilizada a interface  AXI-Lite.
 
-O fabricante do Zynq-7010 que equipa a placa ZynqBerry, utilizada neste trabalho, disponibiliza em sua IDE de desenvolvimento, o Vivado HLx 2017.4, uma ferramenta de criação de IPs. Utilizando esta ferramenta, partindo design em VHDL da FFT, foi criado um novo periférico AXI, como pode ser visto no quadro de Figuras (\ref{fig:DeterminacaoS}).
+O fabricante do Zynq-7010 que equipa a placa ZynqBerry, utilizada neste trabalho, disponibiliza em sua IDE de desenvolvimento, o Vivado HLx 2017.4, uma ferramenta de criação de IPs. Utilizando esta ferramenta, partindo design em VHDL da FFT, foi criado um novo periférico AXI, como pode ser visto nas Figuras (\ref{fig:FerramentaIPA}), (\ref{fig:FerramentaIPB}), (\ref{fig:FerramentaIPC}) e (\ref{fig:FerramentaIPD}).
 
 \vspace{5mm}
 \begin{figure}[H]
 	\centering
 	\captionsetup{width=0.8\textwidth, font=footnotesize, textfont=bf}	
-	\includegraphics[width=0.8\linewidth]{Images/MateriaisMetodos/CriacaoAXI.png}
+	\includegraphics[width=0.8\linewidth]{Images/Anexo/CriacaoAXI.png}
 	\caption{Caminho até a ferramenta: \textit{Tools: Create and Package New IP}}
 	\vspace{-3.5mm}
 	\caption*{Fonte: Vivado HLx 2017.4}
@@ -33,7 +33,7 @@ O fabricante do Zynq-7010 que equipa a placa ZynqBerry, utilizada neste trabalho
 \begin{figure}[H]
 	\centering
 	\captionsetup{width=0.8\textwidth, font=footnotesize, textfont=bf}	
-	\includegraphics[width=0.8\linewidth]{Images/MateriaisMetodos/CriacaoAXI2.png}
+	\includegraphics[width=0.8\linewidth]{Images/Anexo/CriacaoAXI2.png}
 	\caption{Ferramenta de Criação e Empacotamento de Novas IPs}
 	\vspace{-3.5mm}
 	\caption*{Fonte: Vivado HLx 2017.4}
@@ -45,7 +45,7 @@ O fabricante do Zynq-7010 que equipa a placa ZynqBerry, utilizada neste trabalho
 \begin{figure}[H]
 	\centering
 	\captionsetup{width=0.8\textwidth, font=footnotesize, textfont=bf}	
-	\includegraphics[width=0.8\linewidth]{Images/MateriaisMetodos/CriacaoAXI3.png}
+	\includegraphics[width=0.8\linewidth]{Images/Anexo/CriacaoAXI3.png}
 	\caption{Escolha da Opção: \textit{Create a New Peripheral}}
 	\vspace{-3.5mm}
 	\caption*{Fonte: Vivado HLx 2017.4}
@@ -57,7 +57,7 @@ O fabricante do Zynq-7010 que equipa a placa ZynqBerry, utilizada neste trabalho
 \begin{figure}[H]
 	\centering
 	\captionsetup{width=0.8\textwidth, font=footnotesize, textfont=bf}	
-	\includegraphics[width=0.8\linewidth]{Images/MateriaisMetodos/CriacaoAXI4.png}
+	\includegraphics[width=0.8\linewidth]{Images/Anexo/CriacaoAXI4.png}
 	\caption{Configurações da nova IP}
 	\vspace{-3.5mm}
 	\caption*{Fonte: Vivado HLx 2017.4}

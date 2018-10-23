@@ -19,7 +19,7 @@ Para contornar o problema, considere expressar o vetor $H_r$ na forma polar $re^
 	H_r \cdot W_{N_0}^r~=re^{\left(\theta_r+\frac{2\pi r}{N_0}\right)}.
 \end{eqnarray}
 
-Assim $H_r \cdot W_{N_0}^r$ é equivalente a operação trigonométrica de rotacionar o vetor complexo $H_r$ pelo ângulo de $2\pi r/N_0$. Como pode ser visto abaixo:
+Assim $H_r \cdot W_{N_0}^r$ é equivalente a operação trigonométrica de rotacionar o vetor complexo $H_r$ pelo ângulo de $2\pi r/N_0$, como pode ser visto na Figura (\ref{fig:RotacaoVetorA0}).
 
 \vspace{6mm}
 \begin{figure}[H]
@@ -333,7 +333,7 @@ Segue abaixo o pseudo-código que implementa o algoritmo TBS.
  
 \vspace{3mm}
 \lstset{style=VHDL}
-	\begin{lstlisting}[mathescape]
+	\begin{lstlisting}[caption={Algoritmo TBS \\ Fonte : \citeonline{Cheng}},captionpos=b, mathescape]
 		% Inicialização
 		$\displaystyle \phi(1,k)~=~r(k)$ para todo k,
 		
@@ -355,14 +355,11 @@ Segue abaixo o pseudo-código que implementa o algoritmo TBS.
 			$\displaystyle Result(i-1)=k'$
 		$\displaystyle END$
 	\end{lstlisting}
-	%\captionof{lstlisting}{Pseudocódigo Algoritmo TBS}
-	%\vspace{-3.5mm}
-	%\captionof*{lstlisting}{Fonte : \citeonline{Cheng}}
 	\label{code:PCTBS}
 \vspace{3mm}
 
 
-Em \citeonline{Cheng} o autor utiliza um exemplo base para explicar o algoritmo TBS, o qual também será usado aqui. Para este exemplo, o ângulo de rotação $\theta$ será $pi/3$, o número máximo de interações será $N=4$ e a resolução de $\theta$ será de $W=~4$ bits. 
+Nos trabalhos de  \citeonline{Cheng}, os autores utilizam um exemplo base para explicar o algoritmo TBS, o qual também será usado aqui. Para este exemplo, o ângulo de rotação $\theta$ será $pi/3$, o número máximo de interações será $N=4$ e a resolução de $\theta$ será de $W=~4$ bits. 
 
 
 A primeira etapa do algoritmo então inicia com a definição do vetor $r(k)$, e o preenchimento da primeira coluna da matriz $\phi(1, )$, como pode ser visto na Figura (\ref{fig:TBSExempleA}). Na segunda etapa do algoritmo é realizada a acumulação, onde cada elemento das colunas 2, 3 e 4 são preenchidos com base na coluna anterior a partir da expressão $\| \phi(n,k^*) + r(k) - \theta \|$. Na Figura (\ref{fig:TBSExempleA}) o elemento $\phi(2,15) $ representa esta etapa, onde o valor do elemento $\phi(2,15)$ é definido a partir da soma do ângulo representante da linha 15 (r(15)), com o elemento da coluna 1 que minimiza o erro de aproximação do resultado desta soma com $\theta$, que neste caso é $\pi/3$. Este processo se estende até completar a coluna 4 da matriz $\phi$.
@@ -401,22 +398,22 @@ A tabela (\ref{tab:TBSExemple}) apresenta os valores encontrados para $\phi$ na 
 	\captionsetup{width=.5\linewidth}
 	\begin{tabular}{c|c|c|c|c|}
 		\cline{2-5}
-		& i=1                            & i=2                            & i=3                            & i=4                            \\ \hline
-		\multicolumn{1}{|c|}{k=1}  & -1.1071                        & 0                              & 0.0339                         & 0                              \\ \hline
-		\multicolumn{1}{|c|}{k=2}  & -0.9828                        & 0.1244                         & \cellcolor[HTML]{FD6864}0.1582 & 0.1244                         \\ \hline
-		\multicolumn{1}{|c|}{k=3}  & -0.8961                        & 0.2111                         & 0.2450                         & 0.2111                         \\ \hline
-		\multicolumn{1}{|c|}{k=4}  & -0.7854                        & 0.3218                         & 0.3556                         & 0.3218                         \\ \hline
-		\multicolumn{1}{|c|}{k=5}  & -0.6435                        & 0.4636                         & 0.4975                         & 0.4636                         \\ \hline
-		\multicolumn{1}{|c|}{k=6}  & -0.4636                        & 0.6435                         & 0.6774                         & 0.6435                         \\ \hline
-		\multicolumn{1}{|c|}{k=7}  & -0.2450                        & 0.8622                         & 0.8961                         & 0.8622                         \\ \hline
-		\multicolumn{1}{|c|}{k=8}  & 0                              & 1.1071                         & 1.0304                         & 1.0304                         \\ \hline
-		\multicolumn{1}{|c|}{k=9}  & 0.4636                         & 1.1071                         & 1.1071                         & 0.9612                         \\ \hline
-		\multicolumn{1}{|c|}{k=10} & 0.6435                         & 1.1071                         & 1.1071                         & 0.9991                         \\ \hline
-		\multicolumn{1}{|c|}{k=11} & \cellcolor[HTML]{FD6864}0.2450 & 1.0304                         & 1.1071                         & 1.1410                         \\ \hline
-		\multicolumn{1}{|c|}{k=12} & 0.7854                         & 1.0304                         & 0.9965                         & 1.0304                         \\ \hline
-		\multicolumn{1}{|c|}{k=13} & 1.1071                         & 1.1071                         & 1.1071                         & 1.1410                         \\ \hline
-		\multicolumn{1}{|c|}{k=14} & 0.9828                         & 0.9828                         & 1.1071                         & 1.0167                         \\ \hline
-		\multicolumn{1}{|c|}{k=15} & 0.8961                         & \cellcolor[HTML]{FD6864}1.1410 & 1.0204                         & \cellcolor[HTML]{FD6864}1.0543 \\ \hline
+		& \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} i=1} & \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} i=2} & \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} i=3} & \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} i=4} \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} k=1}}  & -1.1071                                            & 0                                                  & 0.0339                                             & 0                                                  \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} k=2}}  & -0.9828                                            & 0.1244                                             & \cellcolor[HTML]{FD6864}0.1582                     & 0.1244                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} k=3}}  & -0.8961                                            & 0.2111                                             & 0.2450                                             & 0.2111                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} k=4}}  & -0.7854                                            & 0.3218                                             & 0.3556                                             & 0.3218                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} k=5}}  & -0.6435                                            & 0.4636                                             & 0.4975                                             & 0.4636                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} k=6}}  & -0.4636                                            & 0.6435                                             & 0.6774                                             & 0.6435                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} k=7}}  & -0.2450                                            & 0.8622                                             & 0.8961                                             & 0.8622                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} k=8}}  & 0                                                  & 1.1071                                             & 1.0304                                             & 1.0304                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} k=9}}  & 0.4636                                             & 1.1071                                             & 1.1071                                             & 0.9612                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} k=10}} & 0.6435                                             & 1.1071                                             & 1.1071                                             & 0.9991                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} k=11}} & \cellcolor[HTML]{FD6864}0.2450                     & 1.0304                                             & 1.1071                                             & 1.1410                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} k=12}} & 0.7854                                             & 1.0304                                             & 0.9965                                             & 1.0304                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} k=13}} & 1.1071                                             & 1.1071                                             & 1.1071                                             & 1.1410                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} k=14}} & 0.9828                                             & 0.9828                                             & 1.1071                                             & 1.0167                                             \\ \hline
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} k=15}} & 0.8961                                             & \cellcolor[HTML]{FD6864}1.1410                     & 1.0204                                             & \cellcolor[HTML]{FD6864}1.0543                     \\ \hline
 	\end{tabular}
 	\caption{Matriz $\phi$ para o dado Exemplo}
 	\vspace{-3.5mm}
