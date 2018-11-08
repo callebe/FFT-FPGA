@@ -16,7 +16,7 @@ Para contornar o problema, considere expressar o vetor $H_r$ na forma polar $re^
 \begin{eqnarray}
 	H_r~=~Re^{\left(\theta_r\right)}, \\
 	H_r \cdot W_{N_0}^r~=~re^{\left(\theta_r\right)} \cdot e^{\left(\frac{2\pi r}{N_0}\right)}, \\
-	H_r \cdot W_{N_0}^r~=re^{\left(\theta_r+\frac{2\pi r}{N_0}\right)}.
+	H_r \cdot W_{N_0}^r~=re^{\left(\theta_r+\frac{2\pi r}{N_0}\right)}. \label{eq:RotacionamentoVetorial}
 \end{eqnarray}
 
 Assim $H_r \cdot W_{N_0}^r$ é equivalente a operação trigonométrica de rotacionar o vetor complexo $H_r$ pelo ângulo de $2\pi r/N_0$, como pode ser visto na Figura (\ref{fig:RotacaoVetorA0}).
@@ -57,7 +57,6 @@ O algoritmo CORDIC tem como base as micro-rotações do vetor alvo, de tal modo qu
    
   
 Isolando o termo $cos( \theta )$ de (\ref{eq:rotacaoVetorial}) é obtido o seguinte sistema:
-
 \begin{equation}
 	\left[\begin{array}{c}
 	x' \\ 
@@ -71,16 +70,13 @@ Isolando o termo $cos( \theta )$ de (\ref{eq:rotacaoVetorial}) é obtido o seguin
 	\end{array}\right],
 	\label{eq:rotacaoVetorialB}
 \end{equation}
-
 o qual é a base da técnica CORDIC convencional \cite{Motaz}.
 
 Segundo \cite{Volder}, ao invés de rotacionar completamente o vetor $H_r$ pelo ângulo $\theta$, ou pelo ângulo $2\pi r/N_0$ como  mostrado na Figura (\ref{fig:RotacaoVetorA0}),  o algoritmo CORDIC rotaciona $H_r$ por ângulos $\theta_n$ muito menores, sendo estes frações de $\theta$, de tal forma que:
-
 \begin{equation}
 	\theta ~=~ \sum_{n = 0}^{N-1} \mu_n \theta_n + \zeta,
 	\label{eq:aproximation}
 \end{equation}
-
 onde e $\mu_n$ representa o sentido da micro rotação $\theta_n$, sendo que se for no sentido horário é igual a 1, caso contrário é igual a -1, e $\zeta$ é o erro acumulado da aproximação pelo somatório, que será considerado suficientemente pequeno para ser ignorado. 
 
 O primeiro ponto dessa abordagem é o fato de que se um angulo $\theta_n$ for suficientemente pequeno é possível afirmar que:
@@ -114,7 +110,6 @@ O segundo ponto é que para satisfazer (\ref{eq:aproximation}) só é necessário qu
 \end{equation}
 
 Logo, aplicando a Equação(\ref{eq:EquivalenciaThetaTan}) em (\ref{eq:rotacaoVetorialC}), é obtido a expressão final para CORDIC:
-
 \begin{equation}
 	\left[\begin{array}{c}
 	x' \\ 
@@ -133,9 +128,7 @@ Logo, aplicando a Equação(\ref{eq:EquivalenciaThetaTan}) em (\ref{eq:rotacaoVeto
 	k_c = cos(tan^{-1} (2^{-n})) = \frac{1}{\sqrt{1 + 2^{-2n}}},
 	\label{eq:K}
 \end{equation}
-
 onde:
-
 \begin{equation}
 	\mu \in \{-1,1\} 
 \end{equation}
@@ -143,16 +136,13 @@ onde:
 $K_c$  é calculado a cada micro-rotação $n$, assim seu valor total é dado pelo produto de todos os $N$ ganhos.  O número total de micro-rotações ($N$) é escolhido de acordo com o SQNR  (\textit{Signal-to-Quantization-Noise Ratio }) admissível a cada rotação. Segundo \cite{Volder}, considerando $N\rightarrow\infty$, $K_c$ é passa a ser constate e aproximadamente igual a $0,6073$. O inverso de $K_c$ é igual a $1,647$, sendo conhecido como Ganho CORDIC. Tal ganho é independe do ângulo a ser rotacionado, e em muitos sistemas este ganho é só compensado fora do bloco lógico de cálculo do CORDIC.
 
 Como pode ser observado, o algoritmo CORDIC se resume a operações de deslocamento de \textit{bit} e somas. A direção das micro-rotações é determinada por $\mu$, que depende diretamente do sinal do ângulo $\theta_n$ a se rotacionar. Em aplicações onde o ângulo a se rotacionar é previamente conhecido, que é o caso da FFT,  as sequências de rotações $\mu$ podem ser armazenado em uma memória  \sigla[Read-Only Memory]{ROM} \cite{Motaz} \textit{Read-Only Memory}. Isto torna as micro-rotações como $n$ interações, armazenando em $z$ os ângulos rotacionados a cada interação de $\theta_n$, sendo o algoritmo CORDIC expressado por:
-
 \begin{eqnarray}
 	x(n+1) = x(n) - [\mu 2^{-n}]y(n), \\
 	y(n+1) = y(n) + [\mu 2^{-n}]x(n), \\
 	z(n+1) = z(n)-tan^{-1} [\mu 2^{-n}], \\
 	\label{eq:CORDIC}
 \end{eqnarray}
-
 onde:
-
 \begin{eqnarray}
 	H_r~=~x(0)+iy(0),\\
 	\theta ~=~z(0), \\
@@ -212,16 +202,12 @@ Por outro lado, o método \textit{Extended Elementary-Angle-Set Recoding} (EEASR)
 	\label{eq:s1}
  \end{eqnarray}    
  
-Como é possível notar em (\ref{eq:s1}), os ângulos elementares dependem de apenas um termo potência de dois, ou \textit{Signed Power of Two} (SPT). Segundo \cite{Cheng}, para aumentar a precisão dos ângulos elementares e, consequentemente, reduzir o número de interações pode-se adicionar mais um termo SPT em  (\ref{eq:s1}). 
-
-Assim:
-  
+Como é possível notar em (\ref{eq:s1}), os ângulos elementares dependem de apenas um termo potência de dois, ou \textit{Signed Power of Two} (SPT). Segundo \cite{Cheng}, para aumentar a precisão dos ângulos elementares e, consequentemente, reduzir o número de interações pode-se adicionar mais um termo SPT em  (\ref{eq:s1}), resultando em:
 \begin{eqnarray}
 	 S_2 = \{ tan^{-1} ( \mu_{0} 2^{-s_0} + \mu_{1} 2^{-s_1}) \} \\ 
     :~\mu_{0},\mu_{1} \in \{-1,0,1\},~s_0,s_1 \in \{0,1, \dots, S\} 
     \label{eq:S2}
 \end{eqnarray} 
-
 onde $S$ é denominado como o número máximo de deslocamentos de \textit{bits} a direita que podem ser realizados. Este valor está diretamente relacionado com o quantidade de \textit{bits} utilizados para representar um número dentro da arquitetura onde o CORDIC é implementado. Por exemplo, em uma aplicação em FPGA, onde a palavra binária utilizada para representar um número inteiro tenha apenas 16 \textit{bits}, não faz sentido o valor de $S$ ser maior do 15. Portanto, alterando a equação (\ref{eq:rotacaoVetorialC}) com base em  (\ref{eq:S2}) é obtido a expressão para cálculo interativo CORDIC utilizando o EEASR:
 
 
@@ -267,14 +253,12 @@ Com a alteração de $K_c$, o ganho passa a não ser mais constante, e varia de aco
 \end{equation}
 
 Para casos em que o ângulo $\theta$ a ser rotacionado é conhecido, como é o caso da FFT, é possível escolher previamente o conjunto de valores $\mu_{0}$, $\mu_{1}$, $s_{0}$ e $s_{1}$, e consequentemente através da Equação (\ref{eq:EEASRKcn}) determinar o valor de $K_c$ a ser compensado a cada interação, e por meio de  (\ref{eq:EEASRKc}) determinar a compensação de $K_c$ a ser realizada após cada operação de rotação. Para tal é realizado, após as interações de rotação do algoritmo, uma correção no módulo do vetor resultante por meio da seguinte operação de rotação modificada:
-
 \begin{eqnarray}
 	x(n+1) = x(n) - [\mu_{0}2^{-s_0 (n)} + \mu_{1}2^{-s_1 (n)}]x(n), \\
 	y(n+1) = y(n) - [\mu_{0}2^{-s_0 (n)} + \mu_{1}2^{-s_1 (n)}]y(n), \\
 	z(n+1) = z(n).
 	\label{eq:EEASRKcCorrection}
 \end{eqnarray}
-
 onde $\mu_{0}$, $\mu_{1}$, $s_{0}$ e $s_{1}$ para esta operação são escolhidos de modo a minimizar o erro de compensação de $K_c$. 
 
 Com a relaxação das restrições introduzidas pelo método AR e pelo EEASR, a densidade combinacional dentro do circulo unitário do conjunto de ângulos elementares do Algoritmo CORDIC aumenta, se comparado ao CORDIC tradicional, como pode ser visto na Figura (\ref{fig:CordicComparationEEAS}). 
@@ -295,12 +279,10 @@ Com a relaxação das restrições introduzidas pelo método AR e pelo EEASR, a densi
 \label{section:TBS}
 
 A relaxação das restrições feita pelos métodos AR e  EEASR tornaram o algoritmo iterativo CORDIC mais eficiente, porém ele abre uma questão crucial: a determinação dos conjuntos $\mu$ e $s$. No algoritmo CORDIC tradicional, o valor de $\mu$ estava contido no conjunto $\{-1, 1\}$ e era determinado com base no sinal de $z(n)$ a cada interação. No entanto, no método AR $\mu$ passa a estar contido no conjunto $\{-1, 0, 1\}$. Logo, determinar o valor de $\mu$ a cada interação torna-se uma tarefa de otimização, em relação a minimizar o erro $\zeta$, na forma \cite{Cheng}:
-
 \begin{equation}
 	min~\zeta~=~\left| \theta~-~\sum_{n=0}^{N-1}  \mu ~ tan^{-1} (2^{-n}) \right|,
 	\label{eq:MinZeta}
 \end{equation} 
-
 onde:
 
 \begin{equation}
@@ -466,15 +448,12 @@ A reformulação apresentada por \citeonline{Chih} incrementa termos SPT  nas parc
 
 
 Como pode ser percebido em (\ref{eq:MSRKnc}) e (\ref{eq:MSRtheta}), com a escolha adequada dos conjuntos de termos $\mu_i$, $\mu_j$, $S_i$ e $S_j$, e dos valores de $I$ e $J$ é possível aproximar $K_c$ da unidade a cada interação ao mesmo tempo em que o erro $\zeta$ é reduzido. No MSR o conjunto de ângulos elementares  é definidor por:
-
 \begin{eqnarray}
 	S_3 = \{ tan^{-1} \left(\frac{\sum_{j=1}^{J} \mu_{j}2^{-s_j (n)}}{\sum_{i=1}^{I} \mu_{i}2^{-s_i (n)}}\right) \}, \\ 
 	:~\mu_{i},\mu_{j} \in \{-1,0,1\},~s_i,s_j \in \{0,1, \dots, S\}, 
 	\label{eq:S3}
 \end{eqnarray}
-
 sendo o erro $\zeta$ é definido por:
-
 \begin{eqnarray}
 	min~\zeta~=~\left| \theta~-~\sum_{n=0}^{N-1}  tan^{-1} \left(\frac{\sum_{j=1}^{J} \mu_{j}2^{-s_j (n)}}{\sum_{i=1}^{I} \mu_{i}2^{-s_i (n)}}\right) \right|, \\
 	:~\mu_{i},\mu_{j} \in \{-1,0,1\},~s_0,s_1 \in \{0,1, \dots, S\}.
@@ -541,23 +520,18 @@ Um importante fator para a determinação do melhor conjunto de parâmetros Cordic 
 Nos dispositivos digitais o número de \textit{bits} utilizados para representar sinais quantizados é limitado de acordo com a arquitetura. Este limite de representação acaba por impactar na resolução da palavra binária para números fracionários, o que força a realização de arrendondamentos na representação binária. 
 
 Para representar o conjunto dos números racionais no mundo digital, a arquitetura dos sistemas digitais reserva parte dos \textit{bits} da palavra binária para representar o fracionário do número racional. Assim, segundo \citeonline{Chih},  os níveis de quantização para um sinal digital são definidos como:
-
 \begin{equation}
-	\left\{-2^{W-i-1},...,-2^{-i+1}, -2^{-i}, -2^{-i+1}, ..., 2^{W-i-1} \right\}.  
+	\left\{-2^{W-i-1},...,-2^{-i+1}, -2^{-i}, -2^{-i+1}, ..., 2^{W-i-1} \right\},  
 \end{equation}
-
 Onde $W$ representa o numero de \textit{bits} da palavra binária, e $i$ representa o número de dígitos fracionários.
 
 Uma solução simples para reduzir o efeito do $e_n$ é aumentar o número de \textit{bits} $W$ e $i$, melhorando a resolução da representação. Porém, esta solução, como afirma \cite{Chih}, provocaria uma redução na velocidade computacional do sistema, e ainda consumiria mais recursos de \textit{hardware}. Outra opção seria reduzir o número de \textit{bits} utilizados para representar a parte inteira do número, e transferir estes \textit{bits} para a parte fracionária. Porém, este método pode provocar um \textit{overflow} da palavra binária, o que é ainda pior do que um ruído de arredondamento.  
 
 Considerando a amplitude $\rho$ de um sinal de entrada, definido entre os intervalos:
-
 \begin{equation}
 	-2^{Wa} \leq \rho \leq 2^{W_b} -1,~~para~W_a,W_b \geq 0,
 \end{equation} 
-
 onde $Wa$ e $Wb$ representam respectivamente o limite superior e inferior da amplitude do módulo deste sinal. Ainda:
-
 \begin{equation}
 	W_{max}~=~max\{W_a,W_b\}.
 \end{equation} 
@@ -569,22 +543,18 @@ Como o limite absoluto deste sinal. O número mínimo de \textit{bits} necessários
 \end{equation}
 
 Para solver o problema do ruído de arredondamento, \citeonline{Chih} assumem que o $e_n$ é uniformemente distribuído e não possui correlação com outros sinais. Além de considerar que, baseado nos níveis de quantização, o $e_n$ está situado em uma faixa simétrica de $(-2^{-i-1}, 2^{-i-1})$. Portanto, a variância de $e_n$ é dada por:
-
 \begin{equation}
 	\sigma_{e_n}^2~=~\frac{V^2_{LSB}}{12},
 	\label{eq:variancia}
 \end{equation} 
-
 onde  $V_{LSB}$ é igual a $2^i$. Logo, a variância do erro de arredondamento é proporcional ao quadrado valor do ultimo $bit$ da palavra binária. 
 
 Como base em (\ref{eq:variancia}), \citeonline{Chih} analisam o efeito a operação de rotação tem sobre a variância de $e_n$, e mais especificamento o efeito que o ganho $K_c$ tem sobre o SQNR. Quando o ganho $K_c$ é $> ~1$ ou $<~1$ SQNR é reduzido para $1/(K_n)$ a cada iteração CORDIC.
 
 O ganho $K_C$ é fator importante no projeto dos parâmetros Cordic para o MSR, afetando tanto o erro $e_n$ quanto $\upepsilon$. Para refinar a função de minimização apresentada em (\ref{eq:OtimizacaoMSR}), \citeonline{Chih} adicionam a seguinte restrição em relação ao valor do ganho $K_c$:
-
 \begin{equation}
 	P_{lower} ~=~1/P_{upper},
 \end{equation}
-
 onde $P_{upper}$ e $P_{lower}$ são, respectivamente, o limite superior e o limite inferior de $K_n$ a cada interação.
 
 O gráfico da Figura (\ref{fig:RelacaoSQNReKc}) mostra uma análise prática entre o nível do SQNR e o $P_{upper}$, para diferentes valores de deslocamento de \textit{bits} ($S$). Por meio desta análise \citeonline{Chih} sugerem que para um bom projeto de parâmetros MSR Cordic, onde $N_{spt}~=~3$ e $N=3$, o valor de  $P_{upper}$ deve estar próximo de $1,5$. Já que, como pode ser visto na Figura (\ref{fig:RelacaoSQNReKc}), para valores maiores o desempenho de SQNR é saturado. Logo, para este caso, é possível adicionar mais esta restrição a equação de minimização do erro $\epsilon$.

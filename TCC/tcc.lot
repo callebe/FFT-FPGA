@@ -1,10 +1,10 @@
 \babel@toc {brazil}{}
-\contentsline {table}{\numberline {1}{\ignorespaces Rela\c c\~ao entre propriedade do tempo de um sinal e a representa\c c\~ao de Fourier adequada\relax }}{20}{table.caption.13}
-\contentsline {table}{\numberline {2}{\ignorespaces Matriz $\phi $ para o dado Exemplo\relax }}{43}{table.caption.23}
-\contentsline {table}{\numberline {3}{\ignorespaces N\IeC {\'\i }vel SQNR entre o Modo Generalizado e Normal, $N_{SPT}=3$ \relax }}{72}{table.caption.39}
-\contentsline {table}{\numberline {4}{\ignorespaces Resultado de S\IeC {\'\i }ntese FFT 16 Pontos\relax }}{79}{table.caption.44}
-\contentsline {table}{\numberline {5}{\ignorespaces Comparativo de S\IeC {\'\i }ntese - FFT 16 Pontos\relax }}{79}{table.caption.45}
-\contentsline {table}{\numberline {6}{\ignorespaces Comparativo N\IeC {\'\i }vel de SNQR para FFT de 16 Pontos\relax }}{80}{table.caption.46}
-\contentsline {table}{\numberline {7}{\ignorespaces Resultado de S\IeC {\'\i }ntese FFT 1024 Pontos\relax }}{82}{table.caption.49}
-\contentsline {table}{\numberline {8}{\ignorespaces Comparativo de S\IeC {\'\i }ntese - FFT 1024 Pontos\relax }}{83}{table.caption.50}
-\contentsline {table}{\numberline {9}{\ignorespaces Comparativo N\IeC {\'\i }vel de SNQR para FFT de 16 Pontos\relax }}{84}{table.caption.51}
+\contentsline {table}{\numberline {1}{\ignorespaces Rela\c c\~ao entre propriedade do tempo de um sinal e a representa\c c\~ao de Fourier adequada\relax }}{25}{table.caption.15}
+\contentsline {table}{\numberline {2}{\ignorespaces Matriz $\phi $ para o dado Exemplo\relax }}{48}{table.caption.25}
+\contentsline {table}{\numberline {3}{\ignorespaces N\IeC {\'\i }vel SQNR entre o Modo Generalizado e Normal, $N_{SPT}=3$ \relax }}{76}{table.caption.41}
+\contentsline {table}{\numberline {4}{\ignorespaces Resultado de S\IeC {\'\i }ntese FFT 16 Pontos\relax }}{83}{table.caption.46}
+\contentsline {table}{\numberline {5}{\ignorespaces Comparativo de S\IeC {\'\i }ntese - FFT 16 Pontos\relax }}{83}{table.caption.47}
+\contentsline {table}{\numberline {6}{\ignorespaces Comparativo N\IeC {\'\i }vel de SNQR para FFT de 16 Pontos\relax }}{84}{table.caption.48}
+\contentsline {table}{\numberline {7}{\ignorespaces Resultado de S\IeC {\'\i }ntese FFT 1024 Pontos\relax }}{88}{table.caption.54}
+\contentsline {table}{\numberline {8}{\ignorespaces Comparativo de S\IeC {\'\i }ntese - FFT 1024 Pontos\relax }}{88}{table.caption.55}
+\contentsline {table}{\numberline {9}{\ignorespaces Comparativo N\IeC {\'\i }vel de SNQR para FFT de 1024 Pontos\relax }}{89}{table.caption.56}

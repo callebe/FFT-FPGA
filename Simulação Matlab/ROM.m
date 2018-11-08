@@ -1,10 +1,13 @@
 clc
 clear all
 close all
+
+NumberOfCordicUnits = 8;
+
 %Montando FFT
 
-Result = importdata('Result2.mat');
-Parametros = importdata('Parametros.mat');
+Result = importdata('Result16.mat');
+Parametros = importdata('Parametros16.mat');
 
 %Conexões (Um Cordic a cada 2 Linhas)
 Nfft = 16;
@@ -48,7 +51,7 @@ for Level=2:NumberOfLevels
 end
 
 %Imprimir dados em arquivos de texto
-for CordicUnit=0:15
+for CordicUnit=0:NumberOfCordicUnits
     counter = 0;
     Source = strcat(num2str(CordicUnit),'.vhd');
     Source = strcat('ROMFFT',Source);
@@ -64,7 +67,7 @@ for CordicUnit=0:15
                 %[a-1 mu1 mu2 mu3 s1 s2 s3]
                 %[sw1 mu1 s1 sw2 mu2 s2 sw3 mu3 s3]
                 %Swithcs
-                K=CordicUnit+Opetion*16+1;
+                K=CordicUnit+Opetion*NumberOfCordicUnits+1;
                 Select = Result(CordicTwiddleFactor(K,Layer)+1);
                 switch Parametros(Select, 1)
                     case 0

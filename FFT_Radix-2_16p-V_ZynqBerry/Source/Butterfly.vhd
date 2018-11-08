@@ -17,10 +17,10 @@ USE work.MainPackage.all;
 
 ENTITY Butterfly IS
     PORT( 
-        XInput : IN Complex;
-        YInput : IN Complex;
-        XOutput : OUT Complex;
-        YOutput : OUT Complex
+        XInput : IN signed(31 downto 0);
+        YInput : IN signed(31 downto 0);
+        XOutput : OUT signed(31 downto 0);
+        YOutput : OUT signed(31 downto 0)
     );
 END Butterfly;
 
@@ -28,9 +28,9 @@ ARCHITECTURE Behavioral OF Butterfly IS
 
 BEGIN
 
-    XOutput.r <= STD_LOGIC_VECTOR(to_signed(to_integer(signed(XInput.r)) + to_integer(signed(YInput.r)), Complex.r'LENGTH));
-    XOutput.i <= STD_LOGIC_VECTOR(to_signed(to_integer(signed(XInput.i)) + to_integer(signed(YInput.i)), Complex.r'LENGTH)); 
-    YOutput.r <= STD_LOGIC_VECTOR(to_signed(to_integer(signed(XInput.r)) - to_integer(signed(YInput.r)), Complex.r'LENGTH));
-    YOutput.i <= STD_LOGIC_VECTOR(to_signed(to_integer(signed(XInput.i)) - to_integer(signed(YInput.i)), Complex.r'LENGTH));
+    XOutput(31 downto 16) <= to_signed(to_integer(XInput(31 downto 16)) + to_integer(YInput(31 downto 16)), 16);
+    XOutput(15 downto 0 ) <= to_signed(to_integer(XInput(15 downto 0 )) + to_integer(YInput(15 downto 0 )), 16); 
+    YOutput(31 downto 16) <= to_signed(to_integer(XInput(31 downto 16)) - to_integer(YInput(31 downto 16)), 16);
+    YOutput(15 downto 0 ) <= to_signed(to_integer(XInput(15 downto 0 )) - to_integer(YInput(15 downto 0 )), 16);
     
 END Behavioral;

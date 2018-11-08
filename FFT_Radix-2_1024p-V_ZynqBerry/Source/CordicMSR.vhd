@@ -94,41 +94,41 @@ begin
     YinSelect <= Bin(15 downto 0) when Start = '1' else
                  FeedbackY;
     -- X(n+1)
-    SwitchX1 <= AuxOutputX1 when Control(20) = '1' else
+    SwitchX1 <= AuxOutputX1 when Control(20) = '0' else
                 AuxOutputY1;
         
-    SwitchX2 <= AuxOutputX2 when Control(13) = '1' else
+    SwitchX2 <= AuxOutputX2 when Control(13) = '0' else
                 AuxOutputY2;
     
-    SwitchX3 <= AuxOutputX3 when Control(6) = '1' else
+    SwitchX3 <= AuxOutputX3 when Control(6) = '0' else
                 AuxOutputY3;
     -- Y(n+1)
-    SwitchY1 <= AuxOutputY1 when Control(20) = '1' else
+    SwitchY1 <= AuxOutputY1 when Control(20) = '0' else
                 AuxOutputX1;
           
-    SwitchY2 <= AuxOutputY2 when Control(13) = '1' else
+    SwitchY2 <= AuxOutputY2 when Control(13) = '0' else
                 AuxOutputX2;
     
-    SwitchY3 <= AuxOutputY3 when Control(6) = '1' else
+    SwitchY3 <= AuxOutputY3 when Control(6) = '0' else
                 AuxOutputX3;
                                   
     -- Sign Select
-    X1 <= SwitchX1 when Control(19 downto 18) = "11" and Control(20) = '0' else
-          -SwitchX1 when Control(19 downto 18) = "11" and Control(20) = '1' else
-          -SwitchX1 when Control(19 downto 18) = "01" and Control(20) = '0' else
-          SwitchX1 when Control(19 downto 18) = "01" and Control(20) = '1' else
+    X1 <= SwitchX1  when (Control(19 downto 18) = "11" and Control(20) = '1') else
+          -SwitchX1 when (Control(19 downto 18) = "11" and Control(20) = '0') else
+          -SwitchX1 when (Control(19 downto 18) = "01" and Control(20) = '1') else
+          SwitchX1  when (Control(19 downto 18) = "01" and Control(20) = '0') else
           (others => '0');
     
-    X2 <= SwitchX2 when Control(12 downto 11) = "11" and Control(13) = '0' else
-          -SwitchX2 when Control(12 downto 11) = "11" and Control(13) = '1' else
-          -SwitchX2 when Control(12 downto 11) = "01" and Control(13) = '0' else
-          SwitchX2 when Control(12 downto 11) = "01" and Control(13) = '1' else
+    X2 <= SwitchX2 when Control(12 downto 11) = "11" and Control(13) = '1' else
+          -SwitchX2 when Control(12 downto 11) = "11" and Control(13) = '0' else
+          -SwitchX2 when Control(12 downto 11) = "01" and Control(13) = '1' else
+          SwitchX2 when Control(12 downto 11) = "01" and Control(13) = '0' else
           (others => '0');
           
-    X3 <= SwitchX3 when Control(5 downto 4) = "11" and Control(6) = '0' else
-          -SwitchX3 when Control(5 downto 4) = "11" and Control(6) = '1' else
-          -SwitchX3 when Control(5 downto 4) = "01" and Control(6) = '0' else
-          SwitchX3 when Control(5 downto 4) = "01" and Control(6) = '1' else
+    X3 <= SwitchX3 when Control(5 downto 4) = "11" and Control(6) = '1' else
+          -SwitchX3 when Control(5 downto 4) = "11" and Control(6) = '0' else
+          -SwitchX3 when Control(5 downto 4) = "01" and Control(6) = '1' else
+          SwitchX3 when Control(5 downto 4) = "01" and Control(6) = '0' else
           (others => '0');
    
     Y1 <= -SwitchY1 when Control(19 downto 18) = "11" else
@@ -168,15 +168,11 @@ begin
     --Keeping Input Control                             
     process(Clock)
     
-        variable RealInput : SIGNED(15 downto 0) := (others => '0');
-        variable ImagInput : SIGNED(15 downto 0) := (others => '0');
-    
     begin
-        Xin <= RealInput;
-        Yin <= ImagInput;
+
         if(Clock'event and Clock = '1') then
-            RealInput := XinSelect;
-            ImagInput := YinSelect;
+            Xin <= XinSelect;
+            Yin <= YinSelect;
         
         end if;
     

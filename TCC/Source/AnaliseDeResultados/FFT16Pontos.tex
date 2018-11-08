@@ -6,7 +6,7 @@ A Tabela (\ref{tab:ResultadoSinteseFFt16}) apresenta os dados referentes ao volu
 	\captionsetup{width=.5\linewidth}
 	\begin{tabular}{|l|c|c|}
 		\hline
-		Recurso & Utilização & Utilização \% \\ \hline
+		\cellcolor[HTML]{333333}{\color[HTML]{FFFFFF}Recurso} & \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF}Utilização} & \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF}Utilização \%} \\ \hline
 		LUT & 5760 & 32,73 \\ \hline
 		FF  & 4895 & 13,91  \\ \hline
 		BRAM &  0  & 0  \\ \hline
@@ -26,7 +26,7 @@ Em termos de consumo de recursos da FPGA, é possível fazer um paralelo dos dados
 	\captionsetup{width=\linewidth}
 	\begin{tabular}{|l|c|c|c|c|c|}
 		\hline
-		Referência       & LUT  & FF   & BRAM   & DSP & Wordlength(\textit{bits})\\ \hline
+		\cellcolor[HTML]{333333}{\color[HTML]{FFFFFF}Referência} & \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF}LUT}  & \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF}FF}   & \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF}BRAM}   & \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF}DSP} & \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF}Wordlength(\textit{bits})}\\ \hline
 		Autoria Própria  & 5760 & 4895 &  0     & 0  & 16\\ \hline
 		\citeonline{santhosh} & 2127 & 1572 &  0     & 14 & 9\\ \hline
 	\end{tabular}
@@ -36,9 +36,11 @@ Em termos de consumo de recursos da FPGA, é possível fazer um paralelo dos dados
 	\label{tab:ResultadoSinteseFFt16Comparativo}
 \end{table}
 
-Como é possível observar na Tabela (\ref{tab:ResultadoSinteseFFt16Comparativo}), o consumo de recursos da FFT implementada é o dobro da apresentada por \citeonline{santhosh}. Isso de deve principalmente ao número de \textit{bits} utilizados para representação de sinais. E também ao fato de que na FFT implementada existe 16 blocos CORDIC, os quais não são necessários em \citeonline{santhosh}, pois este utiliza blocos DSPs.
+Como é possível observar na Tabela (\ref{tab:ResultadoSinteseFFt16Comparativo}), o consumo de recursos da FFT implementada é o dobro da apresentada por \citeonline{santhosh}. Isso de deve principalmente ao número de \textit{bits} utilizados para representação de sinais e, também, ao fato de que na FFT implementada existe 16 blocos CORDIC, os quais não são necessários em \citeonline{santhosh}, pois este utiliza blocos DSPs. 
 
-Após carregar a FPGA com o arquivo \textit{Bitstream} e programar o PS, fora enviado conjunto de sinais de entrada gerados pelo \textit{Matlab}, para a FFT implementada via interface UART do ZynqBerry. A resposta a estes sinais foi comparada com o resultado teórico, obtido pelo uso do comando \textit{fft()} do \textit{Matlab}, aplicada aos sinais gerados. A fim de mensurar o erro entre a FFT teórica, obtida no \textit{Matlab}, e a implementada, proveniente da FFT do ZynqBerry, foi utilizada a função de cálculo do SQNR (\textit{snr()}). O nível SQNR médio dos teste realizados com a FFT de 16 pontos foi de 52dB. A Tabela (\ref{tab:ResultFFT16}), apresenta um comparativo entre o nível de SQNR encontrado para esta FFT, e a vista na bibliografia.
+Para efetuar uma operação de rotacionamento vetorial, na forma de (\ref{eq:RotacionamentoVetorial}), em apenas um ciclo de \text{clock} se faz necessário utilizar 4 multiplicadores. Assim em FPGAs como a XC7Z010-1CLG225C, onde há um multiplicador por bloco DSP, seriam necessários 64 destes blocos. Blocos DSP são recursos importantes para operações de processamento de sinais, e normalmente estão presentes nas FPGAs em um número bastante reduzido, se comparado ao número de células lógicas. Como por exemplo, a FPGA utilizada neste trabalho possui 28 mil células lógicas, e apenas 80 blocos DSP. Logo, utilizar uma arquitetura de FFT que não necessite de blocos DSPs torna a implementação mais acessível a FPGAs com limitações de recursos, e ainda permite dedicar o uso dos blocos DSPs a tarefas de processamentos de sinais, como circuitos para Filtros FIR e IIR, que comumente são aplicados em projetos juntamente com o cálculo da FFT. 
+
+Após carregar a FPGA com o arquivo \textit{Bitstream} e programar o PS, fora enviado conjunto de sinais de entrada gerados pelo \textit{Matlab} para a FFT implementada via interface UART do ZynqBerry. A resposta a estes sinais foi comparada com o resultado teórico, obtido pelo uso do comando \textit{fft()} do \textit{Matlab}, aplicada aos sinais gerados. A fim de mensurar o erro entre a FFT teórica, obtida no \textit{Matlab}, e a implementada, proveniente da FFT do ZynqBerry, foi utilizada a função de cálculo do SQNR (\textit{snr()}). O nível SQNR médio dos teste realizados com a FFT de 16 pontos foi de 52dB. A Tabela (\ref{tab:ResultFFT16}) apresenta um comparativo entre o nível de SQNR encontrado para esta FFT e a vista na bibliografia.
 
 \vspace{5mm}
 \begin{table}[h]
@@ -46,7 +48,7 @@ Após carregar a FPGA com o arquivo \textit{Bitstream} e programar o PS, fora env
 	\captionsetup{width=\linewidth}
 	\begin{tabular}{|l|c|c|c|ll|}
 		\hline
-		Arquitetura & CORDIC & SQNR(dB)  & Wordlength(\text{bits}) &Referência & \\ \hline
+		\cellcolor[HTML]{333333}{\color[HTML]{FFFFFF}Arquitetura} & \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF}CORDIC} & \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF}SQNR(dB)}  & \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF}Wordlength(\text{bits})} & \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF}Referência} & \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} }\\ \hline
 		Radix-2     &   MSR  & 52        &    16     & Autoria Própria & \\ \hline
 		Radix-4     &   -    & 40,92     &     8     & \citeonline{hassan} &  \\ \hline
 		Radix-8     &   -    & 41,97     &     8     &\citeonline{hassan}  &  \\ \hline
@@ -58,30 +60,41 @@ Após carregar a FPGA com o arquivo \textit{Bitstream} e programar o PS, fora env
 	\label{tab:ResultFFT16}
 \end{table}
 
-Em comparação entre as demais FFTs apresentadas na Tabela (\ref{tab:ResultFFT16}), a principal diferença, entra a FFT implementada neste trabalho, e a vista na bibliografia, é a arquitetura utilizada. Como afirma \citeonline{Tonny}, a arquitetura Radix-4 consegue reduzir em 25\% as operações de rotações vetoriais, reduzindo os recursos consumidos da FPGA, e impactando também em um aumento de desempenho. O mesmo acontece para o Radix-8 e o Radix-$2^2$, os quais possuem arquiteturas que beneficiam a redução de recursos, e o aumento de desempenho evitando as operações de rotação.  
+Em comparação entre as demais FFTs apresentadas na Tabela (\ref{tab:ResultFFT16}), a principal diferença, entra a FFT implementada neste trabalho e a vista na bibliografia, é a arquitetura utilizada. Como afirma \citeonline{Tonny}, a arquitetura Radix-4 consegue reduzir em 25\% as operações de rotações vetoriais, reduzindo os recursos consumidos da FPGA, e impactando também em um aumento de desempenho. O mesmo acontece para o Radix-8 e o Radix-$2^2$, os quais possuem arquiteturas que beneficiam a redução de recursos, e o aumento de desempenho evitando as operações de rotação.  
 
 O desempenho da FFT aqui implementada, mesmo que possua uma melhor resolução, o que poderia justificar o bom desempenho, ainda parece se beneficiar bem do operador MSR CORDIC, atingindo assim um bom valor de SQNR. Outro ponto importante é o desempenho da FFT em termos de ciclos de \textit{clock}. Pois, nesta arquitetura a FFT de 16 pontos computa todos os dados de entrada em apenas 12 ciclos de \textit{clock}. 
 
-Para demonstrar o desempenho da FFT de 16 pontos, a Figura (\ref{fig:SinalDeEntradaDaFFT16p}) apresenta o um sinal de entrada enviado a FFT, o qual pode ser descrita pela seguinte equação: 
-
+Para demonstrar o desempenho da FFT de 16 pontos, a Figura (\ref{fig:SinalDeEntradaFFT16}) apresenta o um sinal de entrada enviado a FFT, o qual pode ser expresso por: 
 \begin{eqnarray}
-X_{in} = 4010 * sin(2 \pi (10) t) +12*sin(2 \pi (20)t) + \dots \\+ 520* sin(2\pi(125)t) + 230*sin(2\pi(500)t) + \dots \\ + 120*sin(2\pi(2780)t);
+	X_{in} = 1012 * sin(2 \pi (213) t) + 520*sin(2 \pi (410)t) + \dots \\+ 183*sin(2\pi(1403)t).
 \end{eqnarray}
-
-O resultado obtido pela FFT implementada é apresentada na Figura (\ref{fig:FFTResult16p}).  
+A Figura (\ref{fig:SinalAmostradoFFt16}) apresenta o sinal de entrada da FFT implementada, amostrado a uma frequência de $3200Hz$. O resultado obtido pela FFT implementada é apresentada na Figura (\ref{fig:FFT16pImplementada}).  
 
 \vspace{5mm}
 \begin{figure}[H]
 	\centering
 	\captionsetup{width=0.9\textwidth, font=footnotesize, textfont=bf}	
-	\includegraphics[width=0.9\linewidth]{Images/ResultadosDiscussao/SinalDeEntradaDaFFT16.eps}
-	\caption{Sinal com Componentes em 10Hz, 20Hz, 125Hz, 500Hz e 2780Hz}
+	\includegraphics[width=0.9\linewidth]{Images/ResultadosDiscussao/SinalEntradaFFT16.eps}
+	\caption{Sinal com componentes em 213Hz, 410Hz, e 1403Hz - FFT de 16 Pontos}
 	\vspace{-3.5mm}
 	\caption*{Fonte: Simulação\textit{Matlab}}
-	\label{fig:SinalDeEntradaDaFFT16p}
+	\label{fig:SinalDeEntradaFFT16}
 \end{figure}    
 \vspace{5mm}
 
+\vspace{5mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.9\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.9\linewidth]{Images/ResultadosDiscussao/SinalAmostradoFFT16.eps}
+	\caption{Sinal de Entrada da FFT de 16 Pontos Amostrado a $3200~Hz$}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Simulação\textit{Matlab}}
+	\label{fig:SinalAmostradoFFt16}
+\end{figure}    
+\vspace{5mm}
+
+A partir do mesmo sinal de entrada da Figura (\ref{fig:SinalAmostradoFFt16}), fora utilizado a função \textit{fft()} do \textit{Matlab}, a fim de realizar um comparativo dos resultados obtidos na Figura (\ref{fig:FFT16pImplementada}). Assim a Figura (\ref{fig:FFT16pMatlab}) apresenta o espectro de Fourier obtido no \textit{Matlab}. A Figura (\ref{fig:ErroFFT16Implementada}) apresenta o erro entre o espectro de Fourier obtido pela FFT implementada e a obtida através do \textit{Matlab}.
 
 \vspace{5mm}
 \begin{figure}[H]
@@ -91,6 +104,30 @@ O resultado obtido pela FFT implementada é apresentada na Figura (\ref{fig:FFTRe
 	\caption{Espectro de Fourier proveniente da FFT de 16 Pontos}
 	\vspace{-3.5mm}
 	\caption*{Fonte: Autoria Própria}
-	\label{fig:FFTResult16p}
+	\label{fig:FFT16pImplementada}
+\end{figure}    
+\vspace{5mm}
+
+\vspace{5mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.9\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.9\linewidth]{Images/ResultadosDiscussao/FFT16pMatlab.eps}
+	\caption{Espectro de Fourier proveniente do \textit{Matlab} para 16 Pontos}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Autoria Própria}
+	\label{fig:FFT16pMatlab}
+\end{figure}    
+\vspace{5mm}
+
+\vspace{5mm}
+\begin{figure}[H]
+	\centering
+	\captionsetup{width=0.9\textwidth, font=footnotesize, textfont=bf}	
+	\includegraphics[width=0.9\linewidth]{Images/ResultadosDiscussao/ErroFFT16Implementada.eps}
+	\caption{Erro entre o resultado obtido pela FFT de 16 Pontos Implementada e o \textit{Matlab}}
+	\vspace{-3.5mm}
+	\caption*{Fonte: Autoria Própria}
+	\label{fig:ErroFFT16Implementada}
 \end{figure}    
 \vspace{5mm}

@@ -131,8 +131,8 @@
 \orientador{Prof. Dr. Fábio Luiz Bertotti}
 %\coorientador[Coorientadora: ]{Marie Curie}
 
-\palavraschave{FFT, Transformada Rápida de Fourier, Sistemas Digitais, FPGA, Zynq} % Palavras chave
-\keywords{FFT, Fast Fourier Transform, Digital System, FPGA, Zynq, Digital Signal Process} % Palavras chave em inglês
+\palavraschave{FFT, CORDIC, RADIX-2, FPGA, ZynqBerry} % Palavras chave
+\keywords{FFT, CORDIC, RADIX-2, FPGA, ZynqBerry} % Palavras chave em inglês
 
 % Instruções para banca examinadora:
 %   -> O primeiro membro da banca, será automaticamente o orientador, o presidente da banca.
@@ -168,34 +168,50 @@
 % DEDICATÓRIA
 %
 % Estão disponíveis dois tipos de dedicatória:
-%\begin{Dedicatoria}
+\begin{Dedicatoria}
 %Aqui vai o texto da dedicatória. Aqui vai o texto da dedicatória. Aqui vai o texto da dedicatória.
-%\end{Dedicatoria}
+\end{Dedicatoria}
 
 
 
 % EPIGRAFE (opcional).
-%\begin{Epigrafe}{Bruce Calvert} % Parametro obrigatorio entre {} é o autor da epigrafe.
-%Acreditar é mais fácil do que pensar. Daí existem muito mais crentes do que pensadores.
-%\end{Epigrafe}
+\begin{Epigrafe}{Isaac Newton} Se vi mais longe foi por estar de pé sobre ombros de gigantes.
+\end{Epigrafe}
 
 
-%% AGRADECIMENTOS
-%\begin{Agradecimentos}
-%Aqui são os agradecimentos.
-%\end{Agradecimentos}
+% AGRADECIMENTOS
+\begin{Agradecimentos}
+Agradeço primeiramente a Deus, por prover a mim os meios pelos quais fui, e sou sustentado todos os dias. E por me conceder a oportunidade, e a capacitação para realização deste trabalho.
+
+Agradeço a estrutura que formou meu carácter, e me deu suporte para a realização de meus mais distantes sonhos; a minha querida família, sem o qual jamais teria chegado até aqui. Ao meu pai José Geral, a minha mãe Maria Rosa Barbosa e ao meu irmão Victor E. Soares Barbosa. 
+
+Agradeço também ao meu professor orientador Dr. Fábio Luiz Bertotti, pela paciência, dedicação e respeito com que me direcionou e ensinou ao longo da realização deste trabalho.  Deixo também aqui registrado minha gratidão e reconhecimento a toda a Universidade Tecnológica Federal do Paraná (UTFPR). A esta instituição que me recebeu como aluno, e me deu a oportunidade de estudar junto a um grupo docente de excelência, e que me preparou para o nobre exercício da engenharia.
+
+Por fim, agradeço aos meus queridos amigos, que surgiram ao longo de toda a minha jornada, e que de maneira extraordinária contribuíram para meu crescimento, celebrando com minhas vitórias e me sustentando em minha dificuldades. 
+\end{Agradecimentos}
 
 % RESUMO:
 \begin{Resumo}
-BARBOSA, Callebe Soares. Implementação do Algoritmo Radix-2 para o Cálculo da FFT em FPGA. 2018. 104 f. Monografia (Trabalho de Conclusão de Curso) - Curso de Engenharia Elétrica, Universidade Tecnológica Federal do Paraná. Pato Branco, 2018.
+{\setlength{\parindent}{0cm}
+	BARBOSA, Callebe Soares. Implementação do Algoritmo Radix-2 para o Cálculo da FFT em FPGA. 2018. 104 f. Monografia (Trabalho de Conclusão de Curso) - Curso de Engenharia Elétrica, Universidade Tecnológica Federal do Paraná. Pato Branco, 2018.
+}
 
-O presente trabalho aborda o projeto e implementação do Algoritmo Radix-2, em um dispositivos FPGA, com o objetivo de utilizar o paralelismo de sinais para tornar a tarefa de computar a FFT mais eficiente. Para alcançar tal objetivo, são apresentados os conceitos básicos sobre a FFT, o algoritmo Radix-2, o algoritmo CORDIC, e o projeto de parâmetros que maximizam o desempenho destes algoritmos. O dispositivo escolhido para implementação é o \textit{ZynqBerry - TE0726}, o qual é equipado com a FPGA da família Zynq-700. Neste trabalho é implementado duas arquiteturas de FFT. A primeira FFT possui 16 pontos, e é computada com apenas 12 ciclos de \textit{clock}, atingindo um desempenho de SQNR de 52dB. A segunda FFT possui 1024 pontos, e é computada com 1728 ciclos \textit{clock}, atingindo um desempenho de 41dB. Ao final deste trabalho é possível compreender como é projetado e implementado uma FFT de bom desempenho, em um ambiente vantajoso como a FPGA.
+{\setlength{\parindent}{0cm}
+	O presente trabalho aborda o desenvolvimento de um hardware dedicado ao cálculo da Transformada Rápida de Fourier (FFT), a partir da implementação do algoritmo Radix-2 em uma FPGA, conferindo paralelismo a fim aumentar a eficiência no cômputo da FFT. Para isso, são introduzidos os conceitos principais sobre a FFT, o algoritmo Radix-2, o algoritmo CORDIC, e o projeto de parâmetros que maximizam o desempenho destes algoritmos. O dispositivo escolhido para implementação é o \textit{ZynqBerry - TE0726}, o qual é equipado com a FPGA da família Zynq-700. Neste trabalho é implementado duas arquiteturas de FFT. A primeira FFT possui 16 pontos, e é computada com apenas 12 ciclos de \textit{clock}, atingindo um desempenho de SQNR de 52dB. A segunda FFT possui 1024 pontos, e é computada com 1728 ciclos \textit{clock}, atingindo um desempenho SQNR de 41dB. Ao final deste trabalho é possível compreender como é projetado e implementado uma FFT de bom desempenho, em um ambiente vantajoso como a FPGA.
+}
 \end{Resumo}
 
 % ABSTRACT
-%\begin{Abstract}
-%Write here the English version of your Resumo... 
-%\end{Abstract}
+\begin{Abstract}
+{\setlength{\parindent}{0cm}
+	BARBOSA, Callebe Soares. Implementation of the Radix-2 Algorithm for the Calculation of FFT in FPGA. 2018. 104 p. Undergraduate Thesis - Electrical Engineering Course, Universidade Tecnológica Federal do Paraná. Pato Branco, 2018.
+}
+
+{\setlength{\parindent}{0cm}
+	The objective of this work is the development of a specific hardware for the calculation of Fast Fourier Transform (FFT),  based on the implementation of the Radix-2 algorithm in FPGA, using parallelism to increase the computational efficiency. This work introduce the main concepts about FFT, the Radix-2 algorithm, the CORDIC algorithm, and the project of parameters that maximize the performance of these algorithms. The device chosen for FFT implementation is the \textit{ZynqBerry - TE0726}, which has an FPGA of the Zynq-700 family.0. Two FFT architectures are implemented in this work; the first FFT has 16 points, and is computed with only 12 cycles of \ textit {clock}, achieving a SQNR performance of 52dB. The second FFT has 1024 points, and is computed with 1728 clock cycles, achieving a SQNR performance of 41dB. At the end it is possible to understand how an FFT is designed and implemented in an advantageous environment such as the FPGA.
+}
+
+\end{Abstract}
 
 
 \listadefiguras
@@ -339,12 +355,11 @@ O presente trabalho aborda o projeto e implementação do Algoritmo Radix-2, em um
 %\ABNTaddcontentsline{toc}{chapter}{Referências bibliográficas}
 
 
-\anexo
-\chapter{Implementando a Interface AXI}
-\input{Source/Anexo/InterfaceAXI.tex}
+\apendice
 \chapter{Programando o ZynqBerry}
-\input{Source/Anexo/MapeamentoProgZynq.tex}
-
+\input{Source/Apendice/MapeamentoProgZynq.tex}
+\chapter{Implementando a Interface AXI}
+\input{Source/Apendice/InterfaceAXI.tex}
 %\chapter{Stellar Mystery Solved, Einstein Safe}
 %
 %For more than 30 years, Villanova University astronomer Ed Guinan has been plagued, puzzled, and perplexed by DI Herculis. On the surface, this binary star seems pretty much like any other binary star, with two stars going 'round and 'round each other in a predictable, orderly fashion. But there remained a nagging problem that as much as Guinan wanted, he couldn't just sweep under the rug: DI Her was not behaving in accordance with Einstein's general theory of relativity.

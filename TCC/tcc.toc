@@ -1,36 +1,36 @@
 \babel@toc {brazil}{}
-\contentsline {chapter}{\numberline {1}Introdu\c c\~ao}{8}{chapter.1}
-\contentsline {section}{\numberline {1.1}Objetivos}{10}{section.1.1}
-\contentsline {subsection}{\numberline {1.1.1}Objetivo Geral}{10}{subsection.1.1.1}
-\contentsline {subsection}{\numberline {1.1.2}Objetivos Espec\IeC {\'\i }ficos}{10}{subsection.1.1.2}
-\contentsline {section}{\numberline {1.2}Organiza\c c\~ao do Trabalho}{11}{section.1.2}
-\contentsline {chapter}{\numberline {2}Revis\~ao de Literatura}{12}{chapter.2}
-\contentsline {section}{\numberline {2.1}Representa\c c\~ao de Fourier para Sinais}{14}{section.2.1}
-\contentsline {subsection}{\numberline {2.1.1}Resposta do Sistemas LTI a Entrada Senoidal}{16}{subsection.2.1.1}
-\contentsline {subsection}{\numberline {2.1.2}S\'erie de Fourier}{20}{subsection.2.1.2}
-\contentsline {subsection}{\numberline {2.1.3}Espectro de Fourier}{22}{subsection.2.1.3}
-\contentsline {section}{\numberline {2.2}S\'erie de Fourier em Tempo Discreto}{23}{section.2.2}
-\contentsline {section}{\numberline {2.3}Transformada R\'apida de Fourier}{26}{section.2.3}
-\contentsline {section}{\numberline {2.4}Algoritmo CORDIC}{30}{section.2.4}
-\contentsline {subsection}{\numberline {2.4.1}CORDIC Tradicional}{32}{subsection.2.4.1}
-\contentsline {subsection}{\numberline {2.4.2}EEAS-CORDIC}{35}{subsection.2.4.2}
-\contentsline {subsubsection}{\numberline {2.4.2.1}Algoritmo TBS}{39}{subsubsection.2.4.2.1}
-\contentsline {subsection}{\numberline {2.4.3}MSR-CORDIC}{44}{subsection.2.4.3}
-\contentsline {subsubsection}{\numberline {2.4.3.1}An\'alise do Erro}{48}{subsubsection.2.4.3.1}
-\contentsline {section}{\numberline {2.5}FPGA}{51}{section.2.5}
-\contentsline {subsection}{\numberline {2.5.1}Aspectos Construtivos da FPGA}{52}{subsection.2.5.1}
-\contentsline {subsection}{\numberline {2.5.2}Programa\c c\~ao na FPGA}{56}{subsection.2.5.2}
-\contentsline {subsubsection}{\numberline {2.5.2.1}Zynq-7000}{60}{subsubsection.2.5.2.1}
-\contentsline {chapter}{\numberline {3}Materiais e M\'etodos}{65}{chapter.3}
-\contentsline {section}{\numberline {3.1}ZynqBerry TE0726-03M}{66}{section.3.1}
-\contentsline {section}{\numberline {3.2}Implementando o Processador Cordic}{67}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}Projeto dos Par\^ametros Cordic}{68}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}Arquitetura Cordic Implementada}{72}{subsection.3.2.2}
-\contentsline {section}{\numberline {3.3}Implementando a FFT 16 Pontos}{74}{section.3.3}
-\contentsline {section}{\numberline {3.4}Implementando a FFT 1024 Pontos}{76}{section.3.4}
-\contentsline {chapter}{\numberline {4}Resultados e Discuss\~ao}{79}{chapter.4}
-\contentsline {section}{\numberline {4.1}FFT 16 Pontos}{79}{section.4.1}
-\contentsline {section}{\numberline {4.2}FFT 1024 Pontos}{82}{section.4.2}
-\contentsline {chapter}{\numberline {5}Conclus\~ao}{86}{chapter.5}
-\contentsline {chapter}{Anexo{} A{} -{} Implementando a Interface AXI}{91}{chapter.annex.A}
-\contentsline {chapter}{Anexo{} B{} -{} Programando o ZynqBerry}{95}{chapter.annex.B}
+\contentsline {chapter}{\numberline {1}Introdu\c c\~ao}{13}{chapter.1}
+\contentsline {section}{\numberline {1.1}Objetivos}{15}{section.1.1}
+\contentsline {subsection}{\numberline {1.1.1}Objetivo Geral}{15}{subsection.1.1.1}
+\contentsline {subsection}{\numberline {1.1.2}Objetivos Espec\IeC {\'\i }ficos}{15}{subsection.1.1.2}
+\contentsline {section}{\numberline {1.2}Organiza\c c\~ao do Trabalho}{16}{section.1.2}
+\contentsline {chapter}{\numberline {2}Revis\~ao de Literatura}{17}{chapter.2}
+\contentsline {section}{\numberline {2.1}Representa\c c\~ao de Fourier para Sinais}{19}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Resposta do Sistemas LTI a Entrada Senoidal}{21}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}S\'erie de Fourier}{25}{subsection.2.1.2}
+\contentsline {subsection}{\numberline {2.1.3}Espectro de Fourier}{27}{subsection.2.1.3}
+\contentsline {section}{\numberline {2.2}S\'erie de Fourier em Tempo Discreto}{28}{section.2.2}
+\contentsline {section}{\numberline {2.3}Transformada R\'apida de Fourier}{30}{section.2.3}
+\contentsline {section}{\numberline {2.4}Algoritmo CORDIC}{35}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}CORDIC Tradicional}{37}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}EEAS-CORDIC}{39}{subsection.2.4.2}
+\contentsline {subsubsection}{\numberline {2.4.2.1}Algoritmo TBS}{43}{subsubsection.2.4.2.1}
+\contentsline {subsection}{\numberline {2.4.3}MSR-CORDIC}{47}{subsection.2.4.3}
+\contentsline {subsubsection}{\numberline {2.4.3.1}An\'alise do Erro}{52}{subsubsection.2.4.3.1}
+\contentsline {section}{\numberline {2.5}FPGA}{55}{section.2.5}
+\contentsline {subsection}{\numberline {2.5.1}Aspectos Construtivos da FPGA}{56}{subsection.2.5.1}
+\contentsline {subsection}{\numberline {2.5.2}Programa\c c\~ao na FPGA}{60}{subsection.2.5.2}
+\contentsline {subsubsection}{\numberline {2.5.2.1}Zynq-7000}{64}{subsubsection.2.5.2.1}
+\contentsline {chapter}{\numberline {3}Materiais e M\'etodos}{69}{chapter.3}
+\contentsline {section}{\numberline {3.1}ZynqBerry TE0726-03M}{70}{section.3.1}
+\contentsline {section}{\numberline {3.2}Implementando o Processador Cordic}{71}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Projeto dos Par\^ametros Cordic}{72}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Arquitetura Cordic Implementada}{76}{subsection.3.2.2}
+\contentsline {section}{\numberline {3.3}Implementando a FFT 16 Pontos}{78}{section.3.3}
+\contentsline {section}{\numberline {3.4}Implementando a FFT 1024 Pontos}{80}{section.3.4}
+\contentsline {chapter}{\numberline {4}Resultados e Discuss\~ao}{83}{chapter.4}
+\contentsline {section}{\numberline {4.1}FFT de 16 Pontos}{83}{section.4.1}
+\contentsline {section}{\numberline {4.2}FFT de 1024 Pontos}{87}{section.4.2}
+\contentsline {chapter}{\numberline {5}Conclus\~ao}{93}{chapter.5}
+\contentsline {chapter}{Ap\^endice{} A{} -{} Programando o ZynqBerry}{98}{chapter.appen.A}
+\contentsline {chapter}{Ap\^endice{} B{} -{} Implementando a Interface AXI}{102}{chapter.appen.B}

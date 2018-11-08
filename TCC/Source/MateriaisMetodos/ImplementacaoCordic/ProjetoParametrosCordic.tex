@@ -39,7 +39,7 @@ Segue abaixo o pseudo-código do TBS adaptado, utilizado para obter o conjunto ót
 	\label{code:PCTBSAlterado}
 \vspace{3mm}
 
-Uma atenção especial é dada para o vetor de ângulos elementares $r_{\theta}$. Este vetor é preenchido com os ângulos obtidos pelo conjunto de combinações possíveis dos parâmetros CORDIC do MSR, através da (\ref{eq:S3}), o qual é reescrita como:
+Uma atenção especial é dada para o vetor de ângulos elementares $r_{\theta}$. Este vetor é preenchido com os ângulos obtidos pelo conjunto de combinações possíveis dos parâmetros CORDIC do MSR, através de (\ref{eq:S3}), o qual é reescrito como:
 
 \begin{eqnarray}
 	\alpha = \sum_{i=1}^{I} \mu_{i}2^{-s_i (n)} \\
@@ -65,7 +65,7 @@ A escolha do número máximo de deslocamento de \textit{bits} ($S$), implica na ut
 
 A arquitetura da FFT implementada neste trabalho é pensada de modo que o fluxo de dados de entrada possam vir do Sistema de Processamento (PS), mas também possibilite a entrada de dados advinda de um ADC Flash de 12 \textit{bits}. Portanto as palavras binárias utilizadas para representar os sinais precisam ter no mínimo 12 \textit{bits}.  Para evitar a ocorrência de \textit{overflow}, em uma estrutura de 1024 pontos, onde há 10 níveis, apenas um ponto de soma a cada nível, e os ganhos são próximos da unidade, é adequado utilizar 16 \textit{bits} para a representação de sinais.
 
-Para determinar um valor para $S$, foi implementado o Algoritmo (\ref{code:PCTBSAlterado}) com auxilio do \textit{software} $Matlab^\circledR$. Para cada valor de $S \in \{1...16\}$ fora criado conjunto de parâmetros CORDIC, fixando $I=1$ e $J=2$ (Modo Normal). Para, a partir destes parâmetros, realizar operações de rotacionamento de vetores nos moldes de (\ref{eq:MSR}). A partir destas operações de rotacionamento fora obtido o SQNR para cada valor de $S$, a fim de medir o impacto que este parâmetro tem no desempenho do algoritmo. O resultado deste teste é expresso na Figura (\ref{fig:DeterminacaoS}).
+Para determinar um valor para $S$, foi implementado o Algoritmo (\ref{code:PCTBSAlterado}) com auxilio do \textit{software} $Matlab^\circledR$. Para cada valor de $S \in \{1...16\}$ fora criado conjunto de parâmetros CORDIC, fixando $I=1$ e $J=2$ (Modo Normal). Com base nos parâmetros gerados, foram realizados operações de rotacionamento de vetores nos moldes de (\ref{eq:MSR}), e obtidos os valores de SQNR para cada valor de $S$, a fim de medir o impacto que este parâmetro tem no desempenho do algoritmo. O resultado deste teste é expresso na Figura (\ref{fig:DeterminacaoS}).
 
 \vspace{5mm}
 \begin{figure}[H]
@@ -79,9 +79,9 @@ Para determinar um valor para $S$, foi implementado o Algoritmo (\ref{code:PCTBS
 \end{figure}    
 \vspace{5mm}
 
-Os conjuntos parâmetros $s_i$ e $s_j$ para cada iteração do algoritmo  serão armazenados em uma ROM de controle de cada Unidade CORDIC. O número de \textit{bits} necessários para armazenar estes parâmetros é dado por $log(S)$. Como visto na Figura (\ref{fig:DeterminacaoS}), escolher $S=8$ promove um desempenho SQNR de 50dB, e se faz necessário armazenar apenas 3 \textit{bits} para cada elemento $s_i$ e $s_j$. Porém, ao utilizar $4$ \textit{bits} para o mesmo fim, é possível fazer $S=15$, e alcançar um desempenho médio de 70dB. Logo toma-se $S=15$, para alcançar o máximo desempenho possível.
+Os conjuntos parâmetros $s_i$ e $s_j$ para cada iteração do algoritmo  serão armazenados em uma ROM de controle de cada Unidade CORDIC. O número de \textit{bits} necessários para armazenar estes parâmetros é dado por $log(S)$. Como visto na Figura (\ref{fig:DeterminacaoS}), escolher $S=8$ promove um desempenho SQNR de 50dB, e se faz necessário armazenar apenas 3 \textit{bits} para cada elemento $s_i$ e $s_j$. Porém, ao utilizar $4$ \textit{bits} para o mesmo fim, é possível fazer $S=15$, e alcançar um desempenho médio de 70dB. Logo, toma-se $S=15$, para alcançar o máximo desempenho possível.
 
-Com citado na Seção (\ref{section:AnaliseDoErro}), os parâmetros $I$ e $J$ podem ser constantes independente da operação de rotação (Modo Normal), ou este podem variar a cada iteração (Modo Generalizado). Com base no mesmo algoritmo (\ref{code:PCTBSAlterado}), foi incluído no vetor de ângulos elementares $r$ as combinações de parâmetros possíveis quanto $N_{spt}=4$, e $(I=1,J=2)$ e $(I=2,J=1)$. Então, foram gerados os conjuntos ótimos de parâmetros CORDIC, para estas combinações, e em seguida, simulados as operações de rotação para um conjunto de ângulos de rotação $[0:0,703125º:360º]$. A Tabela (\ref{tab:DesempenhoMSRNormalGeneralizado}), apresenta nível do SQNR encontrado nestas simulações.
+Com citado na Seção (\ref{section:AnaliseDoErro}), os parâmetros $I$ e $J$ podem ser constantes independente da operação de rotação (Modo Normal), ou podem variar a cada iteração (Modo Generalizado). Com base no mesmo algoritmo (\ref{code:PCTBSAlterado}), foi incluído no vetor de ângulos elementares $r$ as combinações de parâmetros possíveis quanto $N_{spt}=4$, e $(I=1,J=2)$ e $(I=2,J=1)$. Então, foram gerados os conjuntos ótimos de parâmetros CORDIC, para estas combinações. Em seguida, foram simulados as operações de rotação para um conjunto de ângulos de rotação $[0:0,703125º:360º]$. A Tabela (\ref{tab:DesempenhoMSRNormalGeneralizado}), apresenta nível do SQNR encontrado nestas simulações.
 
 \vspace{10mm}
 \begin{table}[H]
@@ -89,7 +89,7 @@ Com citado na Seção (\ref{section:AnaliseDoErro}), os parâmetros $I$ e $J$ podem
 	\captionsetup{width=.7\linewidth}
 	\begin{tabular}{|l|c|c|c|c|}
 		\hline
-		Modo de Operação & $I$ & $J$ & $S_{max}$ & SQNR \\ \hline
+		\cellcolor[HTML]{333333}{\color[HTML]{FFFFFF}Modo de Operação} & \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} $I$} & \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF}$J$} & \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF}$S_{max}$} & \cellcolor[HTML]{333333}{\color[HTML]{FFFFFF} SQNR} \\ \hline
 		Normal           &  1  & 2   &    15     & 83,9786dB \\ \hline
 		Normal           &  2  & 1   &    15     & 78,52dB   \\ \hline
 		Generalizado     &     &     &    15     & 92.9786 dB \\ \hline
@@ -101,4 +101,4 @@ Com citado na Seção (\ref{section:AnaliseDoErro}), os parâmetros $I$ e $J$ podem
 \end{table}
 \vspace{10mm}
 
-O Modo Generalizado, para a simulação proposta, apresentou um valor médio de SQNR de 92.97 dB, já o Modo Normal, para o mesmo método de simulação, apresentou um valor de 83.97 dB. Segundo \cite{Chih}, para armazenar os parâmetros $\{\mu_{i}, \mu_{j}\} \in \{-1,0, 1\}$, $\{s_i,s_j\} \in \{0,1,..,6\}$ de uma única interação do Algoritmo MSR CORDIC, são necessários $(log(S)+2)N_{SPT}$ \textit{bits} para o modo Normalizado e $(log(S)+3)N_{SPT}$ para o Modo Generalizado. Ou seja o impacto do inserção dos \textit{switches}, necessários no caso do Modo Generalizado, em termos de implementação é apenas a inclusão de mais um \text{bit} no conjunto de dados de cada iteração. Justificando portanto a escolha da implementação do MSR Cordic no Modo Generalizado. Assim os dados referentes aos parâmetros escolhidos com base no Algoritmo (\ref{code:PCTBSAlterado}), para o MSR Cordic Modo Generalizado, com $N_{SPT}=3$ e $S=16$, são armazenados na forma binária em uma componente ROM, individual a cada unidade CORDIC. 
+O Modo Generalizado, para a simulação proposta, apresentou um valor médio de SQNR de 92.97 dB. Já o Modo Normal, para o mesmo método de simulação, apresentou um valor de 83.97 dB. Segundo \cite{Chih}, para armazenar os parâmetros $\{\mu_{i}, \mu_{j}\} \in \{-1,0, 1\}$, $\{s_i,s_j\} \in \{0,1,..,6\}$ de uma única interação do Algoritmo MSR CORDIC, são necessários $(log(S)+2)N_{SPT}$ \textit{bits} para o modo Normalizado e $(log(S)+3)N_{SPT}$ para o Modo Generalizado. Ou seja o impacto do inserção dos \textit{switches}, necessários no caso do Modo Generalizado, em termos de implementação é apenas a inclusão de mais um \text{bit} no conjunto de dados de cada iteração. Portanto, isso Justifica a escolha da implementação do MSR Cordic no Modo Generalizado. Assim os dados referentes aos parâmetros escolhidos com base no Algoritmo (\ref{code:PCTBSAlterado}), para o MSR Cordic Modo Generalizado, com $N_{SPT}=3$ e $S=16$, são armazenados na forma binária em uma componente ROM, individual a cada unidade CORDIC. 

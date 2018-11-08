@@ -11,7 +11,7 @@ uma frequência $f_s$, pode ser obtida pela multiplicação de $x(t)$ por um trem d
 Por conveniência, deseja-se obter um espectro do sinal amostrado $x(t)$ em função de $\omega$ ou expresso em termos de frequência. Para tal, segundo \citeonline[p.~681]{Lathi}, o trem de impulsos $\delta(t)$ é um sinal periódico que pode ser descrito pela série trigonométrica de Fourier da seguinte forma:
 
 \begin{equation}
-	\delta_T (t)~=~\frac{1}{T} [1+ 2cos(\omega_s t) + 2cos(2\omega_s t) + 2cos(3\omega_s t) + \dotsc]
+	\delta_T (t)~=~\frac{1}{T} [1+ 2cos(\omega_s t) + 2cos(2\omega_s t) + 2cos(3\omega_s t) + \dotsc].
 	\label{eq:TremDeImpulsos}
 \end{equation}
 
@@ -77,36 +77,29 @@ Analisando a propriedade periódica de $x(t)$ e $X(\omega)$, e considerando $x(nT
 \end{equation}
 
 \begin{equation}
-	\omega_0~=~2 \pi f_0 ~=~\frac{2 \pi}{T_0},
+	\omega_0~=~2 \pi f_0 ~=~\frac{2 \pi}{T_0}.
 	\label{eq:DefinicaoDFTF}
 \end{equation}
 
 Assim, substituindo (\ref{eq:DefinicaoDFTE}) e (\ref{eq:DefinicaoDFTB}) em (\ref{eq:DefinicaoDFT}), e fazendo $\omega_0 T = \Omega_0 = 2 pi /N_0$, se
 obtêm a seguinte expressão para a transformada discreta de Fourier \cite[p.~125]{Oppenheim}:
-
 \begin{equation}
 	X_r~=~\sum_{n=0}^{N_0 - 1} x_n e^{j \omega_0 n r},
 	\label{eq:DefinicaoDFTG}
 \end{equation}
-
 onde:
-
 \begin{equation}
 	\Omega_0~=~\frac{2 \pi}{N_0}.
 	\label{eq:DefinicaoOmega}
 \end{equation}
 
 Para compactar a expressão de (\ref{eq:DefinicaoDFTG}), se faz a substituição da expressão exponencial pela variável  $W$, de modo que $W_{N_0} = e^{-2 \pi /N_0} = e^{-j \Omega_0}$ \cite[p.~344]{Meyer}. Logo a expressão para DFT é dada por:
-
 \begin{equation}
 	X_r~=~\sum_{n=0}^{N_0 - 1} x_n e^{j \omega_0 n r},
 	\label{eq:DFT}
 \end{equation}
-
 onde:
-
 \begin{equation}
 	0 \leq k  \leq N_0 - 1.
 	\label{eq:N0}
 \end{equation}
-

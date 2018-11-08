@@ -13,7 +13,7 @@ PACKAGE MainPackage IS
     ------------------------------------------------
         
     ------------------------------------------------
-    TYPE AdressVector IS ARRAY (NATURAL range <>) OF  STD_LOGIC_VECTOR(1 downto 0);  
+    TYPE AdressVector IS ARRAY (NATURAL range <>) OF  STD_LOGIC_VECTOR(20 downto 0);  
     ------------------------------------------------
     
     ------------------------------------------------
@@ -27,6 +27,17 @@ PACKAGE MainPackage IS
     ------------------------------------------------
 	TYPE ROMCordicVector IS ARRAY (NATURAL range <>) OF STD_LOGIC_VECTOR(20 DOWNTO 0);
 	------------------------------------------------
+                   
+    ------------------------------------------------
+	component Butterfly is
+        PORT( 
+            XInput : IN signed(31 downto 0);
+            YInput : IN signed(31 downto 0);
+            XOutput : OUT signed(31 downto 0);
+            YOutput : OUT signed(31 downto 0)
+        );
+    end component;
+	------------------------------------------------
 	           
     ------------------------------------------------
     component AdressRAM is
@@ -34,6 +45,18 @@ PACKAGE MainPackage IS
         Adress : in STD_LOGIC;
         reset : in STD_LOGIC;
         OutputAdress : buffer AdressVector(31 downto 0)
+      );
+    end component;
+    ------------------------------------------------
+                       
+    ------------------------------------------------
+    component UCFFT16 is
+      Port (
+        clock : in STD_LOGIC;
+        reset : in STD_LOGIC;
+        StartFFT : in STD_LOGIC;
+        StartCORDIC : out STD_LOGIC;
+        ChangeROMAdress : out STD_LOGIC
       );
     end component;
     ------------------------------------------------
@@ -144,7 +167,7 @@ PACKAGE MainPackage IS
     ------------------------------------------------
         
     ------------------------------------------------
-    component ROMFFT8 is
+    component ROMFFT160 is
         Port(
              Adress : in STD_LOGIC;
              reset : in STD_LOGIC;
@@ -154,7 +177,7 @@ PACKAGE MainPackage IS
     ------------------------------------------------
         
     ------------------------------------------------
-    component ROMFFT9 is
+    component ROMFFT161 is
         Port(
              Adress : in STD_LOGIC;
              reset : in STD_LOGIC;
@@ -164,17 +187,7 @@ PACKAGE MainPackage IS
     ------------------------------------------------
         
     ------------------------------------------------
-    component ROMFFT10 is
-        Port(
-            Adress : in STD_LOGIC;
-            reset : in STD_LOGIC;
-            Data : out STD_LOGIC_VECTOR (20 downto 0)
-        );
-    end component;
-    ------------------------------------------------
-        
-    ------------------------------------------------
-    component ROMFFT11 is
+    component ROMFFT162 is
         Port(
              Adress : in STD_LOGIC;
              reset : in STD_LOGIC;
@@ -184,7 +197,7 @@ PACKAGE MainPackage IS
     ------------------------------------------------
         
     ------------------------------------------------
-    component ROMFFT12 is
+    component ROMFFT163 is
         Port(
              Adress : in STD_LOGIC;
              reset : in STD_LOGIC;
@@ -192,17 +205,9 @@ PACKAGE MainPackage IS
         );
     end component;
     ------------------------------------------------
-    component ROMFFT13 is
-        Port(
-             Adress : in STD_LOGIC;
-             reset : in STD_LOGIC;
-             Data : out STD_LOGIC_VECTOR (20 downto 0)
-        );
-    end component;
+            
     ------------------------------------------------
-        
-    ------------------------------------------------
-    component ROMFFT14 is
+    component ROMFFT164 is
         Port(
              Adress : in STD_LOGIC;
              reset : in STD_LOGIC;
@@ -212,7 +217,27 @@ PACKAGE MainPackage IS
     ------------------------------------------------
         
     ------------------------------------------------
-    component ROMFFT15 is
+    component ROMFFT165 is
+        Port(
+             Adress : in STD_LOGIC;
+             reset : in STD_LOGIC;
+             Data : out STD_LOGIC_VECTOR (20 downto 0)
+        );
+    end component;
+    ------------------------------------------------
+        
+    ------------------------------------------------
+    component ROMFFT166 is
+        Port(
+             Adress : in STD_LOGIC;
+             reset : in STD_LOGIC;
+             Data : out STD_LOGIC_VECTOR (20 downto 0)
+        );
+    end component;
+    ------------------------------------------------
+        
+    ------------------------------------------------
+    component ROMFFT167 is
         Port(
              Adress : in STD_LOGIC;
              reset : in STD_LOGIC;

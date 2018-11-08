@@ -1,16 +1,16 @@
-\nomenclatureentry{aDFT@[{DFT}]\begingroup Discrete Fourier transform\nomeqref {0}|nompageref}{8}
-\nomenclatureentry{aFFT@[{FFT}]\begingroup Fast Fourier transform\nomeqref {0}|nompageref}{8}
-\nomenclatureentry{aOSA@[{OSA}]\begingroup Objeto Sob Análise\nomeqref {0}|nompageref}{9}
-\nomenclatureentry{aVHDL@[{VHDL}]\begingroup VHSIC Hardware Description Language\nomeqref {0}|nompageref}{10}
-\nomenclatureentry{aFFT@[{FFT}]\begingroup Fast Fourier transform\nomeqref {0}|nompageref}{10}
-\nomenclatureentry{aLIT@[{LIT}]\begingroup Linear Invariante no Tempo\nomeqref {0}|nompageref}{15}
-\nomenclatureentry{aFS@[{FS}]\begingroup Fourier Series\nomeqref {5}|nompageref}{20}
-\nomenclatureentry{aDFS@[{DFS}]\begingroup Discrete Fourier Serie\nomeqref {5}|nompageref}{20}
-\nomenclatureentry{aFT@[{FT}]\begingroup Fourier Transform\nomeqref {5}|nompageref}{20}
-\nomenclatureentry{aDFT@[{DFT}]\begingroup Discrete Fourier Trasform\nomeqref {5}|nompageref}{20}
-\nomenclatureentry{aADC@[{ADC}]\begingroup Analog-to-Digital Converter \nomeqref {5}|nompageref}{20}
-\nomenclatureentry{aROM@[{ROM}]\begingroup Read-Only Memory\nomeqref {55}|nompageref}{34}
-\nomenclatureentry{aBLE@[{BLE}]\begingroup Basic Logic Elements\nomeqref {105}|nompageref}{52}
-\nomenclatureentry{aCLB@[{CLB}]\begingroup Configurable Logic Blocks\nomeqref {105}|nompageref}{52}
-\nomenclatureentry{aHDL@[{HDL}]\begingroup Hardware Description Linguage\nomeqref {105}|nompageref}{56}
-\nomenclatureentry{aS.O.@[{S.O.}]\begingroup Sistema Operacional\nomeqref {105}|nompageref}{67}
+\nomenclatureentry{aDFT@[{DFT}]\begingroup Discrete Fourier transform\nomeqref {0}|nompageref}{13}
+\nomenclatureentry{aFFT@[{FFT}]\begingroup Fast Fourier transform\nomeqref {0}|nompageref}{13}
+\nomenclatureentry{aOSA@[{OSA}]\begingroup Objeto Sob Análise\nomeqref {0}|nompageref}{14}
+\nomenclatureentry{aVHDL@[{VHDL}]\begingroup VHSIC Hardware Description Language\nomeqref {0}|nompageref}{15}
+\nomenclatureentry{aFFT@[{FFT}]\begingroup Fast Fourier transform\nomeqref {0}|nompageref}{15}
+\nomenclatureentry{aLIT@[{LIT}]\begingroup Linear Invariante no Tempo\nomeqref {0}|nompageref}{20}
+\nomenclatureentry{aFS@[{FS}]\begingroup Fourier Series\nomeqref {5}|nompageref}{25}
+\nomenclatureentry{aDFS@[{DFS}]\begingroup Discrete Fourier Serie\nomeqref {5}|nompageref}{25}
+\nomenclatureentry{aFT@[{FT}]\begingroup Fourier Transform\nomeqref {5}|nompageref}{25}
+\nomenclatureentry{aDFT@[{DFT}]\begingroup Discrete Fourier Trasform\nomeqref {5}|nompageref}{25}
+\nomenclatureentry{aADC@[{ADC}]\begingroup Analog-to-Digital Converter \nomeqref {5}|nompageref}{25}
+\nomenclatureentry{aROM@[{ROM}]\begingroup Read-Only Memory\nomeqref {55}|nompageref}{39}
+\nomenclatureentry{aBLE@[{BLE}]\begingroup Basic Logic Elements\nomeqref {105}|nompageref}{56}
+\nomenclatureentry{aCLB@[{CLB}]\begingroup Configurable Logic Blocks\nomeqref {105}|nompageref}{56}
+\nomenclatureentry{aHDL@[{HDL}]\begingroup Hardware Description Linguage\nomeqref {105}|nompageref}{60}
+\nomenclatureentry{aS.O.@[{S.O.}]\begingroup Sistema Operacional\nomeqref {105}|nompageref}{71}

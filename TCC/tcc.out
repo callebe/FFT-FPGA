@@ -28,8 +28,8 @@
 \BOOKMARK [1][-]{section.3.3}{Implementando a FFT 16 Pontos}{chapter.3}% 28
 \BOOKMARK [1][-]{section.3.4}{Implementando a FFT 1024 Pontos}{chapter.3}% 29
 \BOOKMARK [0][-]{chapter.4}{Resultados e Discuss\343o}{}% 30
-\BOOKMARK [1][-]{section.4.1}{FFT 16 Pontos}{chapter.4}% 31
-\BOOKMARK [1][-]{section.4.2}{FFT 1024 Pontos}{chapter.4}% 32
+\BOOKMARK [1][-]{section.4.1}{FFT de 16 Pontos}{chapter.4}% 31
+\BOOKMARK [1][-]{section.4.2}{FFT de 1024 Pontos}{chapter.4}% 32
 \BOOKMARK [0][-]{chapter.5}{Conclus\343o}{}% 33
-\BOOKMARK [0][-]{chapter.annex.A}{Anexo A - Implementando a Interface AXI}{}% 34
-\BOOKMARK [0][-]{chapter.annex.B}{Anexo B - Programando o ZynqBerry}{}% 35
+\BOOKMARK [0][-]{chapter.appen.A}{Ap\352ndice A - Programando o ZynqBerry}{}% 34
+\BOOKMARK [0][-]{chapter.appen.B}{Ap\352ndice B - Implementando a Interface AXI}{}% 35

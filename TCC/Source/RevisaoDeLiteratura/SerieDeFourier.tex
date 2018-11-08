@@ -27,12 +27,10 @@ Na análise de Fourier, os sinais de entrada senoidais são comumente usados para 
 Ao aplicar um sinal impulso (\simb[Sinal Impulso]{\delta (t)}) a entrada de um sistema LTI,  é gerado um sinal de saída conhecido como resposta ao impulso $\delta (t)$. Através da resposta ao impulso é possível caracterizar de maneira completa o comportamento de um sistema. A resposta ao impulso também possibilita conhecer a resposta do sistema LTI a qualquer sinal de entrada, através da convolução deste sinal ao impulso \cite[p.~108]{Haykin}.    
 
 Assim, realizando a convolução do impulso ao sinal senoidal, segundo \citeonline[p.~164]{Haykin}, a saída de um sistema LTI dado uma entrada senoidal complexa $x(t)$, na forma exponencial $e^{j \omega t}$, é dada por:
-
 \begin{equation}
 	y(t) = H(j \omega) e^{j \omega t},
 	\label{eq:SaidaSenoideComplexa}
 \end{equation}
-
 Em que $H(j \omega)$ é a resposta em frequência, definida em termos de resposta ao impulso $\delta (t)$. Assim;
 
 \begin{equation}
@@ -67,11 +65,9 @@ Como pode ser visto na Figura (\ref{fig:PropriedadeDeAutofuncao}), a saída de um
 \vspace{6mm}
 
 A ideia principal aqui é utilizar a superposição ponderada de autofunções para representar um único sinal periódico. Para esse efeito, \citeonline[p.~164]{Haykin} expressam a entrada de um sistema LTI como uma soma de $N$ senoides complexas ponderadas, na forma: 
-
 \begin{equation}
 	x(t) = \sum_{k=1}^{N} a_k e^{j\omega_k t},
 \end{equation}
-
 ou seja na forma de série de Fourier.
 
 Expressar a entrada de um sistema LTI a partir de uma soma ponderada de senoides complexas possui a intenção de realizar uma aproximação coerente do sinal de entrada, utilizando uma composição de funções básicas já bem conhecidas. Por exemplo, considere o sinal de onda quadrada presente na Figura (\ref{fig:AproximacaoPorSomasDeSenoidesA.eps}), o qual deseja-se aproximar utilizando uma soma de senoides complexas. Tomando uma senoide de amplitude 1.286 e uma frequência de $50Hz$ é possível realizar uma aproximação groseira, porém em fase com este sinal.
@@ -89,11 +85,9 @@ Expressar a entrada de um sistema LTI a partir de uma soma ponderada de senoides
 \vspace{5mm}
 
 Para melhorar a aproximação da representação em relação ao sinal de onda quadrada é necessário adicionado mais  termos senoidais ao somatório.  Como pode ser visto nas Figura (\ref{fig:AproximacaoPorSomasDeSenoidesB.eps}) e (\ref{fig:AproximacaoPorSomasDeSenoidesC.eps}) as aproximações ficam mais precisas ao adicionar mais 2 ou mais 5 termos, respectivamente. Quanto maior o número de termos senoidais complexas ponderados presentes no somatório da representação maior é a aproximação, sendo no limite perfeita. Logo, se $e^{j\omega_k t}$ for uma autofunção e $H(j\omega_k)$ for o autovalor do sistema, aplicando-se a autorrelação apresentada anteriormente, o sinal de saída do sistema pode ser expresso como:
-
 \begin{equation}
 y(t) = \sum_{k=1}^{N} a_k H(j\omega_k)e^{j\omega_k t},
 \end{equation}
-
 que nada mais é do que a soma ponderada das senoides complexas da entrada, sendo os pesos $a_k$ ponderados pela resposta em frequência $H(j\omega_k)$. Por meio deste resultados, é possível transformar a operação de convolução em uma operação de multiplicação dos termos $a_k~H(j\omega_k)$. Segundo \citeonline[p.~164]{Oppenheim}, foi Euler que descobriu que, se a entrada de um sistema LTI for dado como combinação linear de senoides complexas, a saída deste sistema também será combinação de exponenciais complexas, relacionadas com a entrada. Esta descoberta acabou por motivar Fourier e os outros matemáticos após ele no estudo da extensão de classes de sinais que poderiam ser representados na forma de somatórios de exponenciais complexas ponderadas.
 
 \vspace{5mm}
@@ -140,7 +134,7 @@ Quando os sinais não são periódicos a representação é denominada como transforma
 \end{tabular}
 \caption{Relação entre propriedade do tempo de um sinal e a representação de Fourier adequada}
 \vspace{-3.5mm}
-\caption*{Fonte: \citeonline[p.~166]{Oppenheim}}
+\caption*{Fonte: Adaptado de \citeonline[p.~166]{Oppenheim}}
 \label{tab:PropriedadeTempoERepresentacaoFourier}
 \end{table}
 \vspace{6mm}
@@ -159,57 +153,45 @@ x(t) ~=~ a_0 + \sum _{n=1} ^{\infty} a_n cos (n \omega_0 t) + b_n sen(n \omega_0
 Esta é a chamada série de Fourier para sinais periódicos, ou apenas série de Fourier. Na expressão da Equação (\ref{eq:SerieFourierFundamental}), a série de Fourier está na forma trigonométrica, onde $\omega_0$ é a frequência fundamental de $x(t)$, e $a_0$, $a_n$ e $b_n$ são os coeficientes de amplitude das harmônicas que compões $x(t)$, sendo $a_0$ a harmônica zero (nível CC).
 
 Os coeficientes $a_0$, $a_n$ e $b_n$ de (\ref{eq:SerieFourierFundamental} ) são determinados pelas seguintes equações: 
-
 \begin{equation}
 	a_0~=~\frac{1}{T_0} \int_{T_0} x(t) dt,
 	\label{eq:SerieFourierFundamentala0}
 \end{equation}
-
 \begin{equation}
 	a_n~=~\frac{2}{T_0} \int_{T_0} x(t) cos(n \omega_0 t) dt,
 	\label{eq:SerieFourierFundamentalan}
 \end{equation}
-
 \begin{equation}
 	b_n~=~\frac{2}{T_0} \int_{T_0} x(t) sen(n \omega_0 t) dt,
 	\label{eq:SerieFourierFundamentalbn}
 \end{equation}
-
 em que $T_0$ representa o período relativo a frequência fundamental $f_0$.
 
 A série de Fourier, além da forma trigonométrica, também pode ser apresentada na forma  exponencial, em termos de $e^{j \omega_0 t}$, como apresentado na seção anterior. A forma exponencial, segundo \citeonline[p.~533]{Lathi}, é dada pela expressão: 
-
 \begin{equation}
 x(t)~=~\sum^{\infty} _{- \infty} C_n e^{j n \omega_0 t},
 \label{eq:SerieFourierExponencial}
 \end{equation}
-
 em que o coeficiente $C_n$ e análogo aos coeficientes $a_n$ e $b_n$ da serie trigonométrica, sendo obtido por:
-
 \begin{equation}
 	C_n~=~ \frac{1}{T_0} \int_{T_0} x(t) e^{j n \omega_0 t} dt.
 	\label{eq:SerieFourierExponencialCn}
 \end{equation}
 
 Tanto a forma trigonométrica quanto a exponencial da série de Fourier consideram $x(t)$como sendo uma função qualquer, real ou complexa. Entretanto na maioria das aplicações $x(t)$ é real, como é o caso dos sinais neste trabalho. Segundo \citeonline[p.~533]{Lathi}, se o sinal de entrada do sistema LTI $x(t)$ é real, isso significa que $a_n$ e $b_n$ também são reais para todos os valores de $n$, assim a série  de Fourier pode ser representada na forma compacta por:
-
 \begin{equation}
 	x(t) = D_0 + \sum_{n=1}^{\infty} D_n cos(n \omega_0 t + \theta_n),
 	\label{eq:FourierCompact}
 \end{equation}
-
 sendo:
-
 \begin{equation}
 	D_0 = a_0,
 \end{equation}
-
 \begin{equation}
 	D_n = \sqrt{a_n^2 + b_n^2},
 \end{equation}
-
 \begin{equation}
-	\theta_n = tan^{-1} \frac{-b_n}{a_n},
+	\theta_n = tan^{-1} \frac{-b_n}{a_n}.
 \end{equation}
 
 
