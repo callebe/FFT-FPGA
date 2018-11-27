@@ -7,8 +7,8 @@
 
 \bibitem[Amaral \textit{et al.} 2011]{amaral}
 \abntrefinfo{Amaral \textit{et al.}}{AMARAL \textit{et al.}}{2011}
-{AMARAL, Carlos Eduardo~Ferrante do; LOPES, Heitor~S; ARRUDA, Lúcia~V; HARA,
-  Marcos~S; GONçALVES, Antonio~J; DIAS, Adilson~A. Design of a complex
+{AMARAL, Carlos Eduardo~Ferrante do; LOPES, Heitor~S; ARRUDA, Lï¿½cia~V; HARA,
+  Marcos~S; GONï¿½ALVES, Antonio~J; DIAS, Adilson~A. Design of a complex
   bioimpedance spectrometer using dft and undersampling for neural networks
   diagnostics.
 \textbf{Medical engineering \& physics}, Elsevier, v.~33, n.~3, p. 356--361,
@@ -32,10 +32,17 @@ ISSN 0163-6804.}
 {CHU, Eleanor; GEORGE, Alan. \textbf{Inside the FFT black box: serial and
   parallel fast Fourier transform algorithms}. 1. ed. [S.l.]: CRC Press, 1999.}
 
+\bibitem[Cooley e Tukey 1965]{cooley}
+\abntrefinfo{Cooley e Tukey}{COOLEY; TUKEY}{1965}
+{COOLEY, James~W; TUKEY, John~W. An algorithm for the machine calculation of
+  complex fourier series.
+\textbf{Mathematics of computation}, JSTOR, v.~19, n.~90, p. 297--301, 1965.}
+
 \bibitem[Cormen \textit{et al.} 2002]{Cormen}
 \abntrefinfo{Cormen \textit{et al.}}{CORMEN \textit{et al.}}{2002}
 {CORMEN, Thomas~H; LEISERSON, Charles~E; RIVEST, Ronald~L; STEIN, Clifford.
-  \textbf{Algoritmos: teoria e prática}. 2. ed. [S.l.]: Editora Campus, 2002.}
+  \textbf{Algoritmos: teoria e prï¿½tica}. 2. ed. [S.l.]: Editora Campus,
+  2002.}
 
 \bibitem[Crockett \textit{et al.} 2014]{zynqbook}
 \abntrefinfo{Crockett \textit{et al.}}{CROCKETT \textit{et al.}}{2014}
@@ -76,8 +83,8 @@ San Jose, EUA, Julho 2018. V2.1.}
 
 \bibitem[Garrido \textit{et al.} 2016]{Garrido}
 \abntrefinfo{Garrido \textit{et al.}}{GARRIDO \textit{et al.}}{2016}
-{GARRIDO, M.; KäLLSTRöM, P.; KUMM, M.; GUSTAFSSON, O. Cordic ii: A new improved
-  cordic algorithm.
+{GARRIDO, M.; Kï¿½LLSTRï¿½M, P.; KUMM, M.; GUSTAFSSON, O. Cordic ii: A new
+  improved cordic algorithm.
 \textbf{IEEE Transactions on Circuits and Systems II: Express Briefs}, v.~63,
   n.~2, p. 186--190, Feb 2016.
 ISSN 1549-7747.}
@@ -192,13 +199,14 @@ ISSN 1053-587X.}
 
 \bibitem[Siqueira 2004]{Tonny}
 \abntrefinfo{Siqueira}{SIQUEIRA}{2004}
-{SIQUEIRA, Tonny~Matos. \textbf{Implementação de um modem OFDM em FPGA}. 2004.
+{SIQUEIRA, Tonny~Matos. \textbf{Implementaï¿½ï¿½o de um modem OFDM em FPGA}.
+  2004.
 \url{ftp://ftp.lab.unb.br/pub/hardware/opencores/ofdm/Docs/OFDM%20-%20portuguese.pdf}.
 Acessado em 16 de Agosto de 2017.}
 
 \bibitem[TradingView 2017]{bovespa}
 \abntrefinfo{TradingView}{TRADINGVIEW}{2017}
-{TRADINGVIEW. \textbf{Índice BM \& FBOVESPA}. 2017.
+{TRADINGVIEW. \textbf{ï¿½ndice BM \& FBOVESPA}. 2017.
 \url{https://www.tradingview.com/symbols/BMFBOVESPA-IBOV/}.
 Acessado em 14 de Agosto de 2017.}
 

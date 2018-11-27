@@ -58,7 +58,7 @@ for Level=2:NumberOfLevels
 end
 
 %Imprimir dados em arquivos de texto
-for CordicUnit=7:Nfft/2-1
+for CordicUnit=0:Nfft/2-1
     counter = 0;
     Source = strcat(num2str(CordicUnit),'.vhd');
     Source = strcat('ROMFFT16',Source);
@@ -123,34 +123,34 @@ for CordicUnit=7:Nfft/2-1
         end
         
         %Simulador de Operação COrdic
-        xi(1) = 5632;
-        yi(1) = 1452;
-        for a=1:3
-            %b=Result(OperatorCordic+1, a);
-            switch Parametros(b,1)
-                case 0
-                    I=0;
-                    J=Parametros(b,2)*2^-Parametros(b,5)+Parametros(b,3)*2^-Parametros(b,6)+Parametros(b,4)*2^-Parametros(b,7);
-                case 1
-                    I=Parametros(b,2)*2^-Parametros(b,5);
-                    J=Parametros(b,3)*2^-Parametros(b,6)+Parametros(b,4)*2^-Parametros(b,7);
-                case 2
-                    I=Parametros(b,2)*2^-Parametros(b,5)+Parametros(b,3)*2^-Parametros(b,6);
-                    J=Parametros(b,4)*2^-Parametros(b,7);
-                otherwise
-                    I=Parametros(b,2)*2^-Parametros(b,5)+Parametros(b,3)*2^-Parametros(b,6)+Parametros(b,4)*2^-Parametros(b,7);
-                    J=0;
-            end
-            xi(a+1) = I*xi(a) - J*yi(a);
-            yi(a+1) = I*yi(a) + J*xi(a);
-        end
-        Reference = (xi(1)+yi(1)*i)*exp(-2*pi*i*OperatorCordic/Nfft);
-        [theta ro] = cart2pol(real(Reference), imag(Reference));
-        [thetaf rof] = cart2pol(xi(4), yi(4));
-        ErroTheta(CordicUnit+1, Level) = (theta-thetaf);
-        Erroro(CordicUnit+1, Level) = (ro-rof);
-        ThetaMSR(CordicUnit+1, Level) = thetaf;
-        ThetaRef(CordicUnit+1, Level) = theta;
+%         xi(1) = 5632;
+%         yi(1) = 1452;
+%         for a=1:3
+%             %b=Result(OperatorCordic+1, a);
+%             switch Parametros(b,1)
+%                 case 0
+%                     I=0;
+%                     J=Parametros(b,2)*2^-Parametros(b,5)+Parametros(b,3)*2^-Parametros(b,6)+Parametros(b,4)*2^-Parametros(b,7);
+%                 case 1
+%                     I=Parametros(b,2)*2^-Parametros(b,5);
+%                     J=Parametros(b,3)*2^-Parametros(b,6)+Parametros(b,4)*2^-Parametros(b,7);
+%                 case 2
+%                     I=Parametros(b,2)*2^-Parametros(b,5)+Parametros(b,3)*2^-Parametros(b,6);
+%                     J=Parametros(b,4)*2^-Parametros(b,7);
+%                 otherwise
+%                     I=Parametros(b,2)*2^-Parametros(b,5)+Parametros(b,3)*2^-Parametros(b,6)+Parametros(b,4)*2^-Parametros(b,7);
+%                     J=0;
+%             end
+%             xi(a+1) = I*xi(a) - J*yi(a);
+%             yi(a+1) = I*yi(a) + J*xi(a);
+%         end
+%         Reference = (xi(1)+yi(1)*i)*exp(-2*pi*i*OperatorCordic/Nfft);
+%         [theta ro] = cart2pol(real(Reference), imag(Reference));
+%         [thetaf rof] = cart2pol(xi(4), yi(4));
+%         ErroTheta(CordicUnit+1, Level) = (theta-thetaf);
+%         Erroro(CordicUnit+1, Level) = (ro-rof);
+%         ThetaMSR(CordicUnit+1, Level) = thetaf;
+%         ThetaRef(CordicUnit+1, Level) = theta;
     end
     fprintf(arquivo,');\n\n');
     fprintf(arquivo,'\tbegin\n\t\t--Process to acess Data\n\t\tprocess(Adress, reset)\n\n\t\t\tvariable Counter : integer range 11 downto 0 := 0;\n\n\t\tbegin\n\n\t\tData <= Rom_tb(Counter);\n\t\tif(reset = ''1'')then\n\t\t\tCounter := 0;\n\n');

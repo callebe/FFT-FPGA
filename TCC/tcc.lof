@@ -7,7 +7,7 @@
 \contentsline {figure}{\numberline {6}{\ignorespaces Aproxima\c c\~ao do Sinal de Onda Quadrada por um Termo Senoidal\relax }}{23}{figure.caption.12}
 \contentsline {figure}{\numberline {7}{\ignorespaces Aproxima\c c\~ao do Sinal de Onda Quadrada por Soma de 3 Termos Senoidais\relax }}{24}{figure.caption.13}
 \contentsline {figure}{\numberline {8}{\ignorespaces Aproxima\c c\~ao do Sinal de Onda Quadrada por Soma de 8 Termos Senoidais\relax }}{24}{figure.caption.14}
-\contentsline {figure}{\numberline {9}{\ignorespaces Aproxima\c c\~ao do Sinal de Onda Quadrada por Soma de 8 Termos Senoidais\relax }}{27}{figure.caption.16}
+\contentsline {figure}{\numberline {9}{\ignorespaces Expectro de Fourier do Sinal $x(t)~=~sin(2 \pi 15t) + sin(2\pi 40t)$\relax }}{27}{figure.caption.16}
 \contentsline {figure}{\numberline {10}{\ignorespaces Butterfly do Fluxo do Sinal\relax }}{32}{figure.caption.17}
 \contentsline {figure}{\numberline {11}{\ignorespaces FFT de 8 Pontos\relax }}{33}{figure.caption.18}
 \contentsline {figure}{\numberline {12}{\ignorespaces FFT DIF de 8 Pontos\relax }}{35}{figure.caption.19}
@@ -19,7 +19,7 @@
 \contentsline {figure}{\numberline {18}{\ignorespaces MSR com I=2, J=1 e N=2\relax }}{50}{figure.caption.26}
 \contentsline {figure}{\numberline {19}{\ignorespaces MSR com I=2, J=1 e N=2\relax }}{51}{figure.caption.27}
 \contentsline {figure}{\numberline {20}{\ignorespaces Rela\c c\~ao entre o $P_{upper}$ e o SQNR para MSR-CORDIC, como $N_{spt}~=~3$ e $N=3$\relax }}{54}{figure.caption.28}
-\contentsline {figure}{\numberline {21}{\ignorespaces Arquitetura Tipica de uma FPGA\relax }}{56}{figure.caption.29}
+\contentsline {figure}{\numberline {21}{\ignorespaces Arquitetura Tipica de uma FPGA\relax }}{57}{figure.caption.29}
 \contentsline {figure}{\numberline {22}{\ignorespaces Arquitetura de uma CLB com 4 BLEs\relax }}{58}{figure.caption.30}
 \contentsline {figure}{\numberline {23}{\ignorespaces Arquitetura de uma BLE (\textit {Basic Logic Element})\relax }}{59}{figure.caption.31}
 \contentsline {figure}{\numberline {24}{\ignorespaces Diagrama L\'ogico Full Adder 4 Bits - ISE Design Suite 14\relax }}{60}{figure.caption.32}
@@ -41,15 +41,15 @@
 \contentsline {figure}{\numberline {40}{\ignorespaces Espectro de Fourier proveniente do \textit {Matlab} para 16 Pontos\relax }}{87}{figure.caption.52}
 \contentsline {figure}{\numberline {41}{\ignorespaces Erro entre o resultado obtido pela FFT de 16 Pontos Implementada e o \textit {Matlab}\relax }}{87}{figure.caption.53}
 \contentsline {figure}{\numberline {42}{\ignorespaces Sinal com Componentes em 213Hz, 410Hz, e 1403Hz - FFT de 1024 Pontos\relax }}{90}{figure.caption.57}
-\contentsline {figure}{\numberline {43}{\ignorespaces Sinal de Entrada da FFT de 1025 Pontos Amostrado a $3200~Hz$\relax }}{90}{figure.caption.58}
-\contentsline {figure}{\numberline {44}{\ignorespaces Espectro de Fourier proveniente da FFT de 16 Pontos\relax }}{91}{figure.caption.59}
+\contentsline {figure}{\numberline {43}{\ignorespaces Sinal de Entrada da FFT de 1024 Pontos Amostrado a $3200~Hz$\relax }}{90}{figure.caption.58}
+\contentsline {figure}{\numberline {44}{\ignorespaces Espectro de Fourier proveniente da FFT de 1024 Pontos\relax }}{91}{figure.caption.59}
 \contentsline {figure}{\numberline {45}{\ignorespaces Espectro de Fourier proveniente do \textit {Matlab} para 1024 Pontos\relax }}{91}{figure.caption.60}
 \contentsline {figure}{\numberline {46}{\ignorespaces Erro entre o resultado obtido pela FFT de 1024 Pontos Implementada e o \textit {Matlab}\relax }}{92}{figure.caption.61}
-\contentsline {figure}{\numberline {47}{\ignorespaces Cria\c c\~ao de um Novo Bloco de Design\relax }}{98}{figure.caption.62}
-\contentsline {figure}{\numberline {48}{\ignorespaces Cria\c c\~ao de um Novo Bloco de Design\relax }}{99}{figure.caption.63}
-\contentsline {figure}{\numberline {49}{\ignorespaces Bloco de Design para FFT 16 Pontos\relax }}{100}{figure.caption.64}
-\contentsline {figure}{\numberline {50}{\ignorespaces Endere\c co de Mem\'oria da Interface AXI FFT\relax }}{101}{figure.caption.65}
-\contentsline {figure}{\numberline {51}{\ignorespaces Caminho at\'e a ferramenta: \textit {Tools: Create and Package New IP}\relax }}{103}{figure.caption.66}
-\contentsline {figure}{\numberline {52}{\ignorespaces Ferramenta de Cria\c c\~ao e Empacotamento de Novas IPs\relax }}{103}{figure.caption.67}
-\contentsline {figure}{\numberline {53}{\ignorespaces Escolha da Op\c c\~ao: \textit {Create a New Peripheral}\relax }}{104}{figure.caption.68}
-\contentsline {figure}{\numberline {54}{\ignorespaces Configura\c c\~oes da nova IP\relax }}{104}{figure.caption.69}
+\contentsline {figure}{\numberline {47}{\ignorespaces Cria\c c\~ao de um Novo Bloco de Design\relax }}{99}{figure.caption.62}
+\contentsline {figure}{\numberline {48}{\ignorespaces Cria\c c\~ao de um Novo Bloco de Design\relax }}{100}{figure.caption.63}
+\contentsline {figure}{\numberline {49}{\ignorespaces Bloco de Design para FFT 16 Pontos\relax }}{101}{figure.caption.64}
+\contentsline {figure}{\numberline {50}{\ignorespaces Endere\c co de Mem\'oria da Interface AXI FFT\relax }}{102}{figure.caption.65}
+\contentsline {figure}{\numberline {51}{\ignorespaces Caminho at\'e a ferramenta: \textit {Tools: Create and Package New IP}\relax }}{104}{figure.caption.66}
+\contentsline {figure}{\numberline {52}{\ignorespaces Ferramenta de Cria\c c\~ao e Empacotamento de Novas IPs\relax }}{104}{figure.caption.67}
+\contentsline {figure}{\numberline {53}{\ignorespaces Escolha da Op\c c\~ao: \textit {Create a New Peripheral}\relax }}{105}{figure.caption.68}
+\contentsline {figure}{\numberline {54}{\ignorespaces Configura\c c\~oes da nova IP\relax }}{105}{figure.caption.69}

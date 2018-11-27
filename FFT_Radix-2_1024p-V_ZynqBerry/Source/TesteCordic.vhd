@@ -32,64 +32,70 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity Teste is
+entity FFT16p is
   Port (
         Clock : in STD_LOGIC;
         StartFFT : in STD_LOGIC;
-        OutputCordicX : out SIGNED(31 downto 0);
-        OutputCordicY : out SIGNED(31 downto 0)
+        InputFFT : in Array_Vector_16b(15 downto 0);
+        FinishFFT : out STD_LOGIC;
+        OutputFFT : out Array_Vector_16b(15 downto 0)
   );
-end Teste;
+end FFT16p;
 
-architecture Behavioral of Teste is
+architecture Behavioral of FFT16p is
     
     signal ROMCordic : AdressVector(15 downto 0);
     signal CordicStart : STD_LOGIC := '0';
-    signal SelectInCordic : Complex(15 downto 0);
-    signal CordicSelectOut : Complex(15 downto 0);
-    signal SelectOutButterfly : Complex(15 downto 0);
-    signal ButterflySelectIn : Complex(15 downto 0);
+    signal SelectOutButterFly : Complex(15 downto 0);
+    signal CordicSelectIn : Complex(15 downto 0);
+    signal SelectInSelectOut : Complex(15 downto 0);
+    signal ButterflyCordic : Complex(15 downto 0);
     signal InputCordicX : SIGNED(31 downto 0) := ("00010110000000000000010110101100");
     signal InputCordicY : SIGNED(31 downto 0) := ("00010110000000000000010110101100");
-    signal reset : STD_LOGIC := '0';
+    signal resetRomCordic : STD_LOGIC := '0';
     signal ChangeROMAdress : STD_LOGIC := '0';
+    signal ControlSelectIn : STD_LOGIC := '0';
+    signal ControlSelectOut : STD_LOGIC_VECTOR (1 downto 0) := (others => '0');
         
 begin
     
+    --Control Unit
+    CU : UCFFT16 Port Map (Clock => Clock, StartFFT => StartFFT, FinishFFT => FinishFFT, StartCORDIC => CordicStart, ChangeROMAdress => ChangeROMAdress, ControlSelectIn => ControlSelectIn, ControlSelectOut => ControlSelectOut);
+    
+    --Select In
+    SI : SelectInFFT16p Port Map(ControlSelectIn => ControlSelectIn, InputSelectIn =>  CordicSelectIn, InputDemux => InputFFT, OutputSelectIn => SelectInSelectOut);
+        
+    --Select Out
+    SO : SelectOutFFT16p Port Map (ControlSelectOut => ControlSelectOut, InputSelectOut => SelectInSelectOut, OutputSelectOut => SelectOutButterFly); 
+   
+   --Butterfly
+    B0 : Butterfly Port Map(XInput =>  SelectOutButterFly(0),  YInput => SelectOutButterFly(1),  XOutput => ButterflyCordic(0),  YOutput => ButterflyCordic(1));
+    B1 : Butterfly Port Map(XInput =>  SelectOutButterFly(2),  YInput => SelectOutButterFly(3),  XOutput => ButterflyCordic(2),  YOutput => ButterflyCordic(3));
+    B2 : Butterfly Port Map(XInput =>  SelectOutButterFly(4),  YInput => SelectOutButterFly(5),  XOutput => ButterflyCordic(4),  YOutput => ButterflyCordic(5));
+    B3 : Butterfly Port Map(XInput =>  SelectOutButterFly(6),  YInput => SelectOutButterFly(7),  XOutput => ButterflyCordic(6),  YOutput => ButterflyCordic(7));
+    B4 : Butterfly Port Map(XInput =>  SelectOutButterFly(8),  YInput => SelectOutButterFly(9),  XOutput => ButterflyCordic(8),  YOutput => ButterflyCordic(9));
+    B5 : Butterfly Port Map(XInput =>  SelectOutButterFly(10), YInput => SelectOutButterFly(11), XOutput => ButterflyCordic(10), YOutput => ButterflyCordic(11));
+    B6 : Butterfly Port Map(XInput =>  SelectOutButterFly(12), YInput => SelectOutButterFly(13), XOutput => ButterflyCordic(12), YOutput => ButterflyCordic(13));
+    B7 : Butterfly Port Map(XInput =>  SelectOutButterFly(14), YInput => SelectOutButterFly(15), XOutput => ButterflyCordic(14), YOutput => ButterflyCordic(15));
+    
     --ROM for Cordic Twiddle Factors
-    ROM0  : ROMFFT167  Port Map(Adress => ChangeROMAdress, reset => reset, Data => ROMCordic(0));
-    ROM1  : ROMFFT167  Port Map(Adress => ChangeROMAdress, reset => reset, Data => ROMCordic(1));
-    ROM2  : ROMFFT167  Port Map(Adress => ChangeROMAdress, reset => reset, Data => ROMCordic(2));
-    ROM3  : ROMFFT167  Port Map(Adress => ChangeROMAdress, reset => reset, Data => ROMCordic(3));
-    ROM4  : ROMFFT167  Port Map(Adress => ChangeROMAdress, reset => reset, Data => ROMCordic(4));
-    ROM5  : ROMFFT167  Port Map(Adress => ChangeROMAdress, reset => reset, Data => ROMCordic(5));
-    ROM6  : ROMFFT167  Port Map(Adress => ChangeROMAdress, reset => reset, Data => ROMCordic(6));
-    ROM7  : ROMFFT167  Port Map(Adress => ChangeROMAdress, reset => reset, Data => ROMCordic(7));
+    ROM0  : ROMFFT167  Port Map(Adress => ChangeROMAdress, reset => resetRomCordic, Data => ROMCordic(0));
+    ROM1  : ROMFFT167  Port Map(Adress => ChangeROMAdress, reset => resetRomCordic, Data => ROMCordic(1));
+    ROM2  : ROMFFT167  Port Map(Adress => ChangeROMAdress, reset => resetRomCordic, Data => ROMCordic(2));
+    ROM3  : ROMFFT167  Port Map(Adress => ChangeROMAdress, reset => resetRomCordic, Data => ROMCordic(3));
+    ROM4  : ROMFFT167  Port Map(Adress => ChangeROMAdress, reset => resetRomCordic, Data => ROMCordic(4));
+    ROM5  : ROMFFT167  Port Map(Adress => ChangeROMAdress, reset => resetRomCordic, Data => ROMCordic(5));
+    ROM6  : ROMFFT167  Port Map(Adress => ChangeROMAdress, reset => resetRomCordic, Data => ROMCordic(6));
+    ROM7  : ROMFFT167  Port Map(Adress => ChangeROMAdress, reset => resetRomCordic, Data => ROMCordic(7));
        
     --Cordic
-    C0 : CordicMSR Port Map (Ain => SelectInCordic(0),  Bin => SelectInCordic(1),  Control => ROMCordic(0), Clock => Clock, Start => CordicStart, Aout => CordicSelectOut(0), Bout => CordicSelectOut(1));
-    C1 : CordicMSR Port Map (Ain => SelectInCordic(2),  Bin => SelectInCordic(3),  Control => ROMCordic(1), Clock => Clock, Start => CordicStart, Aout => CordicSelectOut(2), Bout => CordicSelectOut(3));
-    C2 : CordicMSR Port Map (Ain => SelectInCordic(4),  Bin => SelectInCordic(5),  Control => ROMCordic(2), Clock => Clock, Start => CordicStart, Aout => CordicSelectOut(4), Bout => CordicSelectOut(5));
-    C3 : CordicMSR Port Map (Ain => SelectInCordic(6),  Bin => SelectInCordic(7),  Control => ROMCordic(3), Clock => Clock, Start => CordicStart, Aout => CordicSelectOut(6), Bout => CordicSelectOut(7));
-    C4 : CordicMSR Port Map (Ain => SelectInCordic(8),  Bin => SelectInCordic(9),  Control => ROMCordic(4), Clock => Clock, Start => CordicStart, Aout => CordicSelectOut(8), Bout => CordicSelectOut(9));
-    C5 : CordicMSR Port Map (Ain => SelectInCordic(10), Bin => SelectInCordic(11), Control => ROMCordic(5), Clock => Clock, Start => CordicStart, Aout => CordicSelectOut(10), Bout => CordicSelectOut(11));
-    C6 : CordicMSR Port Map (Ain => SelectInCordic(12), Bin => SelectInCordic(13), Control => ROMCordic(6), Clock => Clock, Start => CordicStart, Aout => CordicSelectOut(12), Bout => CordicSelectOut(13));
-    C7 : CordicMSR Port Map (Ain => SelectInCordic(14), Bin => SelectInCordic(15), Control => ROMCordic(7), Clock => Clock, Start => CordicStart, Aout => CordicSelectOut(14), Bout => CordicSelectOut(15));
-      
-    --Control Unit
-    CU : UCFFT16 Port Map (Clock => Clock , reset =>  reset, StartFFT =>  StartFFT, StartCORDIC => CordicStart, ChangeROMAdress => ChangeROMAdress);
-    
-    --Select Out
-    
-    
-    --Butterfly
-    B0 : Butterfly Port Map(XInput =>  SelectOutButterfly(0),  YInput => SelectOutButterfly(1),  XOutput => ButterflySelectIn(0),  YOutput => ButterflySelectIn(1));
-    B1 : Butterfly Port Map(XInput =>  SelectOutButterfly(2),  YInput => SelectOutButterfly(3),  XOutput => ButterflySelectIn(2),  YOutput => ButterflySelectIn(3));
-    B2 : Butterfly Port Map(XInput =>  SelectOutButterfly(4),  YInput => SelectOutButterfly(5),  XOutput => ButterflySelectIn(4),  YOutput => ButterflySelectIn(5));
-    B3 : Butterfly Port Map(XInput =>  SelectOutButterfly(6),  YInput => SelectOutButterfly(7),  XOutput => ButterflySelectIn(6),  YOutput => ButterflySelectIn(7));
-    B4 : Butterfly Port Map(XInput =>  SelectOutButterfly(8),  YInput => SelectOutButterfly(9),  XOutput => ButterflySelectIn(8),  YOutput => ButterflySelectIn(9));
-    B5 : Butterfly Port Map(XInput =>  SelectOutButterfly(10), YInput => SelectOutButterfly(11), XOutput => ButterflySelectIn(10), YOutput => ButterflySelectIn(11));
-    B6 : Butterfly Port Map(XInput =>  SelectOutButterfly(12), YInput => SelectOutButterfly(13), XOutput => ButterflySelectIn(12), YOutput => ButterflySelectIn(13));
-    B7 : Butterfly Port Map(XInput =>  SelectOutButterfly(14), YInput => SelectOutButterfly(15), XOutput => ButterflySelectIn(14), YOutput => ButterflySelectIn(15));
-        
+    C0 : CordicMSR Port Map (Ain => ButterflyCordic(0),  Bin => ButterflyCordic(1),  Control => ROMCordic(0), Clock => Clock, Start => CordicStart, Aout => CordicSelectIn(0), Bout => CordicSelectIn(1));
+    C1 : CordicMSR Port Map (Ain => ButterflyCordic(2),  Bin => ButterflyCordic(3),  Control => ROMCordic(1), Clock => Clock, Start => CordicStart, Aout => CordicSelectIn(2), Bout => CordicSelectIn(3));
+    C2 : CordicMSR Port Map (Ain => ButterflyCordic(4),  Bin => ButterflyCordic(5),  Control => ROMCordic(2), Clock => Clock, Start => CordicStart, Aout => CordicSelectIn(4), Bout => CordicSelectIn(5));
+    C3 : CordicMSR Port Map (Ain => ButterflyCordic(6),  Bin => ButterflyCordic(7),  Control => ROMCordic(3), Clock => Clock, Start => CordicStart, Aout => CordicSelectIn(6), Bout => CordicSelectIn(7));
+    C4 : CordicMSR Port Map (Ain => ButterflyCordic(8),  Bin => ButterflyCordic(9),  Control => ROMCordic(4), Clock => Clock, Start => CordicStart, Aout => CordicSelectIn(8), Bout => CordicSelectIn(9));
+    C5 : CordicMSR Port Map (Ain => ButterflyCordic(10), Bin => ButterflyCordic(11), Control => ROMCordic(5), Clock => Clock, Start => CordicStart, Aout => CordicSelectIn(10), Bout => CordicSelectIn(11));
+    C6 : CordicMSR Port Map (Ain => ButterflyCordic(12), Bin => ButterflyCordic(13), Control => ROMCordic(6), Clock => Clock, Start => CordicStart, Aout => CordicSelectIn(12), Bout => CordicSelectIn(13));
+    C7 : CordicMSR Port Map (Ain => ButterflyCordic(14), Bin => ButterflyCordic(15), Control => ROMCordic(7), Clock => Clock, Start => CordicStart, Aout => CordicSelectIn(14), Bout => CordicSelectIn(15));
+                
 end Behavioral;

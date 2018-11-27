@@ -1,0 +1,18 @@
+[Desktop Entry]
+Name=Cheese
+GenericName=Webcam Booth
+X-GNOME-FullName=Cheese Webcam Booth
+Comment=Take photos and videos with your webcam, with fun graphical effects
+Keywords=photo;video;webcam;
+Exec=cheese
+Terminal=false
+Type=Application
+StartupNotify=true
+Icon=org.gnome.Cheese
+Categories=GNOME;AudioVideo;Video;Recorder;
+X-GNOME-Bugzilla-Bugzilla=GNOME
+X-GNOME-Bugzilla-Product=cheese
+X-GNOME-Bugzilla-Component=general
+X-GNOME-Bugzilla-Version=3.28.0
+X-AppStream-Ignore=true
+X-Ubuntu-Gettext-Domain=cheese

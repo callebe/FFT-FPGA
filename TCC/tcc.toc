@@ -15,7 +15,7 @@
 \contentsline {subsection}{\numberline {2.4.1}CORDIC Tradicional}{37}{subsection.2.4.1}
 \contentsline {subsection}{\numberline {2.4.2}EEAS-CORDIC}{39}{subsection.2.4.2}
 \contentsline {subsubsection}{\numberline {2.4.2.1}Algoritmo TBS}{43}{subsubsection.2.4.2.1}
-\contentsline {subsection}{\numberline {2.4.3}MSR-CORDIC}{47}{subsection.2.4.3}
+\contentsline {subsection}{\numberline {2.4.3}MSR-CORDIC}{48}{subsection.2.4.3}
 \contentsline {subsubsection}{\numberline {2.4.3.1}An\'alise do Erro}{52}{subsubsection.2.4.3.1}
 \contentsline {section}{\numberline {2.5}FPGA}{55}{section.2.5}
 \contentsline {subsection}{\numberline {2.5.1}Aspectos Construtivos da FPGA}{56}{subsection.2.5.1}
@@ -32,5 +32,5 @@
 \contentsline {section}{\numberline {4.1}FFT de 16 Pontos}{83}{section.4.1}
 \contentsline {section}{\numberline {4.2}FFT de 1024 Pontos}{87}{section.4.2}
 \contentsline {chapter}{\numberline {5}Conclus\~ao}{93}{chapter.5}
-\contentsline {chapter}{Ap\^endice{} A{} -{} Programando o ZynqBerry}{98}{chapter.appen.A}
-\contentsline {chapter}{Ap\^endice{} B{} -{} Implementando a Interface AXI}{102}{chapter.appen.B}
+\contentsline {chapter}{Ap\^endice{} A{} -{} Programando o ZynqBerry}{99}{chapter.appen.A}
+\contentsline {chapter}{Ap\^endice{} B{} -{} Implementando a Interface AXI}{103}{chapter.appen.B}

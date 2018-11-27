@@ -21,13 +21,50 @@ PACKAGE MainPackage IS
     ------------------------------------------------
     
     ------------------------------------------------
+    TYPE Array_Vector_16b IS ARRAY (NATURAL range <>) OF signed(15 downto 0);
+    ------------------------------------------------
+    
+    ------------------------------------------------
     TYPE DemuxInputFFT IS ARRAY (NATURAL range <>) OF signed(31 DOWNTO 0);
     ------------------------------------------------
                    
     ------------------------------------------------
 	TYPE ROMCordicVector IS ARRAY (NATURAL range <>) OF STD_LOGIC_VECTOR(20 DOWNTO 0);
 	------------------------------------------------
+                       
+    ------------------------------------------------
+	component SelectInFFT16p is
+        PORT(
+            ControlSelectIn : IN STD_LOGIC; 
+            InputSelectIn : IN Complex(15 downto 0);
+            InputDemux : IN Array_Vector_16b(15 downto 0);
+            OutputSelectIn : OUT Complex(15 downto 0)
+            );
+    end component;
+	------------------------------------------------
                    
+    ------------------------------------------------
+    component SelectOutFFT16p is
+        PORT(
+            ControlSelectOut : IN STD_LOGIC_VECTOR(1 DOWNTO 0); 
+            InputSelectOut : IN Complex(15 DOWNTO 0);
+            OutputSelectOut : OUT Complex(15 DOWNTO 0)
+            );
+    end component;
+    ------------------------------------------------
+                       
+    ------------------------------------------------
+    component FFT16p is
+      Port (
+            Clock : in STD_LOGIC;
+            StartFFT : in STD_LOGIC;
+            InputFFT : in Array_Vector_16b(15 downto 0);
+            FinishFFT : out STD_LOGIC;
+            OutputFFT : out Array_Vector_16b(15 downto 0)
+      );
+    end component;
+    ------------------------------------------------
+                       
     ------------------------------------------------
 	component Butterfly is
         PORT( 
@@ -52,11 +89,14 @@ PACKAGE MainPackage IS
     ------------------------------------------------
     component UCFFT16 is
       Port (
-        clock : in STD_LOGIC;
-        reset : in STD_LOGIC;
+        Clock : in STD_LOGIC;
         StartFFT : in STD_LOGIC;
+        FinishFFT : out STD_LOGIC;
         StartCORDIC : out STD_LOGIC;
-        ChangeROMAdress : out STD_LOGIC
+        ClockCordic : out STD_LOGIC;
+        ChangeROMAdress : out STD_LOGIC;
+        ControlSelectIn : out STD_LOGIC;
+        ControlSelectOut : out STD_LOGIC_VECTOR(1 downto 0)
       );
     end component;
     ------------------------------------------------

@@ -1,12 +1,12 @@
 %##########################################################################
-%#                         Simulador de Operação                          #
+%#                         Simulador de Operaï¿½ï¿½o                      #
 %#                           CORDIC MSR 16 Pontos                         #
-%#                 IMPLEMENTAÇÃO DO ALGORITMO RADIX-2 PARA                #
-%#                       CÁLCULO DA FFT EM FPGA                           #
+%#                 IMPLEMENTAï¿½ï¿½O DO ALGORITMO RADIX-2 PARA            #
+%#                       Cï¿½LCULO DA FFT EM FPGA                         #
 %#                                                                        #
 %#   Autor : Callebe Soares Barbosa                                       #
-%#   Acadêmico de Engenharia Elétrica                                     #
-%#   Universidade Tecnológica Federal do Paraná - Campus Pato Branco      #
+%#   Acadï¿½mico de Engenharia Elï¿½trica                                 #
+%#   Universidade Tecnolï¿½gica Federal do Paranï¿½ - Campus Pato Branco  #
 %#   GitHub : https://github.com/callebe                                  #
 %##########################################################################
 
@@ -21,24 +21,24 @@ NumberOfLevels = log2(Nfft);
 RAM = zeros(Nfft, NumberOfLevels+1);
 
 %%Input FFT
-%Limite de representação -32768 : 32768
-%Limite de representação sem Overflow 2048:2048
-f_0 = 3200; %Frequência de Amostragem
+%Limite de representaï¿½ï¿½o -32768 : 32768
+%Limite de representaï¿½ï¿½o sem Overflow 2048:2048
+f_0 = 3200; %Frequï¿½ncia de Amostragem
 T_0 = 1/f_0;
-A = 1012;
-B= 520;
-C = 183;
+A = 1012/2;
+B = 520/2;
+C = 183/2;
 fA = 213;
 fB = 410;
 fC = 1403;
 t = [0 :  T_0 : T_0*Nfft-T_0];
-y = A*(sin(2*pi*fA*t)) + B*(sin(2*pi*fB*t)) + C*(sin(2*pi*fC*t));
+y = A*(sin(2*pi*fA*t)) + B*(sin(2*pi*fB*t)) + C*(sin(2*pi*fC*t)) + A + B + C;
 
 %%Obtendo dados MSR
 Result = importdata('Result16.mat');
 Parametros = importdata('Parametros16.mat');
 
-%%Conexões (Um Cordic a cada 2 Linhas)
+%%Conexï¿½es (Um Cordic a cada 2 Linhas)
 for Level=1:NumberOfLevels
     NumberOfBlocks = Nfft/(2^(NumberOfLevels-Level+1));
     LengthDFT = Nfft/(2*NumberOfBlocks);
@@ -64,15 +64,23 @@ for Level=1:NumberOfLevels-2
     end
 end
 
-%%Simulação CORDIC MSR
+%%Simulaï¿½ï¿½o CORDIC MSR
 RAMFFT = zeros(Nfft,NumberOfLevels+1);
 RAMFFT(:,1) = y;
+KL(:,1) = y;
 for Level=1:NumberOfLevels-1
+    vc = 1;
     for CordicUnit=0:Nfft/2-1
-        %Simulador de Operação COrdic
+        %Simulador de Operaï¿½ï¿½o COrdic
         X = RAMFFT(CordicConexions(CordicUnit*2+1,Level)+1,Level);
         Y = RAMFFT(CordicConexions(CordicUnit*2+2,Level)+1,Level);
         RAMFFT(CordicConexions(CordicUnit*2+1,Level)+1,Level+1) = X + Y;
+        KL(CordicConexions(CordicUnit*2+1,Level)+1,Level+1)=X+Y;
+        KL(CordicConexions(CordicUnit*2+2,Level)+1,Level+1)=X-Y;
+        pl(vc,Level+1)=CordicConexions(CordicUnit*2+1,Level);
+        vc = vc + 1;
+        pl(vc,Level+1)=CordicConexions(CordicUnit*2+2,Level);
+        vc = vc + 1;
         xi(1) = real(X - Y);
         yi(1) = imag(X - Y);
         for a=1:3
@@ -98,7 +106,7 @@ end
 
 % Ultima Nivel
 for CordicUnit=0:Nfft/2-1
-    %Simulador de Operação COrdic
+    %Simulador de Operaï¿½ï¿½o COrdic
     X = RAMFFT(CordicConexions(CordicUnit*2+1,NumberOfLevels)+1,NumberOfLevels);
     Y = RAMFFT(CordicConexions(CordicUnit*2+2,NumberOfLevels)+1,NumberOfLevels);
     RAMFFT(CordicConexions(CordicUnit*2+1,NumberOfLevels)+1,NumberOfLevels+1) = X + Y;
@@ -115,7 +123,7 @@ for n = 0: Nfft-1;
             AuxVector(k) = 1;
         else
             AuxVector(k) = 0;
-        end; 
+        end 
         Aux = rem(Aux, 2^Count);
         Count = Count - 1;
     end
@@ -153,7 +161,7 @@ stem(tx,S);
 grid on;
 title('FFT Implementada');
 ylabel('|Amplitude| (p.u.)');
-xlabel('Frequência (Hz)');
+xlabel('Frequï¿½ncia (Hz)');
 
 %FFT MATLAB
 figure;
@@ -165,15 +173,15 @@ stem(f,P1);
 grid on;
 title('FFT Matlab');
 ylabel('|Amplitude| (p.u.)');
-xlabel('Frequência (Hz)');
+xlabel('Frequï¿½ncia (Hz)');
 
 %Erro entre FFT Implementada e a FFT Simulada
 figure;
 plot(tx,abs(P1-S));
 grid on;
-title('Erro de Aproximação entre FFTs');
+title('Erro de Aproximaï¿½ï¿½o entre FFTs');
 ylabel('|Amplitude| (p.u.)');
-xlabel('Frequência (Hz)');
+xlabel('Frequï¿½ncia (Hz)');
 
 % Reference = (xi(1)+yi(1)*i)*exp(-2*pi*i*OperatorCordic/Nfft);
 % [theta ro] = cart2pol(real(Reference), imag(Reference));
@@ -182,3 +190,52 @@ xlabel('Frequência (Hz)');
 % Erroro(CordicUnit+1, Level) = (ro-rof);
 % ThetaMSR(CordicUnit+1, Level) = thetaf;
 % ThetaRef(CordicUnit+1, Level) = theta;
+
+
+%%Simulaï¿½ï¿½o CORDIC MSR
+RAMFF = zeros(Nfft,NumberOfLevels+1);
+RAMFF(:,1) = y;
+KL(:,1) = y;
+for Level=1:NumberOfLevels-1
+    CordicConexion(:,Level) = CordicConexions(:,1);
+end
+
+for Level=1:NumberOfLevels-1
+    vc = 1;
+    for CordicUnit=0:Nfft/2-1
+        %Simulador de Operaï¿½ï¿½o COrdic
+        X = RAMFF(CordicConexion(CordicUnit*2+1,Level)+1,1);
+        Y = RAMFF(CordicConexion(CordicUnit*2+2,Level)+1,1);
+        RAMFF(CordicConexion(CordicUnit*2+1,Level)+1,Level+1) = X + Y;
+        RAMFFC(CordicUnit*2+1,Level) = X + Y;
+        KL(CordicUnit*2+1,Level+1)=X+Y;
+        KL(CordicUnit*2+2,Level+1)=X-Y;
+        pl(vc,Level+1)=CordicConexion(CordicUnit*2+1,Level);
+        vc = vc + 1;
+        pl(vc,Level+1)=CordicConexion(CordicUnit*2+2,Level);
+        vc = vc + 1;
+        xi(1) = real(X - Y);
+        yi(1) = imag(X - Y);
+        for a=1:3
+            b=Result(CordicOperators(CordicUnit+1,Level)+1, a);
+            switch Parametros(b,1)
+                case 0
+                    xi(a+1) = -Parametros(b,2)*fix(yi(a)*2^-Parametros(b,5))-Parametros(b,3)*fix(yi(a)*2^-Parametros(b,6))-Parametros(b,4)*fix(yi(a)*2^-Parametros(b,7));
+                    yi(a+1) =  Parametros(b,2)*fix(xi(a)*2^-Parametros(b,5))+Parametros(b,3)*fix(xi(a)*2^-Parametros(b,6))+Parametros(b,4)*fix(xi(a)*2^-Parametros(b,7));
+                case 1
+                    xi(a+1) =  Parametros(b,2)*fix(xi(a)*2^-Parametros(b,5))-Parametros(b,3)*fix(yi(a)*2^-Parametros(b,6))-Parametros(b,4)*fix(yi(a)*2^-Parametros(b,7));
+                    yi(a+1) =  Parametros(b,2)*fix(yi(a)*2^-Parametros(b,5))+Parametros(b,3)*fix(xi(a)*2^-Parametros(b,6))+Parametros(b,4)*fix(xi(a)*2^-Parametros(b,7));
+                case 2
+                    xi(a+1) =  Parametros(b,2)*fix(xi(a)*2^-Parametros(b,5))+Parametros(b,3)*fix(xi(a)*2^-Parametros(b,6))-Parametros(b,4)*fix(yi(a)*2^-Parametros(b,7));
+                    yi(a+1) =  Parametros(b,2)*fix(yi(a)*2^-Parametros(b,5))+Parametros(b,3)*fix(yi(a)*2^-Parametros(b,6))+Parametros(b,4)*fix(xi(a)*2^-Parametros(b,7));
+                otherwise
+                    xi(a+1) =  Parametros(b,2)*fix(xi(a)*2^-Parametros(b,5))+Parametros(b,3)*fix(xi(a)*2^-Parametros(b,6))+Parametros(b,4)*fix(xi(a)*2^-Parametros(b,7));
+                    yi(a+1) =  Parametros(b,2)*fix(yi(a)*2^-Parametros(b,5))+Parametros(b,3)*fix(yi(a)*2^-Parametros(b,6))+Parametros(b,4)*fix(yi(a)*2^-Parametros(b,7));
+            end
+        end
+        RAMFF(CordicConexion(CordicUnit*2+2,Level)+1,Level+1) = xi(4)+i*yi(4);
+        RAMFFC(CordicUnit*2+2,Level) = xi(4)+i*yi(4);
+        RAMFF(CordicConexion(CordicUnit*2+2,Level)+1,Level+1)
+        RAMFFC(CordicUnit*2+2,Level)
+    end
+end

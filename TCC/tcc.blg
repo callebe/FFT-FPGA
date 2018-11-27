@@ -1,76 +1,20 @@
-This is BibTeX, Version 0.99d (TeX Live 2017/W32TeX)
-Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
-The top-level auxiliary file: tcc.aux
+This is BibTeX, Version 0.99dThe top-level auxiliary file: tcc.aux
 The style file: abnt-alf.bst
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: abnt-options.bib
 Database file #2: bibliografia.bib
 Warning--entry type for "Wang" isn't style-file defined
---line 553 of file bibliografia.bib
-Repeated entry---line 815 of file bibliografia.bib
+--line 277 of file bibliografia.bib
+Repeated entry---line 408 of file bibliografia.bib
  : @inproceedings{triantis
  :                        ,
 I'm skipping whatever remains of this entry
-Repeated entry---line 833 of file bibliografia.bib
+Repeated entry---line 417 of file bibliografia.bib
  : @book{martinsen
  :                ,
 I'm skipping whatever remains of this entry
-Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
-Reallocated global_strs (elt_size=20001) to 20 items from 10.
-Reallocated glb_str_end (elt_size=4) to 20 items from 10.
 +---------------------------------------------------------+
 | Estilo bibliográfico abnt-alf.bst versão 1.45.2.1           |
 | Em caso de dúvidas ou problemas com este estilo procure |
 | http://abntex.codigolivre.org.br                        |
 +---------------------------------------------------------+
-You've used 45 entries,
-            6480 wiz_defined-function locations,
-            1422 strings with 16089 characters,
-and the built_in function-call counts, 37352 in all, are:
-= -- 2931
-> -- 1358
-< -- 112
-+ -- 619
-- -- 400
-* -- 2677
-:= -- 4765
-add.period$ -- 166
-call.type$ -- 47
-change.case$ -- 489
-chr.to.int$ -- 112
-cite$ -- 39
-duplicate$ -- 1955
-empty$ -- 2796
-format.name$ -- 2014
-if$ -- 8880
-int.to.chr$ -- 5
-int.to.str$ -- 3
-missing$ -- 803
-newline$ -- 202
-num.names$ -- 195
-pop$ -- 983
-preamble$ -- 1
-purify$ -- 180
-quote$ -- 0
-skip$ -- 2398
-stack$ -- 1
-substring$ -- 1319
-swap$ -- 935
-text.length$ -- 48
-text.prefix$ -- 0
-top$ -- 0
-type$ -- 3
-warning$ -- 0
-while$ -- 276
-width$ -- 0
-write$ -- 640
 (There were 2 error messages)
